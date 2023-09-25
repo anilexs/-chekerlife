@@ -5,7 +5,7 @@
     <?php }else{ ?>
         <nav>
             <form action="" method="get">
-                <input type="text" placeholder="Rechercher...">
+                <input type="text" placeholder="Rechercher..." id="rechercher">
             </form>
             <ul>
                 <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
