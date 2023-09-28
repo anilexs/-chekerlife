@@ -8,3 +8,10 @@ if(isset($_POST['inscription'])){
 
     User::inscription($pseudo, $email, $password);
 }
+
+if(isset($_POST['test'])){
+    $authentification = "tete";
+    $password = "test";
+    
+    User::login($authentification, $password);
+}
