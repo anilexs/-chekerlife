@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(isset($_COOKIE['user_id'])) {
     header("Location: index");
 }
@@ -12,12 +13,18 @@ require_once "inc/header.php";
             <form action="traitement/action.php" method="post" class="formInscription">
                 <div>
                     <label for="">pseudo :</label>
-                    <input type="text" name="pseudo">
+                    <input type="text" name="pseudo" <?php if(isset($_SESSION["pseudo"])){ ?> 
+                        value="<?= $_SESSION["pseudo"]; ?>"
+                    <?php } ?>>
                 </div>
+
                 <div>
                     <label for="">email :</label>
-                    <input type="text" name="email">
+                    <input type="text" name="email" <?php if(isset($_SESSION["email"])){ ?> 
+                        value="<?= $_SESSION["email"]; ?>"
+                    <?php } ?>>
                 </div>
+
                 <div>
                     <label for="">password :</label>
                     <input type="text" name="password">

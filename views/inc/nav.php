@@ -1,7 +1,19 @@
 </head>
 <body>
-<?php if(1 != 1){ ?>
-
+<?php if(isset($_COOKIE['user_id'])){ ?>
+    <nav>
+        <form action="" method="get">
+            <input type="text" placeholder="Rechercher..." id="rechercher">
+        </form>
+        <ul>
+            <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
+            <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+            <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+            <li><form action="http://localhost/!chekerlife/views/traitement/action.php" method="POST">
+                <button name="deconnexion">Déconnexion</button>
+            </form></li>
+        </ul>
+    </nav>
     <?php }else{ ?>
         <nav>
             <form action="" method="get">

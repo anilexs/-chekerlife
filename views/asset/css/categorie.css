@@ -2,6 +2,29 @@
     width: 80%;
     margin: auto;
 }
+
 #rechercherCategorie{
     width: 100%;
+}
+
+.catalog{
+    display: flex;
+}
+img{
+    width: 100%;
+}
+.card{
+    width: 200px;
+    height: 300px;
+    border-radius: 12px;
+    margin: 20px 20px;
+    position: relative;
+}
+.like{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 25px;
 }
