@@ -1,7 +1,7 @@
 <?php 
 require_once "../model/catalogModel.php";
 $catalog = Catalog::allCatalog();
-var_dump($catalog); 
+// var_dump($catalog); 
 
 require_once "inc/header.php"; 
 ?>
@@ -17,7 +17,7 @@ require_once "inc/header.php";
 <div class="catalog">
     <?php foreach($catalog as $catalog){ ?>
         <div class="card">
-            <button class="like">
+            <button class="like" id="<?= $catalog["id_catalogue"] ?>">
                 <i class="fa-solid fa-heart" <?php if(1 != 1){?>
                     style="color: #ff0000;"
                     <?php }else{ ?>
