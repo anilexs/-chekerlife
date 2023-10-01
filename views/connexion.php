@@ -6,12 +6,23 @@ if(isset($_COOKIE['user_id'])) {
 require_once "inc/header.php"; 
 ?>
 <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+<link rel="stylesheet" href="asset/css/connexion.css">
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
-<form action="traitement/action.php" method="POST">
-    <input type="text">
-    <button name="connexion">connexion</button>
-</form>
+<div class="contenaire">
+    <form action="traitement/action.php" method="POST">
+    <div>
+                <label for="">email :</label>
+                <input type="text" name="email">
+            </div>
+            
+            <div>
+                <label for="">password :</label>
+                <input type="text" name="password">
+            </div>
+        <button name="connexion">connexion</button>
+    </form>
+</div>
 
 <!-- co par google a continuet plus tare
 https://www.youtube.com/watch?v=oiCH0HAS_u0&t=1248s&ab_channel=Boris%28%27PrimFX%27%29 -->

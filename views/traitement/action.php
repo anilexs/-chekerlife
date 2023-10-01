@@ -13,8 +13,8 @@ if(isset($_POST['inscription'])){
 }
 
 if(isset($_POST['connexion'])){
-    $authentification = "test";
-    $password = "test";
+    $authentification = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
     
     User::login($authentification, $password);
 }

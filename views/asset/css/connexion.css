@@ -1,0 +1,35 @@
+.contenaire {
+    background-color: rgba(50, 50, 50, 0.5);
+    height: 350px;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    color: white;
+}
+label{
+    display: block;
+}
+
+body::before {
+    content: "";
+    background-image: url(../img/bg-anime.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.left{
+    width: 50%;
+}
+.left input{
+    width: 80%;
+}
+.right{
+    width: 50%;
+}
