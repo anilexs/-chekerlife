@@ -8,7 +8,14 @@
         <ul>
             <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
             <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
-            <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+            <li class="navLike">
+                <a href="likePgae">
+                    <div class="likePgae">
+                        <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
+                        <span class="nbLike"><?= $likeConte['COUNT(*)']; ?></span>
+                    </div>
+                </a>
+            </li>
             <li><form action="http://localhost/!chekerlife/views/traitement/action.php" method="POST">
                 <button name="deconnexion">Déconnexion</button>
             </form></li>
@@ -22,6 +29,14 @@
             <ul>
                 <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
                 <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+                <li class="navLike">
+                    <a href="">
+                        <div class="likePgae">
+                            <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
+                            <span class="nbLike">0</span>
+                        </div>
+                    </a>
+                </li>
                 <li><a href="http://localhost/!chekerlife/connexion">connexion</a></li>
                 <li><a href="http://localhost/!chekerlife/inscription">inscription</a></li>
             </ul>

@@ -1,3 +1,9 @@
+<?php
+    require_once "../model/userModel.php";
+    if(isset($_COOKIE['user_id'])){
+        $likeConte = User::likeCount($_COOKIE['user_id']);
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

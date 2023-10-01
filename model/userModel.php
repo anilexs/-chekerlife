@@ -1,5 +1,6 @@
 <?php
 require_once "database.php";
+require_once "catalogModel.php";
 class User{
     public static function inscription($pseudo, $email, $password) {
     $db = Database::dbConnect();
@@ -13,7 +14,7 @@ class User{
             session_destroy();
         }
         setcookie("user_id", $lastUserId, time() + 3600, "/");
-
+        header('Location: index');
     } catch (PDOException $e) {
         // echo $e->getMessage();
         $_SESSION["pseudo"] = $pseudo;
@@ -52,7 +53,60 @@ class User{
         }
     }
 
-    public static function like(){
+    public static function like($user_id, $catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM `likes` WHERE user_id = ? AND catalog_id = ?");
+        $request2 = $db->prepare("INSERT INTO  likes (user_id, catalog_id) VALUES (?, ?)");
+        $request3 = $db->prepare("UPDATE `likes` SET `active`= ? WHERE user_id = ? AND catalog_id = ?");
+        // INSERT INTO  likes (user_id, catalog_id) VALUES (?, ?)
         
+        try {
+            $request->execute(array($user_id, $catalog_id));
+            $like = $request->fetch(PDO::FETCH_ASSOC);
+
+            $bool = null;
+            if(empty($like)){
+                $request2->execute(array($user_id, $catalog_id));
+                Catalog::categoryLike(1, $catalog_id);
+                $bool = true;
+            }else{
+                if($like['active'] !== 1){
+                    $request3->execute(array(1, $user_id, $catalog_id));
+                    Catalog::categoryLike(1, $catalog_id);
+                    $bool = true;
+                }else{
+                    $request3->execute(array(0, $user_id, $catalog_id));
+                    Catalog::categoryLike(0, $catalog_id);
+                    $bool = false;
+                }
+            }
+            return $bool;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function userLike($user_id) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM likes WHERE user_id = ?");
+        try {
+            $request->execute(array($user_id));
+            $user_list = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function likeCount($user_id) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT COUNT(*) FROM `likes` WHERE user_id = ? AND active = 1");
+        try {
+            $request->execute(array($user_id));
+            $user_list = $request->fetch(PDO::FETCH_ASSOC);
+            return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

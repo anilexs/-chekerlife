@@ -8,6 +8,7 @@ nav{
 nav a{
     color: white;
     text-decoration: none;
+    font-size: 25px;
 }
 nav ul{
     list-style-type: none;
@@ -18,4 +19,13 @@ nav ul{
 nav #rechercher{
     background-color: #303541;
     border: none;
+}
+nav .likePgae{
+    position: relative;
+}
+nav .nbLike{
+    position: absolute;
+    font-size: 10px;
+        right: 8px;
+        top: 8px;
 }

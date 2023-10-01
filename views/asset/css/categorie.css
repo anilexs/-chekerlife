@@ -48,3 +48,9 @@ img{
     right: 10px;
     font-size: 25px;
 }
+.activeTrue{
+    color: red;
+}
+.activeFalse{
+    color: white;
+}
