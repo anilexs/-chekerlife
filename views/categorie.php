@@ -13,9 +13,7 @@ require_once "inc/header.php";
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="contenaire">
-    <form action="" method="get">
-        <input type="text" placeholder="Rechercher..." id="rechercherCategorie">
-    </form>
+    <input type="text" placeholder="Rechercher..." id="rechercherCategorie">
 </div>
 <div class="catalog">
     <?php foreach($catalog as $catalogItem){ ?>

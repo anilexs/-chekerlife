@@ -13,3 +13,4 @@
     <link rel="stylesheet" href="http://localhost/!chekerlife/asset/css/style.css">
     <link rel="stylesheet" href="http://localhost/!chekerlife/asset/css/nav.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="http://localhost/!chekerlife/asset/js/nav.js" defer></script>

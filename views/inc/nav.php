@@ -12,7 +12,7 @@
                 <a href="likePgae">
                     <div class="likePgae">
                         <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
-                        <span class="nbLike"><?= $likeConte['COUNT(*)']; ?></span>
+                        <span class="nbLike" id="likeCount"><?= $likeConte['COUNT(*)']; ?></span>
                     </div>
                 </a>
             </li>

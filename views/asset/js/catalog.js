@@ -18,7 +18,23 @@ function like (catalog_id){
             }else{
                 $("#" + catalog_id).css("color", "white");
             }
+            
+            $("#likeCount").text(response['nbLike']);
+            $likeCount = response['nbLike'];
+            if($likeCount < 10){
+                $("#likeCount").css({     
+                    right: "10px"        
+                  });       
+            }else{
+                $("#likeCount").css({     
+                    right: "8px"        
+                  });
+            }
         }
     });
 }
+
+$("#rechercherCategorie").on("input", function(event) {
+    var searchTerm = $(this).val();
+});
 

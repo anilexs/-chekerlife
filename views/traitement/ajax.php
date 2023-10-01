@@ -19,27 +19,30 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $catalog_id = $_POST['catalog_id'];
 
         $bool = User::like($user_id, $catalog_id);
+        $nblike = User::likeCount($user_id);
         
         $response_code = HTTP_OK;
         $message = $bool;
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "message" => $message,
+            "nbLike" => $nblike['COUNT(*)']
+        ];
     }
-    
-    reponse($response_code, $message);
+        reponse($response_code, $responseTab);
 }else{
-    $response_code = HTTP_METHOD_NOT_ALLOWED;
-    $message = "method not allowed";
     
-    reponse($response_code, $message);
+    $responseTab = [
+        "response_code" => HTTP_METHOD_NOT_ALLOWED,
+        "message" => "method not allowed"
+    ];
+    
+    reponse($response_code, $responseTab);
 }
 
-function reponse($response_code, $message){
+function reponse($response_code, $response){
     header('Content-Type: application/json');
     http_response_code($response_code);
-
-    $response = [
-        "response_code" => $response_code,
-        "message" => $message
-    ];
     
     echo json_encode($response);
 }
