@@ -15,7 +15,7 @@ require_once "inc/header.php";
 <div class="contenaire">
     <input type="text" placeholder="Rechercher..." id="rechercherCategorie">
 </div>
-<div class="catalog">
+<div class="catalog" id="catalog">
     <?php foreach($catalog as $catalogItem){ ?>
         <div class="card">
             <?php
@@ -32,7 +32,7 @@ require_once "inc/header.php";
             <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" id="<?= $catalogItem["id_catalogue"] ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
                 <i class="fa-solid fa-heart"></i>
             </button>
-            <a href="./list?name=<?= $catalogItem["nom"] ?>">
+            <a href="list/<?= $catalogItem["nom"] ?>">
                 <img src="asset/img/<?= $catalogItem["image_catalogue"] ?>" alt="">
             </a>
         </div>

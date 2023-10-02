@@ -1,6 +1,7 @@
 <?php
 require_once "database.php";
 require_once "catalogModel.php";
+define("DOMAINNAME", "localhost");
 class User{
     public static function inscription($pseudo, $email, $password) {
     $db = Database::dbConnect();
@@ -13,8 +14,8 @@ class User{
         if(isset($_SESSION)){
             session_destroy();
         }
-        setcookie("user_id", $lastUserId, time() + 3600, "/");
-        header('Location: index');
+        setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
+        header('Location: http://localhost/!chekerlife/');
     } catch (PDOException $e) {
         // echo $e->getMessage();
         $_SESSION["pseudo"] = $pseudo;
@@ -33,8 +34,8 @@ class User{
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
             }else{
                 if(password_verify($password, $user['password'])){
-                    setcookie("user_id", $user['id_user'], time() + 3600, "/");
-                    header('Location: index');
+                    setcookie("user_id", $user['id_user'], time() + 3600, "/", DOMAINNAME);
+                    header('Location: http://localhost/!chekerlife/');
                 }else{
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
@@ -45,11 +46,11 @@ class User{
 }
     public static function deconnexion() {
         if(isset($_COOKIE)){
-            setcookie("user_id", "", time() - 3600, "/");
-            header('Location: index');
+            setcookie("user_id", "", time() - 3600, "/", DOMAINNAME);
+            header('Location: http://localhost/!chekerlife/');
         }else{
             session_destroy();
-            header('Location: index');
+            header('Location: http://localhost/!chekerlife/');
         }
     }
 
@@ -69,7 +70,7 @@ class User{
                 Catalog::categoryLike(1, $catalog_id);
                 $bool = true;
             }else{
-                if($like['active'] !== 1){
+                if($like['active'] == 0){
                     $request3->execute(array(1, $user_id, $catalog_id));
                     Catalog::categoryLike(1, $catalog_id);
                     $bool = true;

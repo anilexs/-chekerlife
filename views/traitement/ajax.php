@@ -15,19 +15,25 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
     if($_POST['action'] == "like" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
-        $user_id = $_COOKIE['user_id'];
         $catalog_id = $_POST['catalog_id'];
-
-        $bool = User::like($user_id, $catalog_id);
-        $nblike = User::likeCount($user_id);
         
-        $response_code = HTTP_OK;
-        $message = $bool;
-        $responseTab = [
-            "response_code" => HTTP_OK,
-            "message" => $message,
-            "nbLike" => $nblike['COUNT(*)']
-        ];
+        if(empty($_COOKIE['user_id'])){
+                $responseTab = [
+                    "connect" => false
+                ];
+        }else{
+            $user_id = $_COOKIE['user_id'];
+            $bool = User::like($user_id, $catalog_id);
+            $nblike = User::likeCount($user_id);
+            $response_code = HTTP_OK;
+            $message = $bool;
+            $responseTab = [
+                "response_code" => HTTP_OK,
+                "message" => $message,
+                "nbLike" => $nblike['COUNT(*)']
+            ];
+        }
+        
     }
         reponse($response_code, $responseTab);
 }else{

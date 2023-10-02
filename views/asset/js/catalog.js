@@ -13,22 +13,26 @@ function like (catalog_id){
         },
         dataType: "json",
         success: function (response) {
-            if(response['message'] == true){
-                $("#" + catalog_id).css("color", "red");
+            if(response['connect'] == false){
+                window.location.href = "http://localhost/!chekerlife/connexion";
             }else{
-                $("#" + catalog_id).css("color", "white");
-            }
-            
-            $("#likeCount").text(response['nbLike']);
-            $likeCount = response['nbLike'];
-            if($likeCount < 10){
-                $("#likeCount").css({     
-                    right: "10px"        
-                  });       
-            }else{
-                $("#likeCount").css({     
-                    right: "8px"        
-                  });
+                if(response['message'] == true){
+                    $("#" + catalog_id).css("color", "red");
+                }else{
+                    $("#" + catalog_id).css("color", "white");
+                }
+                
+                $("#likeCount").text(response['nbLike']);
+                $likeCount = response['nbLike'];
+                if($likeCount < 10){
+                    $("#likeCount").css({     
+                        right: "10px"        
+                      });       
+                }else{
+                    $("#likeCount").css({     
+                        right: "8px"        
+                      });
+                }
             }
         }
     });
@@ -36,5 +40,7 @@ function like (catalog_id){
 
 $("#rechercherCategorie").on("input", function(event) {
     var searchTerm = $(this).val();
+    $("#catalog").html("");
+    console.log(searchTerm);
 });
 
