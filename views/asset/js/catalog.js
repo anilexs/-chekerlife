@@ -3,6 +3,23 @@
 //     console.log(likeID);
 // });
 
+function catalogViews(){
+    $.ajax({
+        url: 'traitement/ajax.php', // Remplacez 'votre-fichier-php.php' par le chemin vers votre fichier PHP
+        type: 'POST', // Vous pouvez également utiliser POST si nécessaire
+        data: {
+            action: "catalog",
+        },
+        dataType: 'html',
+        success: function(response) {
+            $('#catalog-container').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
+
 function like (catalog_id){
     $.ajax({
         type: "POST",
@@ -38,9 +55,15 @@ function like (catalog_id){
     });
 }
 
+
 $("#rechercherCategorie").on("input", function(event) {
     var searchTerm = $(this).val();
     $("#catalog").html("");
-    console.log(searchTerm);
+    // switch(searchTerm){
+    //     case "":
+    //         break
+    //     default:
+    //         break
+    // }
 });
 
