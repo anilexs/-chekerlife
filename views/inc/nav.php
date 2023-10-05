@@ -2,10 +2,16 @@
 <body>
 <?php if(isset($_COOKIE['user_id'])){ ?>
     <nav>
-        <form action="" method="get">
-            <input type="text" placeholder="Rechercher..." id="rechercher">
-        </form>
+        <div>
+            <a href="http://localhost/!chekerlife/">
+                <img src="http://localhost/!chekerlife/views/asset/img/logo.png" alt="" class="logo">
+            </a>
+        </div>
+        
         <ul>
+            <li><form action="" method="get">
+                <input type="text" placeholder="Rechercher..." id="rechercher">
+            </form></li>
             <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
             <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
             <li class="navLike">
@@ -23,10 +29,16 @@
     </nav>
     <?php }else{ ?>
         <nav>
-            <form action="" method="get">
-                <input type="text" placeholder="Rechercher..." id="rechercher">
-            </form>
+            <div>
+                <a href="http://localhost/!chekerlife/">
+                    <img src="http://localhost/!chekerlife/views/asset/img/logo.png" alt="" class="logo">
+                </a>
+            </div>
+
             <ul>
+                <li><form action="" method="get">
+                    <input type="text" placeholder="Rechercher..." id="rechercher">
+                </form></li>
                 <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
                 <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
                 <li class="navLike">

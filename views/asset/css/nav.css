@@ -3,7 +3,12 @@ nav{
     height: 50px;
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+}
+nav .logo{
+    width: 50px;
+    height: 50px;
 }
 nav a{
     color: white;
@@ -13,12 +18,15 @@ nav a{
 nav ul{
     list-style-type: none;
     display: flex;
-    justify-content: space-around;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    margin-right: 10px;
 }
 nav #rechercher{
     background-color: #303541;
     border: none;
+    font-size: 25px;
 }
 nav .likePgae{
     position: relative;
@@ -26,6 +34,6 @@ nav .likePgae{
 nav .nbLike{
     position: absolute;
     font-size: 10px;
-        right: 10px;
-        top: 8px;
+    right: 10px;
+    top: 8px;
 }

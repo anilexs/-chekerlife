@@ -4,7 +4,7 @@ SELECT * FROM `users` WHERE pseudo LIKE '%ex%';
 
 FILTRAGE
 SELECT * FROM `catalog` WHERE type = 'films' OR type = 'drama'
-
+ $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')");
 
 catalog php foreacH
 
