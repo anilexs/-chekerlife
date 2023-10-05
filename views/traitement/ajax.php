@@ -54,12 +54,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }
             }
         }
+        $urlName = str_replace(' ', '-', $catalogItem["nom"]);
 
         echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
         echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
-        echo '<a href="list/' . $catalogItem["nom"] . '">';
+        echo '<a href="list/' . $urlName . '">';
         echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
         echo '</a>';
         echo '</div>';
@@ -88,7 +89,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
-        echo '<a href="list/' . $catalogItem["nom"] . '">';
+        echo '<a href="list/' . $urlName . '">';
         echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
         echo '</a>';
         echo '</div>';
