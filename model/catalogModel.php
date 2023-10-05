@@ -7,8 +7,8 @@ class Catalog{
 
         try{
             $request->execute(array());
-            $user = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $user;
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
         }catch(PDOException $e){
             $e->getMessage();
         }
@@ -19,8 +19,20 @@ class Catalog{
 
         try{
             $request->execute(array($filtres, $filtres));
-            $user = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $user;
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+    public static function catalogInfo($catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ?");
+
+        try{
+            $request->execute(array($catalog_id));
+            $catalog = $request->fetch(PDO::FETCH_ASSOC);
+            return $catalog;
         }catch(PDOException $e){
             $e->getMessage();
         }

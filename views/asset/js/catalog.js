@@ -53,7 +53,7 @@ function like (catalog_id){
                 }else{
                     $("#" + catalog_id).css("color", "white");
                 }
-                
+                $("." + catalog_id).text(response['CatalogInfo']['likes']);
                 $("#likeCount").text(response['nbLike']);
                 $likeCount = response['nbLike'];
                 if($likeCount < 10){

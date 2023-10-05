@@ -37,3 +37,7 @@ nav .nbLike{
     right: 10px;
     top: 8px;
 }
+nav .userImg{
+    width: 30px;
+    height: 30px;
+}

@@ -86,6 +86,18 @@ class User{
         }
     }
 
+    public static function userInfo($user_id) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM users WHERE id_user = ?");
+        try {
+            $request->execute(array($user_id));
+            $user_list = $request->fetch(PDO::FETCH_ASSOC);
+            return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function userLike($user_id) {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM likes WHERE user_id = ?");

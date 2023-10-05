@@ -25,12 +25,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             $user_id = $_COOKIE['user_id'];
             $bool = User::like($user_id, $catalog_id);
             $nblike = User::likeCount($user_id);
+            $CatalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
             $response_code = HTTP_OK;
             $message = $bool;
             $responseTab = [
                 "response_code" => HTTP_OK,
                 "message" => $message,
-                "nbLike" => $nblike['COUNT(*)']
+                "nbLike" => $nblike['COUNT(*)'],
+                "CatalogInfo" => $CatalogInfo
             ];
         }
         reponse($response_code, $responseTab);
@@ -54,6 +56,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
 
         echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
         echo '<a href="list/' . $catalogItem["nom"] . '">';
@@ -81,13 +84,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
             $urlName = str_replace(' ', '-', $catalogItem["nom"]);
 
-            echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
-            echo '<i class="fa-solid fa-heart"></i>';
-            echo '</button>';
-            echo '<a href="list/' . $urlName . '">';
-            echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
-            echo '</a>';
-            echo '</div>';
+        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '">' . $catalogItem['likes'] . '</span>';
+        echo '<i class="fa-solid fa-heart"></i>';
+        echo '</button>';
+        echo '<a href="list/' . $catalogItem["nom"] . '">';
+        echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+        echo '</a>';
+        echo '</div>';
 
         }
     }

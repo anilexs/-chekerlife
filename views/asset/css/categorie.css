@@ -45,12 +45,27 @@ img{
     border: none;
     position: absolute;
     top: 5px;
-    right: 10px;
+    right: 5px;
     font-size: 25px;
 }
 .activeTrue{
     color: red;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 35px;
+    padding-top: 5px;
 }
 .activeFalse{
     color: white;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 35px;
+    padding-top: 5px;
+}
+.cataLike{
+    position: absolute;
+    color: black;
+    left: 14px;
+    top: 10px;
+    font-size: 17px;
 }

@@ -3,8 +3,8 @@
 <?php if(isset($_COOKIE['user_id'])){ ?>
     <nav>
         <div>
-            <a href="http://localhost/!chekerlife/">
-                <img src="http://localhost/!chekerlife/views/asset/img/logo.png" alt="" class="logo">
+            <a href="<?= $host ?>">
+                <img src="<?= $host ?>views/asset/img/logo.png" alt="" class="logo">
             </a>
         </div>
         
@@ -12,8 +12,8 @@
             <li><form action="" method="get">
                 <input type="text" placeholder="Rechercher..." id="rechercher">
             </form></li>
-            <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
-            <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+            <li><a href="<?= $host ?>">Accueil</a></li>
+            <li><a href="<?= $host ?>categorie">Catégorie</a></li>
             <li class="navLike">
                 <a href="likepgae">
                     <div class="likePgae">
@@ -22,16 +22,23 @@
                     </div>
                 </a>
             </li>
-            <li><form action="http://localhost/!chekerlife/views/traitement/action.php" method="POST">
+            <li>
+                <button>
+                    <div class="userImg">
+                        <img src="<?= $host ?>views/asset/img/user/<?=$userInfo['photo_profile']; ?>" alt="">
+                    </div>
+                </button>
+            </li>
+            <!-- <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
                 <button name="deconnexion">Déconnexion</button>
-            </form></li>
+            </form></li> -->
         </ul>
     </nav>
     <?php }else{ ?>
         <nav>
             <div>
-                <a href="http://localhost/!chekerlife/">
-                    <img src="http://localhost/!chekerlife/views/asset/img/logo.png" alt="" class="logo">
+                <a href="<?= $host ?>">
+                    <img src="<?= $host ?>views/asset/img/logo.png" alt="" class="logo">
                 </a>
             </div>
 
@@ -39,8 +46,8 @@
                 <li><form action="" method="get">
                     <input type="text" placeholder="Rechercher..." id="rechercher">
                 </form></li>
-                <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
-                <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
+                <li><a href="<?= $host ?>">Accueil</a></li>
+                <li><a href="<?= $host ?>categorie">Catégorie</a></li>
                 <li class="navLike">
                     <a href="">
                         <div class="likePgae">
@@ -49,8 +56,8 @@
                         </div>
                     </a>
                 </li>
-                <li><a href="http://localhost/!chekerlife/connexion">connexion</a></li>
-                <li><a href="http://localhost/!chekerlife/inscription">inscription</a></li>
+                <li><a href="<?= $host ?>connexion">connexion</a></li>
+                <li><a href="<?= $host ?>inscription">inscription</a></li>
             </ul>
         </nav>
     <?php } ?>

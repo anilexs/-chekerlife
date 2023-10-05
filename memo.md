@@ -6,6 +6,10 @@ FILTRAGE
 SELECT * FROM `catalog` WHERE type = 'films' OR type = 'drama'
  $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')");
 
+PAGINATION je pe pe etre uriliser
+SELECT * FROM catalog LIMIT 5 OFFSET 8;
+
+
 catalog php foreacH
 
 <?php foreach($catalog as $catalogItem){ ?>

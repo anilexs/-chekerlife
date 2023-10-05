@@ -31,6 +31,7 @@ require_once "inc/header.php";
             $urlName = str_replace(' ', '-', $catalogItem["nom"]);
             ?>
             <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" id="<?= $catalogItem["id_catalogue"] ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
+                <span class="cataLike <?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
                 <i class="fa-solid fa-heart"></i>
             </button>
             <a href="list/<?= $urlName ?>">
