@@ -1,18 +1,33 @@
-// $(".like").click(function() {
-//     var likeID = $(this).attr("id");
-//     console.log(likeID);
-// });
-
-function catalogViews(){
+function catalogViews(page, itemsPerPage) {
     $.ajax({
-        url: 'traitement/ajax.php', // Remplacez 'votre-fichier-php.php' par le chemin vers votre fichier PHP
-        type: 'POST', // Vous pouvez également utiliser POST si nécessaire
+        url: 'traitement/ajax.php',
+        type: 'POST',
         data: {
             action: "catalog",
+            page: page,
+            itemsPerPage: itemsPerPage
+        },
+        dataType: 'html',
+        success: function (response) {
+            $('#catalog').html(response);
+        },
+        error: function (xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
+
+function catalogFiltre($filtre){
+    $.ajax({
+        url: 'traitement/ajax.php', 
+        type: 'POST',
+        data: {
+            action: "filtre",
+            filtre: $filtre,
         },
         dataType: 'html',
         success: function(response) {
-            $('#catalog-container').html(response);
+            $('#catalog').html(response);
         },
         error: function(xhr, status, error) {
             console.error('Une erreur s\'est produite lors du chargement du contenu.');
@@ -45,10 +60,14 @@ function like (catalog_id){
                     $("#likeCount").css({     
                         right: "10px"        
                       });       
-                }else{
+                }else if ($likeCount >= 10 && $likeCount < 100){
                     $("#likeCount").css({     
                         right: "8px"        
                       });
+                }else if($likeCount >= 100 && $likeCount < 1000){
+                    $("#likeCount").css({     
+                      right: "5px"        
+                    });
                 }
             }
         }
@@ -59,11 +78,13 @@ function like (catalog_id){
 $("#rechercherCategorie").on("input", function(event) {
     var searchTerm = $(this).val();
     $("#catalog").html("");
-    // switch(searchTerm){
-    //     case "":
-    //         break
-    //     default:
-    //         break
-    // }
+    switch(searchTerm){ 
+        case "":
+            catalogViews();
+            break
+        default:
+            catalogFiltre(searchTerm);
+            break
+    }
 });
 

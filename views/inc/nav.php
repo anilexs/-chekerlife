@@ -9,7 +9,7 @@
             <li><a href="http://localhost/!chekerlife/">Accueil</a></li>
             <li><a href="http://localhost/!chekerlife/categorie">Catégorie</a></li>
             <li class="navLike">
-                <a href="likePgae">
+                <a href="likepgae">
                     <div class="likePgae">
                         <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
                         <span class="nbLike" id="likeCount"><?= $likeConte['COUNT(*)']; ?></span>

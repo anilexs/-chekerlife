@@ -33,8 +33,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 "nbLike" => $nblike['COUNT(*)']
             ];
         }
+        reponse($response_code, $responseTab);
         
-    }else if($_POST['catalog'] == "catalog"){
+    }else if($_POST['action'] == "catalog"){
         $catalog = Catalog::allCatalog();
         if(isset($_COOKIE['user_id'])){
             $userLike = User::userLike($_COOKIE['user_id']);
@@ -59,9 +60,37 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
         echo '</a>';
         echo '</div>';
+        
     }
+    }else if($_POST['action'] == "filtre"){
+        $catalog = Catalog::filtreCatalog($_POST['filtre']);
+        if(isset($_COOKIE['user_id'])){
+            $userLike = User::userLike($_COOKIE['user_id']);
+        }
+        foreach ($catalog as $catalogItem) {
+            echo '<div class="card">';
+
+            $isActive = false;
+            if (isset($_COOKIE['user_id'])) {
+                foreach ($userLike as $like) {
+                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                        $isActive = true;
+                        break;
+                    }
+                }
+            }
+            $urlName = str_replace(' ', '-', $catalogItem["nom"]);
+
+            echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+            echo '<i class="fa-solid fa-heart"></i>';
+            echo '</button>';
+            echo '<a href="list/' . $urlName . '">';
+            echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+            echo '</a>';
+            echo '</div>';
+
+        }
     }
-        reponse($response_code, $responseTab);
 }else{
     
     $responseTab = [

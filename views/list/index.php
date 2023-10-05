@@ -3,10 +3,11 @@
     if(isset($_COOKIE['user_id'])){
         $likeConte = User::likeCount($_COOKIE['user_id']);
     }
-    $get = $_GET['q'];
-    // else{
-    //     header("Location: http://localhost/!chekerlife/");
-    // }
+    $get = isset($_GET['q']) ? $_GET['q'] : null;
+    if($get == null){
+        header("Location: http://localhost/!chekerlife/");
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr">

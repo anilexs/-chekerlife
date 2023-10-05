@@ -13,6 +13,19 @@ class Catalog{
             $e->getMessage();
         }
     }
+    public static function filtreCatalog($filtres){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM catalog WHERE nom LIKE CONCAT('%', ?, '%')");
+
+        try{
+            $request->execute(array($filtres));
+            $user = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $user;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+
     public static function categoryLike($value, $catalog_id){
         $db = Database::dbConnect();
         $request = $db->prepare("UPDATE catalog SET likes = likes + 1 WHERE id_catalogue = ?");

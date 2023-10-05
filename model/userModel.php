@@ -34,7 +34,7 @@ class User{
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
             }else{
                 if(password_verify($password, $user['password'])){
-                    setcookie("user_id", $user['id_user'], time() + 3600, "/", DOMAINNAME);
+                    setcookie("user_id", $user['id_user'], time() + 3600 * 5, "/", DOMAINNAME);
                     header('Location: http://localhost/!chekerlife/');
                 }else{
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
