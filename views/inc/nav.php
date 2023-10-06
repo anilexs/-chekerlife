@@ -30,8 +30,8 @@
                     <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>
                 <ul class="menu">
-                        <li><a href="#">Profile</a></li>
-                        <li>da</li>
+                        <li><i class="fa-solid fa-user"></i><a href="#">Profile</a></li>
+                        <li><i class="fa-solid fa-gear"></i><a href="#">Parametre</a></li>
                         <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
                             <button name="deconnexion">Déconnexion</button>
                         </form></li>
