@@ -28,6 +28,15 @@ require_once "inc/header.php";
                     }
                 }
             }
+            // if (response['CatalogInfo']['likes'] < 1000){
+            //         $("." + catalog_id).text(response['CatalogInfo']['likes']);
+            //         console.log(response['CatalogInfo']['likes']);
+            //     }else if(response['CatalogInfo']['likes'] >= 1000 && response['CatalogInfo']['likes'] < 10000){
+            //         var nbLike = response['CatalogInfo']['likes'].toString();
+            //         nbLike = nbLike.split("");
+            //         console.log(nbLike);
+            //         $("." + catalog_id).text(nbLike[0] + "," + nbLike[1] + "K");
+            //     }
 
             $urlName = str_replace(' ', '-', $catalogItem["nom"]);
             ?>

@@ -54,17 +54,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }
             }
         }
-
-        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
-        echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
-        echo '<i class="fa-solid fa-heart"></i>';
-        echo '</button>';
-        echo '<a href="list/' . $catalogItem["nom"] . '">';
-        echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
-        echo '</a>';
-        echo '<script type="text/javascript"> likePosition(' . $catalogItem['id_catalogue'] .'); </script>';
-        echo '</div>';
-        
+        card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
     }
     }else if($_POST['action'] == "filtre"){
         $catalog = Catalog::filtreCatalog($_POST['filtre']);
@@ -83,18 +73,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                     }
                 }
             }
-            $urlName = str_replace(' ', '-', $catalogItem["nom"]);
-
-        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
-        echo '<span class="cataLike ' . $catalogItem['id_catalogue'] . '" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
-        echo '<i class="fa-solid fa-heart"></i>';
-        echo '</button>';
-        echo '<a href="list/' . $catalogItem["nom"] . '">';
-        echo '<img src="asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
-        echo '</a>';
-        echo '<script type="text/javascript"> likePosition(' . $catalogItem['id_catalogue'] .'); </script>';
-        echo '</div>';
-
+            card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
         }
     }
 }else{
@@ -112,4 +91,17 @@ function reponse($response_code, $response){
     http_response_code($response_code);
     
     echo json_encode($response);
+}
+
+function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
+    $urlName = str_replace(' ', '-', $nom);
+    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $id_catalogue . '" onclick="like(' . $id_catalogue . ')">';
+    echo '<span class="cataLike ' . $id_catalogue . '" id="likeId' . $id_catalogue .'">' . $like . '</span>';
+    echo '<i class="fa-solid fa-heart"></i>';
+    echo '</button>';
+    echo '<a href="list/' . $urlName . '">';
+    echo '<img src="asset/img/' . $image_catalogue . '" alt="">';
+    echo '</a>';
+    echo '<script type="text/javascript"> likePosition(' . $like .'); </script>';
+    echo '</div>';
 }
