@@ -15,7 +15,7 @@ nav a{
     text-decoration: none;
     font-size: 25px;
 }
-nav ul{
+nav .ulNav{
     list-style-type: none;
     display: flex;
     align-items: center;
@@ -54,6 +54,17 @@ nav .profil{
     justify-content: space-between;
     font-size: 15px;
     background-color: rgb(52, 52, 52);
+    position: relative;
+}
+.menu{
+    position: absolute;
+    display: none;
+    z-index: 3;
+}
+.menu li{
+    list-style-type: none;
+    background-color: rgb(61, 61, 61);
+    width: 130px;
 }
 nav .pseudo{
     width: 100%;

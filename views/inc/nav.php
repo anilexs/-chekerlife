@@ -8,7 +8,7 @@
             </a>
         </div>
         
-        <ul>
+        <ul class="ulNav">
             <li><form action="" method="get">
                 <input type="text" placeholder="Rechercher..." id="rechercher">
             </form></li>
@@ -27,12 +27,16 @@
                     <div>
                         <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/<?=$userInfo['photo_profile']; ?>" alt="">
                     </div>
-                    <span class="pseudo"><?=$userInfo['pseudo']; ?>1234</span>
+                    <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>
+                <ul class="menu">
+                        <li><a href="#">Profile</a></li>
+                        <li>da</li>
+                        <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
+                            <button name="deconnexion">Déconnexion</button>
+                        </form></li>
+                </ul>
             </li>
-            <!-- <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
-                <button name="deconnexion">Déconnexion</button>
-            </form></li> -->
         </ul>
     </nav>
     <?php }else{ ?>
@@ -43,7 +47,7 @@
                 </a>
             </div>
 
-            <ul>
+            <ul class="ulNav">
                 <li><form action="" method="get">
                     <input type="text" placeholder="Rechercher..." id="rechercher">
                 </form></li>
