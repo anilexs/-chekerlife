@@ -71,12 +71,11 @@ function like (catalog_id){
                     });
                 }
 
-                if(response['nbLike'] < 10){
+                if(response['CatalogInfo']['likes'] < 10){
                     $("#likeId" + catalog_id).css({
                         left: "14px"
                     });
-                } else if (response['nbLike'] >= 10 && response['nbLike'] < 100) {
-                    console.log("10 < 100");
+                } else if (response['CatalogInfo']['likes'] >= 10 && response['CatalogInfo']['likes'] < 100) {
                     $("#likeId" + catalog_id).css({
                         left: "8px"
                     });
@@ -103,7 +102,6 @@ $(document).ready(function () {
 
 function likePosition(catalog_id) {
     nbLike = $("#likeId" + catalog_id).text();
-    console.log(nbLike);
 
     if (nbLike < 10) {
         $("#likeId" + catalog_id).css({
