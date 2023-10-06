@@ -56,6 +56,7 @@ function like (catalog_id){
                 $("." + catalog_id).text(response['CatalogInfo']['likes']);
                 $("#likeCount").text(response['nbLike']);
                 $likeCount = response['nbLike'];
+
                 if($likeCount < 10){
                     $("#likeCount").css({     
                         right: "10px"        
@@ -69,22 +70,61 @@ function like (catalog_id){
                       right: "5px"        
                     });
                 }
+
+                if(response['nbLike'] < 10){
+                    $("#likeId" + catalog_id).css({
+                        left: "14px"
+                    });
+                } else if (response['nbLike'] >= 10 && response['nbLike'] < 100) {
+                    console.log("10 < 100");
+                    $("#likeId" + catalog_id).css({
+                        left: "8px"
+                    });
+                }
             }
         }
     });
 }
 
-
-$("#rechercherCategorie").on("input", function(event) {
-    var searchTerm = $(this).val();
-    $("#catalog").html("");
-    switch(searchTerm){ 
-        case "":
-            catalogViews();
-            break
-        default:
-            catalogFiltre(searchTerm);
-            break
-    }
+$(document).ready(function () {
+    $("#rechercherCategorie").on("input", function(event) {
+        var searchTerm = $(this).val();
+        $("#catalog").html("");
+        switch(searchTerm){ 
+            case "":
+                catalogViews();
+                break
+            default:
+                catalogFiltre(searchTerm);
+                break
+        }
+    });
 });
+
+function likePosition(catalog_id) {
+    nbLike = $("#likeId" + catalog_id).text();
+    console.log(nbLike);
+
+    if (nbLike < 10) {
+        $("#likeId" + catalog_id).css({
+            left: "14px"
+        });
+    } else if (nbLike >= 10 && nbLike < 100) {
+        console.log("10 < 100");
+        $("#likeId" + catalog_id).css({
+            left: "8px"
+        });
+    } else if (nbLike >= 100 && nbLike < 1000) {
+        $("#likeId" + catalog_id).css({
+            left: "5px"
+        });
+    } else {
+        $("#likeId" + catalog_id).css({
+            left: "10px"
+        });
+    }
+}
+
+
+
 

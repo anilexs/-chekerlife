@@ -2,11 +2,13 @@
     require_once "../../model/userModel.php";
     if(isset($_COOKIE['user_id'])){
         $likeConte = User::likeCount($_COOKIE['user_id']);
+        $userInfo = User::userInfo($_COOKIE['user_id']);
     }
     $get = isset($_GET['q']) ? $_GET['q'] : null;
     if($get == null){
         header("Location: http://localhost/!chekerlife/");
     }
+    $host = "http://localhost/!chekerlife/";
     
 ?>
 <!DOCTYPE html>

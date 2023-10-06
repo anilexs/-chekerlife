@@ -23,10 +23,11 @@
                 </a>
             </li>
             <li>
-                <button>
-                    <div class="userImg">
-                        <img src="<?= $host ?>views/asset/img/user/<?=$userInfo['photo_profile']; ?>" alt="">
+                <button class="profil">
+                    <div>
+                        <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/<?=$userInfo['photo_profile']; ?>" alt="">
                     </div>
+                    <span class="pseudo"><?=$userInfo['pseudo']; ?>1234</span>
                 </button>
             </li>
             <!-- <li><form action="<?= $host ?>views/traitement/action.php" method="POST">

@@ -6,6 +6,11 @@ FILTRAGE
 SELECT * FROM `catalog` WHERE type = 'films' OR type = 'drama'
  $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')");
 
+// requette pour fair les collection par 1 id
+SELECT *
+FROM collections
+WHERE collections_name = (SELECT collections_name FROM collections WHERE catalog_id = '7');
+
 PAGINATION je pe pe etre uriliser
 SELECT * FROM catalog LIMIT 5 OFFSET 8;
 
