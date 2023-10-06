@@ -110,7 +110,7 @@ function likePosition(catalog_id, $like = null) {
     if (nbLike < 10) {
         $("#likeId" + catalog_id).css({
             "left": "16px",
-            "top": "14px"
+            "top": "13px"
         });
     } else if (nbLike >= 10 && nbLike < 100) {
         $("#likeId" + catalog_id).css({
@@ -132,7 +132,6 @@ function likePosition(catalog_id, $like = null) {
             "top": "13px"
         });
     }else if(nbLike >= 10000 && nbLike < 100000){
-        console.log("red");
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + tabLike[1] + "K");
@@ -140,6 +139,24 @@ function likePosition(catalog_id, $like = null) {
             "font-size": "11px",
             "left": "9px",
             "top": "14px"
+        });
+    }else if(nbLike >= 100000 && nbLike < 1000000){
+        var likestr = nbLike.toString();
+            tabLike = likestr.split("");
+            $("." + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
+        $("#likeId" + catalog_id).css({
+            "font-size": "10px",
+            "left": "8px",
+            "top": "14px"
+        });
+    }else if(nbLike >= 1000000 && nbLike < 10000000){
+        var likestr = nbLike.toString();
+            tabLike = likestr.split("");
+            $("." + catalog_id).text(tabLike[0] + "M");
+        $("#likeId" + catalog_id).css({
+            "font-size": "10px",
+            "left": "13px",
+            "top": "15px"
         });
     }
 }

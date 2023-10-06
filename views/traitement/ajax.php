@@ -102,6 +102,6 @@ function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
     echo '<a href="list/' . $urlName . '">';
     echo '<img src="asset/img/' . $image_catalogue . '" alt="">';
     echo '</a>';
-    echo '<script type="text/javascript"> likePosition(' . $like .'); </script>';
+    echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); </script>';
     echo '</div>';
 }
