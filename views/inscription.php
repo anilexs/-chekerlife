@@ -20,14 +20,14 @@ require_once "inc/header.php";
 
                 <div>
                     <label for="">email :</label>
-                    <input type="text" name="email" <?php if(isset($_SESSION["email"])){ ?> 
+                    <input type="email" name="email" <?php if(isset($_SESSION["email"])){ ?> 
                         value="<?= $_SESSION["email"]; ?>"
                     <?php } ?>>
                 </div>
 
                 <div>
                     <label for="">password :</label>
-                    <input type="text" name="password">
+                    <input type="password" name="password">
                 </div>
                 <button name="inscription">s'inscrire</button>
             </form>

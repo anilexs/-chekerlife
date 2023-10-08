@@ -12,7 +12,7 @@ require_once "inc/header.php";
 <link rel="stylesheet" href="asset/css/categorie.css">
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
-<div class="contenaire">
+<div class="contenaireRecherche">
     <input type="text" placeholder="Rechercher..." id="rechercherCategorie">
 </div>
 <div class="catalog" id="catalog">
@@ -28,16 +28,6 @@ require_once "inc/header.php";
                     }
                 }
             }
-            // if (response['CatalogInfo']['likes'] < 1000){
-            //         $("." + catalog_id).text(response['CatalogInfo']['likes']);
-            //         console.log(response['CatalogInfo']['likes']);
-            //     }else if(response['CatalogInfo']['likes'] >= 1000 && response['CatalogInfo']['likes'] < 10000){
-            //         var nbLike = response['CatalogInfo']['likes'].toString();
-            //         nbLike = nbLike.split("");
-            //         console.log(nbLike);
-            //         $("." + catalog_id).text(nbLike[0] + "," + nbLike[1] + "K");
-            //     }
-
             $urlName = str_replace(' ', '-', $catalogItem["nom"]);
             ?>
             <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" id="<?= $catalogItem["id_catalogue"] ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
