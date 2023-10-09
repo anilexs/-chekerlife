@@ -81,3 +81,18 @@ $(document).ready(function() {
     // Appeler la fonction pour générer le contenu initial
     generateCatalog();
 });
+
+meomo nav recherche
+<li class="rechercherLi">
+                        <div>
+                            <img src="<?= $host ?>views/asset/img/akb0048.jpg" alt="" class="rechercheNavImg">
+                        </div>
+                        <div class="">
+                            <?php $isActive = false; ?>
+                            <h3>AKB0048</h3>
+                            <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" id="" onclick="">
+                                <span class="cataLike" id="">0</span>
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                        </div>
+                    </li>

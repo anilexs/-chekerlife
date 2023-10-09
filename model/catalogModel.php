@@ -52,5 +52,18 @@ class Catalog{
             echo $e->getMessage();
         }
     }
+    
+    public static function navRechercher($filtres){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%') LIMIT 3");
+
+        try{
+            $request->execute(array($filtres, $filtres));
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 
 }

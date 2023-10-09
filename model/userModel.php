@@ -58,7 +58,7 @@ class User{
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM `likes` WHERE user_id = ? AND catalog_id = ?");
         $request2 = $db->prepare("INSERT INTO  likes (user_id, catalog_id) VALUES (?, ?)");
-        $request3 = $db->prepare("UPDATE `likes` SET `active`= ? WHERE user_id = ? AND catalog_id = ?");
+        $request3 = $db->prepare("UPDATE `likes` SET `active` = ?, `last_edited` = NOW() WHERE user_id = ? AND catalog_id = ?");
         
         try {
             $request->execute(array($user_id, $catalog_id));

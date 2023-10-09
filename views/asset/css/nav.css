@@ -23,10 +23,30 @@ nav .ulNav{
     width: 90%;
     margin-right: 10px;
 }
-nav #rechercher{
+nav #navRechercherBar{
     background-color: #303541;
     border: none;
     font-size: 25px;
+}
+.navRechercher{
+    position: relative;
+}
+.rechercherUl{
+    list-style-type: none;
+    background-color: #3D3D3D;
+    width: 100%;
+    position: absolute;
+    top: 32px;
+    z-index: 3;
+}
+.rechercherLi{
+    display: flex;
+}
+.rechercheNavImg{
+    width: 80px;
+    height: 120px;
+    display: block;
+    margin: 5px;
 }
 nav .likePgae{
     position: relative;
@@ -69,4 +89,47 @@ nav .profil{
 nav .pseudo{
     width: 100%;
     color: white;
+}
+.navCard{
+    width: 200px;
+    height: 300px;
+    border-radius: 12px;
+    margin: 10px 10px;
+    position: relative;
+}
+.like{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 28px;
+}
+.cataLike{
+    position: absolute;
+    color: black;
+    left: 16px;
+    top: 12px;
+    font-size: 14px;
+}
+.activeTrue{
+    color: red;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 40px;
+    padding-top: 5px;
+}
+.activeTrue span{
+    color: white;
+}
+.activeFalse{
+    color: white;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 40px;
+    padding-top: 5px;
+}
+nav h3{
+    color: white;
+    margin-top: 5px;
 }

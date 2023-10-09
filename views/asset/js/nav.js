@@ -1,3 +1,4 @@
+$(document).ready(function(){
 $likeCount = $("#likeCount").text();
 if($likeCount < 10){
     $("#likeCount").css({     
@@ -13,7 +14,6 @@ if($likeCount < 10){
     });
 }
 
-$(document).ready(function(){
   var $profilButton = $('.profil');
   var $menu = $('.menu');
   
@@ -38,3 +38,51 @@ $(document).ready(function(){
     }
   });
 });
+
+function navFiltre($filtre){
+    $.ajax({
+        url: 'http://localhost/!chekerlife/views/traitement/ajax.php', 
+        type: 'POST',
+        data: {
+            action: "navFiltre",
+            filtreNav: $filtre,
+        },
+        dataType: 'html',
+        success: function(response) {
+            $('#contenaireNavRecherche').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
+
+$(document).ready(function () {
+    $("#navRechercherBar").on("input", function(event) {
+        var searchTerm = $(this).val();
+        $("#contenaireNavRecherche").html("");
+        switch(searchTerm){ 
+            case "":
+                $('#contenaireNavRecherche').hide();
+                break
+            default:
+                $('#contenaireNavRecherche').show();
+                navFiltre(searchTerm);
+                break
+        }
+    });
+
+        // Gestionnaire d'événement pour afficher l'ul au clic sur l'input
+        $('#navRechercherBar').click(function(event) {
+            var searchTerm = $(this).val();
+            $('#contenaireNavRecherche').show();
+            navFiltre(searchTerm);
+            event.stopPropagation(); // Empêche la propagation du clic au document
+        });
+
+        $(document).click(function(event){
+        if (!$(event.target).closest('#contenaireNavRecherche').length && !$(event.target).closest('#inputRecherche').length) {
+                $('#contenaireNavRecherche').hide();
+            }
+        });
+    });

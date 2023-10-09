@@ -9,9 +9,12 @@
         </div>
         
         <ul class="ulNav">
-            <li><form action="" method="get">
-                <input type="text" placeholder="Rechercher..." id="rechercher">
-            </form></li>
+            <li class="navRechercher">
+                <ul class="rechercherUl" id="contenaireNavRecherche">
+                    
+                </ul>
+                <input type="text" placeholder="Rechercher..." id="navRechercherBar">
+            </li>
             <li><a href="<?= $host ?>">Accueil</a></li>
             <li><a href="<?= $host ?>categorie">Catégorie</a></li>
             <li class="navLike">
@@ -48,9 +51,9 @@
             </div>
 
             <ul class="ulNav">
-                <li><form action="" method="get">
-                    <input type="text" placeholder="Rechercher..." id="rechercher">
-                </form></li>
+                <li>
+                    <input type="text" placeholder="Rechercher..." id="navRechercherBar">
+                </li>
                 <li><a href="<?= $host ?>">Accueil</a></li>
                 <li><a href="<?= $host ?>categorie">Catégorie</a></li>
                 <li class="navLike">

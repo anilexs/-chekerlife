@@ -1,11 +1,9 @@
-function catalogViews(page, itemsPerPage) {
+function catalogViews() {
     $.ajax({
         url: 'traitement/ajax.php',
         type: 'POST',
         data: {
             action: "catalog",
-            page: page,
-            itemsPerPage: itemsPerPage
         },
         dataType: 'html',
         success: function (response) {
@@ -69,8 +67,8 @@ function like (catalog_id){
                         right: "10px"        
                       });       
                 }else if ($likeCount >= 10 && $likeCount < 100){
-                    $("#likeId" + catalog_id).css({
-                        left: "12px"
+                    $("#likeCount").css({
+                        right: "8px"
                     });
                 }else if($likeCount >= 100 && $likeCount < 1000){
                     $("#likeCount").css({     
@@ -128,7 +126,7 @@ function likePosition(catalog_id, $like = null) {
             $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
         $("#likeId" + catalog_id).css({
             "font-size": "11px",
-            "left": "9px",
+            "left": "8px",
             "top": "14px"
         });
     }else if(nbLike >= 10000 && nbLike < 100000){
@@ -152,10 +150,19 @@ function likePosition(catalog_id, $like = null) {
     }else if(nbLike >= 1000000 && nbLike < 10000000){
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + "M");
+            $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
         $("#likeId" + catalog_id).css({
             "font-size": "10px",
-            "left": "13px",
+            "left": "8px",
+            "top": "15px"
+        });
+    }else if(nbLike >= 10000000 && nbLike < 100000000){
+        var likestr = nbLike.toString();
+            tabLike = likestr.split("");
+            $("." + catalog_id).text(tabLike[0] + tabLike[1] + "M");
+        $("#likeId" + catalog_id).css({
+            "font-size": "10px",
+            "left": "10px",
             "top": "15px"
         });
     }

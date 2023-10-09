@@ -75,8 +75,36 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
             card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
         }
+    }else if($_POST['action'] == "navFiltre"){
+    $catalog = Catalog::navRechercher($_POST['filtreNav']);
+    if(isset($_COOKIE['user_id'])){
+        $userLike = User::userLike($_COOKIE['user_id']);
     }
-}else{
+    foreach ($catalog as $catalogItem) {
+        echo '<li class="navCard">';
+
+        $isActive = false;
+        if (isset($_COOKIE['user_id'])) {
+            foreach ($userLike as $like) {
+                if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                    $isActive = true;
+                    break;
+                }
+            }
+        }
+        $urlName = str_replace(' ', '-', $catalogItem["nom"]);
+        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . '" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
+        echo '<i class="fa-solid fa-heart"></i>';
+        echo '</button>';
+        echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '">';
+        echo '<img src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+        echo '</a>';
+        echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
+        echo '</li>';
+    }
+}
+}else {
     
     $responseTab = [
         "response_code" => HTTP_METHOD_NOT_ALLOWED,
@@ -100,7 +128,7 @@ function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
     echo '<a href="list/' . $urlName . '">';
-    echo '<img src="asset/img/' . $image_catalogue . '" alt="">';
+    echo '<img src="http://localhost/!chekerlife/views/asset/img/' . $image_catalogue . '" alt="">';
     echo '</a>';
     echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); </script>';
     echo '</div>';
