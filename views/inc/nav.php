@@ -51,8 +51,11 @@
             </div>
 
             <ul class="ulNav">
-                <li>
-                    <input type="text" placeholder="Rechercher..." id="navRechercherBar">
+                <li class="navRechercher">
+                    <ul class="rechercherUl" id="contenaireNavRecherche">
+                        
+                    </ul>
+                    <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off">
                 </li>
                 <li><a href="<?= $host ?>">Accueil</a></li>
                 <li><a href="<?= $host ?>categorie">Catégorie</a></li>

@@ -97,7 +97,7 @@ $(document).ready(function () {
     function like (catalog_id){
     $.ajax({
         type: "POST",
-        url: "traitement/ajax.php",
+        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
         data: {
             action: "like",
             catalog_id: catalog_id

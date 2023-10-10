@@ -81,7 +81,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $userLike = User::userLike($_COOKIE['user_id']);
     }
     foreach ($catalog as $catalogItem) {
-        echo '<li class="navCard">';
+        echo '<li class="navRechercheCard">';
 
         $isActive = false;
         if (isset($_COOKIE['user_id'])) {
@@ -93,12 +93,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         }
         $urlName = str_replace(' ', '-', $catalogItem["nom"]);
-        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . ' ' .'likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<button class="likeNavRecherche ' . ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
         echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
-        echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '">';
-        echo '<img src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+        echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '" class="cardA">';
+        echo '<img class="navRechercheImg" src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+        echo '<h3>'. $catalogItem["nom"] .'</h3>';
         echo '</a>';
         echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
         echo '</li>';

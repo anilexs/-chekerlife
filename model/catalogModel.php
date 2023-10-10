@@ -37,6 +37,19 @@ class Catalog{
             $e->getMessage();
         }
     }
+    
+    public static function catalogInfoName($name){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ?");
+
+        try{
+            $request->execute(array($name));
+            $catalogInfoName = $request->fetch(PDO::FETCH_ASSOC);
+            return $catalogInfoName;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 
     public static function categoryLike($value, $catalog_id){
         $db = Database::dbConnect();
@@ -61,6 +74,32 @@ class Catalog{
             $request->execute(array($filtres, $filtres));
             $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
             return $catalog;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+    
+    public static function listViews($filtres){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT catalog.nom AS nom_catalog, episode.* FROM catalog LEFT JOIN episode ON catalog.id_catalogue = episode.catalog_id WHERE catalog.nom = ?");
+
+        try{
+            $request->execute(array($filtres));
+            $filtres = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $filtres;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+    
+    public static function collection($id_catalog){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM collections WHERE collections_name = (SELECT collections_name FROM collections WHERE catalog_id = ?)");
+
+        try{
+            $request->execute(array($id_catalog));
+            $collections = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $collections;
         }catch(PDOException $e){
             $e->getMessage();
         }

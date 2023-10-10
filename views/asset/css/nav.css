@@ -48,6 +48,35 @@ nav #navRechercherBar{
     display: block;
     margin: 5px;
 }
+.navRechercheImg{
+    height: 100px;
+    width: 75px;
+}
+.navRechercheCard{
+    width: 95%;
+    border-radius: 12px;
+    margin: 10px 10px;
+    position: relative;
+}
+.cardA{
+    display: flex;
+    text-align: center;
+}
+.cardA h3{
+    width: 170px;
+    height: 30px;
+    font-size: 14px;
+    margin: 0;
+}
+.likeNavRecherche{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 28px;
+}
+
 nav .likePgae{
     position: relative;
 }
