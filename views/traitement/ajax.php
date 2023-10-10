@@ -93,8 +93,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         }
         $urlName = str_replace(' ', '-', $catalogItem["nom"]);
-        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
-        echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . '" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
+        echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . ' ' .'likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
         echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '">';
@@ -123,8 +123,8 @@ function reponse($response_code, $response){
 
 function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
     $urlName = str_replace(' ', '-', $nom);
-    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') . '" id="' . $id_catalogue . '" onclick="like(' . $id_catalogue . ')">';
-    echo '<span class="cataLike ' . $id_catalogue . '" id="likeId' . $id_catalogue .'">' . $like . '</span>';
+    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . '" onclick="like(' . $id_catalogue . ')">';
+    echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
     echo '<a href="list/' . $urlName . '">';

@@ -13,7 +13,7 @@ require_once "inc/header.php";
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="contenaireRecherche">
-    <input type="text" placeholder="Rechercher..." id="rechercherCategorie">
+    <input type="text" placeholder="Rechercher..." id="rechercherCategorie" autocomplete="off">
 </div>
 <div class="catalog" id="catalog">
     <?php foreach($catalog as $catalogItem){ ?>
@@ -30,8 +30,8 @@ require_once "inc/header.php";
             }
             $urlName = str_replace(' ', '-', $catalogItem["nom"]);
             ?>
-            <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" id="<?= $catalogItem["id_catalogue"] ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
-                <span class="cataLike <?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
+            <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogItem["id_catalogue"] ?>" id="<?= $catalogItem["id_catalogue"] ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
+                <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
                 <i class="fa-solid fa-heart"></i>
             </button>
             <a href="list/<?= $urlName ?>">
