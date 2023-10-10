@@ -17,6 +17,7 @@
     if (empty($collection)) {
         $collection = null;
     }
+    // var_dump($catalogInfo);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,6 +35,12 @@
     <div class="contenaire">
         <div class="contenaireheader">
             <img src="<?= $host ?>views/asset/img/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
+            <div class="droite">
+                <div class="info">
+                    
+                </div>
+                <span class="description"><?= $catalogInfo['description'] ?></span>
+            </div>
         </div>
     </div>
 <?php require_once "../inc/footer.php"; ?>

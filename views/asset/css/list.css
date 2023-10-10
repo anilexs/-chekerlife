@@ -1,10 +1,17 @@
 .contenaire{
     width: 1600px;
-    margin: auto;
+    margin: 30px auto;
 }
-
+.contenaireheader{
+    display: flex;
+}
 .catalogImg{
-    margin-top: 30px;
     width: 350px;
     height: 500px;
+}
+.droite{
+    color: white;
+}
+.description{
+    font-size: 30px;
 }
