@@ -1,4 +1,10 @@
+.contenaire{
+    width: 1600px;
+    margin: auto;
+}
+
 .catalogImg{
+    margin-top: 30px;
     width: 350px;
     height: 500px;
 }
