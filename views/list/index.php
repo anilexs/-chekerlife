@@ -12,8 +12,12 @@
     $host = "http://localhost/!chekerlife/";
     $name = str_replace('-', ' ', $get);
     $catalogInfo = Catalog::catalogInfoName($name);
-    $info = Catalog::listViews($name);
-    $collection = Catalog::collection($catalogInfo['id_catalogue']);
+    if(empty($catalogInfo)){
+        $catalogInfo = null;
+    }else{
+        $info = Catalog::listViews($name);
+        $collection = Catalog::collection($catalogInfo['id_catalogue']);
+    }
     if (empty($collection)) {
         $collection = null;
     }

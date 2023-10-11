@@ -18,7 +18,7 @@
             <li><a href="<?= $host ?>">Accueil</a></li>
             <li><a href="<?= $host ?>categorie">Catégorie</a></li>
             <li class="navLike">
-                <a href="likepgae">
+                <a href="likepage">
                     <div class="likePgae">
                         <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
                         <span class="nbLike" id="likeCount"><?= $likeConte['COUNT(*)']; ?></span>
@@ -33,8 +33,8 @@
                     <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>
                 <ul class="menu">
-                        <li><i class="fa-solid fa-user"></i><a href="#">Profile</a></li>
-                        <li><i class="fa-solid fa-gear"></i><a href="#">Parametre</a></li>
+                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>views/undefined-page">Profile</a></li>
+                        <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>views/undefined-page">Parametre</a></li>
                         <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
                             <button name="deconnexion">Déconnexion</button>
                         </form></li>
