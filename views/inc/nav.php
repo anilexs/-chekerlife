@@ -18,7 +18,7 @@
             <li><a href="<?= $host ?>">Accueil</a></li>
             <li><a href="<?= $host ?>categorie">Catégorie</a></li>
             <li class="navLike">
-                <a href="likepage">
+                <a href="<?= $host ?>likepage">
                     <div class="likePgae">
                         <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
                         <span class="nbLike" id="likeCount"><?= $likeConte['COUNT(*)']; ?></span>

@@ -92,6 +92,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }
             }
         }
+        $nbCaracter = strlen($catalogItem["nom"]);
+        $nbCaracter = strlen($catalogItem["nom"]);
+
+        if($nbCaracter >= 22) {
+            $catalogNom = substr($catalogItem["nom"], 0, 19)."...";
+        }else{
+            $catalogNom = $catalogItem["nom"];
+        }
+
         $urlName = str_replace(' ', '-', $catalogItem["nom"]);
         echo '<button class="likeNavRecherche ' . ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
         echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
@@ -99,7 +108,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '</button>';
         echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '" class="cardA">';
         echo '<img class="navRechercheImg" src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
-        echo '<h3>'. $catalogItem["nom"] .'</h3>';
+        echo '<h3>'. $catalogNom .'</h3>';
         echo '</a>';
         echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
         echo '</li>';

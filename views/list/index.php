@@ -1,8 +1,10 @@
 <?php
     require_once "../../model/userModel.php";
     require_once "../../model/catalogModel.php";
+    require_once "../../model/collectionModel.php";
     if(isset($_COOKIE['user_id'])){
         $likeConte = User::likeCount($_COOKIE['user_id']);
+        $userLike = User::userLike($_COOKIE['user_id']);
         $userInfo = User::userInfo($_COOKIE['user_id']);
     }
     $get = isset($_GET['q']) ? $_GET['q'] : null;
@@ -16,10 +18,18 @@
         $catalogInfo = null;
     }else{
         $info = Catalog::listViews($name);
-        $collection = Catalog::collection($catalogInfo['id_catalogue']);
+        $collection = Collection::collection($catalogInfo['id_catalogue']);
     }
     if (empty($collection)) {
         $collection = null;
+    }
+    if(isset($_COOKIE['user_id'])){
+        foreach($userLike as $like){
+            if($like['catalog_id'] == $catalogInfo["id_catalogue"] && $like['active'] == 1){
+                $isActive = true;
+                break;
+            }
+        }
     }
     // var_dump($catalogInfo);
 ?>
@@ -32,6 +42,7 @@
     <link rel="stylesheet" href="<?= $host ?>asset/css/style.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/list.css">
+    <script src="<?= $host ?>asset/js/list.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script src="<?= $host ?>views/asset/js/nav.js"></script>
     <title>Document</title>
@@ -41,7 +52,17 @@
             <img src="<?= $host ?>views/asset/img/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
             <div class="droite">
                 <div class="info">
-                    
+                    <ul class="ul">
+                        <li><?= $catalogInfo['nom'] ?></li>
+                        <li><?= $catalogInfo['publish_date'] ?></li>
+                        <li><?= $catalogInfo['type'] ?></li>
+                        <li>
+                            <button class="likeList <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogInfo["id_catalogue"] ?>" id="<?= $catalogInfo["id_catalogue"] ?>" onclick="likeList(<?= $catalogInfo["id_catalogue"] ?>)">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                            <span class="cataLikeList <?= $catalogInfo["id_catalogue"] ?>" id="likeId<?= $catalogInfo["id_catalogue"] ?>"><?= $catalogInfo['likes'] ?></span>
+                        </li>
+                    </ul>
                 </div>
                 <span class="description"><?= $catalogInfo['description'] ?></span>
             </div>
