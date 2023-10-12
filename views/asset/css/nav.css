@@ -25,6 +25,7 @@ nav .ulNav{
 }
 nav #navRechercherBar{
     background-color: #303541;
+    color: white;
     border: none;
     font-size: 25px;
 }
