@@ -2,11 +2,13 @@ $(document).ready(function(){
 $likeCount = $("#likeCount").text();
 if($likeCount < 10){
     $("#likeCount").css({     
-        right: "10px"        
+        right: "11.5px",
+        top: "9px"        
       });       
 }else if ($likeCount >= 10 && $likeCount < 100){
     $("#likeCount").css({     
-        right: "8px"        
+        right: "8px",
+        top: "8px"            
       });
 }else if($likeCount >= 100 && $likeCount < 1000){
     $("#likeCount").css({     
@@ -125,11 +127,13 @@ $(document).ready(function () {
 
                 if($likeCount < 10){
                     $("#likeCount").css({     
-                        right: "10px"        
+                        right: "11.5px",
+                        top: "9px"        
                       });       
                 }else if ($likeCount >= 10 && $likeCount < 100){
                     $("#likeCount").css({
-                        right: "8px"
+                        right: "8px",
+                        top: "8px"
                     });
                 }else if($likeCount >= 100 && $likeCount < 1000){
                     $("#likeCount").css({     
