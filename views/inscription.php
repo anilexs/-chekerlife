@@ -8,6 +8,7 @@ require_once "inc/header.php";
 <title>Document</title>
 <link rel="stylesheet" href="asset/css/inscription.css">
 <?php require_once "inc/nav.php"; ?>
+<div class="alignement">
     <div class="contenaire">
         <div class="left">
             <form action="traitement/action.php" method="post" class="formInscription">
@@ -34,4 +35,5 @@ require_once "inc/header.php";
         </div>
         <div class="right"></div>
     </div>
+</div>
 <?php require_once "inc/footer.php"; ?>

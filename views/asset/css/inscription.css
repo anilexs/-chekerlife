@@ -33,3 +33,11 @@ body::before {
 .right{
     width: 50%;
 }
+.alignement {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* 100% de la hauteur de la fenêtre */
+}

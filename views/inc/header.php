@@ -15,4 +15,5 @@
     <link rel="stylesheet" href="<?= $host ?>asset/css/style.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="<?= $host ?>asset/js/structure.js"></script>
     <script src="<?= $host ?>asset/js/nav.js"></script>

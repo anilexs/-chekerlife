@@ -9,19 +9,21 @@ require_once "inc/header.php";
 <link rel="stylesheet" href="asset/css/connexion.css">
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
-<div class="contenaire">
-    <form action="traitement/action.php" method="POST">
-    <div>
-                <label for="">email :</label>
-                <input type="text" name="email">
-            </div>
-            
-            <div>
-                <label for="">password :</label>
-                <input type="text" name="password">
-            </div>
-        <button name="connexion">connexion</button>
-    </form>
+<div class="alignement">
+    <div class="contenaire">
+        <form action="traitement/action.php" method="POST">
+        <div>
+                    <label for="">email :</label>
+                    <input type="text" name="email">
+                </div>
+                
+                <div>
+                    <label for="">password :</label>
+                    <input type="text" name="password">
+                </div>
+            <button name="connexion">connexion</button>
+        </form>
+    </div>
 </div>
 
 <!-- co par google a continuet plus tare
