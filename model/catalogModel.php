@@ -91,5 +91,18 @@ class Catalog{
             $e->getMessage();
         }
     }
+    
+    public static function lastAdd(){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8");
+
+        try{
+            $request->execute();
+            $lastAdd = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $lastAdd;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 
 }

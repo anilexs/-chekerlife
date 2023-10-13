@@ -41,8 +41,6 @@ function likeList (catalog_id){
                       right: "5px"        
                     });
                 }
-
-                // likePosition(response['CatalogInfo']['id_catalogue'], response['CatalogInfo']['likes']);
             }
         }
     });

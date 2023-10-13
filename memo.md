@@ -81,3 +81,6 @@ $(document).ready(function() {
     // Appeler la fonction pour générer le contenu initial
     generateCatalog();
 });
+
+// code pour les dernier sortie sur le site 
+SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8;

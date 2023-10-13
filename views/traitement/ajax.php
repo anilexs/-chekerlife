@@ -113,6 +113,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
         echo '</li>';
     }
+}else if($_POST['action'] == "lastAdd"){
+    $response_code = HTTP_OK;
+    $lastAdd = Catalog::lastAdd();
+    $responseTab = [
+                    "response_code" => HTTP_OK,
+                    "lastAdd" => $lastAdd,
+                ];
+    reponse($response_code, $responseTab);
 }
 }else {
     
