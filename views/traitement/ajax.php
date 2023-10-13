@@ -93,7 +93,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         }
         $nbCaracter = strlen($catalogItem["nom"]);
-        $nbCaracter = strlen($catalogItem["nom"]);
 
         if($nbCaracter >= 22) {
             $catalogNom = substr($catalogItem["nom"], 0, 19)."...";

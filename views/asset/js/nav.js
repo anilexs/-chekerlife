@@ -117,11 +117,8 @@ $(document).ready(function () {
                     $(".likeId" + response['CatalogInfo']['id_catalogue']).css("color", "black");
                 }
                 
-                if (response['CatalogInfo']['likes'] < 1000){
-                    $("." + catalog_id).text(response['CatalogInfo']['likes']);
-                }else if(response['CatalogInfo']['likes'] >= 1000 && response['CatalogInfo']['likes'] < 10000){
-                    $("." + catalog_id).text(response['CatalogInfo']['likes']);
-                }
+                $("." + catalog_id).text(response['CatalogInfo']['likes']);
+                
                 $("#likeCount").text(response['nbLike']);
                 $likeCount = response['nbLike'];
 
