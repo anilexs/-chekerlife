@@ -147,26 +147,47 @@ $(document).ready(function () {
     });
 }
 
+function nbLike(catalog_id) {
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost/!chekerlife/views/traitement/ajax.php',
+        data: {
+            action: "catalogNbLike",
+            id_catalog: catalog_id,
+        },
+        dataType: "json",
+        success: function(response) {
+            console.log(response['catalogNbLike'][0]);
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite : ' + error);
+        }
+    });
+
+}
+
 function likePosition(catalog_id, $like = null) {
     var $like;
+    var nbLike;
     if($like == null){
         nbLike = $("#likeId" + catalog_id).text();
     }else{
         nbLike = $like;
     }
+    
 
     if (nbLike < 10) {
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "left": "16px",
             "top": "13px"
         });
     } else if (nbLike >= 10 && nbLike < 100) {
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "left": "12px",
             "top": "13px"
         });
     } else if (nbLike >= 100 && nbLike < 1000) {
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "left": "8.5px",
             "top": "11px"
         });
@@ -174,7 +195,7 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "font-size": "11px",
             "left": "8px",
             "top": "14px"
@@ -183,7 +204,7 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + tabLike[1] + "K");
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "font-size": "11px",
             "left": "9px",
             "top": "14px"
@@ -192,7 +213,7 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "8px",
             "top": "14px"
@@ -201,7 +222,7 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "8px",
             "top": "15px"
@@ -210,7 +231,7 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $("." + catalog_id).text(tabLike[0] + tabLike[1] + "M");
-        $("#likeId" + catalog_id).css({
+        $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "10px",
             "top": "15px"

@@ -93,7 +93,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         }
         $nbCaracter = strlen($catalogItem["nom"]);
-        $nbCaracter = strlen($catalogItem["nom"]);
 
         if($nbCaracter >= 22) {
             $catalogNom = substr($catalogItem["nom"], 0, 19)."...";
@@ -119,6 +118,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $responseTab = [
                     "response_code" => HTTP_OK,
                     "lastAdd" => $lastAdd,
+                ];
+    reponse($response_code, $responseTab);
+}else if($_POST['action'] == "catalogNbLike"){
+
+    $response_code = HTTP_OK;
+    $catalogNbLike = Catalog::categoryNbLike($_POST['id_catalog']);
+    $responseTab = [
+                    "response_code" => HTTP_OK,
+                    "catalogNbLike" => $catalogNbLike,
                 ];
     reponse($response_code, $responseTab);
 }
