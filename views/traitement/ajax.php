@@ -101,7 +101,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
 
         $urlName = str_replace(' ', '-', $catalogItem["nom"]);
-        echo '<button class="likeNavRecherche ' . ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+        echo '<button class="likeNavRecherche ' . $catalogItem["id_catalogue"] . " ". ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . '" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
         echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
         echo '<i class="fa-solid fa-heart"></i>';
         echo '</button>';
@@ -118,6 +118,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $responseTab = [
                     "response_code" => HTTP_OK,
                     "lastAdd" => $lastAdd,
+                ];
+    reponse($response_code, $responseTab);
+}else if($_POST['action'] == "catalogNbLike"){
+
+    $response_code = HTTP_OK;
+    $catalogNbLike = Catalog::categoryNbLike($_POST['id_catalog']);
+    $responseTab = [
+                    "response_code" => HTTP_OK,
+                    "catalogNbLike" => $catalogNbLike,
                 ];
     reponse($response_code, $responseTab);
 }
@@ -140,7 +149,7 @@ function reponse($response_code, $response){
 
 function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
     $urlName = str_replace(' ', '-', $nom);
-    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . '" onclick="like(' . $id_catalogue . ')">';
+    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . ' " onclick="like(' . $id_catalogue . ')">';
     echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';

@@ -66,6 +66,18 @@ class Catalog{
         }
     }
     
+    public static function categoryNbLike($catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT likes FROM catalog WHERE id_catalogue = ? LIMIT 1");
+        try{
+            $request->execute(array($catalog_id));
+            $like = $request->fetch();
+            return $like;
+        }catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
     public static function navRechercher($filtres){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%') LIMIT 3");
