@@ -171,10 +171,12 @@ function likePosition(catalog_id, $like = null) {
     var nbLike;
     if($like == null){
         nbLike = $("#likeId" + catalog_id).text();
+        nbLike2 = $(".likeId" + catalog_id).text();
     }else{
         nbLike = $like;
     }
-    console.log(nbLike);
+    console.log(nbLike2 + " .");
+    console.log(nbLike + " #");
 
     if (nbLike < 10) {
         $(".likeId" + catalog_id).css({
@@ -194,7 +196,7 @@ function likePosition(catalog_id, $like = null) {
     } else if (nbLike >= 1000 && nbLike < 10000) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
+            $(".likeId" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
             $("#" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "11px",
@@ -204,7 +206,7 @@ function likePosition(catalog_id, $like = null) {
     }else if(nbLike >= 10000 && nbLike < 100000){
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + tabLike[1] + "K");
+            $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + "K");
             $("#" + catalog_id).text(tabLike[0] + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "11px",
@@ -214,7 +216,7 @@ function likePosition(catalog_id, $like = null) {
     }else if(nbLike >= 100000 && nbLike < 1000000){
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
+            $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
             $("#" + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
@@ -224,7 +226,7 @@ function likePosition(catalog_id, $like = null) {
     }else if(nbLike >= 1000000 && nbLike < 10000000){
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
+            $(".likeId" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
             $("#" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
