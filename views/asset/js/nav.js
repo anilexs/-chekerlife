@@ -80,7 +80,7 @@ $(document).ready(function () {
             $('#contenaireNavRecherche').show();
             switch(searchTerm){ 
             case "":
-                
+                $('#contenaireNavRecherche').hide();
                 break
             default:
               navFiltre(searchTerm);
@@ -92,6 +92,7 @@ $(document).ready(function () {
         $(document).click(function(event){
         if (!$(event.target).closest('#contenaireNavRecherche').length && !$(event.target).closest('#inputRecherche').length) {
                 $('#contenaireNavRecherche').hide();
+                $("#contenaireNavRecherche").html("");
             }
         });
     });
@@ -236,7 +237,7 @@ function likePosition(catalog_id, $like = null) {
     }else if(nbLike >= 10000000 && nbLike < 100000000){
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
-            $("." + catalog_id).text(tabLike[0] + tabLike[1] + "M");
+            $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + "M");
             $("#" + catalog_id).text(tabLike[0] + tabLike[1] + "M");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
