@@ -80,37 +80,43 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     if(isset($_COOKIE['user_id'])){
         $userLike = User::userLike($_COOKIE['user_id']);
     }
-    foreach ($catalog as $catalogItem) {
+    if(empty($catalog)){
         echo '<li class="navRechercheCard">';
-
-        $isActive = false;
-        if (isset($_COOKIE['user_id'])) {
-            foreach ($userLike as $like) {
-                if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
-                    $isActive = true;
-                    break;
+        echo  '0 résultat n\'a été trouvé';
+        echo '</li>';
+    }else{
+        foreach ($catalog as $catalogItem) {
+            echo '<li class="navRechercheCard">';
+    
+            $isActive = false;
+            if (isset($_COOKIE['user_id'])) {
+                foreach ($userLike as $like) {
+                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                        $isActive = true;
+                        break;
+                    }
                 }
             }
+            $nbCaracter = strlen($catalogItem["nom"]);
+    
+            if($nbCaracter >= 22) {
+                $catalogNom = substr($catalogItem["nom"], 0, 19)."...";
+            }else{
+                $catalogNom = $catalogItem["nom"];
+            }
+    
+            $urlName = str_replace(' ', '-', $catalogItem["nom"]);
+            echo '<button class="likeNavRecherche '. ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . ($isActive ? 'activeTrue' : 'activeFalse') .'" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
+            echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
+            echo '<i class="fa-solid fa-heart"></i>';
+            echo '</button>';
+            echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '" class="cardA">';
+            echo '<img class="navRechercheImg" src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
+            echo '<h3>'. $catalogNom .'</h3>';
+            echo '</a>';
+            echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
+            echo '</li>';
         }
-        $nbCaracter = strlen($catalogItem["nom"]);
-
-        if($nbCaracter >= 22) {
-            $catalogNom = substr($catalogItem["nom"], 0, 19)."...";
-        }else{
-            $catalogNom = $catalogItem["nom"];
-        }
-
-        $urlName = str_replace(' ', '-', $catalogItem["nom"]);
-        echo '<button class="likeNavRecherche '. ($isActive ? 'activeTrue' : 'activeFalse') . ' likeCollor'. $catalogItem["id_catalogue"] . '" id="' . $catalogItem["id_catalogue"] . ($isActive ? 'activeTrue' : 'activeFalse') .'" onclick="like(' . $catalogItem["id_catalogue"] . ')">';
-        echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
-        echo '<i class="fa-solid fa-heart"></i>';
-        echo '</button>';
-        echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '" class="cardA">';
-        echo '<img class="navRechercheImg" src="http://localhost/!chekerlife/views/asset/img/' . $catalogItem["image_catalogue"] . '" alt="">';
-        echo '<h3>'. $catalogNom .'</h3>';
-        echo '</a>';
-        echo '<script type="text/javascript"> likePosition('. $catalogItem["id_catalogue"]. '); </script>';
-        echo '</li>';
     }
 }else if($_POST['action'] == "lastAdd"){
     $response_code = HTTP_OK;
