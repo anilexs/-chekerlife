@@ -172,12 +172,9 @@ function likePosition(catalog_id, $like = null) {
     var nbLike;
     if($like == null){
         nbLike = $("#likeId" + catalog_id).text();
-        nbLike2 = $(".likeId" + catalog_id).text();
     }else{
         nbLike = $like;
     }
-    console.log(nbLike2 + " .");
-    console.log(nbLike + " #");
 
     if (nbLike < 10) {
         $(".likeId" + catalog_id).css({
@@ -198,7 +195,6 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $(".likeId" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
-            $("#" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "11px",
             "left": "8px",
@@ -208,7 +204,6 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + "K");
-            $("#" + catalog_id).text(tabLike[0] + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "11px",
             "left": "9px",
@@ -218,7 +213,6 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
-            $("#" + catalog_id).text(tabLike[0] + tabLike[1] + tabLike[1] + "K");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "8px",
@@ -228,7 +222,6 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $(".likeId" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
-            $("#" + catalog_id).text(tabLike[0] + "," + tabLike[1] + "M");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "8px",
@@ -238,7 +231,6 @@ function likePosition(catalog_id, $like = null) {
         var likestr = nbLike.toString();
             tabLike = likestr.split("");
             $(".likeId" + catalog_id).text(tabLike[0] + tabLike[1] + "M");
-            $("#" + catalog_id).text(tabLike[0] + tabLike[1] + "M");
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "10px",
