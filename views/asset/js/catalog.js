@@ -36,11 +36,6 @@ function catalogFiltre($filtre){
 $(document).ready(function () {
     ftrSize(); // Appel initial de la fonction
 
-    $(window).on('resize', function () {
-        // Appelez la fonction lorsqu'il y a un redimensionnement de la fenêtre
-        ftrSize();
-    });
-
     $("#rechercherCategorie").on("input", function (event) {
         var searchTerm = $(this).val();
         $("#catalog").html("");

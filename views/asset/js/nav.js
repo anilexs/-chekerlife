@@ -254,3 +254,9 @@ function likePosition(catalog_id, $like = null) {
     // 10,000,000,000,000,000 = 10P
     // 100,000,000,000,000,000 = 100P
 }
+
+$(document).ready(function () {
+    $(window).on('resize', function () {
+        ftrSize();
+    });
+});

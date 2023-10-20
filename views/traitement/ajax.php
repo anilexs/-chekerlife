@@ -135,7 +135,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                     "catalogNbLike" => $catalogNbLike,
                 ];
     reponse($response_code, $responseTab);
+}else if($_POST['action'] == "views"){
+    $response_code = HTTP_OK;
+    $responseTab = [
+                    "response_code" => HTTP_OK,
+                    "catalogNbLike" => $catalogNbLike,
+                ];
+    reponse($response_code, $responseTab);
 }
+
 }else {
     
     $responseTab = [

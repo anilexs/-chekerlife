@@ -32,6 +32,21 @@ function likeList (catalog_id){
     });
 }
 
+function views (epViews){
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
+        data: {
+            action: "views",
+            epViews: epViews
+        },
+        dataType: "json",
+        success: function (response) {
+            
+        }
+    });
+}
+
 
 $(document).ready(function(){
     var $profilButton = $('.btnCollection');
@@ -47,6 +62,14 @@ $(document).ready(function(){
       $menu.slideToggle(function() {
         ftrSize();
       });
+    });
+
+    $('.chekboxViews').click(function() {
+      if ($(this).is(':checked')) {
+        console.log('Le checkbox est coché !');
+      } else {
+        console.log('Le checkbox est décoché !');
+      }
     });
 });
 

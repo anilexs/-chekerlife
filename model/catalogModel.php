@@ -91,19 +91,6 @@ class Catalog{
         }
     }
     
-    public static function listViews($filtres){
-        $db = Database::dbConnect();
-        $request = $db->prepare("SELECT catalog.nom AS nom_catalog, episode.* FROM catalog LEFT JOIN episode ON catalog.id_catalogue = episode.catalog_id WHERE catalog.nom = ?");
-
-        try{
-            $request->execute(array($filtres));
-            $filtres = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $filtres;
-        }catch(PDOException $e){
-            $e->getMessage();
-        }
-    }
-    
     public static function lastAdd(){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8");
@@ -112,6 +99,32 @@ class Catalog{
             $request->execute();
             $lastAdd = $request->fetchAll(PDO::FETCH_ASSOC);
             return $lastAdd;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+    
+    public static function episode($id_catalog){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;)");
+
+        try{
+            $request->execute(array($id_catalog));
+            $episode = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $episode;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+    
+    public static function episodeUserViews($id_catalog){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;)");
+
+        try{
+            $request->execute(array($id_catalog));
+            $episode = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $episode;
         }catch(PDOException $e){
             $e->getMessage();
         }

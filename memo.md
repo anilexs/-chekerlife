@@ -84,3 +84,8 @@ $(document).ready(function() {
 
 // code pour les dernier sortie sur le site 
 SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8;
+
+// code pour les episode 
+SELECT * FROM episode WHERE catalog_id = (SELECT id_catalogue FROM catalog WHERE id_catalogue = ?);
+code pour les episode par leur numero despisode (obliger de metre me ; a la fin de la requette si non ca mais null)
+(SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;);
