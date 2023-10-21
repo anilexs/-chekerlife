@@ -27,23 +27,49 @@ function likeList (catalog_id){
                 $("#likeId" + catalog_id).text(response['CatalogInfo']['likes']);
                 $("#likeCount").text(response['nbLike']);
                 $likeCount = response['nbLike'];
-
-                if($likeCount < 10){
-                    $("#likeCount").css({     
-                        right: "11.5px",
-                        top: "9px"        
-                      });       
-                }else if ($likeCount >= 10 && $likeCount < 100){
-                    $("#likeCount").css({
-                        right: "8px",
-                        top: "8px"
-                    });
-                }else if($likeCount >= 100 && $likeCount < 1000){
-                    $("#likeCount").css({     
-                      right: "5px"        
-                    });
-                }
             }
         }
     });
 }
+
+function views (epViews){
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
+        data: {
+            action: "views",
+            epViews: epViews
+        },
+        dataType: "json",
+        success: function (response) {
+            
+        }
+    });
+}
+
+
+$(document).ready(function(){
+    var $profilButton = $('.btnCollection');
+    var $menu = $('.collection');
+    
+    $profilButton.click(function(event){
+      $('#icon').toggleClass('fa-rotate-90');
+      event.stopPropagation();
+      if ($menu.is(":animated")) {
+        var currentHeight = $menu.height();
+        $menu.stop().css({ height: currentHeight });
+      }
+      $menu.slideToggle(function() {
+        ftrSize();
+      });
+    });
+
+    $('.chekboxViews').click(function() {
+      if ($(this).is(':checked')) {
+        console.log('Le checkbox est coché !');
+      } else {
+        console.log('Le checkbox est décoché !');
+      }
+    });
+});
+
