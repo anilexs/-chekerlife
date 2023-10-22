@@ -49,6 +49,7 @@ function views (epViews){
 
 
 $(document).ready(function(){
+    ftrSize();
     var $profilButton = $('.btnCollection');
     var $menu = $('.collection');
     

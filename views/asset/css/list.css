@@ -111,8 +111,6 @@ tbody td{
 }
 .td4Description{
     overflow: auto;
-    display: flex;
-    align-items: center;
     height: 45px;
 }
 .td3, .td4{

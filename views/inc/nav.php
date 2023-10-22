@@ -60,6 +60,7 @@
                 </li>
                 <li><a href="<?= $host ?>">Accueil</a></li>
                 <li><a href="<?= $host ?>categorie">Catégorie</a></li>
+                <li><a href="<?= $host ?>quiz">Quiz</a></li>
                 <li class="navLike">
                     <a href="">
                         <div class="likePgae">
