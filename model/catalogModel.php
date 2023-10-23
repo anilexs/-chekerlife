@@ -117,17 +117,16 @@ class Catalog{
         }
     }
     
-    public static function episodeUserViews($id_catalog){
+    public static function episodeInfo($id_episode){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;)");
+        $request = $db->prepare("SELECT catalog_id FROM episode WHERE id_episode = ?");
 
         try{
-            $request->execute(array($id_catalog));
-            $episode = $request->fetchAll(PDO::FETCH_ASSOC);
+            $request->execute(array($id_episode));
+            $episode = $request->fetch();
             return $episode;
         }catch(PDOException $e){
             $e->getMessage();
         }
     }
-
 }

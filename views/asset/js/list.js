@@ -66,11 +66,27 @@ $(document).ready(function(){
     });
 
     $('.chekboxViews').click(function() {
-      if ($(this).is(':checked')) {
-        console.log('Le checkbox est coché !');
-      } else {
-        console.log('Le checkbox est décoché !');
-      }
+        var chekboxId = $(this).attr('id');
+
+        $.ajax({
+            url: 'http://localhost/!chekerlife/views/traitement/ajax.php', 
+            type: 'POST',
+            data: {
+                action: "views",
+                chekboxId: chekboxId,
+            },
+            dataType: 'json',
+            success: function(response) {
+                if(response['connecter'] == false){
+                    window.location.href = "http://localhost/!chekerlife/connexion";
+                }else{
+                    $('#nbViews').text(response['nbEpisodeUserViewsActife']);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Une erreur s\'est produite lors du chargement du contenu.');
+            }
+        });
     });
 });
 

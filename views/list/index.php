@@ -2,18 +2,23 @@
     require_once "../../model/userModel.php";
     require_once "../../model/catalogModel.php";
     require_once "../../model/collectionModel.php";
+    $get = isset($_GET['q']) ? $_GET['q'] : null;
+    $name = str_replace('-', ' ', $get);
+    $catalogInfo = Catalog::catalogInfoName($name);
+    $episodes = Catalog::episode($catalogInfo['id_catalogue']);
+    $nbVus = 0;
     if(isset($_COOKIE['user_id'])){
         $likeConte = User::likeCount($_COOKIE['user_id']);
         $userLike = User::userLike($_COOKIE['user_id']);
         $userInfo = User::userInfo($_COOKIE['user_id']);
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['user_id'], $catalogInfo['id_catalogue']);
+        $userViews = User::episodeViewsActifeUser($_COOKIE['user_id'], $catalogInfo['id_catalogue']);
+        $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
     }
-    $get = isset($_GET['q']) ? $_GET['q'] : null;
+
     if($get == null){
         header("Location: http://localhost/!chekerlife/");
     }
-    $name = str_replace('-', ' ', $get);
-    $catalogInfo = Catalog::catalogInfoName($name);
-    $episodes = Catalog::episode($catalogInfo['id_catalogue']);
     if(empty($catalogInfo)){
         $catalogInfo = null;
     }else{
@@ -31,7 +36,7 @@
         }
     }
     $host = "http://localhost/!chekerlife/";
-    // var_dump($info);
+    // var_dump($userViews);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -92,7 +97,7 @@
                 <thead>
                     <tr>
                         <td class="th0"></td>
-                        <td class="th1"><span id="nbViews">0</span>/<?= count($episodes); ?></td>
+                        <td class="th1"><span id="nbViews"><?= $nbVus ?></span>/<?= count($episodes); ?></td>
                         <td class="th2">numero d'épisode</td>
                         <td class="th3">nom</td>
                         <td class="th4">description</td>
@@ -105,16 +110,29 @@
                         foreach ($episodes as $episode) {
                             $i++;
                             $bare = ($i % 2 == 0) ? "paire" : "impair";
-                            ?>
+                            
+                            $isEpisodeActive = false;
+                            if(isset($_COOKIE['user_id'])){
+                                foreach ($userViews as $view) {
+                                    if ($view['episode_id'] == $episode['id_episode'] && $view['active'] == 1) {
+                                        $isEpisodeActive = true;
+                                        break;
+                                    }
+                                }
+                            } ?>
+
                             <tr class="<?= $bare ?>">
                                 <td class="td0"></td>
-                                <td class="td1"><input type="checkbox" class="chekboxViews" id=""></td>
+                                <td class="td1">
+                                    <input type="checkbox" class="chekboxViews" id="<?= $episode['id_episode'] ?>" <?= $isEpisodeActive ? 'checked' : '' ?>>
+                                </td>
                                 <td class="td2"><?= $episode['nb_episode'] ?></td>
                                 <td class="td3"><?= $episode['title'] ?></td>
                                 <td class="td4"><div class="td4Description"><?= $episode['description'] ?></div></td>
                                 <td class="td5"><?= $episode['publish_date'] ?></td>
                             </tr>
                         <?php } ?>
+
                 </tbody>
             </table>
         <?php } ?>

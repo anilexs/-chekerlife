@@ -15,7 +15,7 @@ class User{
             session_destroy();
         }
         setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
-        header('Location: http://localhost/!chekerlife/');
+        header('Location: https://chekerlife.ma6tvacoder.org/connexion');
     } catch (PDOException $e) {
         // echo $e->getMessage();
         $_SESSION["pseudo"] = $pseudo;
@@ -117,6 +117,59 @@ class User{
             $request->execute(array($user_id));
             $user_list = $request->fetch(PDO::FETCH_ASSOC);
             return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function episodeUserViews($user_id, $id_episode, $catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM user_episode_views WHERE user_id = ? AND episode_id = ?");
+        $request2 = $db->prepare("INSERT INTO user_episode_views (user_id, episode_id, episode_catalog_id) VALUES (?, ?, ?)");
+        $request3 = $db->prepare("UPDATE user_episode_views SET `active` = ?, `last_edited` = NOW() WHERE user_id = ? AND episode_id = ?");
+        
+        try {
+            $request->execute(array($user_id, $id_episode));
+            $episodeViews = $request->fetch(PDO::FETCH_ASSOC);
+
+            $bool = null;
+            if(empty($episodeViews)){
+                $request2->execute(array($user_id, $id_episode, $catalog_id));
+                $bool = true;
+            }else{
+                if($episodeViews['active'] == 0){
+                    $request3->execute(array(1, $user_id, $id_episode));
+                    $bool = true;
+                }else{
+                    $request3->execute(array(0, $user_id, $id_episode));
+                    $bool = false;
+                }
+            }
+            return $bool;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function nbEpisodeUserViewsActife($user_id, $id_catalog){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT COUNT(*) FROM user_episode_views WHERE user_id = ? AND episode_catalog_id = ? AND active = 1");
+        try {
+            $request->execute(array($user_id, $id_catalog));
+            $nbEpisodeUserViewsActife = $request->fetch(PDO::FETCH_ASSOC);
+            return $nbEpisodeUserViewsActife;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function episodeViewsActifeUser($user_id, $id_catalog){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM user_episode_views WHERE user_id = ? AND episode_catalog_id = ? AND active = 1");
+        try {
+            $request->execute(array($user_id, $id_catalog));
+            $userViews = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $userViews;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

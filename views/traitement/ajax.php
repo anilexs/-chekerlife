@@ -136,11 +136,24 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 ];
     reponse($response_code, $responseTab);
 }else if($_POST['action'] == "views"){
-    $response_code = HTTP_OK;
-    $responseTab = [
-                    "response_code" => HTTP_OK,
-                    "catalogNbLike" => $catalogNbLike,
-                ];
+    if(isset($_COOKIE['user_id'])){
+        
+        $catalog = Catalog::episodeInfo($_POST['chekboxId']); 
+        $episodeViews = User::episodeUserViews($_COOKIE['user_id'], $_POST['chekboxId'], $catalog['catalog_id']);
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['user_id'], $catalog['catalog_id']);
+        $response_code = HTTP_OK;
+        $responseTab = [
+                        "response_code" => HTTP_OK,
+                        "connecter" => true,
+                        "nbEpisodeUserViewsActife" => $nbEpisodeUserViewsActife['COUNT(*)'],
+                    ];
+    }else{
+        $response_code = HTTP_OK;
+        $responseTab = [
+                        "response_code" => HTTP_OK,
+                        "connecter" => false,
+                    ];
+        }
     reponse($response_code, $responseTab);
 }
 
