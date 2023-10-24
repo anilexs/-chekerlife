@@ -1,3 +1,5 @@
+const host = "http://localhost/!chekerlife/";
+
 $(document).ready(function(){
 $likeCount = $("#likeCount").text();
 if($likeCount < 10){
@@ -43,7 +45,7 @@ if($likeCount < 10){
 
 function navFiltre($filtre){
     $.ajax({
-        url: 'http://localhost/!chekerlife/views/traitement/ajax.php', 
+        url: host + 'views/traitement/ajax.php', 
         type: 'POST',
         data: {
             action: "navFiltre",
@@ -100,7 +102,7 @@ $(document).ready(function () {
     function like (catalog_id){
     $.ajax({
         type: "POST",
-        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
+        url: host + "views/traitement/ajax.php",
         data: {
             action: "like",
             catalog_id: catalog_id
@@ -108,7 +110,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
             if(response['connect'] == false){
-                window.location.href = "http://localhost/!chekerlife/connexion";
+                window.location.href = host + "connexion";
             }else{
                 if(response['message'] == true){
                     $(".likeCollor" + catalog_id).css("color", "red");
@@ -148,7 +150,7 @@ $(document).ready(function () {
 function nbLike(catalog_id) {
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/!chekerlife/views/traitement/ajax.php',
+        url: host + 'views/traitement/ajax.php',
         data: {
             action: "catalogNbLike",
             id_catalog: catalog_id,
@@ -175,16 +177,19 @@ function likePosition(catalog_id, $like = null) {
 
     if (nbLike < 10) {
         $(".likeId" + catalog_id).css({
+            "font-size": "14px",
             "left": "16px",
             "top": "13px"
         });
     } else if (nbLike >= 10 && nbLike < 100) {
         $(".likeId" + catalog_id).css({
+            "font-size": "14px",
             "left": "12px",
             "top": "13px"
         });
     } else if (nbLike >= 100 && nbLike < 1000) {
         $(".likeId" + catalog_id).css({
+            "font-size": "14px",
             "left": "8.5px",
             "top": "11px"
         });

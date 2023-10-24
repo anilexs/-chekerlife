@@ -10,10 +10,10 @@ require_once "inc/header.php";
 ?>
 <script src="asset/js/catalog.js"></script>
 <link rel="stylesheet" href="asset/css/categorie.css">
-<title>Document</title>
+<title>Catégorie</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="contenaireRecherche">
-    <input type="text" placeholder="Rechercher..." id="rechercherCategorie" autocomplete="off">
+    <input type="text" placeholder="Rechercher..." id="rechercherCategorie" autocomplete="off" maxlength="40">
 </div>
 <div class="catalog" id="catalog">
     <?php foreach($catalog as $catalogItem){ ?>

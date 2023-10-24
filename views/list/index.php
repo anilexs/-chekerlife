@@ -15,9 +15,10 @@
         $userViews = User::episodeViewsActifeUser($_COOKIE['user_id'], $catalogInfo['id_catalogue']);
         $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
     }
+    $host = "http://localhost/!chekerlife/";
 
     if($get == null){
-        header("Location: http://localhost/!chekerlife/");
+        header("Location:" . $host);
     }
     if(empty($catalogInfo)){
         $catalogInfo = null;
@@ -35,7 +36,6 @@
             }
         }
     }
-    $host = "http://localhost/!chekerlife/";
     // var_dump($userViews);
 ?>
 <!DOCTYPE html>
@@ -52,7 +52,9 @@
     <script src="<?= $host ?>asset/js/structure.js"></script>
     <script src="<?= $host ?>views/asset/js/nav.js"></script>
     <script src="<?= $host ?>asset/js/list.js"></script>
-    <title>Document</title>
+    <link rel="icon" type="image/png" href="<?= $host ?>asset/img/logo.png">
+    <title><?= $name ?></title>
+
 <?php require_once "../inc/nav.php"; ?>
     <div class="contenaire">
         <div class="contenaireheader">

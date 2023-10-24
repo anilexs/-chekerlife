@@ -1,7 +1,7 @@
 .contenaire {
     background-color: rgba(50, 50, 50, 0.5);
-    height: 350px;
-    width: 50%;
+    height: 500px;
+    width: 1280px;
     margin: auto;
     display: flex;
     color: white;
@@ -25,13 +25,13 @@ body::before {
 }
 
 .left{
-    width: 50%;
+    width: 70%;
 }
 .left input{
     width: 80%;
 }
 .right{
-    width: 50%;
+    width: 30%;
 }
 .alignement {
     margin: 0;
@@ -39,5 +39,5 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh; /* 100% de la hauteur de la fenêtre */
+    height: 70vh; /* 100% de la hauteur de la fenêtre */
 }

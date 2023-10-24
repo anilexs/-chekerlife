@@ -13,7 +13,7 @@
                 <ul class="rechercherUl" id="contenaireNavRecherche">
                     
                 </ul>
-                <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off">
+                <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off" maxlength="30">
             </li>
             <li><a href="<?= $host ?>">Accueil</a></li>
             <li><a href="<?= $host ?>categorie">Catégorie</a></li>
