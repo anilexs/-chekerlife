@@ -1,11 +1,16 @@
 <?php 
 require_once "../model/catalogModel.php";
 require_once "../model/userModel.php";
-$catalog = Catalog::allCatalog();
+$catalog = Catalog::Cataloglimit(81, 0);
+$nbCatalog = Catalog::nbCatalog();
+
 if(isset($_COOKIE['user_id'])){
     $userLike = User::userLike($_COOKIE['user_id']);
 }
-
+$titre = null;
+if(isset($_GET['titre'])){
+    $titre = $_GET['titre'];
+}
 require_once "inc/header.php"; 
 ?>
 <script src="asset/js/catalog.js"></script>
@@ -13,7 +18,7 @@ require_once "inc/header.php";
 <title>Catégorie</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="contenaireRecherche">
-    <input type="text" placeholder="Rechercher..." id="rechercherCategorie" autocomplete="off" maxlength="40">
+    <input type="text" placeholder="Rechercher..." value="<?= $titre ?>" id="rechercherCategorie" autocomplete="off" maxlength="40">
 </div>
 <div class="catalog" id="catalog">
     <?php foreach($catalog as $catalogItem){ ?>

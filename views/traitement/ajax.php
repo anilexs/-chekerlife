@@ -4,6 +4,7 @@ require_once "../../model/database.php";
 require_once "../../model/userModel.php";
 require_once "../../model/catalogModel.php";
 
+
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400; 
 const HTTP_METHOD_NOT_ALLOWED = 405; 
@@ -11,7 +12,7 @@ const HTTP_METHOD_NOT_ALLOWED = 405;
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST'){
     $response_code = HTTP_BAD_REQUEST;
-    $message = "il manque la paramétre ACTION";
+    $message = "il manque le paramétre ACTION";
 
     if($_POST['action'] == "like" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
@@ -38,7 +39,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         reponse($response_code, $responseTab);
         
     }else if($_POST['action'] == "catalog"){
-        $catalog = Catalog::allCatalog();
+        $catalog = Catalog::Cataloglimit($_POST['limit'], $_POST['offset']);
         if(isset($_COOKIE['user_id'])){
             $userLike = User::userLike($_COOKIE['user_id']);
         }

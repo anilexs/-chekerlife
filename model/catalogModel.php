@@ -1,18 +1,38 @@
 <?php
 require_once "database.php";
 class Catalog{
-    public static function allCatalog(){
+    public static function Cataloglimit($limit, $offset) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM `catalog`");
-
-        try{
-            $request->execute(array());
+        $request = $db->prepare("SELECT * FROM `catalog` LIMIT :offset, :limit");
+        // $offset -= 1;
+        
+        try {
+            $request->bindParam(':offset', $offset, PDO::PARAM_INT);
+            $request->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $request->execute();
             $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
             return $catalog;
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             $e->getMessage();
         }
     }
+    
+    public static function nbCatalog() {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT COUNT(*) FROM `catalog`");
+        // $offset -= 1;
+        
+        try {
+            $request->execute();
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+
+
+
     public static function filtreCatalog($filtres){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')");
