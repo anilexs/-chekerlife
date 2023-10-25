@@ -1,9 +1,16 @@
 <?php 
 require_once "../model/catalogModel.php";
 require_once "../model/userModel.php";
-$catalog = Catalog::Cataloglimit(81, 0);
+if(isset($_GET['page'])){
+    $page = $_GET['page'];
+    $page -= 1;
+    $page *= 81;
+}else{
+    $page = 0;
+}
+$catalog = Catalog::Cataloglimit(81, $page);
 $nbCatalog = Catalog::nbCatalog();
-
+$nbCatalog = $nbCatalog['COUNT(*)'];
 if(isset($_COOKIE['user_id'])){
     $userLike = User::userLike($_COOKIE['user_id']);
 }
@@ -49,5 +56,60 @@ require_once "inc/header.php";
         </div>
     <?php } ?>
 </div>
+<div class="page">
+    <?php
+        $elementsParPage = 81;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $nbPages = ceil($nbCatalog / $elementsParPage);
+
+        if ($page > $nbPages) {
+            $page = 1;
+        } else {
+            if ($page < 1) {
+                $page = 1;
+            }
+        }
+
+        if ($nbPages > 1) {
+            echo '<div class="pagination">';
+        
+            if ($page > 1) {
+                echo '<a href="?page=' . ($page - 1) . '">Précédent</a>';
+            }else{
+                echo 'Précédent';
+            }
+        
+            $start = max(1, $page - 3);
+            $end = min($nbPages, $start + 6);
+        
+            if ($page > 4) {
+                echo '<a href="?page=1">1</a>';
+                echo '<span>...</span>';
+            }
+
+            for ($i = $start; $i <= $end; $i++) {
+                if ($i == $page) {
+                    echo '<span><a href="?page=' . $i . '" class="current">' . $i . '</span>';
+                } else {
+                    echo '<a href="?page=' . $i . '">' . $i . '</a>';
+                }
+            }
+        
+            if ($nbPages - $page > 3 && $nbPages > 7) {
+                echo '<span>...</span>';
+                echo '<a href="?page=' . $nbPages . '">' . $nbPages . '</a>';
+            }
+        
+            if ($page < $nbPages) {
+                echo '<a href="?page=' . ($page + 1) . '">Suivant</a>';
+            }else{
+                echo 'Suivant</a>';
+
+            }
+        
+            echo '</div>';
+        } ?>
+</div>
+
 
 <?php require_once "inc/footer.php"; ?>

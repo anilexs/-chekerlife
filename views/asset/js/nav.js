@@ -227,7 +227,7 @@ function likePosition(catalog_id, $like = null) {
         $(".likeId" + catalog_id).css({
             "font-size": "10px",
             "left": "8px",
-            "top": "15px"
+            "top": "14px"
         });
     }else if(nbLike >= 10000000 && nbLike < 100000000){
         var likestr = nbLike.toString();

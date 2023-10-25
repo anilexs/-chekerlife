@@ -4,7 +4,6 @@ class Catalog{
     public static function Cataloglimit($limit, $offset) {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM `catalog` LIMIT :offset, :limit");
-        // $offset -= 1;
         
         try {
             $request->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -24,7 +23,7 @@ class Catalog{
         
         try {
             $request->execute();
-            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            $catalog = $request->fetch(PDO::FETCH_ASSOC);
             return $catalog;
         } catch (PDOException $e) {
             $e->getMessage();

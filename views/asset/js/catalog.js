@@ -1,19 +1,7 @@
-function sizeWifth(){
-    var largeurEcran = $(window).width();
-    console.log(largeurEcran);
-    limit = 71;
-    if(largeurEcran <= 1804 && largeurEcran >= 1605){
-        limit = 80;
-    }else if(largeurEcran <= 1604 && largeurEcran >= 1405){
-        limit = 70;
-    }else if(largeurEcran <= 1404 && largeurEcran >= 805){
-        limit = 60;
-    }
-    return limit;
-}
+
 
 function catalogViews(offset) {
-    limit = sizeWifth()
+    limit = 81;
     offset = 0;
     
     $.ajax({
