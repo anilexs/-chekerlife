@@ -1,9 +1,9 @@
 
 
-function catalogViews(offset) {
+function catalogViews(offset, limit = 81) {
     limit = 81;
     offset = 0;
-    
+    $("#pagination").html("");
     $.ajax({
         url: 'traitement/ajax.php',
         type: 'POST',
@@ -22,17 +22,49 @@ function catalogViews(offset) {
     });
 }
 
-function catalogFiltre($filtre){
+function catalogFiltre(filtre, offset = 1, limit = 81){
+    
+    offset -= 1;    
+    offset *= 81;
+
+    $("#pagination").html("");
     $.ajax({
         url: 'traitement/ajax.php', 
         type: 'POST',
         data: {
             action: "filtre",
-            filtre: $filtre,
+            filtre: filtre,
+            limit: limit,
+            offset: offset,
         },
         dataType: 'html',
         success: function(response) {
             $('#catalog').html(response);
+            ftrSize();
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
+
+function paginationFiltre(nbFiltre) {
+    var urlParams = new URLSearchParams(window.location.search);
+    var filtre = urlParams.get("titre");
+    var page = urlParams.get("page");
+    $.ajax({
+        url: 'traitement/ajax.php', 
+        type: 'POST',
+        data: {
+            action: "nbFiltre",
+            nbFiltre: nbFiltre,
+            page: page,
+            filtre: filtre,
+        },
+        dataType: 'html',
+        success: function(response) {
+            $('#pagination').html(response);
+            ftrSize();
         },
         error: function(xhr, status, error) {
             console.error('Une erreur s\'est produite lors du chargement du contenu.');
@@ -41,21 +73,33 @@ function catalogFiltre($filtre){
 }
 
 $(document).ready(function () {
-    ftrSize(); // Appel initial de la fonction
+    ftrSize();
     var urlParams = new URLSearchParams(window.location.search);
     var titre = urlParams.get("titre");
+    var page = urlParams.get("page");
     if (titre) {
-        catalogFiltre(titre);
+        if(page == null){
+            page = 1;
+        }
+        catalogFiltre(titre, page);
     }
 
     $("#rechercherCategorie").on("input", function (event) {
         var searchTerm = $(this).val();
+        $("#pagination").html("");
         $("#catalog").html("");
         if (searchTerm === "") {
             catalogViews();
-            removeTitreParameter(searchTerm);
+            removeTitreParameter("titre");
+            removeTitreParameter("page");
         } else {
-            catalogFiltre(searchTerm);
+            var urlParams = new URLSearchParams(window.location.search);
+            var page = urlParams.get("page");
+        if(page == null){
+            page = 1;
+        }
+            removeTitreParameter("page");
+            catalogFiltre(searchTerm, page);
             updateURL(searchTerm);
         }
         ftrSize();
@@ -74,9 +118,9 @@ $(document).ready(function () {
     }
 
 
-    function removeTitreParameter() {
+    function removeTitreParameter(get) {
         var urlParams = new URLSearchParams(window.location.search);
-        urlParams.delete("titre");
+        urlParams.delete(get);
         if (urlParams.toString() === "") {
             window.history.replaceState(null, "", window.location.pathname);
         } else {

@@ -58,7 +58,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
     }
     }else if($_POST['action'] == "filtre"){
-        $catalog = Catalog::filtreCatalog($_POST['filtre']);
+
+        $catalog = Catalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset']);
+
+        $nbCatalog = Catalog::nbFiltreCatalog($_POST['filtre']);
+        $nbCatalog = $nbCatalog['nbFiltre'];
         if(isset($_COOKIE['user_id'])){
             $userLike = User::userLike($_COOKIE['user_id']);
         }
@@ -76,6 +80,63 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
             card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
         }
+        echo '<script type="text/javascript">paginationFiltre('. $nbCatalog .');</script>';
+
+    }else if($_POST['action'] == "nbFiltre"){
+
+            $nbFiltre = $_POST['nbFiltre'];
+            $elementsParPage = 81;
+            $page = $_POST['page'];
+            $filtre = $_POST['filtre'];
+            $nbPages = ceil($nbFiltre / $elementsParPage);
+
+            if ($page > $nbPages) {
+                $page = 1;
+            } else {
+                if ($page < 1) {
+                    $page = 1;
+                }
+            }
+        
+            if ($nbPages > 1) {
+                echo '<div class="pagination">';
+            
+                if ($page > 1) {
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '">Précédent</a>';
+                } else {
+                    echo 'Précédent';
+                }
+            
+                $start = max(1, $page - 3);
+                $end = min($nbPages, $start + 6);
+            
+                if ($page > 4) {
+                    echo '<a href="?titre='.$filtre.'&page=1">1</a>';
+                    echo '<span>...</span>';
+                }
+            
+                for ($i = $start; $i <= $end; $i++) {
+                    if ($i == $page) {
+                        echo '<span><a href="?titre='.$filtre.'&page=' . $i . '" class="current">' . $i . '</a></span>';
+                    } else {
+                        echo '<a href="?titre='.$filtre.'&page=' . $i . '">' . $i . '</a>';
+                    }
+                }
+            
+                if ($nbPages - $page > 3 && $nbPages > 7) {
+                    echo '<span>...</span>';
+                    echo '<a href="?titre='.$filtre.'&page=' . $nbPages . '">' . $nbPages . '</a>';
+                }
+            
+                if ($page < $nbPages) {
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '">Suivant</a>';
+                } else {
+                    echo 'Suivant';
+                }
+            
+                echo '</div>';
+            }
+
     }else if($_POST['action'] == "navFiltre"){
     $catalog = Catalog::navRechercher($_POST['filtreNav']);
     if(isset($_COOKIE['user_id'])){

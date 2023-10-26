@@ -19,7 +19,6 @@ class Catalog{
     public static function nbCatalog() {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT COUNT(*) FROM `catalog`");
-        // $offset -= 1;
         
         try {
             $request->execute();
@@ -32,14 +31,32 @@ class Catalog{
 
 
 
-    public static function filtreCatalog($filtres){
+    public static function filtreCatalog($filtres, $limit, $offset){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')");
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%') LIMIT :offset, :limit");
+
+        $request->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $request->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $request->bindParam(':filtres', $filtres, PDO::PARAM_STR);
+
+        try {
+            $request->execute();
+            $filtres = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $filtres;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+   
+    public static function nbFiltreCatalog($filtres){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'); ");
 
         try{
             $request->execute(array($filtres, $filtres));
-            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $catalog;
+            $filtres = $request->fetch(PDO::FETCH_ASSOC);
+            return $filtres;
         }catch(PDOException $e){
             $e->getMessage();
         }
