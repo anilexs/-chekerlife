@@ -61,6 +61,7 @@ class Catalog{
             $e->getMessage();
         }
     }
+    
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ?");
