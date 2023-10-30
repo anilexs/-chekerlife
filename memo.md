@@ -89,3 +89,9 @@ SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8;
 SELECT * FROM episode WHERE catalog_id = (SELECT id_catalogue FROM catalog WHERE id_catalogue = ?);
 code pour les episode par leur numero despisode (obliger de metre me ; a la fin de la requette si non ca mais null)
 (SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;);
+
+
+requpere le get de lurl en jquery
+
+// var urlParams = new URLSearchParams(window.location.search);
+// var page = urlParams.get("page");

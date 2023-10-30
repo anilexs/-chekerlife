@@ -40,6 +40,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         
     }else if($_POST['action'] == "catalog"){
         $catalog = Catalog::Cataloglimit($_POST['limit'], $_POST['offset']);
+        $nbCatalog = Catalog::nbCatalog();
+        $nbCatalog = $nbCatalog['COUNT(*)'];
         if(isset($_COOKIE['user_id'])){
             $userLike = User::userLike($_COOKIE['user_id']);
         }
@@ -57,6 +59,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
         card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
     }
+    echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
+
     }else if($_POST['action'] == "filtre"){
 
         $catalog = Catalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset']);
@@ -80,11 +84,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
             card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
         }
-        echo '<script type="text/javascript">paginationFiltre('. $nbCatalog .');</script>';
+        echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
-    }else if($_POST['action'] == "nbFiltre"){
+    }else if($_POST['action'] == "pagination"){
 
-            $nbFiltre = $_POST['nbFiltre'];
+            $nbFiltre = $_POST['nbElement'];
             $elementsParPage = 81;
             $page = $_POST['page'];
             $filtre = $_POST['filtre'];
@@ -102,7 +106,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 echo '<div class="pagination">';
             
                 if ($page > 1) {
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '">Précédent</a>';
+                    if($filtre == null){
+                        echo '<a href="?page=' . ($page - 1) . '">Précédent</a>';
+                    }else{
+                        echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '">Précédent</a>';
+                    }
                 } else {
                     echo 'Précédent';
                 }
@@ -111,25 +119,45 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 $end = min($nbPages, $start + 6);
             
                 if ($page > 4) {
-                    echo '<a href="?titre='.$filtre.'&page=1">1</a>';
+                    if($filtre == null){
+                        echo '<a href="?page=1">1</a>';
+                    }else{
+                        echo '<a href="?titre='.$filtre.'&page=1">1</a>';
+                    }
                     echo '<span>...</span>';
                 }
             
                 for ($i = $start; $i <= $end; $i++) {
                     if ($i == $page) {
-                        echo '<span><a href="?titre='.$filtre.'&page=' . $i . '" class="current">' . $i . '</a></span>';
+                        if($filtre == null){
+                            echo '<span><a href="?page=' . $i . '" class="current">' . $i . '</a></span>';
+                        }else{
+                            echo '<span><a href="?titre='.$filtre.'&page=' . $i . '" class="current">' . $i . '</a></span>';
+                        }
                     } else {
-                        echo '<a href="?titre='.$filtre.'&page=' . $i . '">' . $i . '</a>';
+                        if($filtre == null){
+                            echo '<a href="?page=' . $i . '">' . $i . '</a>';
+                        }else{
+                            echo '<a href="?titre='.$filtre.'&page=' . $i . '">' . $i . '</a>';
+                        }
                     }
                 }
             
                 if ($nbPages - $page > 3 && $nbPages > 7) {
                     echo '<span>...</span>';
-                    echo '<a href="?titre='.$filtre.'&page=' . $nbPages . '">' . $nbPages . '</a>';
+                    if($filtre == null){
+                        echo '<a href="?page=' . $nbPages . '">' . $nbPages . '</a>';
+                    }else{
+                        echo '<a href="?titre='.$filtre.'&page=' . $nbPages . '">' . $nbPages . '</a>';
+                    }
                 }
             
                 if ($page < $nbPages) {
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '">Suivant</a>';
+                    if($filtre == null){
+                        echo '<a href="?page=' . ($page + 1) . '">Suivant</a>';
+                    }else{
+                        echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '">Suivant</a>';
+                    }
                 } else {
                     echo 'Suivant';
                 }

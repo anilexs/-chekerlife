@@ -1,8 +1,8 @@
 
 
 function catalogViews(offset, limit = 81) {
+    offset -= 1;
     limit = 81;
-    offset = 0;
     $("#pagination").html("");
     $.ajax({
         url: 'traitement/ajax.php',
@@ -48,7 +48,7 @@ function catalogFiltre(filtre, offset = 1, limit = 81){
     });
 }
 
-function paginationFiltre(nbFiltre) {
+function pagination(nbElement) {
     var urlParams = new URLSearchParams(window.location.search);
     var filtre = urlParams.get("titre");
     var page = urlParams.get("page");
@@ -56,8 +56,8 @@ function paginationFiltre(nbFiltre) {
         url: 'traitement/ajax.php', 
         type: 'POST',
         data: {
-            action: "nbFiltre",
-            nbFiltre: nbFiltre,
+            action: "pagination",
+            nbElement: nbElement,
             page: page,
             filtre: filtre,
         },
@@ -90,15 +90,11 @@ $(document).ready(function () {
         $("#catalog").html("");
         if (searchTerm === "") {
             catalogViews();
-            removeTitreParameter("titre");
-            removeTitreParameter("page");
+            removeGetParameter("titre");
+            removeGetParameter("page");
         } else {
-            var urlParams = new URLSearchParams(window.location.search);
-            var page = urlParams.get("page");
-        if(page == null){
             page = 1;
-        }
-            removeTitreParameter("page");
+            removeGetParameter("page");
             catalogFiltre(searchTerm, page);
             updateURL(searchTerm);
         }
@@ -118,7 +114,7 @@ $(document).ready(function () {
     }
 
 
-    function removeTitreParameter(get) {
+    function removeGetParameter(get) {
         var urlParams = new URLSearchParams(window.location.search);
         urlParams.delete(get);
         if (urlParams.toString() === "") {
