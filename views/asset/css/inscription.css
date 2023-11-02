@@ -25,11 +25,23 @@ body::before {
 }
 
 .left{
-    width: 70%;
+    width: 65%;
+    display: flex;
+    justify-content: center;
 }
-.left input{
-    width: 80%;
+.leftInute{
+    width: 100%;
 }
+.Newslatter{
+    margin: 0;
+}
+.form{
+    width: 90%;    
+}
+.divNewSlater{
+    display: flex;
+}
+
 .right{
     width: 30%;
 }

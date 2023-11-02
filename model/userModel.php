@@ -2,6 +2,7 @@
 require_once "database.php";
 require_once "catalogModel.php";
 define("DOMAINNAME", "localhost");
+define("host", "http://localhost/!chekerlife/");
 class User{
     public static function inscription($pseudo, $email, $password) {
     $db = Database::dbConnect();
@@ -15,7 +16,7 @@ class User{
             session_destroy();
         }
         setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
-        header('Location: https://chekerlife.ma6tvacoder.org/connexion');
+        header('Location:'. host .'/connexion');
     } catch (PDOException $e) {
         // echo $e->getMessage();
         $_SESSION["pseudo"] = $pseudo;
@@ -35,7 +36,7 @@ class User{
             }else{
                 if(password_verify($password, $user['password'])){
                     setcookie("user_id", $user['id_user'], time() + 3600 * 5, "/", DOMAINNAME);
-                    header('Location: http://localhost/!chekerlife/');
+                    header('Location:'. host);
                 }else{
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
@@ -47,10 +48,10 @@ class User{
     public static function deconnexion() {
         if(isset($_COOKIE)){
             setcookie("user_id", "", time() - 3600, "/", DOMAINNAME);
-            header('Location: http://localhost/!chekerlife/');
+            header('Location:' . host);
         }else{
             session_destroy();
-            header('Location: http://localhost/!chekerlife/');
+            header('Location:' . host);
         }
     }
 
