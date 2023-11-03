@@ -95,6 +95,9 @@ $(document).ready(function(){
     $('#btnReinitialiser').on('click', function() {
         $('#right').text("");
         $("#pseudo").css("border", "3px solid transparent");
+        $("#email").css("border", "3px solid transparent");
+        $("#password").css("border", "3px solid transparent");
+        
         $("#right").css({
             "background": "url("+host+"views/asset/img/mikuInscription.gif), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",
             "background-position": "50%",
