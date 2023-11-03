@@ -56,7 +56,7 @@ require_once "inc/header.php";
                         <i class="fa-solid fa-heart"></i>
                     </button>
                     <a href="list/<?= $urlName ?>">
-                        <img src="asset/img/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                        <img src="asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
                     </a>
                     <?php
                     echo '<script type="text/javascript">
