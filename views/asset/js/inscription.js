@@ -31,20 +31,23 @@ $(document).ready(function(){
         }
         
         if(pseudo == "" || email == "" || password == "" || isBlacklisted == true || pseudoVerify.length <= 3){
+            $("#pseudo, #email, #password").css("border", "3px solid transparent");
             if(pseudo == ""){
+                $("#pseudo").css("border", "3px solid red");
                 var pseudo = "le pseudo choisir n'est pas disponible sur ce site";
                 errorTab.push(pseudo);
-            }
-            if(pseudoVerify.length <= 3){
+            }else if(pseudoVerify.length <= 3){
                 $("#pseudo").css("border", "3px solid red");
                 var pseudoError = "le speudo doit avoir entre 3 et ? de caracter";
                 errorTab.push(pseudoError);
             }
+
             if(email == ""){
                 $("#email").css("border", "3px solid red");
                 var email = "l'email ne pas conforme";
                 errorTab.push(email);
             }
+            
             if(password == ""){
                 $("#password").css("border", "3px solid red");
                 var password = "le password choisir ne corespon pas a nos attente";
@@ -94,9 +97,7 @@ $(document).ready(function(){
 
     $('#btnReinitialiser').on('click', function() {
         $('#right').text("");
-        $("#pseudo").css("border", "3px solid transparent");
-        $("#email").css("border", "3px solid transparent");
-        $("#password").css("border", "3px solid transparent");
+        $("#pseudo, #email, #password").css("border", "3px solid transparent");
         
         $("#right").css({
             "background": "url("+host+"views/asset/img/mikuInscription.gif), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",

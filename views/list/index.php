@@ -58,7 +58,7 @@
 <?php require_once "../inc/nav.php"; ?>
     <div class="contenaire">
         <div class="contenaireheader">
-            <img src="<?= $host ?>views/asset/img/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
+            <img src="<?= $host ?>views/asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
             <div class="droite">
                 <div class="info">
                     <ul class="ul">
