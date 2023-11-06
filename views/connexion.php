@@ -19,7 +19,7 @@ require_once "inc/header.php";
                 
                 <div>
                     <label for="">password :</label>
-                    <input type="text" name="password">
+                    <input type="text" maxlength="100" name="password">
                 </div>
             <button name="connexion">connexion</button>
         </form>

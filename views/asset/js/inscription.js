@@ -4,6 +4,7 @@ $(document).ready(function(){
         e.preventDefault();
         var errorTab = [];
         var pseudo = $('#pseudo').val();
+        var emailPreviews = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         var email = $('#email').val();
         var password = $('#password').val();
         var Newslatter = $('#Newslatter').is(":checked");
@@ -34,21 +35,39 @@ $(document).ready(function(){
                 break;
             }
         }
-        if(pseudo == "" || email == "" || password == "" || isBlacklisted == true || pseudoVerify.length <= 3){
-            $("#pseudo, #email, #password").css("border", "3px solid transparent");
+        $("#pseudo, #email, #password").css("border", "3px solid transparent");
+
+        var conditions = [
+            pseudo == "",
+            email == "",
+            password == "",
+            isBlacklisted == true,
+            pseudoVerify.length < 5,
+            pseudoVerify.length > 18,
+            !(email.match(emailPreviews))
+        ];
+        if(conditions.every(condition => condition === true)){
             if(pseudo == ""){
                 $("#pseudo").css("border", "3px solid red");
                 var pseudo = "le pseudo choisir n'est pas disponible sur ce site";
                 errorTab.push(pseudo);
-            }else if(pseudoVerify.length <= 3){
+            }else if(pseudoVerify.length < 5){
                 $("#pseudo").css("border", "3px solid red");
-                var pseudoError = "le speudo doit avoir entre 3 et ? de caracter";
+                var pseudoError = "le speudo doit pas etre inferieur a 5 caracter";
+                errorTab.push(pseudoError);
+            }else if(pseudoVerify.length > 18){
+                $("#pseudo").css("border", "3px solid red");
+                var pseudoError = "le speudo doit pas depasser les 18 caracter";
                 errorTab.push(pseudoError);
             }
 
             if(email == ""){
                 $("#email").css("border", "3px solid red");
-                var email = "l'email ne pas conforme";
+                var email = "L'email n'est pas conforme.";
+                errorTab.push(email);
+            }else if (!(email.match(emailPreviews))) {
+                $("#email").css("border", "3px solid red");
+                var email = "L'email n'est pas conforme.";
                 errorTab.push(email);
             }
             
@@ -74,8 +93,6 @@ $(document).ready(function(){
                 var errorDiv = $('<div>').addClass('error').html('<i class="fa-solid fa-star" style="color: #ff0000;"></i>' + element);
                 $('#error').append(errorDiv);
             });
-
-            console.log("vide");
         }else{
             $.ajax({
                 url: 'traitement/userAjax.php',
@@ -89,10 +106,27 @@ $(document).ready(function(){
                 },
                 dataType: 'json',
                 success: function (response) {
-                    console.log("sucesse");
-                    console.log(response['Newslatter']);
-                    console.log(response['inscription']);
-                },
+                    reinitialiser();
+                    if(response['error'] !== null){
+                        $('#right').text("");
+                        $("#right").css({
+                            "background-image":  "url(none)",
+                        });
+                    
+                        var error = $('<div>').attr('id', 'error');
+                        $('#right').append(error);
+
+                        var gif = $('<div>').attr('id', 'errorGif');
+                        $('#right').append(gif);
+                            response['error'].forEach(element => {
+                                var errorDiv = $('<div>').addClass('error').html('<i class="fa-solid fa-star" style="color: #ff0000;"></i>' + element);
+                                $('#error').append(errorDiv);
+                            });
+                        }else{
+                              window.location.href = host;
+                        }
+
+                    },
                 error: function (xhr, status, error) {
                     // console.error('Une erreur s\'est produite lors du chargement du contenu.');
                     console.log(xhr);
@@ -103,13 +137,16 @@ $(document).ready(function(){
     });
 
     $('#btnReinitialiser').on('click', function() {
-        $('#right').text("");
-        $("#pseudo, #email, #password").css("border", "3px solid transparent");
-        
-        $("#right").css({
-            "background": "url("+host+"views/asset/img/mikuInscription.gif), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",
-            "background-position": "50%",
-            "background-size": "cover, cover"
-        });
+        reinitialiser();
     });
 });
+function reinitialiser(gif = "mikuInscription.gif"){
+    $('#right').text("");
+    $("#pseudo, #email, #password").css("border", "3px solid transparent");
+    
+    $("#right").css({
+        "background": "url("+host+"views/asset/img/"+ gif +"), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",
+        "background-position": "50%",
+        "background-size": "cover, cover"
+    });
+}

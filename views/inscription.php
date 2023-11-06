@@ -18,17 +18,17 @@ require_once "inc/header.php";
                 <form method="POST" class="formInscription" id="formInscription">
                     <div>
                         <label for="" class="leftLabel">pseudo :</label>
-                        <input type="text" id="pseudo" class="leftInute" placeholder="pseudo" value="newslatter@newslatter.newslatter">
+                        <input type="text" maxlength="30" id="pseudo" class="leftInute" placeholder="pseudo" value="newslatter">
                     </div>
     
                     <div>
                         <label for="" class="leftLabel">email :</label>
-                        <input type="email" id="email" class="leftInute" placeholder="email" value="newslatter@newslatter.newslatter">
+                        <input type="email" maxlength="100" id="email" class="leftInute" placeholder="email" value="newslatter@newslatter.newslatt">
                     </div>
     
                     <div>
                         <label for="" class="leftLabel">password :</label>
-                        <input type="password" class="leftInute" placeholder="password" id="password" value="newslatter@newslatter.newslatter">
+                        <input type="password" maxlength="100" class="leftInute" placeholder="password" id="password" value="newslatter@newslatter.newslatt">
                     </div>
                     <div class="divNewSlater">
                         <input type="checkbox" class="Newslatter" id="Newslatter">

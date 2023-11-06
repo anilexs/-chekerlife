@@ -6,46 +6,61 @@ define("host", "http://localhost/!chekerlife/");
 class User{
     public static function inscription($pseudo, $email, $password) {
         $db = Database::dbConnect();
+
         $requestVerify = $db->prepare("SELECT * FROM users WHERE pseudo = ? OR email = ?");
         $request = $db->prepare("INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)");
+
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $confirmation = true;
+
         $requestVerify->execute(array($pseudo, $email));
+
         $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
+
         if(!empty($userVerify)){
             $equivalent = [];
             if($email === $userVerify['email']){
-                $equivalent [] = "email";
+                $equivalent [] = "Adresse e-mail déjà utilisée";
             }
             if($pseudo === $userVerify['pseudo']){
-                $equivalent [] = "pseudo";
+                $equivalent [] = "Nom d'utilisateur déjà pris";
             }
 
-            $confirmation = $equivalent;
+            $confirmation = ["error", $equivalent];
         }else{
             try {
                 $request->execute(array($pseudo, $email, $hash));
     
                 $lastUserId = $db->lastInsertId();
-                setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);$confirmation = true;
+                setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];
             } catch (PDOException $e) {
-                $confirmation = false;
+                $equivalent [] = "Erreur du côté de la base de données. Si le problème persiste, contactez-nous.";;
+                $confirmation = $equivalent;
             }
         }
+        
         return $confirmation;
     }
 
-    public static function newslatter($user_id, $email) {
+    public static function newsletter($user_id, $email) {
         $db = Database::dbConnect();
-        $request = $db->prepare("INSERT INTO newsletter (user_id, email) VALUES (?,?)");
+        $request = $db->prepare("SELECT * FROM newsletter WHERE email = ?");
+        $request->execute(array($email));
+        $userVerify = $request->fetch(PDO::FETCH_ASSOC); // Correction de la variable userVerify
 
         try {
-            $request->execute(array($user_id, $email));
+            if (!empty($userVerify)) {
+                $update = $db->prepare("UPDATE newsletter SET user_id = ? WHERE email = ?");
+                $update->execute(array($user_id, $email));
+            } else {
+                $inser = $db->prepare("INSERT INTO newsletter (user_id, email) VALUES (?, ?)");
+                $inser->execute(array($user_id, $email));
+            }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
+
 
     public static function login($authentification, $password) {
         $db = Database::dbConnect();

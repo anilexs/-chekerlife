@@ -25,20 +25,18 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $inscription = User::inscription($pseudo, $email, $password);
         
         if($newslatter == true && $inscription[0] == true){
-            User::newslatter($inscription[1], $email);
+            User::newsletter($inscription[1], $email);
             $newslatter = "entre";
         }
-        if ((in_array("email", $inscription) || in_array("pseudo", $inscription))) {
-            $newslatter = "sortie";
-        }
         
+        if ($inscription[0] !== "error") {
+            $error = null;
+        }else{
+            $error = $inscription[1];
+        }
         $responseTab = [
             "response_code" => HTTP_OK,
-            "pseudo" => $pseudo,
-            "email" => $email,
-            "password" => $password,
-            "Newslatter" => $newslatter,
-            "inscription" => $inscription,
+            "error" => $error,
         ];
 
         reponse($response_code, $responseTab);
