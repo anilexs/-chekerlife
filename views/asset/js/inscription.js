@@ -7,10 +7,15 @@ $(document).ready(function(){
         var email = $('#email').val();
         var password = $('#password').val();
         var Newslatter = $('#Newslatter').is(":checked");
+        if(Newslatter === false){
+            Newslatter = null;
+        }else{
+            Newslatter = true;
+        }
+
         pseudo = pseudo.trim().replace(/\s+/g, ' ');
         var pseudoVerify = pseudo.replace(/\s/g, '');
 
-        
         
         var blackListName = ["pute", "salop", "con", "vendetta"];
         var blackListMots = ["pute", "salop", "con", "vendetta"];
@@ -29,7 +34,6 @@ $(document).ready(function(){
                 break;
             }
         }
-        
         if(pseudo == "" || email == "" || password == "" || isBlacklisted == true || pseudoVerify.length <= 3){
             $("#pseudo, #email, #password").css("border", "3px solid transparent");
             if(pseudo == ""){
@@ -86,9 +90,12 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function (response) {
                     console.log("sucesse");
+                    console.log(response['Newslatter']);
+                    console.log(response['inscription']);
                 },
                 error: function (xhr, status, error) {
-                    console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                    // console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                    console.log(xhr);
                 }
             });
         }

@@ -5,25 +5,48 @@ define("DOMAINNAME", "localhost");
 define("host", "http://localhost/!chekerlife/");
 class User{
     public static function inscription($pseudo, $email, $password) {
-    $db = Database::dbConnect();
-    $request = $db->prepare("INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)");
-    $hash = password_hash($password, PASSWORD_DEFAULT);
+        $db = Database::dbConnect();
+        $requestVerify = $db->prepare("SELECT * FROM users WHERE pseudo = ? OR email = ?");
+        $request = $db->prepare("INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)");
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $confirmation = true;
+        $requestVerify->execute(array($pseudo, $email));
+        $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
+        if(!empty($userVerify)){
+            $equivalent = [];
+            if($email === $userVerify['email']){
+                $equivalent [] = "email";
+            }
+            if($pseudo === $userVerify['pseudo']){
+                $equivalent [] = "pseudo";
+            }
+
+            $confirmation = $equivalent;
+        }else{
+            try {
+                $request->execute(array($pseudo, $email, $hash));
     
-    try {
-        $request->execute(array($pseudo, $email, $hash));
-        $lastUserId = $db->lastInsertId();
-        if(isset($_SESSION)){
-            session_destroy();
+                $lastUserId = $db->lastInsertId();
+                setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);$confirmation = true;
+                $confirmation = [true, $lastUserId];
+            } catch (PDOException $e) {
+                $confirmation = false;
+            }
         }
-        setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
-        header('Location:'. host .'/connexion');
-    } catch (PDOException $e) {
-        // echo $e->getMessage();
-        $_SESSION["pseudo"] = $pseudo;
-        $_SESSION["email"] = $email;
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        return $confirmation;
     }
-}
+
+    public static function newslatter($user_id, $email) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("INSERT INTO newsletter (user_id, email) VALUES (?,?)");
+
+        try {
+            $request->execute(array($user_id, $email));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function login($authentification, $password) {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM users WHERE pseudo  = ? OR email = ?");
@@ -43,8 +66,8 @@ class User{
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+        }
     }
-}
     public static function deconnexion() {
         if(isset($_COOKIE)){
             setcookie("user_id", "", time() - 3600, "/", DOMAINNAME);

@@ -14,25 +14,21 @@ require_once "inc/header.php";
     <div class="contenaire">
         <div class="left">
             <div class="form">
-                <h2>formulaire d'inscription</h2>
+                <h1>formulaire d'inscription</h1>
                 <form method="POST" class="formInscription" id="formInscription">
                     <div>
                         <label for="" class="leftLabel">pseudo :</label>
-                        <input type="text" id="pseudo" class="leftInute" placeholder="pseudo" <?php if(isset($_SESSION["pseudo"])){ ?> 
-                            value="<?= $_SESSION["pseudo"]; ?>"
-                        <?php } ?>>
+                        <input type="text" id="pseudo" class="leftInute" placeholder="pseudo" value="newslatter@newslatter.newslatter">
                     </div>
     
                     <div>
                         <label for="" class="leftLabel">email :</label>
-                        <input type="email" id="email" class="leftInute" placeholder="email" <?php if(isset($_SESSION["email"])){ ?> 
-                            value="<?= $_SESSION["email"]; ?>"
-                        <?php } ?>>
+                        <input type="email" id="email" class="leftInute" placeholder="email" value="newslatter@newslatter.newslatter">
                     </div>
     
                     <div>
                         <label for="" class="leftLabel">password :</label>
-                        <input type="password" class="leftInute" placeholder="password" id="password">
+                        <input type="password" class="leftInute" placeholder="password" id="password" value="newslatter@newslatter.newslatter">
                     </div>
                     <div class="divNewSlater">
                         <input type="checkbox" class="Newslatter" id="Newslatter">
