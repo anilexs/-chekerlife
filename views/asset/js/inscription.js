@@ -4,9 +4,10 @@ $(document).ready(function(){
         e.preventDefault();
         var errorTab = [];
         var pseudo = $('#pseudo').val();
-        var emailPreviews = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var emailPreviews = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         var email = $('#email').val();
         var password = $('#password').val();
+        var passwordConfirmation = $('#passwordConfirmation').val();
         var Newslatter = $('#Newslatter').is(":checked");
         if(Newslatter === false){
             Newslatter = null;
@@ -37,43 +38,44 @@ $(document).ready(function(){
         }
         $("#pseudo, #email, #password").css("border", "3px solid transparent");
 
-        var conditions = [
-            pseudo == "",
-            email == "",
-            password == "",
-            isBlacklisted == true,
-            pseudoVerify.length < 5,
-            pseudoVerify.length > 18,
-            !(email.match(emailPreviews))
-        ];
-        if(conditions.every(condition => condition === true)){
+
+        if(pseudo == "" || email == "" || password == "" || isBlacklisted == true || pseudoVerify.length < 5 || pseudoVerify.length > 18 || pseudoVerify.length > 18 || !(email.match(emailPreviews)) || password !== passwordConfirmation){
             if(pseudo == ""){
+                // le pseudo choisir n'est pas disponible sur ce site
                 $("#pseudo").css("border", "3px solid red");
-                var pseudo = "le pseudo choisir n'est pas disponible sur ce site";
+                var pseudo = "Le pseudo ne peut pas être vide.";
                 errorTab.push(pseudo);
             }else if(pseudoVerify.length < 5){
                 $("#pseudo").css("border", "3px solid red");
-                var pseudoError = "le speudo doit pas etre inferieur a 5 caracter";
-                errorTab.push(pseudoError);
-            }else if(pseudoVerify.length > 18){
-                $("#pseudo").css("border", "3px solid red");
-                var pseudoError = "le speudo doit pas depasser les 18 caracter";
+                var pseudoError = "Le pseudo ne doit pas contenir moins de 5 caractères.";
                 errorTab.push(pseudoError);
             }
 
             if(email == ""){
                 $("#email").css("border", "3px solid red");
-                var email = "L'email n'est pas conforme.";
+                var email = "L'email ne peut pas être vide.";
                 errorTab.push(email);
             }else if (!(email.match(emailPreviews))) {
                 $("#email").css("border", "3px solid red");
-                var email = "L'email n'est pas conforme.";
+                var email = "L'adresse e-mail n'est pas conforme.";
                 errorTab.push(email);
             }
             
             if(password == ""){
+                // le password choisir ne corespon pas a nos attente
                 $("#password").css("border", "3px solid red");
-                var password = "le password choisir ne corespon pas a nos attente";
+                var password = "Le mot de passe ne peut pas être vide.";
+                errorTab.push(password);
+            }
+            
+            if(passwordConfirmation == ""){
+                // le password choisir ne corespon pas a nos attente
+                $("#passwordConfirmation").css("border", "3px solid red");
+                var password = "La confirmation du mot de passe ne peut pas être vide.";
+                errorTab.push(password);
+            }else if(password !== passwordConfirmation){
+                $("#passwordConfirmation").css("border", "3px solid red");
+                var password = "Le mot de passe est différent de la confirmation du mot de passe.";
                 errorTab.push(password);
             }
 
@@ -95,7 +97,7 @@ $(document).ready(function(){
             });
         }else{
             $.ajax({
-                url: 'traitement/userAjax.php',
+                url: 'form/UserForm.php',
                 type: 'POST',
                 data: {
                     action: "inscription",
@@ -112,7 +114,12 @@ $(document).ready(function(){
                         $("#right").css({
                             "background-image":  "url(none)",
                         });
-                    
+                        if(response['errorBool'][0]){
+                            $("#pseudo").css("border", "3px solid red");
+                        }
+                        if(response['errorBool'][1]){
+                            $("#email").css("border", "3px solid red");
+                        }
                         var error = $('<div>').attr('id', 'error');
                         $('#right').append(error);
 
@@ -142,7 +149,7 @@ $(document).ready(function(){
 });
 function reinitialiser(gif = "mikuInscription.gif"){
     $('#right').text("");
-    $("#pseudo, #email, #password").css("border", "3px solid transparent");
+    $("#pseudo, #email, #password, #passwordConfirmation").css("border", "3px solid transparent");
     
     $("#right").css({
         "background": "url("+host+"views/asset/img/"+ gif +"), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",

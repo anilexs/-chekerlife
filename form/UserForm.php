@@ -1,14 +1,12 @@
 <?php
 session_start();
-require_once "../../model/database.php";
-require_once "../../model/userModel.php";
-require_once "../../model/catalogModel.php";
-
+require_once "../model/database.php";
+require_once "../model/userModel.php";
+require_once "../model/catalogModel.php";
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400; 
 const HTTP_METHOD_NOT_ALLOWED = 405; 
-
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST'){
     $response_code = HTTP_BAD_REQUEST;
@@ -24,26 +22,29 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
         $inscription = User::inscription($pseudo, $email, $password);
         
-        if($newslatter == true && $inscription[0] == true){
+        if(!is_string($inscription[0]) && $newslatter == true && $inscription[0] == true){
             User::newsletter($inscription[1], $email);
             $newslatter = "entre";
         }
         
         if ($inscription[0] !== "error") {
             $error = null;
+            $errorBool = null;
         }else{
             $error = $inscription[1];
+            $errorBool = $inscription[2];
         }
         $responseTab = [
             "response_code" => HTTP_OK,
             "error" => $error,
+            "errorBool" => $errorBool,
         ];
 
         reponse($response_code, $responseTab);
     }
 
 }else {
-    
+    $response_code = HTTP_METHOD_NOT_ALLOWED;
     $responseTab = [
         "response_code" => HTTP_METHOD_NOT_ALLOWED,
         "message" => "method not allowed"

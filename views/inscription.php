@@ -14,25 +14,29 @@ require_once "inc/header.php";
     <div class="contenaire">
         <div class="left">
             <div class="form">
-                <h1>formulaire d'inscription</h1>
+                <h1 class="h1Form">formulaire d'inscription</h1>
                 <form method="POST" class="formInscription" id="formInscription">
-                    <div>
-                        <label for="" class="leftLabel">pseudo :</label>
-                        <input type="text" maxlength="30" id="pseudo" class="leftInute" placeholder="pseudo" value="newslatter">
+                    <div class="formPseudo">
+                        <label for="pseudo" class="leftLabel">pseudo :</label>
+                        <input type="text" maxlength="18" id="pseudo" class="leftInute" placeholder="pseudo">
                     </div>
     
-                    <div>
-                        <label for="" class="leftLabel">email :</label>
-                        <input type="email" maxlength="100" id="email" class="leftInute" placeholder="email" value="newslatter@newslatter.newslatt">
+                    <div class="formEmail">
+                        <label for="email" class="leftLabel">email :</label>
+                        <input type="email" maxlength="100" id="email" class="leftInute" placeholder="email">
                     </div>
     
-                    <div>
-                        <label for="" class="leftLabel">password :</label>
-                        <input type="password" maxlength="100" class="leftInute" placeholder="password" id="password" value="newslatter@newslatter.newslatt">
+                    <div class="formPassword">
+                        <label for="password" class="leftLabel">mot de passe :</label>
+                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe">
+                    </div>
+                    <div class="formPasswordConfirmation">
+                        <label for="passwordConfirmation" class="leftLabel">confirmation du mot de passe :</label>
+                        <input type="password" maxlength="100" id="passwordConfirmation" class="leftInute" placeholder="confirmation du mot de passe">
                     </div>
                     <div class="divNewSlater">
                         <input type="checkbox" class="Newslatter" id="Newslatter">
-                        <label for="">Inscrivez-vous à notre newsletter !</label>
+                        <label for="Newslatter" class="newslatterLabel">Inscrivez-vous à notre newsletter !</label>
                     </div>
                     <div class="btnDiv">
                         <button name="inscription" class="btnInscription">s'inscrire</button>

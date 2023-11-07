@@ -200,7 +200,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             echo '<span class="cataLike ' . $catalogItem["id_catalogue"] . ' likeId' . $catalogItem["id_catalogue"] .'" id="likeId' . $catalogItem["id_catalogue"] .'">' . $catalogItem['likes'] . '</span>';
             echo '<i class="fa-solid fa-heart"></i>';
             echo '</button>';
-            echo '<a href="http://localhost/!chekerlife/list/' . $urlName . '" class="cardA">';
+            echo '<a href="http://localhost/!chekerlife/catalog/' . $urlName . '" class="cardA">';
             echo '<img class="navRechercheImg" src="http://localhost/!chekerlife/views/asset/img/catalog/' . $catalogItem["image_catalogue"] . '" alt="">';
             echo '<h3>'. $catalogNom .'</h3>';
             echo '</a>';
@@ -270,7 +270,7 @@ function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
     echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
-    echo '<a href="list/' . $urlName . '">';
+    echo '<a href="catalog/' . $urlName . '">';
     echo '<img src="http://localhost/!chekerlife/views/asset/img/catalog/' . $image_catalogue . '" alt="">';
     echo '</a>';
     echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); ftrSize();</script>';

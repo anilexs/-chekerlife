@@ -2,17 +2,19 @@
 
 .contenaire {
     background-color: rgba(50, 50, 50, 0.5);
-    height: 500px;
+    height: 550px;
     width: 1280px;
     margin: auto;
     display: flex;
     color: white;
     justify-content: space-between;
 }
-label{
-    display: block;
+.h1Form{
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
-
 body::before {
     content: "";
     background-image: url(../img/bg-anime.png);
@@ -32,6 +34,12 @@ body::before {
     display: flex;
     justify-content: center;
 }
+form{
+    margin-bottom: 10px;
+}
+.formPseudo, .formEmail, .formPassword, .formPasswordConfirmation, .divNewSlater{
+    margin: 10px 0;
+}
 .leftInute{
     width: 100%;
     border-radius: 15px;
@@ -45,6 +53,12 @@ body::before {
 }
 .Newslatter{
     margin: 0;
+    width: 20px;
+    height: 20px;
+}
+.newslatterLabel{
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
 }
 .form{
     width: 90%;
@@ -82,7 +96,7 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* 100% de la hauteur de la fenêtre */
+    height: 70vh;
 }
 
 /* error */

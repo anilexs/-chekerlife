@@ -1,4 +1,8 @@
-# activer la regle de reecriture d'url
 RewriteEngine on
-# rediriger vers le dossier views
+
+# Ignorer les réécritures pour les dossier suivent
+RewriteRule ^form/ - [L]
+RewriteRule ^controller/ - [L]
+
+# Rediriger vers le dossier "views"
 RewriteRule (.*) views/$1 [L]

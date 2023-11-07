@@ -17,15 +17,27 @@ class User{
         $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
 
         if(!empty($userVerify)){
+            $pseudoError = false;
+            $emailError = false;
             $equivalent = [];
-            if($email === $userVerify['email']){
-                $equivalent [] = "Adresse e-mail déjà utilisée";
-            }
-            if($pseudo === $userVerify['pseudo']){
+            if($email === $userVerify['email'] && $pseudo === $userVerify['pseudo']){
+                $equivalent [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
                 $equivalent [] = "Nom d'utilisateur déjà pris";
-            }
+                $pseudoError = true;
+                $emailError = true;
+            }else{
+                if($pseudo === $userVerify['pseudo']){
+                    $pseudoError = true;
+                    $equivalent [] = "Nom d'utilisateur déjà pris";
+                }
+                if($email === $userVerify['email']){
+                    $equivalent [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
+                    $emailError = true;
+                }
 
-            $confirmation = ["error", $equivalent];
+            }
+            $errorBool = [$pseudoError, $emailError];
+            $confirmation = ["error", $equivalent, $errorBool];
         }else{
             try {
                 $request->execute(array($pseudo, $email, $hash));

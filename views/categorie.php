@@ -55,7 +55,7 @@ require_once "inc/header.php";
                         <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
                         <i class="fa-solid fa-heart"></i>
                     </button>
-                    <a href="list/<?= $urlName ?>">
+                    <a href="catalog/<?= $urlName ?>">
                         <img src="asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
                     </a>
                     <?php
