@@ -9,12 +9,14 @@
     color: white;
     justify-content: space-between;
 }
+
 .h1Form{
     width: 100%;
     font-size: 40px;
     text-align: center;
     font-family: 'Roboto', sans-serif;
 }
+
 body::before {
     content: "";
     background-image: url(../img/bg-anime.png);
@@ -86,7 +88,7 @@ form{
 
 #right{
     width: 384px;
-    background: url(../img/mikuInscription.gif), url(../img/inscriptionBgSchool.jpg) transparent center no-repeat;
+    background: url(../img/mikuInscription.gif), url(../img/bgSchool.jpg) transparent center no-repeat;
     background-position: 50%;
     background-size: cover, cover;
 }
@@ -102,7 +104,7 @@ form{
 /* error */
 
 #error{
-    background-image: url(https://i0.wp.com/www.talkingconcept.com/wp-content/uploads/2021/03/2ac3cb61feab9772e16046f676acb4de.jpg?resize=770%2C515&ssl=1);
+    background-image: url(../img/tenple.png);
     height: 60%;
     color: black;
     font-family: 'Roboto', sans-serif;

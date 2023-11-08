@@ -5,10 +5,10 @@ if(isset($_COOKIE['user_id'])) {
 }
 require_once "inc/header.php"; 
 ?>
-<title>Document</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="asset/css/inscription.css">
 <script src="asset/js/inscription.js" defer></script>
+<title>Document</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="alignement">
     <div class="contenaire">
@@ -23,7 +23,7 @@ require_once "inc/header.php";
     
                     <div class="formEmail">
                         <label for="email" class="leftLabel">email :</label>
-                        <input type="email" maxlength="100" id="email" class="leftInute" placeholder="email">
+                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email">
                     </div>
     
                     <div class="formPassword">

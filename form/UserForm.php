@@ -18,6 +18,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $newslatter = $_POST['Newslatter'];
+        // boolvar potensiellement inutile a verifier
         $newslatter = boolval($newslatter); 
 
         $inscription = User::inscription($pseudo, $email, $password);
@@ -38,6 +39,22 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "response_code" => HTTP_OK,
             "error" => $error,
             "errorBool" => $errorBool,
+        ];
+
+        reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "connexion"){
+        $response_code = HTTP_OK;
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $login = User::login($email, $password);    
+        if($login[0] !== "error"){
+            $error = null;
+        }else{
+            $error = $login[1];
+        }
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "error" => $error,
         ];
 
         reponse($response_code, $responseTab);

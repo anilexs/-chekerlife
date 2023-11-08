@@ -1,13 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
 .contenaire {
     background-color: rgba(50, 50, 50, 0.5);
-    height: 500px;
+    height: 550px;
     width: 1280px;
     margin: auto;
     display: flex;
     color: white;
+    justify-content: space-between;
 }
-label{
-    display: block;
+
+.h1Form{
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
 
 body::before {
@@ -25,19 +32,92 @@ body::before {
 }
 
 .left{
-    width: 50%;
+    width: 65%;
+    display: flex;
+    justify-content: center;
 }
-.left input{
-    width: 80%;
+form{
+    margin-bottom: 10px;
 }
-.right{
-    width: 50%;
+.formEmail, .formPassword, .divNewSlater{
+    margin: 10px 0;
 }
+.leftInute{
+    width: 100%;
+    border-radius: 15px;
+    font-size: 30px;
+    padding-left: 30px;
+    border: 3px solid transparent;
+}
+.leftLabel{
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+}
+.Newslatter{
+    margin: 0;
+    width: 20px;
+    height: 20px;
+}
+.newslatterLabel{
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
+}
+.form{
+    width: 90%;
+    margin-top: 15px;
+}
+.divNewSlater{
+    display: flex;
+}
+.btnDiv{
+    display: flex;
+    justify-content: space-between;
+}
+.btnConnexion{
+    width: 70%;
+    font-size: 30px;
+    border-radius: 15px;
+    background-color: greenyellow;
+}
+#btnReinitialiser{
+    width: 28%;
+    font-size: 30px;
+    border-radius: 15px;
+    background-color: red;
+}
+
+#right{
+    width: 384px;
+    background: url(../img/mikulevitation.gif), url(../img/bgSchool.jpg) transparent center no-repeat;
+    background-size: 95%, cover;
+}
+
 .alignement {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* 100% de la hauteur de la fenêtre */
+    height: 70vh;
+}
+
+/* error */
+
+#error{
+    background-image: url(../img/tenple.png);
+    height: 60%;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 25px;
+    padding: 15px;
+    overflow: auto;
+}
+.error{
+    margin-bottom: 20px;
+}
+#errorGif{
+    height: 40%;
+    background-size: cover;
+    background-image: url(../img/grootvener.gif);
 }

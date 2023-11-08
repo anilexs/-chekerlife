@@ -19,25 +19,25 @@ class User{
         if(!empty($userVerify)){
             $pseudoError = false;
             $emailError = false;
-            $equivalent = [];
+            $errorInscription = [];
             if($email === $userVerify['email'] && $pseudo === $userVerify['pseudo']){
-                $equivalent [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
-                $equivalent [] = "Nom d'utilisateur déjà pris";
+                $errorInscription [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
+                $errorInscription [] = "Nom d'utilisateur déjà pris";
                 $pseudoError = true;
                 $emailError = true;
             }else{
                 if($pseudo === $userVerify['pseudo']){
                     $pseudoError = true;
-                    $equivalent [] = "Nom d'utilisateur déjà pris";
+                    $errorInscription [] = "Nom d'utilisateur déjà pris";
                 }
                 if($email === $userVerify['email']){
-                    $equivalent [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
+                    $errorInscription [] = "Adresse e-mail déjà utilisée. <a href=connexion>Merci de vous connecter</a> ou de choisir une autre adresse e-mail.";
                     $emailError = true;
                 }
 
             }
             $errorBool = [$pseudoError, $emailError];
-            $confirmation = ["error", $equivalent, $errorBool];
+            $confirmation = ["error", $errorInscription, $errorBool];
         }else{
             try {
                 $request->execute(array($pseudo, $email, $hash));
@@ -46,8 +46,8 @@ class User{
                 setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];
             } catch (PDOException $e) {
-                $equivalent [] = "Erreur du côté de la base de données. Si le problème persiste, contactez-nous.";;
-                $confirmation = $equivalent;
+                $errorInscription [] = "Erreur du côté de la base de données. Si le problème persiste, contactez-nous.";;
+                $confirmation = $errorInscription;
             }
         }
         
@@ -74,26 +74,32 @@ class User{
     }
 
 
-    public static function login($authentification, $password) {
+    public static function login($email, $password) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM users WHERE pseudo  = ? OR email = ?");
+        $request = $db->prepare("SELECT * FROM users WHERE email = ?");
+        $return = null;
+        $errorInscription = [];
         
         try {
-            $request->execute(array($authentification, $authentification));
+            $request->execute(array($email));
             $user = $request->fetch(PDO::FETCH_ASSOC);
             if(empty($user)){
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                $errorInscription[] = "Veuillez vérifier vos informations de connexion.";
+                $return = ["error", $errorInscription];
             }else{
                 if(password_verify($password, $user['password'])){
-                    setcookie("user_id", $user['id_user'], time() + 3600 * 5, "/", DOMAINNAME);
-                    header('Location:'. host);
+                    // setcookie("user_id", $user['id_user'], time() + 3600 * 5, "/", DOMAINNAME);
+                    // header('Location:'. host);
+                    $return = ["successful", true];
                 }else{
-                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    $errorInscription[] = "Veuillez vérifier vos informations de connexion.";
+                    $return = ["error", $errorInscription];
                 }
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+        return $return;
     }
     public static function deconnexion() {
         if(isset($_COOKIE)){

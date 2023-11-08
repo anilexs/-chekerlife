@@ -7,22 +7,36 @@ require_once "inc/header.php";
 ?>
 <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 <link rel="stylesheet" href="asset/css/connexion.css">
+<script src="asset/js/connexion.js" defer></script>
 <title>Document</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="alignement">
     <div class="contenaire">
-        <form action="traitement/action.php" method="POST">
-        <div>
-                    <label for="">email :</label>
-                    <input type="text" name="email">
-                </div>
-                
-                <div>
-                    <label for="">password :</label>
-                    <input type="text" maxlength="100" name="password">
-                </div>
-            <button name="connexion">connexion</button>
-        </form>
+        <div class="left">
+            <div class="form">
+                <h1 class="h1Form">formulaire de connexion</h1>
+                <form method="POST" class="formInscription" id="formConnexion">
+
+                    <div class="formEmail">
+                        <label for="email" class="leftLabel">email :</label>
+                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email" value="test@test.test">
+                    </div>
+
+                    <div class="formPassword">
+                        <label for="password" class="leftLabel">mot de passe :</label>
+                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe" value="test">
+                    </div>
+
+                    <div class="btnDiv">
+                        <button name="connexion" class="btnConnexion">connexion</button>
+                        <input type="reset" value="réinitialisation" id="btnReinitialiser">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="right">
+
+        </div>
     </div>
 </div>
 

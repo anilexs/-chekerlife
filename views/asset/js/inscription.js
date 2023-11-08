@@ -8,16 +8,10 @@ $(document).ready(function(){
         var email = $('#email').val();
         var password = $('#password').val();
         var passwordConfirmation = $('#passwordConfirmation').val();
-        var Newslatter = $('#Newslatter').is(":checked");
-        if(Newslatter === false){
-            Newslatter = null;
-        }else{
-            Newslatter = true;
-        }
+        var Newslatter = $('#Newslatter').is(":checked") ? true : null;
 
         pseudo = pseudo.trim().replace(/\s+/g, ' ');
         var pseudoVerify = pseudo.replace(/\s/g, '');
-
         
         var blackListName = ["pute", "salop", "con", "vendetta"];
         var blackListMots = ["pute", "salop", "con", "vendetta"];
@@ -36,10 +30,11 @@ $(document).ready(function(){
                 break;
             }
         }
-        $("#pseudo, #email, #password").css("border", "3px solid transparent");
+
+        $("#pseudo, #email, #password, #passwordConfirmation").css("border", "3px solid transparent");
 
 
-        if(pseudo == "" || email == "" || password == "" || isBlacklisted == true || pseudoVerify.length < 5 || pseudoVerify.length > 18 || pseudoVerify.length > 18 || !(email.match(emailPreviews)) || password !== passwordConfirmation){
+        if(pseudo == "" || email == "" || password == "" || password.length < 5 || password === pseudo || password === email || isBlacklisted == true || pseudoVerify.length < 5 || pseudoVerify.length > 18 || pseudoVerify.length > 18 || !(email.match(emailPreviews)) || password !== passwordConfirmation){
             if(pseudo == ""){
                 // le pseudo choisir n'est pas disponible sur ce site
                 $("#pseudo").css("border", "3px solid red");
@@ -62,21 +57,49 @@ $(document).ready(function(){
             }
             
             if(password == ""){
-                // le password choisir ne corespon pas a nos attente
                 $("#password").css("border", "3px solid red");
-                var password = "Le mot de passe ne peut pas être vide.";
-                errorTab.push(password);
+                var passwordVid = "Le mot de passe ne peut pas être vide.";
+                errorTab.push(passwordVid);
+            }else if(password.length < 5){
+                $("#password").css("border", "3px solid red");
+                var password5 = "Le mot de passe doit contenir au moins 5 caractères.";
+                errorTab.push(password5);
+            }else if(password === pseudo || password === email){
+                if(password === pseudo){
+                    $("#password").css("border", "3px solid red");
+                    var passwordPse= "Le mot de passe ne peut pas être le même que le pseudo.";
+                    errorTab.push(passwordPse);
+                }
+                if(password === email){
+                    $("#password").css("border", "3px solid red");
+                    var passwordEma = "Le mot de passe ne peut pas être le même que l'email.";
+                    errorTab.push(passwordEma);
+                }
             }
             
             if(passwordConfirmation == ""){
-                // le password choisir ne corespon pas a nos attente
                 $("#passwordConfirmation").css("border", "3px solid red");
-                var password = "La confirmation du mot de passe ne peut pas être vide.";
-                errorTab.push(password);
+                var confirmationVid = "La confirmation du mot de passe ne peut pas être vide.";
+                errorTab.push(confirmationVid);
+            }else if(passwordConfirmation.length < 5){
+                $("#passwordConfirmation").css("border", "3px solid red");
+                var confirmation5 = "La confirmation du mot de passe doit contenir au moins 5 caractères.";
+                errorTab.push(confirmation5);
             }else if(password !== passwordConfirmation){
                 $("#passwordConfirmation").css("border", "3px solid red");
-                var password = "Le mot de passe est différent de la confirmation du mot de passe.";
-                errorTab.push(password);
+                var confirmationNoEgale = "Le mot de passe est différent de la confirmation du mot de passe.";
+                errorTab.push(confirmationNoEgale);
+            }else if(passwordConfirmation === pseudo || passwordConfirmation === email){
+                if(passwordConfirmation === pseudo){
+                    $("#passwordConfirmation").css("border", "3px solid red");
+                    var passwordPse= "La confirmation du mot de passe ne peut pas être le même que le pseudo.";
+                    errorTab.push(passwordPse);
+                }
+                if(passwordConfirmation === email){
+                    $("#passwordConfirmation").css("border", "3px solid red");
+                    var passwordEma = "La confirmation du mot de passe ne peut pas être le même que l'email.";
+                    errorTab.push(passwordEma);
+                }
             }
 
             $('#right').text("");
@@ -152,7 +175,7 @@ function reinitialiser(gif = "mikuInscription.gif"){
     $("#pseudo, #email, #password, #passwordConfirmation").css("border", "3px solid transparent");
     
     $("#right").css({
-        "background": "url("+host+"views/asset/img/"+ gif +"), url("+host+"views/asset/img/inscriptionBgSchool.jpg) transparent center no-repeat",
+        "background": "url("+host+"views/asset/img/"+ gif +"), url("+host+"views/asset/img/bgSchool.jpg) transparent center no-repeat",
         "background-position": "50%",
         "background-size": "cover, cover"
     });
