@@ -5,3 +5,21 @@
   width: 100%;
   height: 75px;
 }
+.twitch, .youtube, .tiktok, .twitter, .instagram{
+  color: white;
+}
+.twitch:hover{
+  color: rgb(151, 20, 151);
+}
+.youtube:hover{
+  color: red;
+}
+.tiktok:hover{
+  color: rgb(32, 103, 168);
+}
+.twitter:hover{
+  color: aqua;
+}
+.instagram:hover{
+  color: mediumvioletred;
+}
