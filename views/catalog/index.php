@@ -7,12 +7,12 @@
     $catalogInfo = Catalog::catalogInfoName($name);
     $episodes = Catalog::episode($catalogInfo['id_catalogue']);
     $nbVus = 0;
-    if(isset($_COOKIE['user_id'])){
-        $likeConte = User::likeCount($_COOKIE['user_id']);
-        $userLike = User::userLike($_COOKIE['user_id']);
-        $userInfo = User::userInfo($_COOKIE['user_id']);
-        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['user_id'], $catalogInfo['id_catalogue']);
-        $userViews = User::episodeViewsActifeUser($_COOKIE['user_id'], $catalogInfo['id_catalogue']);
+    if(isset($_COOKIE['token'])){
+        $likeConte = User::likeCount($_COOKIE['token']);
+        $userLike = User::userLike($_COOKIE['token']);
+        $userInfo = User::userInfo($_COOKIE['token']);
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $catalogInfo['id_catalogue']);
+        $userViews = User::episodeViewsActifeUser($_COOKIE['token'], $catalogInfo['id_catalogue']);
         $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
     }
     $host = "http://localhost/!chekerlife/";
@@ -28,9 +28,9 @@
     if (empty($collection)) {
         $collection = null;
     }
-    if(isset($_COOKIE['user_id'])){
+    if(isset($_COOKIE['token'])){
         foreach($userLike as $like){
-            if($like['catalog_id'] == $catalogInfo["id_catalogue"] && $like['active'] == 1){
+            if($like['catalog_id'] == $catalogInfo["id_catalogue"] && $like['like_active'] == 1){
                 $isActive = true;
                 break;
             }
@@ -114,9 +114,9 @@
                             $bare = ($i % 2 == 0) ? "paire" : "impair";
                             
                             $isEpisodeActive = false;
-                            if(isset($_COOKIE['user_id'])){
+                            if(isset($_COOKIE['token'])){
                                 foreach ($userViews as $view) {
-                                    if ($view['episode_id'] == $episode['id_episode'] && $view['active'] == 1) {
+                                    if ($view['episode_id'] == $episode['id_episode'] && $view['views_active'] == 1) {
                                         $isEpisodeActive = true;
                                         break;
                                     }

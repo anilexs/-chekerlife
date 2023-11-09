@@ -1,8 +1,11 @@
 <?php 
     session_start();
-if(isset($_COOKIE['user_id'])) {
+if(isset($_COOKIE['token'])) {
     header("Location: index");
 }
+// $cle = rand(1000000,9000000);
+
+
 require_once "inc/header.php"; 
 ?>
 <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->

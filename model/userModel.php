@@ -9,12 +9,24 @@ class User{
 
         $requestVerify = $db->prepare("SELECT * FROM users WHERE pseudo = ? OR email = ?");
         $request = $db->prepare("INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)");
+        $requestToken = $db->prepare("INSERT INTO token (user_id, token) VALUES (?, ?)");
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $requestVerify->execute(array($pseudo, $email));
 
         $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
+
+        function generateToken($length = 16) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@%$*_-';
+            $token = '';
+                
+            for ($i = 0; $i < $length; $i++) {
+                $token .= $characters[rand(0, strlen($characters) - 1)];
+            }
+        
+            return $token;
+        }
 
         if(!empty($userVerify)){
             $pseudoError = false;
@@ -41,9 +53,11 @@ class User{
         }else{
             try {
                 $request->execute(array($pseudo, $email, $hash));
-    
+                
                 $lastUserId = $db->lastInsertId();
-                setcookie("user_id", $lastUserId, time() + 3600, "/", DOMAINNAME);
+                $token = generateToken(32);
+                $requestToken->execute(array($lastUserId, $token));
+                setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];
             } catch (PDOException $e) {
                 $errorInscription [] = "Erreur du côté de la base de données. Si le problème persiste, contactez-nous.";;
@@ -62,8 +76,8 @@ class User{
 
         try {
             if (!empty($userVerify)) {
-                $update = $db->prepare("UPDATE newsletter SET user_id = ? WHERE email = ?");
-                $update->execute(array($user_id, $email));
+                $newsletter = $db->prepare("UPDATE newsletter SET user_id = ? WHERE email = ?");
+                $newsletter->execute(array($user_id, $email));
             } else {
                 $inser = $db->prepare("INSERT INTO newsletter (user_id, email) VALUES (?, ?)");
                 $inser->execute(array($user_id, $email));
@@ -76,7 +90,7 @@ class User{
 
     public static function login($email, $password) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM users WHERE email = ?");
+        $request = $db->prepare("SELECT users.*, token.token FROM users LEFT JOIN token ON users.id_user = token.user_id AND token.token_active = 1 WHERE users.email = ?");
         $return = null;
         $errorInscription = [];
         
@@ -88,8 +102,8 @@ class User{
                 $return = ["error", $errorInscription];
             }else{
                 if(password_verify($password, $user['password'])){
-                    // setcookie("user_id", $user['id_user'], time() + 3600 * 5, "/", DOMAINNAME);
-                    // header('Location:'. host);
+
+                    setcookie("token", $user['token'], time() + 3600 * 5, "/", DOMAINNAME);
                     $return = ["successful", true];
                 }else{
                     $errorInscription[] = "Veuillez vérifier vos informations de connexion.";
@@ -103,7 +117,7 @@ class User{
     }
     public static function deconnexion() {
         if(isset($_COOKIE)){
-            setcookie("user_id", "", time() - 3600, "/", DOMAINNAME);
+            setcookie("token", "", time() - 3600, "/", DOMAINNAME);
             header('Location:' . host);
         }else{
             session_destroy();
@@ -111,28 +125,30 @@ class User{
         }
     }
 
-    public static function like($user_id, $catalog_id){
+    public static function like($token, $catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM `likes` WHERE user_id = ? AND catalog_id = ?");
-        $request2 = $db->prepare("INSERT INTO  likes (user_id, catalog_id) VALUES (?, ?)");
-        $request3 = $db->prepare("UPDATE `likes` SET `active` = ?, `last_edited` = NOW() WHERE user_id = ? AND catalog_id = ?");
+        $request = $db->prepare("SELECT likes.* FROM likes JOIN token ON likes.user_id = token.user_id WHERE token.token = ? AND token.token_active = 1 AND likes.catalog_id = ?");
+        
+        $request2 = $db->prepare("INSERT INTO likes (user_id, catalog_id) SELECT t.user_id, ? AS catalog_id FROM token t  WHERE t.token = ? AND t.token_active = 1;");
+
+        $request3 = $db->prepare("UPDATE likes l LEFT JOIN token t ON l.user_id = t.user_id SET l.like_active = ?, l.last_edited = NOW() WHERE t.token = ? AND t.token_active = 1 AND l.catalog_id = ?");
         
         try {
-            $request->execute(array($user_id, $catalog_id));
+            $request->execute(array($token, $catalog_id));
             $like = $request->fetch(PDO::FETCH_ASSOC);
 
             $bool = null;
             if(empty($like)){
-                $request2->execute(array($user_id, $catalog_id));
+                $request2->execute(array($catalog_id, $token));
                 Catalog::categoryLike(1, $catalog_id);
                 $bool = true;
             }else{
-                if($like['active'] == 0){
-                    $request3->execute(array(1, $user_id, $catalog_id));
+                if($like['like_active'] == 0){
+                    $request3->execute(array(1, $token, $catalog_id));
                     Catalog::categoryLike(1, $catalog_id);
                     $bool = true;
                 }else{
-                    $request3->execute(array(0, $user_id, $catalog_id));
+                    $request3->execute(array(0, $token, $catalog_id));
                     Catalog::categoryLike(0, $catalog_id);
                     $bool = false;
                 }
@@ -143,11 +159,11 @@ class User{
         }
     }
 
-    public static function userInfo($user_id) {
+    public static function userInfo($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM users WHERE id_user = ?");
+        $request = $db->prepare("SELECT users.* FROM users JOIN token ON users.id_user = token.user_id WHERE token.token = ? AND token.token_active = 1");
         try {
-            $request->execute(array($user_id));
+            $request->execute(array($token));
             $user_list = $request->fetch(PDO::FETCH_ASSOC);
             return $user_list;
         } catch (PDOException $e) {
@@ -155,11 +171,11 @@ class User{
         }
     }
 
-    public static function userLike($user_id) {
+    public static function userLike($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM likes WHERE user_id = ?");
+        $request = $db->prepare("SELECT likes.* FROM likes JOIN token ON likes.user_id = token.user_id WHERE token.token = ? AND token.token_active = 1");
         try {
-            $request->execute(array($user_id));
+            $request->execute(array($token));
             $user_list = $request->fetchAll(PDO::FETCH_ASSOC);
             return $user_list;
         } catch (PDOException $e) {
@@ -167,11 +183,11 @@ class User{
         }
     }
     
-    public static function likeCount($user_id) {
+    public static function likeCount($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(*) FROM `likes` WHERE user_id = ? AND active = 1");
+        $request = $db->prepare("SELECT COUNT(*) FROM likes JOIN token ON likes.user_id = token.user_id WHERE token.token = ? AND likes.like_active = 1");
         try {
-            $request->execute(array($user_id));
+            $request->execute(array($token));
             $user_list = $request->fetch(PDO::FETCH_ASSOC);
             return $user_list;
         } catch (PDOException $e) {
@@ -179,26 +195,28 @@ class User{
         }
     }
 
-    public static function episodeUserViews($user_id, $id_episode, $catalog_id){
+    public static function episodeUserViews($token, $id_episode, $catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM user_episode_views WHERE user_id = ? AND episode_id = ?");
-        $request2 = $db->prepare("INSERT INTO user_episode_views (user_id, episode_id, episode_catalog_id) VALUES (?, ?, ?)");
-        $request3 = $db->prepare("UPDATE user_episode_views SET `active` = ?, `last_edited` = NOW() WHERE user_id = ? AND episode_id = ?");
+        $request = $db->prepare("SELECT uev.* FROM user_episode_views uev JOIN token t ON uev.user_id = t.user_id WHERE t.token = ? AND t.token_active = 1 AND uev.episode_id = ?");
+        
+        $request2 = $db->prepare("INSERT INTO user_episode_views (user_id, episode_id, episode_catalog_id) SELECT user_id, ?, ? FROM token WHERE token = ? AND token_active = 1 LIMIT 1");
+
+        $request3 = $db->prepare("UPDATE user_episode_views AS uev LEFT JOIN token AS t ON uev.user_id = t.user_id SET uev.views_active = ?, uev.last_edited = NOW() WHERE t.token = ? AND t.token_active = 1 AND uev.episode_id = ?");
         
         try {
-            $request->execute(array($user_id, $id_episode));
+            $request->execute(array($token, $id_episode));
             $episodeViews = $request->fetch(PDO::FETCH_ASSOC);
 
             $bool = null;
             if(empty($episodeViews)){
-                $request2->execute(array($user_id, $id_episode, $catalog_id));
+                $request2->execute(array($token, $id_episode, $catalog_id));
                 $bool = true;
             }else{
-                if($episodeViews['active'] == 0){
-                    $request3->execute(array(1, $user_id, $id_episode));
+                if($episodeViews['views_active'] == 0){
+                    $request3->execute(array(1, $token, $id_episode));
                     $bool = true;
                 }else{
-                    $request3->execute(array(0, $user_id, $id_episode));
+                    $request3->execute(array(0, $token, $id_episode));
                     $bool = false;
                 }
             }
@@ -208,11 +226,11 @@ class User{
         }
     }
 
-    public static function nbEpisodeUserViewsActife($user_id, $id_catalog){
+    public static function nbEpisodeUserViewsActife($token, $id_catalog){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(*) FROM user_episode_views WHERE user_id = ? AND episode_catalog_id = ? AND active = 1");
+        $request = $db->prepare("SELECT COUNT(*) FROM user_episode_views uev JOIN token t ON uev.user_id = t.user_id WHERE t.token = ? AND t.token_active = 1 AND uev.episode_catalog_id = ? AND uev.views_active = 1");
         try {
-            $request->execute(array($user_id, $id_catalog));
+            $request->execute(array($token, $id_catalog));
             $nbEpisodeUserViewsActife = $request->fetch(PDO::FETCH_ASSOC);
             return $nbEpisodeUserViewsActife;
         } catch (PDOException $e) {
@@ -220,11 +238,11 @@ class User{
         }
     }
     
-    public static function episodeViewsActifeUser($user_id, $id_catalog){
+    public static function episodeViewsActifeUser($token, $id_catalog){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM user_episode_views WHERE user_id = ? AND episode_catalog_id = ? AND active = 1");
+        $request = $db->prepare("SELECT * FROM user_episode_views uev JOIN token t ON uev.user_id = t.user_id WHERE t.token = ? AND t.token_active = 1 AND uev.episode_catalog_id = ? AND uev.views_active = 1");
         try {
-            $request->execute(array($user_id, $id_catalog));
+            $request->execute(array($token, $id_catalog));
             $userViews = $request->fetchAll(PDO::FETCH_ASSOC);
             return $userViews;
         } catch (PDOException $e) {

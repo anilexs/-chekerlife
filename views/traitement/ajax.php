@@ -18,14 +18,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $catalog_id = $_POST['catalog_id'];
         
-        if(empty($_COOKIE['user_id'])){
+        if(empty($_COOKIE['token'])){
                 $responseTab = [
                     "connect" => false
                 ];
         }else{
-            $user_id = $_COOKIE['user_id'];
-            $bool = User::like($user_id, $catalog_id);
-            $nblike = User::likeCount($user_id);
+            $token = $_COOKIE['token'];
+            $bool = User::like($token, $catalog_id);
+            $nblike = User::likeCount($token);
             $CatalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
             $response_code = HTTP_OK;
             $message = $bool;
@@ -42,16 +42,16 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $catalog = Catalog::Cataloglimit($_POST['limit'], $_POST['offset']);
         $nbCatalog = Catalog::nbCatalog();
         $nbCatalog = $nbCatalog['COUNT(*)'];
-        if(isset($_COOKIE['user_id'])){
-            $userLike = User::userLike($_COOKIE['user_id']);
+        if(isset($_COOKIE['token'])){
+            $userLike = User::userLike($_COOKIE['token']);
         }
         foreach ($catalog as $catalogItem) {
         echo '<div class="card">';
 
         $isActive = false;
-        if (isset($_COOKIE['user_id'])) {
+        if (isset($_COOKIE['token'])) {
             foreach ($userLike as $like) {
-                if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
                     $isActive = true;
                     break;
                 }
@@ -67,16 +67,16 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
         $nbCatalog = Catalog::nbFiltreCatalog($_POST['filtre']);
         $nbCatalog = $nbCatalog['nbFiltre'];
-        if(isset($_COOKIE['user_id'])){
-            $userLike = User::userLike($_COOKIE['user_id']);
+        if(isset($_COOKIE['token'])){
+            $userLike = User::userLike($_COOKIE['token']);
         }
         foreach ($catalog as $catalogItem) {
             echo '<div class="card">';
 
             $isActive = false;
-            if (isset($_COOKIE['user_id'])) {
+            if (isset($_COOKIE['token'])) {
                 foreach ($userLike as $like) {
-                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
                         $isActive = true;
                         break;
                     }
@@ -167,8 +167,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
     }else if($_POST['action'] == "navFiltre"){
     $catalog = Catalog::navRechercher($_POST['filtreNav']);
-    if(isset($_COOKIE['user_id'])){
-        $userLike = User::userLike($_COOKIE['user_id']);
+    if(isset($_COOKIE['token'])){
+        $userLike = User::userLike($_COOKIE['token']);
     }
     if(empty($catalog)){
         echo '<li class="navRechercheCard">';
@@ -179,9 +179,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             echo '<li class="navRechercheCard">';
     
             $isActive = false;
-            if (isset($_COOKIE['user_id'])) {
+            if (isset($_COOKIE['token'])) {
                 foreach ($userLike as $like) {
-                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1) {
+                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
                         $isActive = true;
                         break;
                     }
@@ -226,11 +226,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 ];
     reponse($response_code, $responseTab);
 }else if($_POST['action'] == "views"){
-    if(isset($_COOKIE['user_id'])){
+    if(isset($_COOKIE['token'])){
         
         $catalog = Catalog::episodeInfo($_POST['chekboxId']); 
-        $episodeViews = User::episodeUserViews($_COOKIE['user_id'], $_POST['chekboxId'], $catalog['catalog_id']);
-        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['user_id'], $catalog['catalog_id']);
+        $episodeViews = User::episodeUserViews($_COOKIE['token'], $_POST['chekboxId'], $catalog['catalog_id']);
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $catalog['catalog_id']);
         $response_code = HTTP_OK;
         $responseTab = [
                         "response_code" => HTTP_OK,

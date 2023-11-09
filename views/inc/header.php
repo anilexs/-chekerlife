@@ -1,8 +1,8 @@
 <?php
     require_once "../model/userModel.php";
-    if(isset($_COOKIE['user_id'])){
-        $likeConte = User::likeCount($_COOKIE['user_id']);
-        $userInfo = User::userInfo($_COOKIE['user_id']);
+    if(isset($_COOKIE['token'])){
+        $likeConte = User::likeCount($_COOKIE['token']);
+        $userInfo = User::userInfo($_COOKIE['token']);
     }
     $host = "http://localhost/!chekerlife/";
 ?>

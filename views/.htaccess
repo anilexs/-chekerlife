@@ -14,8 +14,6 @@
 
 # Activer la règle de réécriture d'URL
 RewriteEngine On
-# Ignorer les réécritures pour le dossier "form"
-RewriteRule ^form/ - [L]
 
 # Rediriger vers le fichier sans l'extension
 RewriteCond %{REQUEST_FILENAME}.php -f

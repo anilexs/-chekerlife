@@ -17,8 +17,8 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
 
 $nbCatalog = Catalog::nbCatalog();
 $nbCatalog = $nbCatalog['COUNT(*)'];
-if(isset($_COOKIE['user_id'])){
-    $userLike = User::userLike($_COOKIE['user_id']);
+if(isset($_COOKIE['token'])){
+    $userLike = User::userLike($_COOKIE['token']);
 }
 $titre = null;
 if(isset($_GET['titre'])){
@@ -41,9 +41,9 @@ require_once "inc/header.php";
                 <div class="card">
                     <?php
                     $isActive = false;
-                    if(isset($_COOKIE['user_id'])){
+                    if(isset($_COOKIE['token'])){
                         foreach($userLike as $like){
-                            if($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['active'] == 1){
+                            if($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1){
                                 $isActive = true;
                                 break;
                             }

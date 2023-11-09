@@ -95,3 +95,14 @@ requpere le get de lurl en jquery
 
 // var urlParams = new URLSearchParams(window.location.search);
 // var page = urlParams.get("page");
+
+<!-- token -->
+recupere les info utilisater par le token
+
+SELECT users.* 
+FROM users
+JOIN token ON users.id_user = token.user_id
+WHERE token.token = '3MIE*9cpTPOe0lEmNT420uT*jTgi.6aj' AND token.active = 1;
+
+recupere tout les info de lutilisater + le token 
+SELECT users.*, token.token FROM users LEFT JOIN token ON users.id_user = token.user_id AND token.active = 1 WHERE users.email = ?

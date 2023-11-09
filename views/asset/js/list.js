@@ -84,9 +84,9 @@ $(document).ready(function(){
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                // console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                console.error(xhr);
             }
         });
     });
 });
-

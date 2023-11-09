@@ -8,7 +8,12 @@ $(document).ready(function(){
         var email = $('#email').val();
         var password = $('#password').val();
         var passwordConfirmation = $('#passwordConfirmation').val();
-        var Newslatter = $('#Newslatter').is(":checked") ? true : null;
+        var Newslatter = $('#Newslatter').is(":checked");
+        if(Newslatter === false){
+            Newslatter = null;
+        }else{
+            Newslatter = true;
+        }
 
         pseudo = pseudo.trim().replace(/\s+/g, ' ');
         var pseudoVerify = pseudo.replace(/\s/g, '');
@@ -153,7 +158,7 @@ $(document).ready(function(){
                                 $('#error').append(errorDiv);
                             });
                         }else{
-                              window.location.href = host;
+                            //   window.location.href = host;
                         }
 
                     },

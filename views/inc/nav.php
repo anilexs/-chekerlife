@@ -1,6 +1,6 @@
 </head>
 <body>
-<?php if(isset($_COOKIE['user_id'])){ ?>
+<?php if(isset($_COOKIE['token'])){ ?>
     <nav>
         <div>
             <a href="<?= $host ?>">

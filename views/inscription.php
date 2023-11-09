@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_COOKIE['user_id'])) {
+if(isset($_COOKIE['token'])) {
     header("Location: index");
 }
 require_once "inc/header.php"; 
@@ -18,21 +18,21 @@ require_once "inc/header.php";
                 <form method="POST" class="formInscription" id="formInscription">
                     <div class="formPseudo">
                         <label for="pseudo" class="leftLabel">pseudo :</label>
-                        <input type="text" maxlength="18" id="pseudo" class="leftInute" placeholder="pseudo">
+                        <input type="text" maxlength="18" id="pseudo" class="leftInute" placeholder="pseudo" value="teste">
                     </div>
     
                     <div class="formEmail">
                         <label for="email" class="leftLabel">email :</label>
-                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email">
+                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email" value="teste@te.te">
                     </div>
     
                     <div class="formPassword">
                         <label for="password" class="leftLabel">mot de passe :</label>
-                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe">
+                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe" value="testee">
                     </div>
                     <div class="formPasswordConfirmation">
                         <label for="passwordConfirmation" class="leftLabel">confirmation du mot de passe :</label>
-                        <input type="password" maxlength="100" id="passwordConfirmation" class="leftInute" placeholder="confirmation du mot de passe">
+                        <input type="password" maxlength="100" id="passwordConfirmation" class="leftInute" placeholder="confirmation du mot de passe" value="testee">
                     </div>
                     <div class="divNewSlater">
                         <input type="checkbox" class="Newslatter" id="Newslatter">
