@@ -209,7 +209,7 @@ class User{
 
             $bool = null;
             if(empty($episodeViews)){
-                $request2->execute(array($token, $id_episode, $catalog_id));
+                $request2->execute(array($id_episode, $catalog_id, $token));
                 $bool = true;
             }else{
                 if($episodeViews['views_active'] == 0){
