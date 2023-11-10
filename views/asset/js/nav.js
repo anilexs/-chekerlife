@@ -112,36 +112,40 @@ $(document).ready(function () {
             if(response['connect'] == false){
                 window.location.href = host + "connexion";
             }else{
-                if(response['message'] == true){
-                    $(".likeCollor" + catalog_id).css("color", "red");
-                    $(".likeId" + response['CatalogInfo']['id_catalogue']).css("color", "white");
+                if(response['actif']['user_actif'] == 1 && response['actif']['token_active'] == 1){
+                    if(response['message'] == true){
+                        $(".likeCollor" + catalog_id).css("color", "red");
+                        $(".likeId" + response['CatalogInfo']['id_catalogue']).css("color", "white");
+                    }else{
+                        $(".likeCollor" + catalog_id).css("color", "white");
+                        $(".likeId" + response['CatalogInfo']['id_catalogue']).css("color", "black");
+                    }
+                    
+                    $("." + catalog_id).text(response['CatalogInfo']['likes']);
+                    
+                    $("#likeCount").text(response['nbLike']);
+                    $likeCount = response['nbLike'];
+    
+                    if($likeCount < 10){
+                        $("#likeCount").css({     
+                            right: "11.5px",
+                            top: "9px"        
+                          });       
+                    }else if ($likeCount >= 10 && $likeCount < 100){
+                        $("#likeCount").css({
+                            right: "8px",
+                            top: "8px"
+                        });
+                    }else if($likeCount >= 100 && $likeCount < 1000){
+                        $("#likeCount").css({     
+                          right: "5px"        
+                        });
+                    }
+    
+                    likePosition(response['CatalogInfo']['id_catalogue'], response['CatalogInfo']['likes']);
                 }else{
-                    $(".likeCollor" + catalog_id).css("color", "white");
-                    $(".likeId" + response['CatalogInfo']['id_catalogue']).css("color", "black");
+                    window.location.href = host + "connexion";
                 }
-                
-                $("." + catalog_id).text(response['CatalogInfo']['likes']);
-                
-                $("#likeCount").text(response['nbLike']);
-                $likeCount = response['nbLike'];
-
-                if($likeCount < 10){
-                    $("#likeCount").css({     
-                        right: "11.5px",
-                        top: "9px"        
-                      });       
-                }else if ($likeCount >= 10 && $likeCount < 100){
-                    $("#likeCount").css({
-                        right: "8px",
-                        top: "8px"
-                    });
-                }else if($likeCount >= 100 && $likeCount < 1000){
-                    $("#likeCount").css({     
-                      right: "5px"        
-                    });
-                }
-
-                likePosition(response['CatalogInfo']['id_catalogue'], response['CatalogInfo']['likes']);
             }
         }
     });

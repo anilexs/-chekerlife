@@ -106,3 +106,6 @@ WHERE token.token = '3MIE*9cpTPOe0lEmNT420uT*jTgi.6aj' AND token.active = 1;
 
 recupere tout les info de lutilisater + le token 
 SELECT users.*, token.token FROM users LEFT JOIN token ON users.id_user = token.user_id AND token.active = 1 WHERE users.email = ?
+
+recupere id user par le token
+SELECT * FROM `users` LEFT JOIN token ON id_user = token.user_id WHERE token.token = "alexis" AND token.token_active = 1

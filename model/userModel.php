@@ -4,6 +4,17 @@ require_once "catalogModel.php";
 define("DOMAINNAME", "localhost");
 define("host", "http://localhost/!chekerlife/");
 class User{
+    public static function user_actif($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT user_actif, token.token_active FROM users LEFT JOIN token ON users.id_user = token.user_id WHERE token.token = ?");
+        try {
+            $request->execute(array($token));
+            $userActif = $request->fetch(PDO::FETCH_ASSOC);
+            return $userActif;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
     public static function inscription($pseudo, $email, $password) {
         $db = Database::dbConnect();
 
@@ -102,13 +113,19 @@ class User{
                 $return = ["error", $errorInscription];
             }else{
                 if(password_verify($password, $user['password'])){
-
-                    setcookie("token", $user['token'], time() + 3600 * 5, "/", DOMAINNAME);
-                    $return = ["successful", true];
-                }else{
-                    $errorInscription[] = "Veuillez vérifier vos informations de connexion.";
-                    $return = ["error", $errorInscription];
-                }
+                        if($user['user_actif'] == 1 && $user['token'] != null){
+                            setcookie("token", $user['token'], time() + 3600 * 5, "/", DOMAINNAME);
+                            $return = ["successful", true];
+                        }else{
+                            if($user['user_actif'] != 1){
+                                $errorInscription[] = "Ce compte est inactif. S'il s'agit d'une erreur, merci de nous <a href=". host ."contact> contacter </a>.";
+                            }
+                            $return = ["error", $errorInscription];
+                        }
+                    }else{
+                        $errorInscription[] = "Veuillez vérifier vos informations de connexion.";
+                        $return = ["error", $errorInscription];
+                    }
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -138,21 +155,21 @@ class User{
             $like = $request->fetch(PDO::FETCH_ASSOC);
 
             $bool = null;
-            if(empty($like)){
-                $request2->execute(array($catalog_id, $token));
-                Catalog::categoryLike(1, $catalog_id);
-                $bool = true;
-            }else{
-                if($like['like_active'] == 0){
-                    $request3->execute(array(1, $token, $catalog_id));
+                if(empty($like)){
+                    $request2->execute(array($catalog_id, $token));
                     Catalog::categoryLike(1, $catalog_id);
                     $bool = true;
                 }else{
-                    $request3->execute(array(0, $token, $catalog_id));
-                    Catalog::categoryLike(0, $catalog_id);
-                    $bool = false;
+                    if($like['like_active'] == 0){
+                        $request3->execute(array(1, $token, $catalog_id));
+                        Catalog::categoryLike(1, $catalog_id);
+                        $bool = true;
+                    }else{
+                        $request3->execute(array(0, $token, $catalog_id));
+                        Catalog::categoryLike(0, $catalog_id);
+                        $bool = false;
+                    }
                 }
-            }
             return $bool;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -161,7 +178,7 @@ class User{
 
     public static function userInfo($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT users.* FROM users JOIN token ON users.id_user = token.user_id WHERE token.token = ? AND token.token_active = 1");
+        $request = $db->prepare("SELECT users.* FROM users JOIN token ON users.id_user = token.user_id WHERE token.token = ?");
         try {
             $request->execute(array($token));
             $user_list = $request->fetch(PDO::FETCH_ASSOC);

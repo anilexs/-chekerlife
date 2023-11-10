@@ -1,7 +1,6 @@
 <?php 
 require_once "../model/catalogModel.php";
-require_once "../model/userModel.php";
-
+require_once "../model/userModel.php";  
 if(isset($_GET['page']) && isset($_GET['titre'])){   
     $page = null;
 }else{
