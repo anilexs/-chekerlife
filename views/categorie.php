@@ -37,6 +37,7 @@ require_once "inc/header.php";
         if($page !== null){
 
             foreach($catalog as $catalogItem){ ?>
+                
                 <div class="card">
                     <?php
                     $isActive = false;
@@ -54,6 +55,12 @@ require_once "inc/header.php";
                         <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
                         <i class="fa-solid fa-heart"></i>
                     </button>
+
+                    <div class="type"><?= $catalogItem['type'] ?></div>
+
+                    <?php if($catalogItem['saison'] != null){ ?>
+                        <div class="saison">saision <?= $catalogItem['saison'] ?></div>
+                    <?php } ?>
                     <a href="catalog/<?= $urlName ?>">
                         <img src="asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
                     </a>

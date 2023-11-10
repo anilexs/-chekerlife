@@ -131,7 +131,7 @@ class Catalog{
     public static function lastAdd(){
         // sql requete a fair car la sais pas la bonne
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog ORDER BY last_add DESC LIMIT 8");
+        $request = $db->prepare("SELECT * FROM catalog ORDER BY add_data DESC LIMIT 8");
 
         try{
             $request->execute();

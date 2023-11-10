@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
 nav{
     background-color: #1E222C;
     height: 70px;
@@ -159,6 +161,28 @@ nav .pseudo{
     border-radius: 50%;
     height: 40px;
     padding-top: 5px;
+}
+.saison{
+    color: white;
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.500);
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    padding: 0 5px;
+    font-size: 20px;
+    bottom: 10px;
+    right: 5px;
+}
+.type{
+    color: white;
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.500);
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    padding: 0 5px;
+    font-size: 20px;
+    top: 10px;
+    left: 5px;
 }
 nav h3{
     color: white;

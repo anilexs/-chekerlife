@@ -66,7 +66,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }
             }
         }
-        card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
+        card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
     }
     echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
@@ -91,7 +91,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                     }
                 }
             }
-            card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"]);
+            card($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
         }
         echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
@@ -283,12 +283,19 @@ function reponse($response_code, $response){
     echo json_encode($response);
 }
 
-function card($id_catalogue, $isActive, $nom, $like, $image_catalogue){
+function card($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, $type){
     $urlName = str_replace(' ', '-', $nom);
     echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . ' " onclick="like(' . $id_catalogue . ')">';
     echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
+    echo '<div class="type">'. $type .'</div>';
+    if (!empty($saison)) {
+        echo '<div class="saison">saison ' . $saison . '</div>';
+    }
+
+
+
     echo '<a href="catalog/' . $urlName . '">';
     echo '<img src="http://localhost/!chekerlife/views/asset/img/catalog/' . $image_catalogue . '" alt="">';
     echo '</a>';
