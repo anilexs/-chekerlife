@@ -119,6 +119,13 @@ nav .profil{
     background-color: rgb(61, 61, 61);
     width: 200px;
 }
+#deconnexion{
+    width: 100%;
+    background-color: transparent;
+    border-top: 2px solid white;
+    color: white;
+    font-size: 30px;
+}
 nav .pseudo{
     width: 100%;
     color: white;

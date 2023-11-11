@@ -28,7 +28,7 @@ class User{
 
         $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
 
-        function generateToken($length = 16) {
+        function generateToken($length = 32) {
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@%$*_-';
             $token = '';
                 

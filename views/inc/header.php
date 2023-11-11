@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="<?= $host ?>asset/js/user.js"></script>
     <script src="<?= $host ?>asset/js/structure.js"></script>
     <script src="<?= $host ?>asset/js/nav.js"></script>
     <link rel="icon" type="image/png" href="<?= $host ?>asset/img/logo.png">

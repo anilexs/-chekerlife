@@ -58,6 +58,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         ];
 
         reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "deconnexion"){
+        User::deconnexion();
     }
 
 }else {

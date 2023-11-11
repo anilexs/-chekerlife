@@ -36,9 +36,7 @@
                 <ul class="menu">
                         <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>views/undefined-page">Profile</a></li>
                         <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>views/undefined-page">Parametre</a></li>
-                        <li><form action="<?= $host ?>views/traitement/action.php" method="POST">
-                            <button name="deconnexion">Déconnexion</button>
-                        </form></li>
+                        <li><button id="deconnexion">Déconnexion</button></li>
                 </ul>
             </li>
         </ul>
