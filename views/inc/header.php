@@ -1,8 +1,7 @@
 <?php
 
     $currentPath = $_SERVER['REQUEST_URI'];
-    $userForm = null;
-
+    
     // Vérification des dossiers
     if (strpos($currentPath, '/catalog/') !== false || strpos($currentPath, '/profil/') !== false) {
         require_once "../../model/userModel.php";

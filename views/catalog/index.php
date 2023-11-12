@@ -14,7 +14,6 @@
         $userViews = User::episodeViewsActifeUser($_COOKIE['token'], $catalogInfo['id_catalogue']);
         $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
     }
-    $host = "http://localhost/!chekerlife/";
     
     if($get == null || $catalogInfo === false){
         header("Location:" . $host . "undefined-page.php");

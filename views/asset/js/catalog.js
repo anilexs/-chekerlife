@@ -1,5 +1,3 @@
-
-
 function catalogViews(offset, limit = 81) {
     offset -= 1;
     limit = 81;

@@ -111,7 +111,7 @@ $(document).ready(function () {
     function like (catalog_id){
     $.ajax({
         type: "POST",
-        url: host + "views/traitement/ajax.php",
+        url: host + "controller/UserAjaxConroller.php",
         data: {
             action: "like",
             catalog_id: catalog_id

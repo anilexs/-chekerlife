@@ -1,4 +1,4 @@
-urlAjax = "http://localhost/!chekerlife/views/traitement/ajax.php";
+urlAjax = "http://localhost/!chekerlife/controller/UserAjaxConroller.php";
 function likeList (catalog_id){
     $.ajax({
         type: "POST",
