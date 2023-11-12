@@ -1,16 +1,15 @@
 <?php
-    require_once "../../model/userModel.php";
+    require_once "../../model/userModel.php";  
     require_once "../../model/catalogModel.php";
     require_once "../../model/collectionModel.php";
+    
     $get = isset($_GET['q']) ? $_GET['q'] : null;
     $name = str_replace('+', ' ', $get);
     $catalogInfo = Catalog::catalogInfoName($name);
     $episodes = Catalog::episode($catalogInfo['id_catalogue']);
     $nbVus = 0;
     if(isset($_COOKIE['token'])){
-        $likeConte = User::likeCount($_COOKIE['token']);
         $userLike = User::userLike($_COOKIE['token']);
-        $userInfo = User::userInfo($_COOKIE['token']);
         $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $catalogInfo['id_catalogue']);
         $userViews = User::episodeViewsActifeUser($_COOKIE['token'], $catalogInfo['id_catalogue']);
         $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
@@ -37,22 +36,10 @@
         }
     }
     // var_dump($userViews);
+    require_once "../inc/header.php";
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="<?= $host ?>asset/css/style.css">
-    <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
-    <link rel="stylesheet" href="<?= $host ?>asset/css/footer.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/list.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <script src="<?= $host ?>asset/js/structure.js"></script>
-    <script src="<?= $host ?>views/asset/js/nav.js"></script>
     <script src="<?= $host ?>asset/js/list.js"></script>
-    <link rel="icon" type="image/png" href="<?= $host ?>asset/img/logo.png">
     <title><?= $name ?></title>
 
 <?php require_once "../inc/nav.php"; ?>

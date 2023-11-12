@@ -6,10 +6,8 @@
     // Vérification des dossiers
     if (strpos($currentPath, '/catalog/') !== false || strpos($currentPath, '/profil/') !== false) {
         require_once "../../model/userModel.php";
-        echo "dossier";
     } else {
         require_once "../model/userModel.php";
-        echo "fichier";
     }
 
 
