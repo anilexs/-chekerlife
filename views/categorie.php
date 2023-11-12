@@ -49,7 +49,7 @@ require_once "inc/header.php";
                             }
                         }
                     }
-                    $urlName = str_replace(' ', '-', $catalogItem["nom"]);
+                    $urlName = str_replace(' ', '+', $catalogItem["nom"]);
                     ?>
                     <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogItem["id_catalogue"] ?>" id="<?= $catalogItem["id_catalogue"] ?> <? echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
                         <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>

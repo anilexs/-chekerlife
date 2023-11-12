@@ -1,4 +1,13 @@
 const host = "http://localhost/!chekerlife/";
+var currentPath = window.location.pathname;
+var userForm = null;
+
+// Vérification des dossiers
+if (currentPath.includes('/catalog/') || currentPath.includes('/profil/')) {
+    userForm = "../form/UserForm.php";
+} else {
+    userForm = "form/UserForm.php";
+}
 
 $(document).ready(function(){
 $likeCount = $("#likeCount").text();
@@ -263,9 +272,28 @@ function likePosition(catalog_id, $like = null) {
     // 10,000,000,000,000,000 = 10P
     // 100,000,000,000,000,000 = 100P
 }
+// Vérification du chemin actuel
 
 $(document).ready(function () {
     $(window).on('resize', function () {
         ftrSize();
     });
+
+    $("#deconnexion").on("click", function(e) {
+
+        $.ajax({
+            url: userForm,
+            type: 'POST',
+            data: {
+                action: "deconnexion",
+            },
+            dataType: 'html',
+            success: function (response) {
+                window.location.href = host;
+            },
+            error: function (xhr, status, error) {
+                console.error('Une erreur s\'est produite lors du chargement du contenu.');
+            }
+        });
+    })
 });

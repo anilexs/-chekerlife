@@ -1,5 +1,18 @@
 <?php
-    require_once "../model/userModel.php";
+
+    $currentPath = $_SERVER['REQUEST_URI'];
+    $userForm = null;
+
+    // Vérification des dossiers
+    if (strpos($currentPath, '/catalog/') !== false || strpos($currentPath, '/profil/') !== false) {
+        require_once "../../model/userModel.php";
+        echo "dossier";
+    } else {
+        require_once "../model/userModel.php";
+        echo "fichier";
+    }
+
+
     if(isset($_COOKIE['token'])){
         $likeConte = User::likeCount($_COOKIE['token']);
         $userInfo = User::userInfo($_COOKIE['token']);
@@ -16,7 +29,6 @@
     <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <script src="<?= $host ?>asset/js/user.js"></script>
     <script src="<?= $host ?>asset/js/structure.js"></script>
     <script src="<?= $host ?>asset/js/nav.js"></script>
     <link rel="icon" type="image/png" href="<?= $host ?>asset/img/logo.png">

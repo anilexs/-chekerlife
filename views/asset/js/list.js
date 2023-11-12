@@ -1,7 +1,8 @@
+urlAjax = "http://localhost/!chekerlife/views/traitement/ajax.php";
 function likeList (catalog_id){
     $.ajax({
         type: "POST",
-        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
+        url: urlAjax,
         data: {
             action: "like",
             catalog_id: catalog_id
@@ -35,7 +36,7 @@ function likeList (catalog_id){
 function views (epViews){
     $.ajax({
         type: "POST",
-        url: "http://localhost/!chekerlife/views/traitement/ajax.php",
+        url: urlAjax,
         data: {
             action: "views",
             epViews: epViews
@@ -69,7 +70,7 @@ $(document).ready(function(){
         var chekboxId = $(this).attr('id');
 
         $.ajax({
-            url: 'http://localhost/!chekerlife/views/traitement/ajax.php', 
+            url: urlAjax, 
             type: 'POST',
             data: {
                 action: "views",

@@ -3,7 +3,7 @@
     require_once "../../model/catalogModel.php";
     require_once "../../model/collectionModel.php";
     $get = isset($_GET['q']) ? $_GET['q'] : null;
-    $name = str_replace('-', ' ', $get);
+    $name = str_replace('+', ' ', $get);
     $catalogInfo = Catalog::catalogInfoName($name);
     $episodes = Catalog::episode($catalogInfo['id_catalogue']);
     $nbVus = 0;
@@ -16,9 +16,9 @@
         $nbVus = $nbEpisodeUserViewsActife['COUNT(*)'];
     }
     $host = "http://localhost/!chekerlife/";
-
-    if($get == null){
-        header("Location:" . $host);
+    
+    if($get == null || $catalogInfo === false){
+        header("Location:" . $host . "undefined-page.php");
     }
     if(empty($catalogInfo)){
         $catalogInfo = null;
