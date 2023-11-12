@@ -3,7 +3,7 @@ function catalogViews(offset, limit = 81) {
     limit = 81;
     $("#pagination").html("");
     $.ajax({
-        url: 'traitement/ajax.php',
+        url: host + "controller/CatalogAjaxController.php",
         type: 'POST',
         data: {
             action: "catalog",
@@ -27,7 +27,7 @@ function catalogFiltre(filtre, offset = 1, limit = 81){
 
     $("#pagination").html("");
     $.ajax({
-        url: 'traitement/ajax.php', 
+        url: host + "controller/CatalogAjaxController.php", 
         type: 'POST',
         data: {
             action: "filtre",
@@ -51,7 +51,7 @@ function pagination(nbElement) {
     var filtre = urlParams.get("titre");
     var page = urlParams.get("page");
     $.ajax({
-        url: 'traitement/ajax.php', 
+        url: host + "controller/CatalogAjaxController.php", 
         type: 'POST',
         data: {
             action: "pagination",

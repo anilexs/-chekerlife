@@ -54,7 +54,7 @@ if($likeCount < 10){
 
 function navFiltre($filtre){
     $.ajax({
-        url: host + 'views/traitement/ajax.php', 
+        url: host + "controller/CatalogAjaxController.php", 
         type: 'POST',
         data: {
             action: "navFiltre",
@@ -158,25 +158,6 @@ $(document).ready(function () {
             }
         }
     });
-}
-
-function nbLike(catalog_id) {
-    $.ajax({
-        type: 'POST',
-        url: host + 'views/traitement/ajax.php',
-        data: {
-            action: "catalogNbLike",
-            id_catalog: catalog_id,
-        },
-        dataType: "json",
-        success: function(response) {
-            console.log(response['catalogNbLike'][0]);
-        },
-        error: function(xhr, status, error) {
-            console.error('Une erreur s\'est produite : ' + error);
-        }
-    });
-
 }
 
 function likePosition(catalog_id, $like = null) {

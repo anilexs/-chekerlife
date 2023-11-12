@@ -53,6 +53,36 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
         reponse($response_code, $responseTab);
         
+    }else if($_POST['action'] == "views"){
+        if(isset($_COOKIE['token'])){
+            $response_code = HTTP_OK;
+            $actif = User::user_actif($_COOKIE['token']);
+            if($actif['user_actif'] == 1 && $actif['token_active'] == 1){
+                $catalog = Catalog::episodeInfo($_POST['chekboxId']); 
+                $episodeViews = User::episodeUserViews($_COOKIE['token'], $_POST['chekboxId'], $catalog['catalog_id']);
+                $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $catalog['catalog_id']);
+                $responseTab = [
+                            "response_code" => HTTP_OK,
+                            "connecter" => true,
+                            "nbEpisodeUserViewsActife" => $nbEpisodeUserViewsActife['COUNT(*)'],
+                            "actif" => $actif,
+                        ];
+            }else{
+                User::deconnexion();
+                $responseTab = [
+                            "response_code" => HTTP_OK,
+                            "connecter" => false,
+                        ];
+            }
+            
+        }else{
+            $response_code = HTTP_OK;
+            $responseTab = [
+                            "response_code" => HTTP_OK,
+                            "connecter" => false,
+                        ];
+            }
+        reponse($response_code, $responseTab);
     }
 
 }else {

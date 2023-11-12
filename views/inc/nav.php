@@ -34,8 +34,8 @@
                     <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>
                 <ul class="menu">
-                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>views/undefined-page">Profile</a></li>
-                        <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>views/undefined-page">Parametre</a></li>
+                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>undefined-page">Profile</a></li>
+                        <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page">Parametre</a></li>
                         <li><button id="deconnexion">Déconnexion</button></li>
                 </ul>
             </li>

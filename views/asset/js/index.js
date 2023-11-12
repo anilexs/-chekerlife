@@ -1,7 +1,7 @@
 var lastAdd;
 
 $.ajax({
-    url: "traitement/ajax.php",
+    url: host + "controller/CatalogAjaxController.php",
     type: "POST",
     data: {
         action: "lastAdd",
