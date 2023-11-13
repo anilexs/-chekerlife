@@ -158,7 +158,13 @@ $(document).ready(function(){
                                 $('#error').append(errorDiv);
                             });
                         }else{
-                              window.location.href = host;
+                            if (window.history.length === 1) {
+                                window.location.href = host;
+                            } else {
+                                var urlPagePrecedente = document.referrer;
+                                
+                                window.location.href = urlPagePrecedente;
+                            }
                         }
 
                     },
