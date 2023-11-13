@@ -228,3 +228,14 @@ function card($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, 
     echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); ftrSize();</script>';
     echo '</div>';
 }
+
+function generateCode($length = 50) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $code = '';
+        
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $code;
+}

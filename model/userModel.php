@@ -15,6 +15,36 @@ class User{
             echo $e->getMessage();
         }
     }
+
+    public static function isTokenAvailable($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT id_token FROM token WHERE token = ?");
+        try {
+            $request->execute(array($token));
+            $tokenDisponible = $request->fetch(PDO::FETCH_ASSOC);
+            return !$tokenDisponible; // Renvoie vrai si le token n'est pas trouvé en base de données
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            // Gérer l'erreur de requête
+            return false;
+        }
+    }
+
+    public static function generateToken($length = 32) {
+        $db = Database::dbConnect();
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@%$*_-\%!:?,=+}{][/)(';
+        $token = '';
+        
+        do {
+            $token = '';
+            for ($i = 0; $i < $length; $i++) {
+                $token .= $characters[rand(0, strlen($characters) - 1)];
+            }
+        } while (!self::isTokenAvailable($token));
+    
+        return $token;
+    }
+
     public static function inscription($pseudo, $email, $password) {
         $db = Database::dbConnect();
 
@@ -27,17 +57,7 @@ class User{
         $requestVerify->execute(array($pseudo, $email));
 
         $userVerify = $requestVerify->fetch(PDO::FETCH_ASSOC);
-
-        function generateToken($length = 32) {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@%$*_-';
-            $token = '';
-                
-            for ($i = 0; $i < $length; $i++) {
-                $token .= $characters[rand(0, strlen($characters) - 1)];
-            }
-        
-            return $token;
-        }
+            
 
         if(!empty($userVerify)){
             $pseudoError = false;
@@ -66,7 +86,7 @@ class User{
                 $request->execute(array($pseudo, $email, $hash));
                 
                 $lastUserId = $db->lastInsertId();
-                $token = generateToken(32);
+                $token = self::generateToken();
                 $requestToken->execute(array($lastUserId, $token));
                 setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];
@@ -178,11 +198,25 @@ class User{
 
     public static function userInfo($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT users.* FROM users JOIN token ON users.id_user = token.user_id WHERE token.token = ?");
+        $request = $db->prepare("SELECT u.*, 
+       profile.user_image AS user_image, 
+       banner.user_image AS banner_image FROM users u JOIN token t ON u.id_user = t.user_id LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 WHERE t.token = ? ");
         try {
             $request->execute(array($token));
             $user_list = $request->fetch(PDO::FETCH_ASSOC);
             return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function profilInfo($pseudo){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT id_user, pseudo, user_statut FROM users WHERE pseudo = ?");
+        try {
+            $request->execute(array($pseudo));
+            $profileinfo = $request->fetch(PDO::FETCH_ASSOC);
+            return $profileinfo;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -233,6 +267,7 @@ class User{
                     $request3->execute(array(0, $token, $id_episode));
                 }
             }
+            self::prograision($token, $catalog_id);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -242,16 +277,25 @@ class User{
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM catalog_progression LEFT JOIN token ON catalog_progression.user_id = token.user_id  WHERE token.token = ? AND catalog_id = ?");
         $insert = $db->prepare("INSERT INTO `catalog_progression`(`user_id`, `catalog_id`) SELECT token.user_id, ? FROM token WHERE token.token = ? AND token.token_active = 1");
-        $update = $db->prepare("UPDATE catalog_progression LEFT JOIN token ON catalog_progression.user_id = token.user_id SET catalog_progression.etat = 'en cours', catalog_progression.visible = 1 WHERE token.token = ? AND catalog_progression.catalog_id = ?");
+        $update = $db->prepare("UPDATE catalog_progression LEFT JOIN token ON catalog_progression.user_id = token.user_id SET catalog_progression.etat = ?, catalog_progression.visible = 1 WHERE token.token = ? AND catalog_progression.catalog_id = ?");
         
+        $episode = Catalog::episode($id_catalog);
+        $episodes = count($episode);
+
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $id_catalog);;
+        $nbEpisodeUserViewsActife = $nbEpisodeUserViewsActife['COUNT(*)'];
         try {
             $request->execute(array($token, $id_catalog));
             $prograision = $request->fetch(PDO::FETCH_ASSOC);
 
             if(empty($prograision)){
                 $insert->execute(array($id_catalog, $token));
-            }else if($prograision['etat'] != "en cours" || $prograision['visible'] == 0){
-                $update->execute($token, $id_catalog);
+            }else if($prograision['etat'] != "en attente" && $nbEpisodeUserViewsActife === 0){
+                $update->execute(array("en attente", $token, $id_catalog));
+            }else if(($prograision['etat'] != "en cours" || $prograision['etat'] == 0) && $nbEpisodeUserViewsActife > 0 && $nbEpisodeUserViewsActife < $episodes){
+                $update->execute(array("en cours", $token, $id_catalog));
+            }else if($prograision['etat'] != "terminer" || $prograision['visible'] == 0 && $nbEpisodeUserViewsActife == $episodes){
+                $update->execute(array("terminer", $token, $id_catalog));
             }
         } catch (PDOException $e) {
             echo $e->getMessage();

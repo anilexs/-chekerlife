@@ -29,12 +29,12 @@
             <li>
                 <button class="profil">
                     <div>
-                        <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/<?=$userInfo['photo_profile']; ?>" alt="">
+                        <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/<?=$userInfo['user_image']; ?>" alt="">
                     </div>
                     <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>
                 <ul class="menu">
-                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>undefined-page">Profile</a></li>
+                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>profil/<?= $userInfo['pseudo'] ?>">Profile</a></li>
                         <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page">Parametre</a></li>
                         <li><button id="deconnexion">Déconnexion</button></li>
                 </ul>

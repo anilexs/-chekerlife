@@ -158,7 +158,7 @@ $(document).ready(function(){
                                 $('#error').append(errorDiv);
                             });
                         }else{
-                            //   window.location.href = host;
+                              window.location.href = host;
                         }
 
                     },
