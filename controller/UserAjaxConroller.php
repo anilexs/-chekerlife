@@ -83,8 +83,16 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                         ];
             }
         reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "level"){
+        $xp = User::level($_POST['user']);
+        $response_code = HTTP_OK;
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "xp" => $xp,
+        ];
+        reponse($response_code, $responseTab); 
     }
-
+    
 }else {
     $response_code = HTTP_METHOD_NOT_ALLOWED;
     $responseTab = [

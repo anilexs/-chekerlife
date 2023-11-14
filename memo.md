@@ -110,5 +110,5 @@ SELECT users.*, token.token FROM users LEFT JOIN token ON users.id_user = token.
 recupere id user par le token
 SELECT * FROM `users` LEFT JOIN token ON id_user = token.user_id WHERE token.token = "alexis" AND token.token_active = 1
 
-requette pour les chekbox a metre en plase pour les etat en cour terminer etc
+requette pour les chekbox a metre en plase pour les etat en cour terminer etc ( fais )
 INSERT INTO `catalog_progression`(`user_id`, `catalog_id`, `etat`) SELECT token.user_id, ?, ? FROM token WHERE token.token = ? AND token.token_active = 1;

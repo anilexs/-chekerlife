@@ -6,28 +6,61 @@
     position: relative;
 }
 .profile{
-    height: 150px;
+    height: 180px;
     width: 100%;
     background-color: rgba(41, 41, 41, 0.508);
     position: absolute;
     bottom: 0;
+    padding-left: 30px;
     display: flex;
     align-items: center;
-    padding-left: 30px;
 }
 .divImgProfil{
     position: relative;
-}
-.cadre{
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    position: absolute;
-    left: -9px;
-    top: -12px;
+    margin-top: 5px;
 }
 .profilImg{
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+}
+.cercleDeFeux{
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+    position: absolute;
+    left: -13px;
+    top: -13px;
+}
+.cercleDeFeuxBleu{
+    width: 173px;
+    height: 173px;
+    border-radius: 50%;
+    position: absolute;
+    left: -12px;
+    top: -13px;
+}
+.cercleDeFeuxRose{
+    width: 173px;
+    height: 173px;
+    border-radius: 50%;
+    position: absolute;
+    left: -12px;
+    top: -13px;
+}
+.silverFondue{
+    width: 225px;
+    height: 225px;
+    border-radius: 50%;
+    position: absolute;
+    left: -38px;
+    top: -36px;
+}
+.homeHalloween{
+    width: 185px;
+    height: 185px;
+    border-radius: 50%;
+    position: absolute;
+    left: -18px;
+    top: -17px;
 }

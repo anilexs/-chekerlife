@@ -196,6 +196,18 @@ class User{
         }
     }
 
+    public static function level($pseudo){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT xp FROM `users` WHERE pseudo = ?");
+        try {
+            $request->execute(array($pseudo));
+            $xp = $request->fetch(PDO::FETCH_ASSOC);
+            return $xp['xp'];
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function like($token, $catalog_id){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT likes.* FROM likes JOIN token ON likes.user_id = token.user_id WHERE token.token = ? AND token.token_active = 1 AND likes.catalog_id = ?");
