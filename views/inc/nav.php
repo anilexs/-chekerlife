@@ -29,7 +29,7 @@
             <li>
                 <button class="profil">
                     <div>
-                        <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/<?=$userInfo['user_image']; ?>" alt="">
+                        <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/profile/<?=$userInfo['user_image']; ?>" alt="">
                     </div>
                     <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
                 </button>

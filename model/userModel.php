@@ -22,10 +22,9 @@ class User{
         try {
             $request->execute(array($token));
             $tokenDisponible = $request->fetch(PDO::FETCH_ASSOC);
-            return !$tokenDisponible; // Renvoie vrai si le token n'est pas trouvé en base de données
+            return !$tokenDisponible;
         } catch (PDOException $e) {
             echo $e->getMessage();
-            // Gérer l'erreur de requête
             return false;
         }
     }
@@ -43,6 +42,16 @@ class User{
         } while (!self::isTokenAvailable($token));
     
         return $token;
+    }
+    
+    public static function defaux_img($user_id) {
+        $db = Database::dbConnect();
+        $image = $db->prepare("INSERT INTO user_image (user_id, user_image, image_type) VALUES (?, ?, ?), (?, ?, ?)");
+        try {
+            $image->execute(array($user_id, "profile-defaux.png", "profil", $user_id, "banner-defaux.png", "banner"));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     public static function inscription($pseudo, $email, $password) {
@@ -87,6 +96,7 @@ class User{
                 
                 $lastUserId = $db->lastInsertId();
                 $token = self::generateToken();
+                self::defaux_img($lastUserId);
                 $requestToken->execute(array($lastUserId, $token));
                 setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];
@@ -162,6 +172,30 @@ class User{
         }
     }
 
+    public static function userInfo($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT u.*, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u JOIN token t ON u.id_user = t.user_id LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1 WHERE t.token = ?");
+        try {
+            $request->execute(array($token));
+            $user_list = $request->fetch(PDO::FETCH_ASSOC);
+            return $user_list;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function profilInfo($pseudo){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT DISTINCT u.id_user, u.pseudo, u.user_statut, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1 WHERE u.pseudo = ?");
+        try {
+            $request->execute(array($pseudo));
+            $profileinfo = $request->fetch(PDO::FETCH_ASSOC);
+            return $profileinfo;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function like($token, $catalog_id){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT likes.* FROM likes JOIN token ON likes.user_id = token.user_id WHERE token.token = ? AND token.token_active = 1 AND likes.catalog_id = ?");
@@ -191,32 +225,6 @@ class User{
                     }
                 }
             return $bool;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-
-    public static function userInfo($token) {
-        $db = Database::dbConnect();
-        $request = $db->prepare("SELECT u.*, 
-       profile.user_image AS user_image, 
-       banner.user_image AS banner_image FROM users u JOIN token t ON u.id_user = t.user_id LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 WHERE t.token = ? ");
-        try {
-            $request->execute(array($token));
-            $user_list = $request->fetch(PDO::FETCH_ASSOC);
-            return $user_list;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-    
-    public static function profilInfo($pseudo){
-        $db = Database::dbConnect();
-        $request = $db->prepare("SELECT id_user, pseudo, user_statut FROM users WHERE pseudo = ?");
-        try {
-            $request->execute(array($pseudo));
-            $profileinfo = $request->fetch(PDO::FETCH_ASSOC);
-            return $profileinfo;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
