@@ -1,4 +1,13 @@
 urlAjax = "http://localhost/!chekerlife/controller/UserAjaxConroller.php";
+
+$(document).ready(function () {
+    $('img').on('dragstart', function (e) {
+        e.preventDefault();
+    });
+    $('.divImgProfil').on('contextmenu', function (e) {
+        e.preventDefault();
+    });
+});
 function level(user) {
     $.ajax({
         url: urlAjax,
@@ -9,7 +18,6 @@ function level(user) {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
             level = response['xp'];
             if(level < 1000){
                 level = 1;

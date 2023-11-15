@@ -24,6 +24,8 @@
     height: 150px;
     border-radius: 50%;
 }
+
+/* cadre */
 .cercleDeFeux{
     width: 175px;
     height: 175px;
@@ -63,4 +65,14 @@
     position: absolute;
     left: -18px;
     top: -17px;
+}
+
+/* userInfo */
+.userProfil{
+    height: 90%;
+}
+.userProfil{
+    margin-left: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
 }
