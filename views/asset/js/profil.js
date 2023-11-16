@@ -14,13 +14,14 @@ function userXpAdd(add_xp = 0) {
         type: 'POST',
         data: {
             action: "XPuserAdd",
+            add_xp: add_xp,
         },
         dataType: 'json',
         success: function (response) {
             user_xp = response['xp_actuelle'];
             xp_Level = response['xp_requis'];
 
-            var newPercentage = ((user_xp + add_xp) / xp_Level) * 100;
+            var newPercentage = ((user_xp) / xp_Level) * 100;
 
         $('.xp-bar').each(function() {
             var xpProgress = $(this).find('.xp-progress');
@@ -28,12 +29,12 @@ function userXpAdd(add_xp = 0) {
             xpProgress.animate({ width: newPercentage + '%' }, 1000);
             
             
-            $('#countXp').text(Math.floor((user_xp + add_xp)));
+            $('#countXp').text(Math.floor((user_xp)));
             $('#levelXp').text(xp_Level);
             
             
             
-            $(this).attr('data-xp-user', user_xp + add_xp);
+            $(this).attr('data-xp-user', user_xp);
             $(this).attr('data-xp-level', xp_Level);
         });
         },
@@ -57,27 +58,12 @@ $(document).ready(function() {
   userXpAdd();
 });
 
-// function addExperience(add_xp, user_xp, xp_Level) {
-  
-//   var currentPercentage = (user_xp / xp_Level) * 100;
-  
-//   var newPercentage = ((user_xp + add_xp) / xp_Level) * 100;
-
-//   $('.xp-bar').each(function() {
-//     var xpProgress = $(this).find('.xp-progress');
-//     xpProgress.stop();
-//     xpProgress.animate({ width: newPercentage + '%' }, 1000);
-
-   
-//     $('#countXp').text(Math.floor((user_xp + add_xp)));
-//     $('#levelXp').text(xp_Level);
-    
-
-    
-//     $(this).attr('data-xp-user', user_xp + add_xp);
-//     $(this).attr('data-xp-level', xp_Level);
-//   });
-// }
-
-
+$(document).ready(function() {
+    $('#btn5').on("click", () => {
+        userXpAdd(50)
+    })
+    $('#btn6').on("click", () => {
+        userXpAdd(-50)
+    })
+})
 

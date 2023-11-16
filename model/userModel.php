@@ -207,6 +207,18 @@ class User{
             echo $e->getMessage();
         }
     }
+    
+    public static function updateXP($xpValu, $token){
+        $db = Database::dbConnect();
+        $request = $db->prepare("UPDATE users LEFT JOIN token ON users.id_user = token.user_id SET users.xp_actuelle = GREATEST(users.xp_actuelle + ?, 0) WHERE token.token = ?");
+        try {
+            $request->execute(array($xpValu, $token));
+            $userXPProfil = $request->fetch(PDO::FETCH_ASSOC);
+            return $userXPProfil;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
     public static function like($token, $catalog_id){
         $db = Database::dbConnect();

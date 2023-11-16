@@ -84,6 +84,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "XPuserAdd"){
+        $updateXP = User::updateXP($_POST['add_xp'], $_COOKIE['token']);
         $userXPProfil = User::userXPProfil($_COOKIE['token']);
         $response_code = HTTP_OK;
         $responseTab = [
