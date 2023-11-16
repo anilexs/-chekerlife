@@ -83,12 +83,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                         ];
             }
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "level"){
-        $xp = User::level($_POST['user']);
+    }else if($_POST['action'] == "XPuserAdd"){
+        $userXPProfil = User::userXPProfil($_COOKIE['token']);
         $response_code = HTTP_OK;
         $responseTab = [
             "response_code" => HTTP_OK,
-            "xp" => $xp,
+            "xp_actuelle" => $userXPProfil['xp_actuelle'],
+            "xp_requis" => 1200,
         ];
         reponse($response_code, $responseTab); 
     }

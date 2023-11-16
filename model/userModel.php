@@ -196,13 +196,13 @@ class User{
         }
     }
 
-    public static function level($pseudo){
+    public static function userXPProfil($token){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT xp FROM `users` WHERE pseudo = ?");
+        $request = $db->prepare("SELECT level, xp_actuelle FROM `users` LEFT JOIN token ON id_user = token.user_id WHERE token = ?");
         try {
-            $request->execute(array($pseudo));
-            $xp = $request->fetch(PDO::FETCH_ASSOC);
-            return $xp['xp'];
+            $request->execute(array($token));
+            $userXPProfil = $request->fetch(PDO::FETCH_ASSOC);
+            return $userXPProfil;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
