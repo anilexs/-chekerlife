@@ -8,13 +8,12 @@ $(document).ready(function () {
         e.preventDefault();
     });
 });
-function userXpAdd(add_xp = 0) {
+function userXpViews() {
     $.ajax({
         url: urlAjax,
         type: 'POST',
         data: {
-            action: "XPuserAdd",
-            add_xp: add_xp,
+            action: "userXpViews",
         },
         dataType: 'json',
         success: function (response) {
@@ -55,15 +54,5 @@ $(document).ready(function() {
     
     $(this).append(xpProgress);
   });
-  userXpAdd();
+  userXpViews();
 });
-
-$(document).ready(function() {
-    $('#btn5').on("click", () => {
-        userXpAdd(50)
-    })
-    $('#btn6').on("click", () => {
-        userXpAdd(-50)
-    })
-})
-

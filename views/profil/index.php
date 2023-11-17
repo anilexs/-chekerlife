@@ -14,41 +14,6 @@
 ?>  
     <link rel="stylesheet" href="<?= $host ?>asset/css/profil.css">
     <script src="<?= $host ?>asset/js/profil.js"></script>
-    <button onclick="checkIntegrity()">Vérifier l'intégrité</button>
-     <script>
-        function calculateHash(url, callback) {
-            $.get(url, function(data) {
-                var hash = CryptoJS.SHA256(data).toString(CryptoJS.enc.Hex);
-                callback(hash);
-            });
-        }
-
-        function checkIntegrity() {
-            var expectedHashes = ["ca ma donne ca FMGzZeOAbhvUrKoomW8IFjw0K+8BXaWLjPxDQNgrzEQ="]; // Remplacez par vos hachages attendus
-
-            var count = 0;
-
-            function checkHash(url, expectedHash) {
-                calculateHash(url, function(actualHash) {
-                    if (actualHash === expectedHash) {
-                        console.log(url + ' est inchangé.');
-                    } else {
-                        console.warn(url + ' a été modifié !');
-                    }
-
-                    count++;
-
-                    if (count === expectedHashes.length) {
-                        console.log('Vérification de l\'intégrité terminée.');
-                    }
-                });
-            }
-
-            // Remplacez les URLs par celles de vos fichiers JavaScript
-            checkHash("http://localhost/!chekerlife/asset/js/profil.js", expectedHashes[0]);
-        }
-    </script>
-    
 
     
 <?php require_once "../inc/nav.php"; ?>
@@ -80,8 +45,6 @@
                             
                             <div class="xp-bar" data-xp-user="0" data-xp-level="0"></div> 
                         </div>
-                        <button id="btn5">+5</button>
-                        <button id="btn6">-5</button>
                     </div>
     
     

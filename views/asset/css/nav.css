@@ -7,6 +7,8 @@ nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 3;
 }
 nav .logo{
     width: 60px;

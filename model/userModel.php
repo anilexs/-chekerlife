@@ -31,7 +31,7 @@ class User{
 
     public static function generateToken($length = 32) {
         $db = Database::dbConnect();
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@%$*_-\%!:?,=+}{][/)(';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèàéç.@$*_-!:?,=+';
         $token = '';
         
         do {
