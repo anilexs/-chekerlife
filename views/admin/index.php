@@ -17,7 +17,7 @@
     <canvas id="myGraf"></canvas>
     <div class="controllerCanvar">
         <button id="nombre_dutilisateurs">Nombre d'utilisateurs</button>
-        <button id="nombre_dutilisateurs_day">Nombre d'utilisateurs jour</button>
+        <button id="nombre_comptes_créés_jour">Nombre de comptes créés par jour</button>
     </div>
 </div>
 <?php require_once "../inc/footer.php"; ?>

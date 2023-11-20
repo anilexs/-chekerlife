@@ -12,8 +12,12 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
 
-    if($_POST['action'] == ""){
-
+    if($_POST['action'] == "Nombre_comptes_créés_jour"){
+        $response_code = HTTP_OK;
+        $responseTab = [
+            "response_code" => HTTP_OK,
+        ];
+        reponse($response_code, $responseTab);
     }
         
 }else {
