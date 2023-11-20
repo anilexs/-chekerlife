@@ -15,9 +15,9 @@
                 </ul>
                 <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off" maxlength="30">
             </li>
-            <li><a href="<?= $host ?>">Accueil</a></li>
-            <li><a href="<?= $host ?>categorie">Catégorie</a></li>
-            <li><a href="<?= $host ?>quiz">Quiz</a></li>
+            <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
+            <li><a href="<?= $host ?>categorie" class="navCategorie">Catégorie</a></li>
+            <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
             <li class="navLike">
                 <a href="<?= $host ?>likepage">
                     <div class="likePgae">
@@ -31,11 +31,15 @@
                     <div>
                         <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/profile/<?=$userInfo['user_image']; ?>" alt="">
                     </div>
-                    <span class="pseudo"><?=$userInfo['pseudo']; ?></span>
+                    <span class="pseudo"><?= $userInfo['pseudo']; ?></span>
                 </button>
                 <ul class="menu">
-                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>profil/<?= $userInfo['pseudo'] ?>">Profile</a></li>
-                        <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page">Parametre</a></li>
+                        <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>profil/<?= $userInfo['pseudo'] ?>" class="navProfil">Profile</a></li>
+                        <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page" class="navParametre">Parametre</a></li>
+                        <?php if ($userInfo['role'] == "admin" || $userInfo['role'] == "owner") {?>
+                            <li class="admin">A D M I N</li>
+                            <li><i class="fa-solid fa-screwdriver-wrench"></i><a href="<?= $host ?>admin/" class="navDashboard">Dashboard</a></li>
+                        <?php } ?>
                         <li><button id="deconnexion">Déconnexion</button></li>
                 </ul>
             </li>
@@ -56,9 +60,9 @@
                     </ul>
                     <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off" maxlength="30">
                 </li>
-                <li><a href="<?= $host ?>">Accueil</a></li>
-                <li><a href="<?= $host ?>categorie">Catégorie</a></li>
-                <li><a href="<?= $host ?>quiz">Quiz</a></li>
+                <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
+                <li><a href="<?= $host ?>categorie" class="navCategorie">Catégorie</a></li>
+                <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
                 <li class="navLike">
                     <a href="">
                         <div class="likePgae">

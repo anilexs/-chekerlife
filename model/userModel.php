@@ -31,7 +31,7 @@ class User{
 
     public static function generateToken($length = 32) {
         $db = Database::dbConnect();
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèàéç.@$*_-!:?,=+';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@$*_-,=+';
         $token = '';
         
         do {
@@ -95,8 +95,8 @@ class User{
                 $request->execute(array($pseudo, $email, $hash));
                 
                 $lastUserId = $db->lastInsertId();
-                $token = self::generateToken();
                 self::defaux_img($lastUserId);
+                $token = self::generateToken();
                 $requestToken->execute(array($lastUserId, $token));
                 setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
                 $confirmation = [true, $lastUserId];

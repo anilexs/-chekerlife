@@ -122,6 +122,13 @@ nav .profil{
     background-color: rgb(61, 61, 61);
     width: 200px;
 }
+.menu .admin{
+    color: white;
+    text-align: center;
+    width: 200px;
+    padding-top: 5px;
+    border-top: 2px solid black;
+}
 #deconnexion{
     width: 100%;
     background-color: transparent;

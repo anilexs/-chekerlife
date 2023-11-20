@@ -112,3 +112,158 @@ SELECT * FROM `users` LEFT JOIN token ON id_user = token.user_id WHERE token.tok
 
 requette pour les chekbox a metre en plase pour les etat en cour terminer etc ( fais )
 INSERT INTO `catalog_progression`(`user_id`, `catalog_id`, `etat`) SELECT token.user_id, ?, ? FROM token WHERE token.token = ? AND token.token_active = 1;
+
+
+recupere les contre cre avec une valer soit minut heur jour mois et annes
+
+jour :
+SELECT COUNT(*) 
+FROM users
+WHERE created_at >= CURDATE() - INTERVAL 5 DAY;
+
+heur : 
+SELECT COUNT(*) 
+FROM users
+WHERE created_at >= NOW() - INTERVAL 5 HOUR;
+
+minut : 
+SELECT COUNT(*) 
+FROM users
+WHERE created_at >= NOW() - INTERVAL 30 MINUTE;
+
+mois : 
+SELECT COUNT(*) 
+FROM users
+WHERE created_at >= NOW() - INTERVAL 3 MONTH;
+
+anne :
+SELECT COUNT(*)
+FROM users
+WHERE created_at >= NOW() - INTERVAL 2 YEAR;
+
+
+grafice : 
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> -->
+<!-- <div style="width: 80%;">
+        <canvas id="myChart"></canvas>
+    </div> -->
+    <?php
+        // Exemple de données (à remplacer par vos propres données de base de données)
+        // $donnees = [
+        //     ["date_creation" => "2023-01-01", "nombre_contes" => 15],
+        //     ["date_creation" => "2023-02-01", "nombre_contes" => 25],
+        //     ["date_creation" => "2023-03-01", "nombre_contes" => 30],
+        //     // Ajoutez d'autres données au besoin
+        // ];
+    ?>
+    <!-- <script>
+        // Convertir les données PHP en format utilisable par JavaScript
+        var donnees = <?php echo json_encode($donnees); ?>;
+
+        // Préparer les tableaux pour les étiquettes de l'axe X et les données de l'axe Y
+        var dates = [];
+        var nombreContes = [];
+
+        // Remplir les tableaux avec les données converties
+        var interval = 3;  // Période entre chaque libellé en mois
+    for (var i = 0; i < donnees.length; i++) {
+        var date = new Date(donnees[i].date_creation);
+        var mois = date.toLocaleString('default', { month: 'long' });
+        var label = donnees[i].nombre_contes + ' contes ' + mois;  // Personnalisez le libellé comme vous le souhaitez
+        dates.push(label);
+        nombreContes.push(donnees[i].nombre_contes);
+
+        // Ajouter des libellés personnalisés tous les 'interval' mois
+        if (i > 0 && (i + 1) % interval === 0) {
+            var periode = (i + 1) / interval;
+            dates[i] = periode + ' ' + (periode > 1 ? 'mois' : 'mois');
+        }
+    }
+
+    // Configuration du graphique
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Nombre de contes',
+                data: nombreContes,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    // type: 'time',  // Ne pas utiliser 'time' si vous personnalisez les libellés
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }); -->
+
+    recupere les utilisater des 24 dernier heur :
+CREATE TEMPORARY TABLE toutes_heures (heure INT);
+
+
+INSERT INTO toutes_heures (heure) VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13),(14),(15),(16),(17),(18),(19),(20),(21),(22),(23);
+
+
+SELECT
+    h.heure,
+    COUNT(u.created_at) AS nombre_dutilisateurs
+FROM
+    toutes_heures h
+LEFT JOIN
+    users u ON HOUR(u.created_at) = h.heure AND u.created_at >= NOW() - INTERVAL 24 HOUR
+GROUP BY
+    h.heure
+ORDER BY
+    h.heure;
+
+DROP TEMPORARY TABLE IF EXISTS toutes_heures;
+
+v2 avec date
+-- Remplacer '2023-11-20' par la date souhaitée
+SET @date_specifique = '2023-11-20';
+
+SELECT
+    heures.heure,
+    COUNT(u.created_at) AS nombre_dutilisateurs
+FROM (
+    SELECT 0 AS heure UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION
+    SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION
+    SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION
+    SELECT 18 UNION SELECT 19 UNION SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+) heures
+LEFT JOIN
+    users u ON HOUR(u.created_at) = heures.heure AND u.created_at >= @date_specifique AND u.created_at < @date_specifique + INTERVAL 1 DAY
+GROUP BY
+    heures.heure
+ORDER BY
+    heures.heure;
+
+
+la requette que jais besoin avec 2 fois le parametre de date
+
+SELECT
+        heures.heure,
+        COUNT(u.created_at) AS nombre_dutilisateurs
+    FROM (
+        SELECT 0 AS heure UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION
+        SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION
+        SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION
+        SELECT 18 UNION SELECT 19 UNION SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23
+    ) heures
+    LEFT JOIN
+        users u ON HOUR(u.created_at) = heures.heure AND u.created_at >= ? AND u.created_at < ? + INTERVAL 1 DAY
+    GROUP BY
+        heures.heure
+    ORDER BY
+        heures.heure;
+"

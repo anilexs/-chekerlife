@@ -22,12 +22,12 @@ require_once "inc/header.php";
 
                     <div class="formEmail">
                         <label for="email" class="leftLabel">email :</label>
-                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email" value="test@test.test">
+                        <input type="text" maxlength="100" id="email" class="leftInute" placeholder="email">
                     </div>
 
                     <div class="formPassword">
                         <label for="password" class="leftLabel">mot de passe :</label>
-                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe" value="test">
+                        <input type="password" maxlength="100" id="password" class="leftInute" placeholder="mot de passe">
                     </div>
 
                     <div class="btnDiv">
