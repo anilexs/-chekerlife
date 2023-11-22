@@ -1,10 +1,11 @@
 urlAjax = "http://localhost/!chekerlife/controller/AdminAjaxController.php";
 //  Object.values(labels) : pour convertire un associatif en indexe
-var dateActuelle = new Date().toLocaleDateString().split('/').reverse().join('/');
+var infoCountCreatedDay = new Date().toLocaleDateString().split('/').reverse().join('/');
+var nbCoutCreatedHour = new Date().toLocaleDateString().split('/').reverse().join('/');
 
 
-function ajusterDate(jours) {
-    var dateObj = new Date(dateActuelle);
+function ajusterDate(jours, date) {
+    var dateObj = new Date(date);
     dateObj.setDate(dateObj.getDate() + jours);
     var dateAjustee = dateObj.toLocaleDateString().split('/').reverse().join('/');
     return dateAjustee;
@@ -12,12 +13,58 @@ function ajusterDate(jours) {
 
 function reset(value = false){
     $("#nombre_conte_total, #nombre_conte_jour, #inscriptions_journalières").prop('disabled', value);
-    $('#moinsUnJour, #plusUnJour').css('display', 'none');
+    $('#nbDayplus24h, #nbDaymoins24h').css('display', 'none');
     $('#grafTXT').text("");
 }
 
 
 $(document).ready(function(){
+    var ctx = $("#myGraf")[0].getContext('2d');
+    var myGraf;
+
+    function createLine(data) {
+        if (myGraf) {
+            myGraf.destroy();
+        }
+        var options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                }
+            }
+        }
+        var config = {
+            type: 'line',
+            data: data,
+            options: options
+        }
+        myGraf = new Chart(ctx, config);
+    }
+    
+    function createBar(data) {
+        if (myGraf) {
+            myGraf.destroy();
+        }
+        var options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                }
+            }
+        }
+        var config = {
+            type: 'bar',
+            data: data,
+            options: options
+        }
+        myGraf = new Chart(ctx, config);
+    }
+
+
     function nombre_dutilisateurs(){
         reset();
         $('#grafTXT').text("nombre de compte total créés");
@@ -28,7 +75,7 @@ $(document).ready(function(){
             type: 'POST',
             data: {
                 action: "nombre_dutilisateurs_total",
-                date: dateActuelle,
+                date: nbCoutCreatedHour,
             },
             dataType: 'json',
             success: function(response) {
@@ -39,7 +86,7 @@ $(document).ready(function(){
                 var admins = response['userConte'].map(objet => objet.admins);
                 var owners = response['userConte'].map(objet => objet.owners);
                 
-                createChart({
+                createLine({
                     labels: jour,
                     datasets: [{
                         label: "Nombre total d'utilisateurs créés",
@@ -73,7 +120,7 @@ $(document).ready(function(){
     function nombre_conte_jour(date){
         reset();
         $('#grafTXT').text("nombre de compte cree le " + date);
-        $('#moinsUnJour, #plusUnJour').css('display', 'inline-block');
+        // $('#nbDayplus24h, #nbDaymoins24h').css('display', 'inline-block');
         $('#nombre_conte_jour').prop('disabled', true);
         clearCanvas();
         $.ajax({
@@ -87,12 +134,12 @@ $(document).ready(function(){
             success: function(response) {
                 var data = Object.values(response['nombre_conte_jour'][0]); 
                 console.log(response['nombre_conte_jour']);
-                createChart({
+                createBar({
                     labels: ["nombre d'utilisateurs cree", "nombre role : beta testeur", "nombre role : membre", "nombre role : admin", "nombre role : owner"],
                     datasets: [{
-                        label: "Nombre d'utilisateurs créés le " + dateActuelle,
+                        label: "Nombre d'utilisateurs créés le " + nbCoutCreatedHour,
+                        backgroundColor: 'blue',
                         data: [data[1], data[3], data[4], data[2], data[5]],
-                        borderColor: 'rgba(255, 99, 132, 1)',
                     }],
                 });
             },
@@ -105,7 +152,7 @@ $(document).ready(function(){
     function nombre_comptes_créés_dernier_24h(date){
         reset();
         $('#grafTXT').text("nombre de compte cree le " + date);
-        $('#moinsUnJour, #plusUnJour').css('display', 'inline-block');
+        $('#nbDayplus24h, #nbDaymoins24h').css('display', 'inline-block');
         $('#inscriptions_journalières').prop('disabled', true);
         clearCanvas();
         $.ajax({
@@ -119,10 +166,10 @@ $(document).ready(function(){
             success: function(response) {
                 var valeursNombreUtilisateurs = response['createsUserDay'].map(objet => objet.nombre_dutilisateurs);
                 
-                createChart({
+                createLine({
                     labels: ['0 heure', '1 heure', '2 heures', '3 heures', '4 heures', '5 heures', '6 heures', '7 heures', '8 heures', '9 heures', '10 heures', '11 heures', '12 heures', '13 heures', '14 heures', '15 heures', '16 heures', '17 heures', '18 heures', '19 heures', '20 heures', '21 heures', '22 heures', '23 heures'],
                     datasets: [{
-                        label: "Nombre d'utilisateurs créés le " + dateActuelle,
+                        label: "Nombre d'utilisateurs créés le " + nbCoutCreatedHour,
                         data: valeursNombreUtilisateurs,
                         borderColor: 'rgba(255, 99, 132, 1)',
                     }],
@@ -134,40 +181,16 @@ $(document).ready(function(){
         });
     }
 
-    $("#moinsUnJour").on("click", function() {
-        dateActuelle = ajusterDate(-1);
-        nombre_comptes_créés_dernier_24h(dateActuelle);
+    $("#nbDayplus24h").on("click", function() {
+        nbCoutCreatedHour = ajusterDate(-1, nbCoutCreatedHour);
+        nombre_comptes_créés_dernier_24h(nbCoutCreatedHour);
     });
 
-    $("#plusUnJour").on("click", function() {
-        dateActuelle = ajusterDate(1);
-        nombre_comptes_créés_dernier_24h(dateActuelle)
+    $("#nbDaymoins24h").on("click", function() {
+        nbCoutCreatedHour = ajusterDate(1, nbCoutCreatedHour);
+        nombre_comptes_créés_dernier_24h(nbCoutCreatedHour)
     });
-
-
-    var ctx = $("#myGraf")[0].getContext('2d');
-    var myGraf;
-
-    function createChart(data) {
-        if (myGraf) {
-            myGraf.destroy();
-        }
-        var options = {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                }
-            }
-        }
-        var config = {
-            type: 'line',
-            data: data,
-            options: options
-        }
-        myGraf = new Chart(ctx, config);
-    }   
+   
     
     nombre_dutilisateurs();
 
@@ -176,14 +199,13 @@ $(document).ready(function(){
     });
 
     $('#nombre_conte_jour').on("click", function() {
-        nombre_conte_jour(dateActuelle)
+        nombre_conte_jour(infoCountCreatedDay)
     });
     
     $('#inscriptions_journalières').on("click", function() {
-        nombre_comptes_créés_dernier_24h(dateActuelle)
+        nombre_comptes_créés_dernier_24h(nbCoutCreatedHour)
     });
     
-
 
     function clearCanvas() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
