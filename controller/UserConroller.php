@@ -4,6 +4,3 @@ require_once "../model/database.php";
 require_once "../model/userModel.php";
 require_once "../model/catalogModel.php";
 
-class UserController{
-    
-}

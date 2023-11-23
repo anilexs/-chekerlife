@@ -20,8 +20,6 @@
         <div class="hdrGraf">
             <h1 id="grafTXT"></h1>
             <div class="grafController">
-                <!-- <button id="createdUserDayMoins">-1 jour</button>
-                <button id="createdUserDayPLus">+1 jour</button> -->
                 <button id="nbDaymoins24h">-1 jour</button>
                 <button id="nbDayplus24h">+1 jour</button>
             </div>
@@ -29,7 +27,6 @@
         <canvas id="myGraf"></canvas>
         <div class="controllerCanvar">
             <button id="nombre_conte_total">Nombre d'utilisateurs créés au total</button>
-            <button id="nombre_conte_jour">Nombre d'utilisateurs créés jour</button>
             <button id="inscriptions_journalières">Nombre de comptes créés les 24 dernier heur</button>
         </div>
     </div>

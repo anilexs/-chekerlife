@@ -1,6 +1,5 @@
 urlAjax = "http://localhost/!chekerlife/controller/AdminAjaxController.php";
 //  Object.values(labels) : pour convertire un associatif en indexe
-var infoCountCreatedDay = new Date().toLocaleDateString().split('/').reverse().join('/');
 var nbCoutCreatedHour = new Date().toLocaleDateString().split('/').reverse().join('/');
 
 
@@ -12,7 +11,7 @@ function ajusterDate(jours, date) {
 }
 
 function reset(value = false){
-    $("#nombre_conte_total, #nombre_conte_jour, #inscriptions_journalières").prop('disabled', value);
+    $("#nombre_conte_total, #inscriptions_journalières").prop('disabled', value);
     $('#nbDayplus24h, #nbDaymoins24h').css('display', 'none');
     $('#grafTXT').text("");
 }
@@ -116,38 +115,6 @@ $(document).ready(function(){
             }
         });
     }
-    
-    function nombre_conte_jour(date){
-        reset();
-        $('#grafTXT').text("nombre de compte cree le " + date);
-        // $('#nbDayplus24h, #nbDaymoins24h').css('display', 'inline-block');
-        $('#nombre_conte_jour').prop('disabled', true);
-        clearCanvas();
-        $.ajax({
-            url: urlAjax, 
-            type: 'POST',
-            data: {
-                action: "nombre_conte_jour",
-                date: date,
-            },
-            dataType: 'json',
-            success: function(response) {
-                var data = Object.values(response['nombre_conte_jour'][0]); 
-                console.log(response['nombre_conte_jour']);
-                createBar({
-                    labels: ["nombre d'utilisateurs cree", "nombre role : beta testeur", "nombre role : membre", "nombre role : admin", "nombre role : owner"],
-                    datasets: [{
-                        label: "Nombre d'utilisateurs créés le " + nbCoutCreatedHour,
-                        backgroundColor: 'blue',
-                        data: [data[1], data[3], data[4], data[2], data[5]],
-                    }],
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Une erreur s\'est produite lors du chargement du contenu.');
-            }
-        });
-    }
 
     function nombre_comptes_créés_dernier_24h(date){
         reset();
@@ -181,12 +148,12 @@ $(document).ready(function(){
         });
     }
 
-    $("#nbDayplus24h").on("click", function() {
+    $("#nbDaymoins24h").on("click", function() {
         nbCoutCreatedHour = ajusterDate(-1, nbCoutCreatedHour);
         nombre_comptes_créés_dernier_24h(nbCoutCreatedHour);
     });
 
-    $("#nbDaymoins24h").on("click", function() {
+    $("#nbDayplus24h").on("click", function() {
         nbCoutCreatedHour = ajusterDate(1, nbCoutCreatedHour);
         nombre_comptes_créés_dernier_24h(nbCoutCreatedHour)
     });
@@ -196,10 +163,6 @@ $(document).ready(function(){
 
     $('#nombre_conte_total').on("click", function() {
         nombre_dutilisateurs();
-    });
-
-    $('#nombre_conte_jour').on("click", function() {
-        nombre_conte_jour(infoCountCreatedDay)
     });
     
     $('#inscriptions_journalières').on("click", function() {
