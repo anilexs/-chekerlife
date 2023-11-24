@@ -35,6 +35,7 @@
                 </button>
                 <ul class="menu">
                         <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>profil/<?= $userInfo['pseudo'] ?>" class="navProfil">Profile</a></li>
+                        <li><i class="fa-solid fa-sack-dollar"></i><a href="<?= $host ?>soutien" class="navSoutien">Nous soutenir</a></li>
                         <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page" class="navParametre">Parametre</a></li>
                         <?php if ($userInfo['role'] == "admin" || $userInfo['role'] == "owner") {?>
                             <li class="admin">A D M I N</li>

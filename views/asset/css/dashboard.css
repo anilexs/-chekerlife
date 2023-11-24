@@ -3,16 +3,15 @@
 }
 .hdrcontenaire{
     display: flex;
-    margin-top: 15px;
-    margin-right: 10px;
+    width: 97%;
+    margin: 15px auto 0px auto;
+    justify-content: space-between;
 }
 .state{
-    margin-left: 15px;
     width: 36%;
     background-color: red;
 }
 .hdrGraf{
-    background-color: red;
     height: 75px;
 }
 #grafTXT{

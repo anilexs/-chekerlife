@@ -20,6 +20,10 @@ function reset(value = false){
 $(document).ready(function(){
     var ctx = $("#myGraf")[0].getContext('2d');
     var myGraf;
+    
+    function clearCanvas() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
 
     function createLine(data) {
         if (myGraf) {
@@ -31,6 +35,15 @@ $(document).ready(function(){
                 legend: {
                     display: true,
                     position: 'bottom',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    ticks: {
+                        stepSize: 1
+                    }
                 }
             }
         }
@@ -131,14 +144,34 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function(response) {
-                var valeursNombreUtilisateurs = response['createsUserDay'].map(objet => objet.nombre_dutilisateurs);
+                var total_comptes = response['createsUserDay'].map(objet => objet.total_comptes);
+                var beta_testeur = response['createsUserDay'].map(objet => objet.beta_testeur);
+                var membre = response['createsUserDay'].map(objet => objet.membre);
+                var admin = response['createsUserDay'].map(objet => objet.admin);
+                var owner = response['createsUserDay'].map(objet => objet.owner);
                 
                 createLine({
                     labels: ['0 heure', '1 heure', '2 heures', '3 heures', '4 heures', '5 heures', '6 heures', '7 heures', '8 heures', '9 heures', '10 heures', '11 heures', '12 heures', '13 heures', '14 heures', '15 heures', '16 heures', '17 heures', '18 heures', '19 heures', '20 heures', '21 heures', '22 heures', '23 heures'],
                     datasets: [{
                         label: "Nombre d'utilisateurs créés le " + nbCoutCreatedHour,
-                        data: valeursNombreUtilisateurs,
+                        data: total_comptes,
                         borderColor: 'rgba(255, 99, 132, 1)',
+                    },{
+                        label: "Nombre de beta testeur créés le " + nbCoutCreatedHour,
+                        data: beta_testeur,
+                        borderColor: '#7FFFDA',
+                    },{
+                        label: "Nombre de membre créés le " + nbCoutCreatedHour,
+                        data: membre,
+                        borderColor: '#0093FF',
+                    },{
+                        label: "Nombre de admin créés le " + nbCoutCreatedHour,
+                        data: admin,
+                        borderColor: '#000FFF',
+                    },{
+                        label: "Nombre de owner créés le " + nbCoutCreatedHour,
+                        data: owner,
+                        borderColor: '#FF0000',
                     }],
                 });
             },
@@ -168,9 +201,4 @@ $(document).ready(function(){
     $('#inscriptions_journalières').on("click", function() {
         nombre_comptes_créés_dernier_24h(nbCoutCreatedHour)
     });
-    
-
-    function clearCanvas() {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    }
 });

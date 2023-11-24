@@ -3,7 +3,7 @@ var currentPath = window.location.pathname;
 var userForm = null;
 
 // Vérification des dossiers
-if (currentPath.includes('/catalog/') || currentPath.includes('/profil/')) {
+if (currentPath.includes('/catalog/') || currentPath.includes('/profil/') || currentPath.includes('/admin/')) {
     userForm = "../form/UserForm.php";
 } else {
     userForm = "form/UserForm.php";
