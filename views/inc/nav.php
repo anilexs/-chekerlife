@@ -16,7 +16,7 @@
                 <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off" maxlength="30">
             </li>
             <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
-            <li><a href="<?= $host ?>categorie" class="navCategorie">Catégorie</a></li>
+            <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
             <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
             <li class="navLike">
                 <a href="<?= $host ?>likepage">
@@ -62,7 +62,7 @@
                     <input type="text" placeholder="Rechercher..." id="navRechercherBar" autocomplete="off" maxlength="30">
                 </li>
                 <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
-                <li><a href="<?= $host ?>categorie" class="navCategorie">Catégorie</a></li>
+                <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
                 <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
                 <li class="navLike">
                     <a href="">

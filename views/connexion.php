@@ -11,7 +11,7 @@ require_once "inc/header.php";
 <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 <link rel="stylesheet" href="asset/css/connexion.css">
 <script src="asset/js/connexion.js" defer></script>
-<title>Document</title>
+<title>connexion</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="alignement">
     <div class="contenaire">

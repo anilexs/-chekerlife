@@ -1,4 +1,4 @@
-.navCategorie{
+.navCatalogue{
     color: aqua;
 }
 
@@ -8,7 +8,7 @@ img{
 }
 .contenaireRecherche{
     width: 90%;
-    margin: 10px auto;
+    margin: 15px auto;
 }
 #rechercherCategorie{
     width: 100%;
@@ -64,8 +64,8 @@ img{
 }
 
 .page{
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 20px;
+    margin-bottom: 25px;
     text-align: center;
 }
 .page a{
@@ -77,4 +77,40 @@ img{
 }
 .pagination span{
     color: white;
+}
+
+/* Style des liens de la pagination */
+.pagination a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s; /* Ajoutez la transition pour la couleur */
+}
+
+/* Style du lien actif */
+.pagination a.current {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+/* Style des flèches */
+.pagination i {
+    font-size: 18px;
+    margin: 0 4px;
+    color: #333;
+}
+
+/* Style des flèches au survol */
+.pagination a:hover i {
+    color: #007bff;
+}
+
+/* Style pour les points de suspension */
+.pagination span {
+    margin: 0 4px;
+    color: #333;
 }

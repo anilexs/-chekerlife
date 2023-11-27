@@ -1,0 +1,178 @@
+img{
+    width: 100%;
+    height: 100%;
+}
+.contenaireRecherche{
+    width: 90%;
+    margin: 15px auto;
+}
+#rechercherCategorie{
+    width: 100%;
+    background-color: #303541;
+    border: none;
+    font-size: 30px;
+    color: white;
+}
+
+.catalog{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.card{
+    width: 180px;
+    height: 280px;
+    border-radius: 12px;
+    margin: 10px 15px;
+    position: relative;
+}
+
+.type{
+    color: white;
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.500);
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    padding: 0 5px;
+    font-size: 20px;
+    top: 10px;
+    left: 25px;
+}
+
+/* edite */
+
+.edite button{
+    position: absolute;
+    border: none;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid;
+    padding: 5px;
+    font-size: 15px;
+    top: -10px;
+    left: -10px;
+}
+
+.editeBack{
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    z-index: 4;
+}
+
+.editeContenaire {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 90%;
+    height: 85%;
+    z-index: 5;
+    background-color: gray;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+}
+.left{
+    width: 70%;
+    background-color: red;
+}
+.right{
+    background-color: #007bff;
+    display: flex;
+    height: 100%;
+    width: 30%;
+    align-items: center;
+}
+.catalogimg{
+    width: 95%;
+    height: 90%;
+    margin: auto;
+    background-size: 100% 100%;
+}
+
+.like{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 28px;
+}
+.activeTrue{
+    color: red;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 40px;
+    padding-top: 5px;
+}
+.activeTrue span{
+    color: white;
+}
+.activeFalse{
+    color: white;
+    background-color: rgba(80, 80, 80, 0.600);
+    border-radius: 50%;
+    height: 40px;
+    padding-top: 5px;
+}
+.cataLike{
+    position: absolute;
+    color: black;
+    left: 16px;
+    top: 12px;
+    font-size: 14px;
+}
+
+.page{
+    margin-top: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.page a{
+    text-decoration: none;
+    color: white;
+}
+.current{
+    color: rgb(63, 63, 255) !important;
+}
+.pagination span{
+    color: white;
+}
+
+/* Style des liens de la pagination */
+.pagination a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s; /* Ajoutez la transition pour la couleur */
+}
+
+/* Style du lien actif */
+.pagination a.current {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+/* Style des flèches */
+.pagination i {
+    font-size: 18px;
+    margin: 0 4px;
+    color: #333;
+}
+
+/* Style des flèches au survol */
+.pagination a:hover i {
+    color: #007bff;
+}
+
+/* Style pour les points de suspension */
+.pagination span {
+    margin: 0 4px;
+    color: #333;
+}

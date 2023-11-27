@@ -70,6 +70,44 @@ function pagination(nbElement) {
     });
 }
 
+function edite(catalog_id){
+    $.ajax({
+        url: host + "controller/CatalogAjaxController.php", 
+        type: 'POST',
+        data: {
+            action: "cataloginfo",
+            catalog_id: catalog_id,
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log(response['cataloginfo']);
+
+            var back = $('<div class="editeBack"></div>');
+            var edite = $('<div class="editeContenaire"></div>');
+            var left = $('<div class="left"></div>');
+            var right = $('<div class="right"></div>');
+
+            var img = $('<div class="catalogimg"></div>');
+            img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
+
+            
+           // Ajouter la div au corps de la page (ou à un autre élément de votre choix)
+           $("body").prepend(back, edite);
+        //    $("body").prepend(edite);
+           $(edite).prepend(right);
+           $(edite).prepend(left);
+           $(right).prepend(img);
+       
+           $('.editeBack').on("click", () =>{
+               $('.editeBack, .editeContenaire').remove();
+           })
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
+
 $(document).ready(function () {
     ftrSize();
     var urlParams = new URLSearchParams(window.location.search);

@@ -14,6 +14,7 @@
 ?>  
     <link rel="stylesheet" href="<?= $host ?>asset/css/profil.css">
     <script src="<?= $host ?>asset/js/profil.js"></script>
+    <title><?= $_GET['q'] ?></title>
 
     
 <?php require_once "../inc/nav.php"; ?>

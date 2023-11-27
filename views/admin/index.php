@@ -4,6 +4,12 @@
     require_once "../../model/collectionModel.php";
 
     require_once "../inc/header.php";
+    
+    if ($userInfo['role'] != "admin" && $userInfo['role'] != "owner") {
+        header("Location:" . $host);
+        die;
+    }
+
 ?>  
 <link rel="stylesheet" href="<?= $host ?>asset/css/dashboard.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

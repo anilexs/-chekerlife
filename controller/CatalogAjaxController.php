@@ -70,10 +70,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
         if ($page > $nbPages) {
             $page = 1;
-        } else {
-            if ($page < 1) {
-                $page = 1;
-            }
+        } else if ($page < 1){
+            $page = 1;
         }
     
         if ($nbPages > 1) {
@@ -81,12 +79,12 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         
             if ($page > 1) {
                 if($filtre == null){
-                    echo '<a href="?page=' . ($page - 1) . '">Précédent</a>';
+                    echo '<a href="?page=' . ($page - 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '">Précédent</a>';
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
                 }
             } else {
-                echo 'Précédent';
+                echo '<i class="fa-solid fa-chevron-up fa-rotate-270"></i>';
             }
         
             $start = max(1, $page - 3);
@@ -98,7 +96,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }else{
                     echo '<a href="?titre='.$filtre.'&page=1">1</a>';
                 }
-                echo '<span>...</span>';
             }
         
             for ($i = $start; $i <= $end; $i++) {
@@ -118,7 +115,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             }
         
             if ($nbPages - $page > 3 && $nbPages > 7) {
-                echo '<span>...</span>';
                 if($filtre == null){
                     echo '<a href="?page=' . $nbPages . '">' . $nbPages . '</a>';
                 }else{
@@ -128,12 +124,12 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         
             if ($page < $nbPages) {
                 if($filtre == null){
-                    echo '<a href="?page=' . ($page + 1) . '">Suivant</a>';
+                    echo '<a href="?page=' . ($page + 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '">Suivant</a>';
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
                 }
             } else {
-                echo 'Suivant';
+                echo '<i class="fa-solid fa-chevron-up fa-rotate-90"></i>';
             }
         
             echo '</div>';
@@ -186,9 +182,17 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $lastAdd = Catalog::lastAdd();
         $responseTab = [
-                        "response_code" => HTTP_OK,
-                        "lastAdd" => $lastAdd,
-                    ];
+            "response_code" => HTTP_OK,
+            "lastAdd" => $lastAdd,
+        ];
+        reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "cataloginfo"){
+        $response_code = HTTP_OK;
+        $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "cataloginfo" => $catalogInfo,
+        ];
         reponse($response_code, $responseTab);
     }
 
