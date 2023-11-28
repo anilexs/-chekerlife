@@ -86,20 +86,30 @@ function edite(catalog_id){
             var edite = $('<div class="editeContenaire"></div>');
             var left = $('<div class="left"></div>');
             var right = $('<div class="right"></div>');
+            var nom = $('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
+            var description = $('<textarea id="story" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
+            var submit = $('<button class="submit">enregistré</button>');
 
             var img = $('<div class="catalogimg"></div>');
             img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
+            $('body').css('overflow', 'hidden');
 
             
            // Ajouter la div au corps de la page (ou à un autre élément de votre choix)
            $("body").prepend(back, edite);
-        //    $("body").prepend(edite);
            $(edite).prepend(right);
            $(edite).prepend(left);
+           $(left).prepend(nom, description, submit);
            $(right).prepend(img);
        
            $('.editeBack').on("click", () =>{
+               $('body').css('overflow', '');
                $('.editeBack, .editeContenaire').remove();
+           })
+           
+           $('.submit').on("click", () =>{
+                var nom = $('#nom').val();
+                console.log(nom);
            })
         },
         error: function(xhr, status, error) {

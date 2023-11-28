@@ -61,6 +61,15 @@ img{
     z-index: 4;
 }
 
+#story{
+    display: block;
+    width: 80%;
+    height: 200px;
+}
+#nom{
+    display: block;
+}
+
 .editeContenaire {
     display: flex;
     justify-content: space-between;

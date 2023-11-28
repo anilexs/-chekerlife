@@ -220,6 +220,7 @@ function card($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, 
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
+    echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }
