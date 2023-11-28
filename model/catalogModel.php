@@ -3,7 +3,7 @@ require_once "database.php";
 class Catalog{
     public static function Cataloglimit($limit, $offset) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM `catalog` LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT * FROM `catalog` WHERE brouillon = 0 LIMIT :offset, :limit");
         
         try {
             $request->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -18,7 +18,7 @@ class Catalog{
     
     public static function nbCatalog() {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(*) FROM `catalog`");
+        $request = $db->prepare("SELECT COUNT(*) FROM `catalog` WHERE brouillon = 0");
         
         try {
             $request->execute();
@@ -33,7 +33,7 @@ class Catalog{
 
     public static function filtreCatalog($filtres, $limit, $offset){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%') LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit");
 
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
         $request->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -51,7 +51,7 @@ class Catalog{
    
     public static function nbFiltreCatalog($filtres){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'); ");
+        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'))");
 
         try{
             $request->execute(array($filtres, $filtres));
@@ -62,9 +62,22 @@ class Catalog{
         }
     }
     
+    public static function catalogType (){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT DISTINCT type FROM catalog;");
+
+        try{
+            $request->execute();
+            $type = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $type;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
+
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ?");
+        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ? AND brouillon = 0");
 
         try{
             $request->execute(array($catalog_id));
@@ -77,7 +90,7 @@ class Catalog{
     
     public static function catalogInfoName($name){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ?");
+        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ? AND brouillon = 0");
 
         try{
             $request->execute(array($name));
@@ -117,7 +130,7 @@ class Catalog{
     
     public static function navRechercher($filtres){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%') LIMIT 3");
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')) LIMIT 3");
 
         try{
             $request->execute(array($filtres, $filtres));
@@ -131,7 +144,7 @@ class Catalog{
     public static function lastAdd(){
         // sql requete a fair car la sais pas la bonne
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog ORDER BY add_data DESC LIMIT 8");
+        $request = $db->prepare("SELECT * FROM catalog ORDER BY add_date DESC LIMIT 8");
 
         try{
             $request->execute();

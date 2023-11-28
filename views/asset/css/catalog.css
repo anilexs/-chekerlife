@@ -61,12 +61,20 @@ img{
     z-index: 4;
 }
 
-#story{
+#description{
     display: block;
     width: 80%;
+    max-width: 100%;
+    min-width: 15%;
     height: 200px;
 }
 #nom{
+    display: block;
+}
+#date{
+    display: block;
+}
+#saison{
     display: block;
 }
 

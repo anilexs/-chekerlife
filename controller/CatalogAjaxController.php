@@ -189,9 +189,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }else if($_POST['action'] == "cataloginfo"){
         $response_code = HTTP_OK;
         $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
+        $type = Catalog::catalogType();
         $responseTab = [
             "response_code" => HTTP_OK,
             "cataloginfo" => $catalogInfo,
+            "type" => $type,
         ];
         reponse($response_code, $responseTab);
     }

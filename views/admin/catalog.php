@@ -58,11 +58,11 @@ require_once "../inc/header.php";
 
                     <div class="type"><?= $catalogItem['type'] ?></div>
                     <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                    
+
                     <?php if($catalogItem['saison'] != null){ ?>
                         <div class="saison">saision <?= $catalogItem['saison'] ?></div>
                     <?php } ?>
-                    <a href="catalog/<?= $urlName ?>">
+                    <a href="../catalog/<?= $urlName ?>">
                         <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
                     </a>
                     <?php

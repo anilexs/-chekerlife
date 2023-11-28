@@ -81,14 +81,28 @@ function edite(catalog_id){
         dataType: 'json',
         success: function(response) {
             console.log(response['cataloginfo']);
-
+            console.log(response['type']);
+            
             var back = $('<div class="editeBack"></div>');
             var edite = $('<div class="editeContenaire"></div>');
             var left = $('<div class="left"></div>');
             var right = $('<div class="right"></div>');
-            var nom = $('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
-            var description = $('<textarea id="story" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
-            var submit = $('<button class="submit">enregistré</button>');
+
+            var form = $('<form id="catalogForm"></form>');
+            form.append('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
+            form.append('<input type="date" id="date" value="' + response['cataloginfo']['publish_date'] +'">');
+            form.append('<textarea id="description" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
+            form.append('<input type="text" id="saison" placeholder="' + response['cataloginfo']['saison'] +'">');
+
+            var type = $('<select name="type" id="type"></select>');
+            type.append('<option value="option1">ajouter un type</option>');
+            response['type'].forEach(typeCatalog => {
+                type.append('<option value="'+ typeCatalog['type'] +'">'+ typeCatalog['type'] +'</option>');
+            });
+
+            form.append(type);
+            form.append('<button class="submit">enregistré</button');
+
 
             var img = $('<div class="catalogimg"></div>');
             img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
@@ -99,7 +113,7 @@ function edite(catalog_id){
            $("body").prepend(back, edite);
            $(edite).prepend(right);
            $(edite).prepend(left);
-           $(left).prepend(nom, description, submit);
+           $(left).prepend(form);
            $(right).prepend(img);
        
            $('.editeBack').on("click", () =>{
@@ -107,9 +121,23 @@ function edite(catalog_id){
                $('.editeBack, .editeContenaire').remove();
            })
            
-           $('.submit').on("click", () =>{
+            $('#saison').on('change', function() {
+                if (isNaN($('#saison').val()) || $('#saison').val() < 0) {
+                    saison.val('');
+                }
+            });
+           
+            type.on('change', function() {
+                console.log("test");
+            });
+
+
+           $('.submit').on("click", function(e) {
+                e.preventDefault();
                 var nom = $('#nom').val();
-                console.log(nom);
+                var date = $('#date').val();
+                var story = $('#description').val();
+                console.log(date);
            })
         },
         error: function(xhr, status, error) {
