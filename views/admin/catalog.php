@@ -65,8 +65,7 @@ require_once "../inc/header.php";
                     <a href="../catalog/<?= $urlName ?>">
                         <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
                     </a>
-                    <?php
-                    echo '<script type="text/javascript">
+                    <?= '<script type="text/javascript">
                         likePosition(' . $catalogItem['id_catalogue'] .');
                     </script>'; ?>
                 </div>

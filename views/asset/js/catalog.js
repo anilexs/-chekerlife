@@ -85,41 +85,62 @@ function edite(catalog_id){
             
             var back = $('<div class="editeBack"></div>');
             var edite = $('<div class="editeContenaire"></div>');
+
+            var controler = $('<div id="editeControler"></div>');
+                controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
+                controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
+                controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
+
+                $("body").append(controler);
+
             var left = $('<div class="left"></div>');
             var right = $('<div class="right"></div>');
+            
+
+
+            var contenaireType = $('<div class="contenaireType"></div>');
 
             var form = $('<form id="catalogForm"></form>');
-            form.append('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
-            form.append('<input type="date" id="date" value="' + response['cataloginfo']['publish_date'] +'">');
-            form.append('<textarea id="description" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
-            form.append('<input type="text" id="saison" placeholder="' + response['cataloginfo']['saison'] +'">');
+                form.append('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
+                form.append('<input type="date" id="date" value="' + response['cataloginfo']['publish_date'] +'">');
+                form.append('<textarea id="description" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
+                form.append('<input type="text" id="saison" placeholder="' + response['cataloginfo']['saison'] +'">');
 
             var type = $('<select name="type" id="type"></select>');
-            type.append('<option value="option1">ajouter un type</option>');
-            response['type'].forEach(typeCatalog => {
-                type.append('<option value="'+ typeCatalog['type'] +'">'+ typeCatalog['type'] +'</option>');
-            });
+                type.append('<option value="option1">ajouter un type</option>');
+                type.append('<option value="option1" selected>' + response['cataloginfo']['type'] +'</option>');
 
-            form.append(type);
-            form.append('<button class="submit">enregistré</button');
+                response['type'].forEach(typeCatalog => {
+                    if(response['cataloginfo']['type'] != typeCatalog['type']){
+                        type.append('<option value="'+ typeCatalog['type'] +'">'+ typeCatalog['type'] +'</option>');
+                    }
+                });
+
+                contenaireType.append(type);
+                form.append(contenaireType);
+                form.append('<button class="submit">enregistré</button>');
 
 
             var img = $('<div class="catalogimg"></div>');
-            img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
-            $('body').css('overflow', 'hidden');
+                img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
+                $('body').css('overflow', 'hidden');
 
             
-           // Ajouter la div au corps de la page (ou à un autre élément de votre choix)
            $("body").prepend(back, edite);
            $(edite).prepend(right);
            $(edite).prepend(left);
            $(left).prepend(form);
            $(right).prepend(img);
        
-           $('.editeBack').on("click", () =>{
+           $('.editeBack, .close').on("click", () =>{
                $('body').css('overflow', '');
                $('.editeBack, .editeContenaire').remove();
            })
+           
+            $('.reload').on("click", () =>{
+                $('#nom').val(response['cataloginfo']['nom']);
+                $('#date').val(response['cataloginfo']['publish_date']);
+            })
            
             $('#saison').on('change', function() {
                 if (isNaN($('#saison').val()) || $('#saison').val() < 0) {
@@ -128,7 +149,7 @@ function edite(catalog_id){
             });
            
             type.on('change', function() {
-                console.log("test");
+                console.log(type.val());
             });
 
 
