@@ -24,6 +24,11 @@ if(isset($_GET['titre'])){
     $titre = $_GET['titre'];
 }
 require_once "../inc/header.php"; 
+
+    if ($userInfo['role'] != "admin" && $userInfo['role'] != "owner") {
+        header("Location:" . $host);
+        die;
+    }
 ?>
 <script src="../asset/js/catalog.js"></script>
 <link rel="stylesheet" href="../asset/css/catalog.css">

@@ -63,13 +63,14 @@ img{
 
 #editeControler{
     position: absolute;
-    width: 100%;
-    left: 89.3%;
+    /* width: 100%; */
+    display: flex;
+    right: 4.2%;
     top: 5.5%;
     z-index: 50;
 }
 .move, .reload, .close{
-    width: 1.8%;
+    width: 50px;
     height: 3.7vh;
     font-size: 1.5vh;
     background-color: black;
@@ -84,7 +85,7 @@ img{
 .reload{
     border: 0.3vh solid rgb(0, 157, 255);
     color: rgb(0, 157, 255);
-    margin: 0 10px;
+    margin: 0 15%;
 }
 
 .move{
@@ -92,6 +93,31 @@ img{
     color: rgb(64, 255, 0);
 }
 
+.formController{
+    display: flex;
+    justify-content: space-around;
+}
+
+.enregistre, .brouillon, .desactiver{
+    width: 30%;
+    min-width: 78px;
+    font-size: 20px;
+    height: 40px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.enregistre{
+    background-color: rgb(64, 255, 0);    
+}
+
+.brouillon{
+    background-color: rgb(0, 225, 255);
+}
+
+.desactiver{
+    background-color: red;    
+}
 
 #description{
     display: block;
@@ -134,6 +160,36 @@ img{
     width: 30%;
     align-items: center;
 }
+
+/* clone */
+
+.clone {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 5;
+    background-color: gray;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    animation: clone 10s ease-in-out;
+}
+
+@keyframes clone {
+    0% {
+        width: 90%;
+        height: 85%;
+    }
+    50% {
+        width: 50%;
+        height: 50%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+
 .catalogimg{
     width: 95%;
     height: 90%;
@@ -190,7 +246,7 @@ img{
     color: white;
 }
 
-/* Style des liens de la pagination */
+
 .pagination a {
     text-decoration: none;
     color: #333;
@@ -198,29 +254,25 @@ img{
     margin: 0 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s; /* Ajoutez la transition pour la couleur */
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Style du lien actif */
 .pagination a.current {
     background-color: #007bff;
     color: #fff;
     border: 1px solid #007bff;
 }
 
-/* Style des flèches */
 .pagination i {
     font-size: 18px;
     margin: 0 4px;
     color: #333;
 }
 
-/* Style des flèches au survol */
 .pagination a:hover i {
     color: #007bff;
 }
 
-/* Style pour les points de suspension */
 .pagination span {
     margin: 0 4px;
     color: #333;

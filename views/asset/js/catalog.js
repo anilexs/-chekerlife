@@ -108,7 +108,7 @@ function edite(catalog_id){
 
             var type = $('<select name="type" id="type"></select>');
                 type.append('<option value="option1">ajouter un type</option>');
-                type.append('<option value="option1" selected>' + response['cataloginfo']['type'] +'</option>');
+                type.append('<option value="' + response['cataloginfo']['type'] +'" selected>' + response['cataloginfo']['type'] +'</option>');
 
                 response['type'].forEach(typeCatalog => {
                     if(response['cataloginfo']['type'] != typeCatalog['type']){
@@ -118,7 +118,12 @@ function edite(catalog_id){
 
                 contenaireType.append(type);
                 form.append(contenaireType);
-                form.append('<button class="submit">enregistré</button>');
+                
+                var formController = $('<div class="formController"></div>');
+                formController.append('<button class="enregistre">enregistré</button>');
+                formController.append('<button class="brouillon">brouillon</button>');
+                formController.append('<button class="desactiver">désactiver</button>');
+                form.append(formController);
 
 
             var img = $('<div class="catalogimg"></div>');
@@ -132,19 +137,43 @@ function edite(catalog_id){
            $(left).prepend(form);
            $(right).prepend(img);
        
+            $('.move').on("click", () => {
+                $('.move, .reload, .close').prop('disabled', true);
+                var clone = $('.editeContenaire').clone();
+                clone.removeClass('editeContenaire');
+                clone.addClass('clone');
+                
+                $('.editeBack, .editeContenaire, #editeControler').css({
+                    "display": "none",
+                });
+            
+            
+                // Ajouter une classe à l'enfant du clone si nécessaire
+                // clone.find('.childClass').addClass('newChildClass');
+            
+                // Ajouter le clone à votre document
+                $('body').append(clone);
+            });
+
+
+           $('.reload').on("click", () =>{
+               $('#nom').val(response['cataloginfo']['nom']);
+               $('#date').val(response['cataloginfo']['publish_date']);
+               $('#description').val(response['cataloginfo']['description']);
+               $('#saison').val('');
+               $('#type').val(response['cataloginfo']['type']);
+           })
+
+
            $('.editeBack, .close').on("click", () =>{
                $('body').css('overflow', '');
-               $('.editeBack, .editeContenaire').remove();
+               $('.editeBack, .editeContenaire, #editeControler').remove();
            })
            
-            $('.reload').on("click", () =>{
-                $('#nom').val(response['cataloginfo']['nom']);
-                $('#date').val(response['cataloginfo']['publish_date']);
-            })
            
             $('#saison').on('change', function() {
                 if (isNaN($('#saison').val()) || $('#saison').val() < 0) {
-                    saison.val('');
+                    $('#saison').val('');
                 }
             });
            
@@ -153,12 +182,19 @@ function edite(catalog_id){
             });
 
 
-           $('.submit').on("click", function(e) {
+           $('.enregistre').on("click", function(e) {
                 e.preventDefault();
                 var nom = $('#nom').val();
                 var date = $('#date').val();
                 var story = $('#description').val();
                 console.log(date);
+           })
+           
+           $('.brouillon').on("click", function(e) {
+                e.preventDefault();
+           })
+           $('.desactiver').on("click", function(e) {
+                e.preventDefault();
            })
         },
         error: function(xhr, status, error) {
