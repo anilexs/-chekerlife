@@ -167,27 +167,14 @@ img{
     display: flex;
     justify-content: space-between;
     position: fixed;
+    width: 90%;
+    height: 85%;
     z-index: 5;
     background-color: gray;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     overflow-y: auto;
-    animation: clone 10s ease-in-out;
-}
-
-@keyframes clone {
-    0% {
-        width: 90%;
-        height: 85%;
-    }
-    50% {
-        width: 50%;
-        height: 50%;
-    }
-    100% {
-        width: 0%;
-    }
 }
 
 .catalogimg{

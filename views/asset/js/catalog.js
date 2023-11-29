@@ -136,6 +136,7 @@ function edite(catalog_id){
            $(edite).prepend(left);
            $(left).prepend(form);
            $(right).prepend(img);
+
        
             $('.move').on("click", () => {
                 $('.move, .reload, .close').prop('disabled', true);
@@ -153,6 +154,7 @@ function edite(catalog_id){
             
                 // Ajouter le clone à votre document
                 $('body').append(clone);
+                // $(".clone").fadeOut(1000);
             });
 
 
