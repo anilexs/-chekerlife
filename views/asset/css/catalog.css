@@ -61,9 +61,8 @@ img{
     z-index: 4;
 }
 
-#editeControler{
-    position: absolute;
-    /* width: 100%; */
+.editeControler{
+    position: fixed;
     display: flex;
     right: 4.2%;
     top: 5.5%;
@@ -163,7 +162,7 @@ img{
 
 /* clone */
 
-.clone {
+#clone {
     display: flex;
     justify-content: space-between;
     position: fixed;
@@ -173,8 +172,13 @@ img{
     background-color: gray;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    overflow-y: auto;
+    transform: translate(-50%, -50%) rotate(0deg);
+    overflow: hidden;
+}
+
+/* moveBtn */
+#moveBtn{
+    position: absolute;
 }
 
 .catalogimg{

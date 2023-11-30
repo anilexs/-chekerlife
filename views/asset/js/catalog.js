@@ -86,7 +86,7 @@ function edite(catalog_id){
             var back = $('<div class="editeBack"></div>');
             var edite = $('<div class="editeContenaire"></div>');
 
-            var controler = $('<div id="editeControler"></div>');
+            var controler = $('<div class="editeControler"></div>');
                 controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
                 controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
                 controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
@@ -139,23 +139,37 @@ function edite(catalog_id){
 
        
             $('.move').on("click", () => {
+                $('body').css('overflow', '');
                 $('.move, .reload, .close').prop('disabled', true);
+                
                 var clone = $('.editeContenaire').clone();
                 clone.removeClass('editeContenaire');
-                clone.addClass('clone');
-                
-                $('.editeBack, .editeContenaire, #editeControler').css({
+                clone.attr('id', 'clone');
+
+                $('.editeBack, .editeContenaire, .editeControler').css({
                     "display": "none",
                 });
             
-            
-                // Ajouter une classe à l'enfant du clone si nécessaire
-                // clone.find('.childClass').addClass('newChildClass');
-            
                 // Ajouter le clone à votre document
                 $('body').append(clone);
-                // $(".clone").fadeOut(1000);
+            
+                // Animation de la taille du clone
+                clone.animate({
+                    width: "7%",
+                    height: "11%",
+                    top: "100%",
+                    left: "0",
+                    opacity: "0",
+                }, 1000, function () {
+                    console.log("Animation zigzag terminée !");
+                    clone.remove();
+                    $('body').prepend('<button id="moveBtn"><i class="fa-solid fa-newspaper"></i></button>');
+                });
+
             });
+
+            // remove
+
 
 
            $('.reload').on("click", () =>{
@@ -169,7 +183,7 @@ function edite(catalog_id){
 
            $('.editeBack, .close').on("click", () =>{
                $('body').css('overflow', '');
-               $('.editeBack, .editeContenaire, #editeControler').remove();
+               $('.editeBack, .editeContenaire, .editeControler').remove();
            })
            
            
