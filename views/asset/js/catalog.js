@@ -132,46 +132,88 @@ function edite(catalog_id){
 
             
            $("body").prepend(back, edite);
-           $(edite).prepend(right);
-           $(edite).prepend(left);
-           $(left).prepend(form);
-           $(right).prepend(img);
+           edite.prepend(right);
+           edite.prepend(left);
+           left.prepend(form);
+           right.prepend(img);
 
        
             $('.move').on("click", () => {
-                $("a").click(function(event) {
-                    event.preventDefault();
-                    alert("L'exécution de la balise a est bloquée en raison de la condition.");
+                $("a").click(function(e) {
+                    $('body').css('overflow', 'hidden');
+                    e.preventDefault();
+                    var destination = $(this).attr("href");
+
+                    console.log(destination);
+                    exitBack = $('<div class="exitBack"></div>');
+                    exit = $('<div class="exit"></div>');
+                    exit.append('<p>Vous avez des modifications mises sur le côté. Que voulez-vous faire ?</p>');
+                    exitControler = $('<div class="exitControler"></div>');
+                    exitControler.append('<button class="aficher">Afficher les modification</button>');
+                    exitControler.append('<button class="rester">Rester sur la page</button>');
+                    exitControler.append('<button class="continuer">Continuer la navigation</button>');
+                    $(exit).append(exitControler);
+                    $("body").prepend(exitBack);
+                    $("body").prepend(exit);
+
+                    $('.exitBack').on("click", () =>{
+                        $('.exit, .exitBack').remove();
+                        $('body').css('overflow', '');
+                    })
+
+                    $('.aficher').on("click", () =>{
+                        console.log("afich");
+                    })
+                    $('.rester').on("click", () =>{
+                        console.log("rest");
+                    })
+                    $('.continuer').on("click", () =>{
+                        window.location.href = destination;
+                    })
                 });
+
                 
                 $('body').css('overflow', '');
                 $('.move, .reload, .close').prop('disabled', true);
-                
-                var clone = $('.editeContenaire').clone();
-                clone.removeClass('editeContenaire');
-                clone.attr('id', 'clone');
 
-                $('.editeBack, .editeContenaire, .editeControler').css({
+                $('.editeBack, .editeControler').css({
                     "display": "none",
                 });
             
-                // Ajouter le clone à votre document
-                $('body').append(clone);
-            
-                // Animation de la taille du clone
-                clone.animate({
+                
+                $('.editeContenaire').animate({
                     width: "7%",
                     height: "11%",
                     top: "100%",
                     left: "0",
                     opacity: "0",
                 }, 1000, function () {
-                    console.log("Animation zigzag terminée !");
-                    clone.remove();
+                    $('.editeContenaire').css({
+                        "display": "none",
+                    });
                     $('body').prepend('<button id="moveBtn"><i class="fa-solid fa-newspaper"></i></button>');
+
                     $('#moveBtn').on("click", () =>{
+                        $('body').css('overflow', 'hidden');
                         $('#moveBtn').remove();
                         $("a").off("click");
+                        $('.editeContenaire').css({
+                            "display": "",
+                            "zIndex": 5
+                        });
+
+                        $('.editeContenaire').animate({
+                            width: "90%",
+                            height: "85%",
+                            top: "50%",
+                            left: "50%",
+                            opacity: "1",
+                        }, function () {
+                            $('.move, .reload, .close').prop('disabled', false);
+                            $('.editeBack, .editeControler').css({
+                                "display": "",
+                            });
+                        })
                     })
                 });
 
