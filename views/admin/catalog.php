@@ -36,6 +36,9 @@ require_once "../inc/header.php";
 <?php require_once "../inc/nav.php"; ?>
 <div class="contenaireRecherche">
     <input type="text" placeholder="Rechercher..." value="<?= $titre ?>" id="rechercherCategorie" autocomplete="off" maxlength="40">
+    <div class="addController">
+        <button class="addCatalog">ajouter un catalog</button>
+    </div>
 </div>
 <div class="catalog" id="catalog">
     <?php 

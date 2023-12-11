@@ -5,13 +5,31 @@ img{
 .contenaireRecherche{
     width: 90%;
     margin: 15px auto;
+    display: flex;
+    justify-content: space-between;
 }
 #rechercherCategorie{
-    width: 100%;
+    width: 78%;
     background-color: #303541;
     border: none;
     font-size: 30px;
     color: white;
+}
+
+.addController{
+    display: flex;
+    width: 20%;
+}
+.addCatalog{
+    background-color: greenyellow;
+    width: 100%;
+    border: none;
+    border-right: 2px solid;
+    border-radius: 20px;
+    font-size: 20px;
+}
+.addCatalog:hover{
+    background-color: rgba(172, 255, 47, 0.5);
 }
 
 .catalog{
@@ -188,9 +206,46 @@ img{
     left: 50%;
     transform: translate(-50%);
     width: 50%;
-    height: 40vh;
+    margin-top: 0.7%;
+    background-color: rgb(75, 75, 75);
+    border: 2px solid red;
+}
+.exitTxTContenner{
+    text-align: center;
+    margin: 2%;
+}
+.exitTXT{
+    color: white;
+    font-size: 3vh;
+}
+/* exit controler */
+.exitControler{
+    display: flex;
+    justify-content: space-around;
     margin-top: 15px;
-    background-color: red;
+    margin-bottom: 15px;
+}
+
+.aficher{
+    border-radius: 15px;
+    width: 30%;
+    font-size: 2vh;
+    background-color: white;
+    border: none;
+}
+.rester{
+    border-radius: 15px;
+    width: 30%;
+    font-size: 2vh;
+    background-color: white;
+    border: none;
+}
+.continuer{
+    border-radius: 15px;
+    width: 30%;
+    font-size: 2vh;
+    background-color: white;
+    border: none;
 }
 
 .catalogimg{

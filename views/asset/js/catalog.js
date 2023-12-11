@@ -1,3 +1,5 @@
+var editBtnActif = true;
+
 function catalogViews(offset, limit = 81) {
     offset -= 1;
     limit = 81;
@@ -70,7 +72,7 @@ function pagination(nbElement) {
     });
 }
 
-function edite(catalog_id){
+function editeCode(catalog_id){
     $.ajax({
         url: host + "controller/CatalogAjaxController.php", 
         type: 'POST',
@@ -80,6 +82,7 @@ function edite(catalog_id){
         },
         dataType: 'json',
         success: function(response) {
+            editBtnActif = false
             console.log(response['cataloginfo']);
             console.log(response['type']);
             
@@ -144,10 +147,11 @@ function edite(catalog_id){
                     e.preventDefault();
                     var destination = $(this).attr("href");
 
-                    console.log(destination);
                     exitBack = $('<div class="exitBack"></div>');
                     exit = $('<div class="exit"></div>');
-                    exit.append('<p>Vous avez des modifications mises sur le côté. Que voulez-vous faire ?</p>');
+                    txt = $('<div class="exitTxTContenner"></div>');
+                    txt.append('<h2 class="exitTXT">Vous avez des modifications mises sur le côté. Que voulez-vous faire ? Voulez-vous afficher la page de modification en cours, rester sur la page actuelle ou poursuivre la navigation vers la page cliquée ?</h2>');
+                    exit.append(txt);
                     exitControler = $('<div class="exitControler"></div>');
                     exitControler.append('<button class="aficher">Afficher les modification</button>');
                     exitControler.append('<button class="rester">Rester sur la page</button>');
@@ -156,16 +160,32 @@ function edite(catalog_id){
                     $("body").prepend(exitBack);
                     $("body").prepend(exit);
 
-                    $('.exitBack').on("click", () =>{
+                    $('.exitBack, .rester').on("click", () =>{
                         $('.exit, .exitBack').remove();
                         $('body').css('overflow', '');
                     })
 
                     $('.aficher').on("click", () =>{
-                        console.log("afich");
-                    })
-                    $('.rester').on("click", () =>{
-                        console.log("rest");
+                        $('.exit, .exitBack').remove();
+                        $('#moveBtn').remove();
+                        $("a").off("click");
+                        $('.editeContenaire').css({
+                            "display": "",
+                            "zIndex": 5
+                        });
+
+                        $('.editeContenaire').animate({
+                            width: "90%",
+                            height: "85%",
+                            top: "50%",
+                            left: "50%",
+                            opacity: "1",
+                        }, function () {
+                            $('.move, .reload, .close').prop('disabled', false);
+                            $('.editeBack, .editeControler').css({
+                                "display": "",
+                            });
+                        })
                     })
                     $('.continuer').on("click", () =>{
                         window.location.href = destination;
@@ -231,6 +251,7 @@ function edite(catalog_id){
            $('.editeBack, .close').on("click", () =>{
                $('body').css('overflow', '');
                $('.editeBack, .editeContenaire, .editeControler').remove();
+               editBtnActif = true;
            })
            
            
@@ -264,6 +285,14 @@ function edite(catalog_id){
             console.error('Une erreur s\'est produite lors du chargement du contenu.');
         }
     });
+}
+
+function edite(catalog_id){
+    if(editBtnActif){
+        editeCode(catalog_id);
+    }else{
+        console.log("absens");
+    }
 }
 
 
