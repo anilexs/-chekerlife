@@ -139,6 +139,11 @@ function edite(catalog_id){
 
        
             $('.move').on("click", () => {
+                $("a").click(function(event) {
+                    event.preventDefault();
+                    alert("L'exécution de la balise a est bloquée en raison de la condition.");
+                });
+                
                 $('body').css('overflow', '');
                 $('.move, .reload, .close').prop('disabled', true);
                 
@@ -164,13 +169,13 @@ function edite(catalog_id){
                     console.log("Animation zigzag terminée !");
                     clone.remove();
                     $('body').prepend('<button id="moveBtn"><i class="fa-solid fa-newspaper"></i></button>');
+                    $('#moveBtn').on("click", () =>{
+                        $('#moveBtn').remove();
+                        $("a").off("click");
+                    })
                 });
 
             });
-
-            // remove
-
-
 
            $('.reload').on("click", () =>{
                $('#nom').val(response['cataloginfo']['nom']);
@@ -218,6 +223,7 @@ function edite(catalog_id){
         }
     });
 }
+
 
 $(document).ready(function () {
     ftrSize();

@@ -178,7 +178,15 @@ img{
 
 /* moveBtn */
 #moveBtn{
-    position: absolute;
+    background: linear-gradient(to right, #ff8a00, #e52e71);
+    font-size: 30px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 5;
+    height: 70px;
+    width: 70px;
 }
 
 .catalogimg{
