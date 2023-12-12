@@ -37,7 +37,7 @@ require_once "../inc/header.php";
 <div class="contenaireRecherche">
     <input type="text" placeholder="Rechercher..." value="<?= $titre ?>" id="rechercherCategorie" autocomplete="off" maxlength="40">
     <div class="addController">
-        <button class="addCatalog">ajouter un catalog</button>
+        <button class="addCatalog" onclick="addCatalog()">ajouter un catalog</button>
     </div>
 </div>
 <div class="catalog" id="catalog">
@@ -66,6 +66,7 @@ require_once "../inc/header.php";
 
                     <div class="type"><?= $catalogItem['type'] ?></div>
                     <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
+                    <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
 
                     <?php if($catalogItem['saison'] != null){ ?>
                         <div class="saison">saision <?= $catalogItem['saison'] ?></div>

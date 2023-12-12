@@ -57,6 +57,26 @@ img{
     left: 25px;
 }
 
+/* contenaireType */
+
+.contenaireType{
+    display: flex;
+}
+
+/* add episode */
+.addEpisode button{
+    position: absolute;
+    border: none;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid;
+    padding: 4px 5px;
+    font-size: 17px;
+    top: 25px;
+    left: -9.5px;
+    height: 30px;
+}
+
 /* edite */
 
 .edite button{

@@ -190,10 +190,12 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
+        $allType = Catalog::catalogAllType($_POST['catalog_id']);
         $responseTab = [
             "response_code" => HTTP_OK,
             "cataloginfo" => $catalogInfo,
             "type" => $type,
+            "allType" => $allType,
         ];
         reponse($response_code, $responseTab);
     }

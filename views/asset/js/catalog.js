@@ -82,9 +82,8 @@ function editeCode(catalog_id){
         },
         dataType: 'json',
         success: function(response) {
+            console.log(response['allType']);
             editBtnActif = false
-            console.log(response['cataloginfo']);
-            console.log(response['type']);
             
             var back = $('<div class="editeBack"></div>');
             var edite = $('<div class="editeContenaire"></div>');
@@ -107,10 +106,11 @@ function editeCode(catalog_id){
                 form.append('<input type="text" id="nom" value="' + response['cataloginfo']['nom'] +'">');
                 form.append('<input type="date" id="date" value="' + response['cataloginfo']['publish_date'] +'">');
                 form.append('<textarea id="description" name="story">'+ response['cataloginfo']['description'] +'</textarea>');
-                form.append('<input type="text" id="saison" placeholder="' + response['cataloginfo']['saison'] +'">');
-
+            var typeContenaire = $('<div class="typeContenaire"></div>');
+                typeContenaire.append('<input type="text" id="saison" placeholder="' + response['cataloginfo']['saison'] +'">');
+                form.append(typeContenaire);
             var type = $('<select name="type" id="type"></select>');
-                type.append('<option value="option1">ajouter un type</option>');
+                type.append('<option value="addType">ajouter un type</option>');
                 type.append('<option value="' + response['cataloginfo']['type'] +'" selected>' + response['cataloginfo']['type'] +'</option>');
 
                 response['type'].forEach(typeCatalog => {
@@ -236,7 +236,6 @@ function editeCode(catalog_id){
                         })
                     })
                 });
-
             });
 
            $('.reload').on("click", () =>{
@@ -262,7 +261,14 @@ function editeCode(catalog_id){
             });
            
             type.on('change', function() {
-                console.log(type.val());
+                if(type.val() == "addType"){
+                    var addInpute = $('<div class="addInpute"></div>');
+                        addInpute.append('<label for="inputeType">Quel type voulez-vous ajouter ?</label>');
+                        addInpute.append('<input type="text" id="inputeType">');
+                    contenaireType.append(addInpute);
+                }else{
+                    $(".addInpute").remove();
+                }
             });
 
 
@@ -270,15 +276,25 @@ function editeCode(catalog_id){
                 e.preventDefault();
                 var nom = $('#nom').val();
                 var date = $('#date').val();
-                var story = $('#description').val();
-                console.log(date);
+                var description = $('#description').val();
+                var saison = $('#saison').val();
+                var typePrincipal = $('#type').val();
            })
            
            $('.brouillon').on("click", function(e) {
                 e.preventDefault();
+                var nom = $('#nom').val();
+                var date = $('#date').val();
+                var description = $('#description').val();
+                var saison = $('#saison').val();
+                var typePrincipal = $('#type').val();
+                if(typePrincipal == "addType"){
+                    typePrincipal = $('#inputeType').val();
+                }
            })
            $('.desactiver').on("click", function(e) {
                 e.preventDefault();
+                console.log("desactiver");
            })
         },
         error: function(xhr, status, error) {
@@ -293,6 +309,14 @@ function edite(catalog_id){
     }else{
         console.log("absens");
     }
+}
+
+function addCatalog(){
+    console.log("ajouter un catalog");
+}
+
+function addEpisode(id_episod){
+    console.log("ajouter un episode au catalog avec id = " + id_episod);
 }
 
 

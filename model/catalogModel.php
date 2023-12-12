@@ -74,6 +74,19 @@ class Catalog{
             $e->getMessage();
         }
     }
+    
+    public static function catalogAllType ($catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT type FROM catalog_type WHERE catalog_id = ?");
+
+        try{
+            $request->execute(array($catalog_id));
+            $allType = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $allType;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
