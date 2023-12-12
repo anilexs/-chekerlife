@@ -63,6 +63,25 @@ img{
     display: flex;
 }
 
+.contenaireSeconderType{
+    background-color: white;
+    width: 200px;
+    min-height: 30px;
+}
+
+/* TypeSeconder */
+.TypeSeconder{
+    display: flex;
+}
+.labelTypeSeconder{
+    font-size: 20px;
+    width: 100%;
+}
+.TypeSeconder input{
+    display: block;
+    font-size: 20px;
+}
+
 /* add episode */
 .addEpisode button{
     position: absolute;

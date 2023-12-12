@@ -168,12 +168,12 @@ class Catalog{
         }
     }
     
-    public static function episode($id_catalog){
+    public static function episode($id_catalogue){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT e.* FROM episode e JOIN catalog c ON e.catalog_id = c.id_catalogue WHERE c.id_catalogue = ? ORDER BY e.nb_episode ASC;)");
 
         try{
-            $request->execute(array($id_catalog));
+            $request->execute(array($id_catalogue));
             $episode = $request->fetchAll(PDO::FETCH_ASSOC);
             return $episode;
         }catch(PDOException $e){

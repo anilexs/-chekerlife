@@ -305,40 +305,40 @@ class User{
         }
     }
 
-    public static function prograision($token, $id_catalog){
+    public static function prograision($token, $id_catalogue){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM catalog_progression LEFT JOIN token ON catalog_progression.user_id = token.user_id  WHERE token.token = ? AND catalog_id = ?");
         $insert = $db->prepare("INSERT INTO `catalog_progression`(`user_id`, `catalog_id`) SELECT token.user_id, ? FROM token WHERE token.token = ? AND token.token_active = 1");
         $update = $db->prepare("UPDATE catalog_progression LEFT JOIN token ON catalog_progression.user_id = token.user_id SET catalog_progression.etat = ?, catalog_progression.visible = 1 WHERE token.token = ? AND catalog_progression.catalog_id = ?");
         
-        $episode = Catalog::episode($id_catalog);
+        $episode = Catalog::episode($id_catalogue);
         $episodes = count($episode);
 
-        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $id_catalog);;
+        $nbEpisodeUserViewsActife = User::nbEpisodeUserViewsActife($_COOKIE['token'], $id_catalogue);;
         $nbEpisodeUserViewsActife = $nbEpisodeUserViewsActife['COUNT(*)'];
         try {
-            $request->execute(array($token, $id_catalog));
+            $request->execute(array($token, $id_catalogue));
             $prograision = $request->fetch(PDO::FETCH_ASSOC);
 
             if(empty($prograision)){
-                $insert->execute(array($id_catalog, $token));
+                $insert->execute(array($id_catalogue, $token));
             }else if($prograision['etat'] != "en attente" && $nbEpisodeUserViewsActife === 0){
-                $update->execute(array("en attente", $token, $id_catalog));
+                $update->execute(array("en attente", $token, $id_catalogue));
             }else if(($prograision['etat'] != "en cours" || $prograision['etat'] == 0) && $nbEpisodeUserViewsActife > 0 && $nbEpisodeUserViewsActife < $episodes){
-                $update->execute(array("en cours", $token, $id_catalog));
+                $update->execute(array("en cours", $token, $id_catalogue));
             }else if($prograision['etat'] != "terminer" || $prograision['visible'] == 0 && $nbEpisodeUserViewsActife == $episodes){
-                $update->execute(array("terminer", $token, $id_catalog));
+                $update->execute(array("terminer", $token, $id_catalogue));
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function nbEpisodeUserViewsActife($token, $id_catalog){
+    public static function nbEpisodeUserViewsActife($token, $id_catalogue){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT COUNT(*) FROM user_episode_views uev JOIN token t ON uev.user_id = t.user_id WHERE t.token = ? AND t.token_active = 1 AND uev.episode_catalog_id = ? AND uev.views_active = 1");
         try {
-            $request->execute(array($token, $id_catalog));
+            $request->execute(array($token, $id_catalogue));
             $nbEpisodeUserViewsActife = $request->fetch(PDO::FETCH_ASSOC);
             return $nbEpisodeUserViewsActife;
         } catch (PDOException $e) {
@@ -346,11 +346,11 @@ class User{
         }
     }
     
-    public static function episodeViewsActifeUser($token, $id_catalog){
+    public static function episodeViewsActifeUser($token, $id_catalogue){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM user_episode_views uev JOIN token t ON uev.user_id = t.user_id WHERE t.token = ? AND t.token_active = 1 AND uev.episode_catalog_id = ? AND uev.views_active = 1");
         try {
-            $request->execute(array($token, $id_catalog));
+            $request->execute(array($token, $id_catalogue));
             $userViews = $request->fetchAll(PDO::FETCH_ASSOC);
             return $userViews;
         } catch (PDOException $e) {

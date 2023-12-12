@@ -112,15 +112,27 @@ function editeCode(catalog_id){
             var type = $('<select name="type" id="type"></select>');
                 type.append('<option value="addType">ajouter un type</option>');
                 type.append('<option value="' + response['cataloginfo']['type'] +'" selected>' + response['cataloginfo']['type'] +'</option>');
-
+            
+                
                 response['type'].forEach(typeCatalog => {
                     if(response['cataloginfo']['type'] != typeCatalog['type']){
                         type.append('<option value="'+ typeCatalog['type'] +'">'+ typeCatalog['type'] +'</option>');
                     }
                 });
-
+                
+                var TypeSeconder = $('<div class="TypeSeconder"></div>');
+                var TypeInputeContenaire = $('<div class="TypeInputeContenaire"></div>');
+                    TypeInputeContenaire.append('<label for="inputeType" class="labelTypeSeconder">Ajouter un type seconder ?</label>');
+                    TypeInputeContenaire.append('<input type="text" id="inputeType">');
+                var contenaireSeconderType = $('<div class="contenaireSeconderType"></div>');
+                
+                    TypeSeconder.append(TypeInputeContenaire);
+                    TypeSeconder.append(contenaireSeconderType);
+                    
+                
                 contenaireType.append(type);
                 form.append(contenaireType);
+                form.append(TypeSeconder);
                 
                 var formController = $('<div class="formController"></div>');
                 formController.append('<button class="enregistre">enregistré</button>');
