@@ -72,7 +72,7 @@
             <?php foreach($collection as $collection){
                 $catalogInfo = Catalog::catalogInfo($collection['catalog_id']);?>
                 <div class="collectionCard">
-                    <img src="<?= $host ?>asset/img/<?= $catalogInfo['image_catalogue'] ?>" alt="">
+                    <img src="<?= $host ?>asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="">
                 </div>
             <?php } ?>
         </div>

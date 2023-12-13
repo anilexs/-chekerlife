@@ -1,3 +1,7 @@
+.navAdminCatalog{
+    color: aqua;
+}
+
 img{
     width: 100%;
     height: 100%;
@@ -65,20 +69,36 @@ img{
 
 .contenaireSeconderType{
     background-color: white;
-    width: 200px;
-    min-height: 30px;
+    width: 90%;
+    height: 200px;
+    margin: auto;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.seconderTypeDiv{
+    margin: 10px;
+}
+.spanTxtType{
+    background-color: #007bff;
+    display: flex;
+}
+.removeType{
+    border: none;
+    background-color: transparent;
 }
 
 /* TypeSeconder */
-.TypeSeconder{
-    display: flex;
-}
 .labelTypeSeconder{
-    font-size: 20px;
     width: 100%;
 }
-.TypeSeconder input{
+.TypeInputeContenaire{
+    text-align: center;
+}
+#inputeType{
     display: block;
+    width: 90%;
+    margin: auto;
     font-size: 20px;
 }
 

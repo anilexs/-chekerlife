@@ -5,7 +5,7 @@ function catalogViews(offset, limit = 81) {
     limit = 81;
     $("#pagination").html("");
     $.ajax({
-        url: host + "controller/CatalogAjaxController.php",
+        url: host + "controller/CatalogAjaxControllerAdmin.php",
         type: 'POST',
         data: {
             action: "catalog",
@@ -29,7 +29,7 @@ function catalogFiltre(filtre, offset = 1, limit = 81){
 
     $("#pagination").html("");
     $.ajax({
-        url: host + "controller/CatalogAjaxController.php", 
+        url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
             action: "filtre",
@@ -53,7 +53,7 @@ function pagination(nbElement) {
     var filtre = urlParams.get("titre");
     var page = urlParams.get("page");
     $.ajax({
-        url: host + "controller/CatalogAjaxController.php", 
+        url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
             action: "pagination",
@@ -74,7 +74,7 @@ function pagination(nbElement) {
 
 function editeCode(catalog_id){
     $.ajax({
-        url: host + "controller/CatalogAjaxController.php", 
+        url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
             action: "cataloginfo",
@@ -82,7 +82,6 @@ function editeCode(catalog_id){
         },
         dataType: 'json',
         success: function(response) {
-            console.log(response['allType']);
             editBtnActif = false
             
             var back = $('<div class="editeBack"></div>');
@@ -122,12 +121,36 @@ function editeCode(catalog_id){
                 
                 var TypeSeconder = $('<div class="TypeSeconder"></div>');
                 var TypeInputeContenaire = $('<div class="TypeInputeContenaire"></div>');
-                    TypeInputeContenaire.append('<label for="inputeType" class="labelTypeSeconder">Ajouter un type seconder ?</label>');
-                    TypeInputeContenaire.append('<input type="text" id="inputeType">');
+                    TypeInputeContenaire.append('<h1 class="labelTypeSeconder">Ajouter un type seconder ?</h1>');
+                    TypeInputeContenaire.append('<input type="text" id="inputeType" autocomplete="off">');
+
                 var contenaireSeconderType = $('<div class="contenaireSeconderType"></div>');
+                
+                    response['allType'].forEach(typeCatalog => {
+                        contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + typeCatalog['type'] + '</span></div>');
+                    });
+                
+                    // $(document).on("click", '.removeType', function(e) {
+                        // });
+                        
+                        $(document).on('click', '.removeType', function(e) {
+                            e.preventDefault();
+                            console.log("click"); // Ajout de guillemets autour du texte à logguer
+                            $(this).closest('.seconderTypeDiv').remove();
+                        });
+
                 
                     TypeSeconder.append(TypeInputeContenaire);
                     TypeSeconder.append(contenaireSeconderType);
+                    
+                    $(document).on("keyup", '#inputeType', function(e) {
+                        if(e.key === "Enter"){  
+                            console.log("entre");
+                            contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + $(this).val() + '</span></div>');
+                        }else{
+                            console.log("Contenu de l'inputeType :", $(this).val());
+                        }
+                    });
                     
                 
                 contenaireType.append(type);
@@ -256,6 +279,12 @@ function editeCode(catalog_id){
                $('#description').val(response['cataloginfo']['description']);
                $('#saison').val('');
                $('#type').val(response['cataloginfo']['type']);
+               
+                $('.contenaireSeconderType').text('');
+                response['allType'].forEach(typeCatalog => {
+                    $('.contenaireSeconderType').append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + typeCatalog['type'] + '</span></div>');
+                });
+
            })
 
 
@@ -291,6 +320,10 @@ function editeCode(catalog_id){
                 var description = $('#description').val();
                 var saison = $('#saison').val();
                 var typePrincipal = $('#type').val();
+
+                var valeurs = $('.seconderTypeDiv').map(function() {
+                    return $(this).text();
+                }).get();
            })
            
            $('.brouillon').on("click", function(e) {
@@ -303,6 +336,11 @@ function editeCode(catalog_id){
                 if(typePrincipal == "addType"){
                     typePrincipal = $('#inputeType').val();
                 }
+
+                var valeurs = $('.seconderTypeDiv').map(function() {
+                    return $(this).text();
+                }).get();
+                console.log(valeurs);
            })
            $('.desactiver').on("click", function(e) {
                 e.preventDefault();
@@ -321,6 +359,10 @@ function edite(catalog_id){
     }else{
         console.log("absens");
     }
+}
+
+function inputeSecondarType(valer){
+    console.log(valer);
 }
 
 function addCatalog(){

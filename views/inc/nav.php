@@ -40,6 +40,7 @@
                         <?php if ($userInfo['role'] == "admin" || $userInfo['role'] == "owner") {?>
                             <li class="admin">A D M I N</li>
                             <li><i class="fa-solid fa-screwdriver-wrench"></i><a href="<?= $host ?>admin/" class="navDashboard">Dashboard</a></li>
+                            <li><i class="fa-solid fa-book-open"></i><a href="<?= $host ?>admin/catalog" class="navAdminCatalog">Catalog</a></li>
                         <?php } ?>
                         <li><button id="deconnexion">Déconnexion</button></li>
                 </ul>
