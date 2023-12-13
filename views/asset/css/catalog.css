@@ -146,7 +146,7 @@ img{
     z-index: 50;
 }
 .move, .reload, .close{
-    width: 50px;
+    width: 6vh;
     height: 3.7vh;
     font-size: 1.5vh;
     background-color: black;
