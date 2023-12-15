@@ -219,21 +219,25 @@ img{
     width: 90%;
     height: 85%;
     z-index: 5;
-    background-color: gray;
+    background: linear-gradient(to top left, #5A1Df3, #6EECDD);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    overflow-y: auto;
 }
 .left{
     width: 70%;
-    background-color: red;
+    overflow-y: auto;
 }
 .right{
-    background-color: #007bff;
     display: flex;
     height: 100%;
     width: 30%;
+    align-items: center;
+}
+.imgCatalogContener{
+    height: 100%;
+    width: 100%;
+    display: flex;
     align-items: center;
 }
 

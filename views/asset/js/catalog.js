@@ -86,13 +86,12 @@ function editeCode(catalog_id){
             
             var back = $('<div class="editeBack"></div>');
             var edite = $('<div class="editeContenaire"></div>');
+            
 
             var controler = $('<div class="editeControler"></div>');
                 controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
                 controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
                 controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
-
-                $("body").append(controler);
 
             var left = $('<div class="left"></div>');
             var right = $('<div class="right"></div>');
@@ -130,12 +129,9 @@ function editeCode(catalog_id){
                         contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + typeCatalog['type'] + '</span></div>');
                     });
                 
-                    // $(document).on("click", '.removeType', function(e) {
-                        // });
                         
                         $(document).on('click', '.removeType', function(e) {
                             e.preventDefault();
-                            console.log("click"); // Ajout de guillemets autour du texte à logguer
                             $(this).closest('.seconderTypeDiv').remove();
                         });
 
@@ -144,36 +140,48 @@ function editeCode(catalog_id){
                     TypeSeconder.append(contenaireSeconderType);
                     
                     $(document).on("keyup", '#inputeType', function(e) {
-                        if(e.key === "Enter"){  
-                            console.log("entre");
-                            contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + $(this).val() + '</span></div>');
+                        if(e.key === "Enter" && $(this).val() != ""){  
+                            var presence = false;
+                            $('.spanTxtType').each(function() {
+                                if ($(this).text() === $('#inputeType').val()) {
+                                  presence = true;
+                                  return false;
+                                }
+                            });
+                            if(presence == false){
+                                contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + $(this).val() + '</span></div>');
+                                $('#inputeType').val('');
+                            }else{
+                                $('#inputeType').val('');
+                            }
                         }else{
                             console.log("Contenu de l'inputeType :", $(this).val());
                         }
                     });
                     
-                
+                $("body").prepend(back, edite);
+                $("body").append(controler);
                 contenaireType.append(type);
                 form.append(contenaireType);
                 form.append(TypeSeconder);
                 
                 var formController = $('<div class="formController"></div>');
-                formController.append('<button class="enregistre">enregistré</button>');
-                formController.append('<button class="brouillon">brouillon</button>');
-                formController.append('<button class="desactiver">désactiver</button>');
-                form.append(formController);
+                    formController.append('<button class="enregistre">enregistré</button>');
+                    formController.append('<button class="brouillon">brouillon</button>');
+                    formController.append('<button class="desactiver">désactiver</button>');
+                    form.append(formController);
 
 
-            var img = $('<div class="catalogimg"></div>');
-                img.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
-                $('body').css('overflow', 'hidden');
+                var imgCatalog = $('<div class="catalogimg"></div>');
+                    imgCatalog.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
+                    $('body').css('overflow', 'hidden');
 
             
-           $("body").prepend(back, edite);
-           edite.prepend(right);
-           edite.prepend(left);
-           left.prepend(form);
-           right.prepend(img);
+           
+                edite.prepend(right);
+                edite.prepend(left);
+                left.prepend(form);
+                right.prepend(imgCatalog);
 
        
             $('.move').on("click", () => {
@@ -279,6 +287,7 @@ function editeCode(catalog_id){
                $('#description').val(response['cataloginfo']['description']);
                $('#saison').val('');
                $('#type').val(response['cataloginfo']['type']);
+               $('.addInpute').remove();
                
                 $('.contenaireSeconderType').text('');
                 response['allType'].forEach(typeCatalog => {
