@@ -17,6 +17,7 @@
             </li>
             <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
             <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
+            <li><a href="<?= $host ?>tcg" class="navTcg">Tcg</a></li>
             <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
             <li class="navLike">
                 <a href="<?= $host ?>likepage">
@@ -64,6 +65,7 @@
                 </li>
                 <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
                 <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
+                <li><a href="<?= $host ?>tcg" class="navTcg">Tcg</a></li>
                 <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
                 <li class="navLike">
                     <a href="">

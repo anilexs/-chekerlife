@@ -113,13 +113,13 @@ nav .profil{
     position: relative;
 }
 .menu{
+    background: linear-gradient(to top left, #4800ff, rgb(44, 169, 155));
     position: absolute;
     display: none;
     z-index: 3;
 }
 .menu li{
     list-style-type: none;
-    background-color: rgb(61, 61, 61);
     width: 200px;
 }
 .menu .admin{
