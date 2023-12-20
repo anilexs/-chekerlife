@@ -1,3 +1,13 @@
+index
+
+catalog :
+SELECT * FROM catalog WHERE brouillon = 0 AND catalog_actif = 1 ORDER BY add_date DESC LIMIT 10;
+tcg :
+SELECT * FROM tcg WHERE tcg_brouillon = 0 AND tcg_actif = 1 ORDER BY created_at DESC LIMIT 10;
+
+<!--  -->
+
+
 exenple de bare de recherche : 
 select * from nom_de_la_table where nom_colone like '%dghjkg%'; 
 SELECT * FROM `users` WHERE pseudo LIKE '%ex%';

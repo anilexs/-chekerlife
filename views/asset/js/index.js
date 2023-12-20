@@ -1,18 +1,26 @@
-// var lastAdd;
+$(document).ready(function(){
+    animateText();
+});
 
-// $.ajax({
-//     url: host + "controller/CatalogAjaxController.php",
-//     type: "POST",
-//     data: {
-//         action: "lastAdd",
-//     },
-//     dataType: "json",
-//     success: function (response) {
-//         lastAdd = response['lastAdd'];
-//     }
-// });
+function animateText() {
+    var text = $("#animated-text");
+    var words = text.text().split(" ");
+    text.empty();
 
-// // Attendre un certain temps (par exemple, 1 seconde) pour la requête AJAX
-// setTimeout(function () {
-//     console.log(lastAdd); // Vous pouvez accéder à lastAdd ici
-// }, 100); // Attendez 1 seconde (1000 millisecondes)
+    for (var i = 0; i < words.length; i++) {
+        if (i > 0) {
+            text.append(" "); // Ajouter un espace entre les mots
+        }
+
+        var word = words[i];
+        if (word === " ") {
+            // Si le mot est un espace, ajouter un espace non animé
+            text.append("<span style='display:inline-block;margin-right:0.3em;'>&nbsp;</span>");
+        } else {
+            var span = $("<span style='display:inline-block;opacity:0;transition:opacity 0.5s;'>" + word + "</span>");
+            text.append(span);
+
+            span.delay(7 * i).animate({opacity: 1}, 500);
+        }
+    }
+}

@@ -1,9 +1,42 @@
 .navAccueil{
     color: aqua;
 }
-
-.carouselle{
-    background-color: rgb(255, 63, 108);
-    height: 400px;
+.hdrContenair{
+    display: flex;
+    color: white;
+    margin: 10px;
+}
+.hdrimg{
     width: 100%;
 }
+.hdrtxt{
+    text-align: center;
+    width: 100%;
+}
+.spanHdr{
+    font-size: 30px;
+}
+
+/* last */
+
+.lastCatalog {
+    background-color: rgb(121, 121, 121);
+    width: 95%;
+    height: 300px;
+    margin: auto;
+    max-height: 150px; /* Ajout de max-height */
+    overflow-y: auto;
+    white-space: nowrap; /* Empêche le passage à la ligne automatique */
+}
+
+.catalogCard {
+    margin: 10px;
+    background-color: red;
+    width: 250px;
+    height: 80%;
+    display: inline-block; /* Permet aux éléments de rester sur la même ligne */
+}
+
+
+
+/* fin last */

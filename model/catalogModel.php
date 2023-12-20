@@ -1,9 +1,33 @@
 <?php
 require_once "database.php";
 class Catalog{
+    public static function catalogLastAdd() {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM catalog WHERE brouillon = 0 AND catalog_actif = 1 ORDER BY add_date DESC LIMIT 10");
+        try {
+            $request->execute();
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+    
+    public static function tcgLastAdd() {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM tcg WHERE tcg_brouillon = 0 AND tcg_actif = 1 ORDER BY created_at DESC LIMIT 10");
+        try {
+            $request->execute();
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+
     public static function Cataloglimit($limit, $offset) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM `catalog` WHERE brouillon = 0 LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT * FROM `catalog` WHERE brouillon = 0 AND catalog_actif = 1 LIMIT :offset, :limit");
         
         try {
             $request->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -18,7 +42,7 @@ class Catalog{
     
     public static function nbCatalog() {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(*) FROM `catalog` WHERE brouillon = 0");
+        $request = $db->prepare("SELECT COUNT(*) FROM `catalog` WHERE brouillon = 0 AND catalog_actif = 1");
         
         try {
             $request->execute();
@@ -33,7 +57,7 @@ class Catalog{
 
     public static function filtreCatalog($filtres, $limit, $offset){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit");
 
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
         $request->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -51,7 +75,7 @@ class Catalog{
    
     public static function nbFiltreCatalog($filtres){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'))");
+        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'))");
 
         try{
             $request->execute(array($filtres, $filtres));
@@ -90,7 +114,7 @@ class Catalog{
 
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ? AND brouillon = 0");
+        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ? AND brouillon = 0 AND catalog_actif = 1");
 
         try{
             $request->execute(array($catalog_id));
@@ -103,7 +127,7 @@ class Catalog{
     
     public static function catalogInfoName($name){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ? AND brouillon = 0");
+        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ? AND brouillon = 0 AND catalog_actif = 1");
 
         try{
             $request->execute(array($name));
@@ -143,26 +167,12 @@ class Catalog{
     
     public static function navRechercher($filtres){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')) LIMIT 3");
+        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%')) LIMIT 3");
 
         try{
             $request->execute(array($filtres, $filtres));
             $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
             return $catalog;
-        }catch(PDOException $e){
-            $e->getMessage();
-        }
-    }
-    
-    public static function lastAdd(){
-        // sql requete a fair car la sais pas la bonne
-        $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog ORDER BY add_date DESC LIMIT 8");
-
-        try{
-            $request->execute();
-            $lastAdd = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $lastAdd;
         }catch(PDOException $e){
             $e->getMessage();
         }
