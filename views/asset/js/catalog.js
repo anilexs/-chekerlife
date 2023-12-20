@@ -149,7 +149,9 @@ function editeCode(catalog_id){
                                 }
                             });
                             if(presence == false){
-                                contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + $(this).val() + '</span></div>');
+                                $('.contenaireSeconderType').append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + $(this).val() + '</span></div>');
+                                console.log("pp");
+                                console.log($(this).val());
                                 $('#inputeType').val('');
                             }else{
                                 $('#inputeType').val('');
