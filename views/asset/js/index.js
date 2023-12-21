@@ -43,16 +43,16 @@ $(document).ready(function () {
     }
   });
 
-  // Ajouter la gestion du défilement de la molette de la souris
-  $('.catalogDiv').on('wheel', function (e) {
-    e.preventDefault(); // Empêcher le défilement par défaut
+  
+  $('.catalogContenair').on('wheel', function (e) {
+    e.preventDefault(); 
     var delta = e.originalEvent.deltaY;
     var currentScrollLeft = $('.catalogDiv').scrollLeft();
     $('.catalogDiv').scrollLeft(currentScrollLeft + delta);
     updateScrollbarPositionFromScroll();
   });
 
-  // Fonction pour mettre à jour la position de la barre de défilement en fonction du déplacement
+  
   function updateScrollbarPosition(e) {
     var newPosition = e.clientX - initialPosition;
     var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
@@ -62,7 +62,7 @@ $(document).ready(function () {
     updateScrollFromScrollbar();
   }
 
-  // Fonction pour mettre à jour la position de la barre de défilement en fonction du défilement
+ 
   function updateScrollbarPositionFromScroll() {
     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
     var scrollPercentage = $('.catalogDiv').scrollLeft() / maxScroll;
@@ -71,7 +71,7 @@ $(document).ready(function () {
     $('.custom-scrollbar').css('left', newPosition);
   }
 
-  // Fonction pour mettre à jour le défilement en fonction de la position de la barre de défilement
+ 
   function updateScrollFromScrollbar() {
     var scrollPercentage = $('.custom-scrollbar').position().left / ($('.lastCatalog').width() - $('.custom-scrollbar').width());
     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
