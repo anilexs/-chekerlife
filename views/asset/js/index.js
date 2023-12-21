@@ -24,6 +24,8 @@ function animateText() {
         }
     }
 }
+
+
 $(document).ready(function () {
   var isDragging = false;
   var initialPosition = 0;
@@ -79,6 +81,3 @@ $(document).ready(function () {
     $('.catalogDiv').scrollLeft(newScroll);
   }
 });
-
-
-

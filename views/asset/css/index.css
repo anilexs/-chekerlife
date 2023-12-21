@@ -38,7 +38,7 @@
       max-height: 150px;
       overflow: hidden;
       white-space: nowrap;
-      transition: scroll 0.3s ease; /* Utilisation de la transition pour une animation fluide */
+      transition: scroll 0.3s ease; 
     }
 
     .lastController {
@@ -67,3 +67,7 @@
 
 
 /* fin last */
+
+/* @media only screen and (max-width: 767px) {
+  
+} */

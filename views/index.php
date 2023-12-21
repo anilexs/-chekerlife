@@ -25,7 +25,9 @@ require_once "inc/header.php"; ?>
         <div class="lastCatalog">
             <div class="catalogDiv">
                 <?php foreach ($lastCatalog as $lastCatalog) { ?>
-                    <div class="catalogCard"></div>
+                    <div class="catalogCard">
+                        <?= $lastCatalog['nom'] ?>
+                    </div>
                 <?php } ?>
             </div>
             <div class="lastController">
