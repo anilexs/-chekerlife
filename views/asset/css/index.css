@@ -20,14 +20,42 @@
 /* last */
 
 .lastCatalog {
-    background-color: rgb(121, 121, 121);
-    width: 95%;
-    height: 300px;
-    margin: auto;
-    max-height: 150px; /* Ajout de max-height */
-    overflow-y: auto;
-    white-space: nowrap; /* Empêche le passage à la ligne automatique */
-}
+      background-color: rgb(121, 121, 121);
+      width: 95%;
+      height: 600px;
+      margin: auto;
+      max-height: 170px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .catalogDiv {
+      background-color: rgb(121, 121, 121);
+      width: 100%;
+      height: 300px;
+      margin: auto;
+      margin-bottom: -10px;
+      max-height: 150px;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: scroll 0.3s ease; /* Utilisation de la transition pour une animation fluide */
+    }
+
+    .lastController {
+      width: 99%;
+      height: 30px;
+      margin: auto;
+      margin-bottom: 10px;
+    }
+
+    .custom-scrollbar {
+      width: 80px;
+      height: 20px;
+      background-color: aqua;
+      border-radius: 30px;
+      position: absolute;
+      cursor: pointer;
+    }
 
 .catalogCard {
     margin: 10px;
@@ -36,7 +64,6 @@
     height: 80%;
     display: inline-block; /* Permet aux éléments de rester sur la même ligne */
 }
-
 
 
 /* fin last */

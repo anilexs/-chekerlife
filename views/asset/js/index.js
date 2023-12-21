@@ -24,3 +24,31 @@ function animateText() {
         }
     }
 }
+$(document).ready(function () {
+      var isDragging = false;
+      var initialPosition = 0;
+
+      $('.custom-scrollbar').mousedown(function (e) {
+        isDragging = true;
+        initialPosition = e.clientX - $('.custom-scrollbar').position().left;
+      });
+
+      $(document).mouseup(function () {
+        isDragging = false;
+      });
+
+      $(document).mousemove(function (e) {
+        if (isDragging) {
+          var newPosition = e.clientX - initialPosition;
+          var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
+
+          if (newPosition >= 0 && newPosition <= maxWidth) {
+            $('.custom-scrollbar').css('left', newPosition);
+            var scrollPercentage = newPosition / maxWidth;
+            var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
+            var newScroll = scrollPercentage * maxScroll;
+            $('.catalogDiv').scrollLeft(newScroll);
+          }
+        }
+      });
+    });

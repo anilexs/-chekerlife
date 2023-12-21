@@ -23,9 +23,14 @@ require_once "inc/header.php"; ?>
             
         </div>
         <div class="lastCatalog">
-            <?php foreach ($lastCatalog as $lastCatalog) { ?>
-                <div class="catalogCard"></div>
-            <?php } ?>
+            <div class="catalogDiv">
+                <?php foreach ($lastCatalog as $lastCatalog) { ?>
+                    <div class="catalogCard"></div>
+                <?php } ?>
+            </div>
+            <div class="lastController">
+                <div class="custom-scrollbar"></div>
+            </div>
         </div>
     </div>
 
