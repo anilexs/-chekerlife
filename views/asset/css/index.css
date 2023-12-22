@@ -22,9 +22,8 @@
 .lastCatalog {
       background-color: rgb(121, 121, 121);
       width: 95%;
-      height: 600px;
       margin: auto;
-      max-height: 170px;
+      height: 190px;
       overflow: hidden;
       position: relative;
     }
@@ -32,10 +31,9 @@
     .catalogDiv {
       background-color: rgb(121, 121, 121);
       width: 100%;
-      height: 300px;
+      height: 170px;
       margin: auto;
       margin-bottom: -10px;
-      max-height: 150px;
       overflow: hidden;
       white-space: nowrap;
       transition: scroll 0.3s ease; 
@@ -51,20 +49,35 @@
     .custom-scrollbar {
       width: 80px;
       height: 20px;
-      background-color: aqua;
+      background-color: rgb(0, 30, 255);
       border-radius: 30px;
       position: absolute;
       cursor: pointer;
     }
 
 .catalogCard {
-    margin: 10px;
-    background-color: red;
-    width: 250px;
-    height: 80%;
-    display: inline-block; /* Permet aux éléments de rester sur la même ligne */
+  color: white;
+  background-color: black;
+  margin: 10px;
+  width: 250px;
+  height: 80%;
+  display: inline-block; /* Permet aux éléments de rester sur la même ligne */
 }
 
+.catalogLastImgDiv{
+  height: 80%;
+}
+.catalogLastImg{
+  width: 100%;
+  height: 100%;
+}
+.lastCatalogTxt{
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* fin last */
 

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    ftrSize()
     animateText();
 });
 
@@ -46,15 +47,26 @@ $(document).ready(function () {
   });
 
   
+  
   $('.catalogContenair').on('wheel', function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     var delta = e.originalEvent.deltaY;
     var currentScrollLeft = $('.catalogDiv').scrollLeft();
     $('.catalogDiv').scrollLeft(currentScrollLeft + delta);
     updateScrollbarPositionFromScroll();
   });
 
-  
+  // version touche shift
+  // $('.catalogContenair').on('wheel', function (e) {
+  //   if (e.shiftKey) {
+  //     e.preventDefault();
+  //     var delta = e.originalEvent.deltaY;
+  //     var currentScrollLeft = $('.catalogDiv').scrollLeft();
+  //     $('.catalogDiv').scrollLeft(currentScrollLeft + delta);
+  //     updateScrollbarPositionFromScroll();
+  //   }
+  // });
+
   function updateScrollbarPosition(e) {
     var newPosition = e.clientX - initialPosition;
     var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
@@ -64,7 +76,6 @@ $(document).ready(function () {
     updateScrollFromScrollbar();
   }
 
- 
   function updateScrollbarPositionFromScroll() {
     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
     var scrollPercentage = $('.catalogDiv').scrollLeft() / maxScroll;
@@ -73,11 +84,25 @@ $(document).ready(function () {
     $('.custom-scrollbar').css('left', newPosition);
   }
 
- 
   function updateScrollFromScrollbar() {
     var scrollPercentage = $('.custom-scrollbar').position().left / ($('.lastCatalog').width() - $('.custom-scrollbar').width());
     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
     var newScroll = scrollPercentage * maxScroll;
     $('.catalogDiv').scrollLeft(newScroll);
   }
+
+  function adjustScrollbarPositionOnZoom() {
+    var currentZoom = window.innerWidth / window.screen.width;
+    var newLeftPosition = $('.custom-scrollbar').position().left * currentZoom;
+    $('.custom-scrollbar').css('left', newLeftPosition + 'px');
+  }
+
+  // Appel initial de la fonction d'ajustement
+  adjustScrollbarPositionOnZoom();
+
+  // Ajoutez cette partie pour ajuster la position de la barre de défilement lors du redimensionnement de la fenêtre
+  $(window).resize(function () {
+    adjustScrollbarPositionOnZoom();
+    updateScrollbarPositionFromScroll(); // Mettez à jour également la position de la barre en fonction du défilement
+  });
 });

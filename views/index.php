@@ -26,7 +26,10 @@ require_once "inc/header.php"; ?>
             <div class="catalogDiv">
                 <?php foreach ($lastCatalog as $lastCatalog) { ?>
                     <div class="catalogCard">
-                        <?= $lastCatalog['nom'] ?>
+                        <div class="catalogLastImgDiv"><img src="asset/img/last_catalog/<?= $lastCatalog["last_img"] ?>" alt="" class="catalogLastImg"></div>
+                        <div class="lastCatalogTxt">
+                            <?= $lastCatalog["nom"] ?>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
