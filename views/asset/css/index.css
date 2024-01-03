@@ -61,7 +61,11 @@
   margin: 10px;
   width: 250px;
   height: 80%;
-  display: inline-block; /* Permet aux éléments de rester sur la même ligne */
+  display: inline-block;
+}
+.lastA{
+  color: white;
+  text-decoration: none;
 }
 
 .catalogLastImgDiv{

@@ -24,14 +24,17 @@ require_once "inc/header.php"; ?>
         </div>
         <div class="lastCatalog">
             <div class="catalogDiv">
-                <?php foreach ($lastCatalog as $lastCatalog) { ?>
+                <?php foreach ($lastCatalog as $lastCatalog) { 
+                    $urlName = str_replace(' ', '+', $lastCatalog["nom"]); ?>
                     <div class="catalogCard">
-                        <div class="catalogLastImgDiv"><img src="asset/img/last_catalog/<?= $lastCatalog["last_img"] ?>" alt="" class="catalogLastImg"></div>
-                        <div class="test">
-                            <div class="lastCatalogTxt">
-                                <?= $lastCatalog["nom"] ?>
+                        <a href="catalog/<?= $urlName ?>" class="lastA">
+                            <div class="catalogLastImgDiv"><img src="asset/img/last_catalog/<?= $lastCatalog["last_img"] ?>" alt="" class="catalogLastImg"></div>
+                            <div class="lastCatalogTxtContenaire">
+                                <div class="lastCatalogTxt">
+                                    <?= $lastCatalog["nom"] ?>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 <?php } ?>
             </div>
