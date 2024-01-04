@@ -8,6 +8,7 @@ require_once "inc/header.php"; ?>
 <script src="asset/js/index.js" defer></script>
 <title>Accueil</title>
 <?php require_once "inc/nav.php"; ?>
+
     <div class="hdrContenair">
         <div>
             <img src="<?= $host ?>asset/img/mikuHomeRever.png" alt="" class="hdrimg">
