@@ -1,5 +1,5 @@
 <?php 
-require_once "../../model/catalogModel.php";
+require_once "../../model/adminCatalogModel.php";
 require_once "../../model/userModel.php";  
 if(isset($_GET['page']) && isset($_GET['titre'])){   
     $page = null;
@@ -7,14 +7,14 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
     if(isset($_GET['page'])){
         $page = $_GET['page'];
         $page -= 1;
-        $page *= 81;
+        $page *= 80;
     }else{
         $page = 0;
     }
-    $catalog = Catalog::Cataloglimit(81, $page);
+    $catalog = AdminCatalog::Cataloglimit(80, $page);
 }
 
-$nbCatalog = Catalog::nbCatalog();
+$nbCatalog = AdminCatalog::nbCatalog();
 $nbCatalog = $nbCatalog['COUNT(*)'];
 if(isset($_COOKIE['token'])){
     $userLike = User::userLike($_COOKIE['token']);
@@ -41,9 +41,18 @@ require_once "../inc/header.php";
     </div>
 </div>
 <div class="catalog" id="catalog">
+    <div class="cardNav">
+        <div class="cardNavHdr">menu catalog</div>
+        <div class="cardNavAuto">
+            <span class="cardNavSpan"><input type="checkbox" id="all"><label for="all">Tout afficher</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="actif" checked><label for="actif">Catalogue actif</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="disable"><label for="disable">Catalogue désactivé</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="brouillon"><label for="brouillon">Catalogue brouillon</label></span>
+        </div>
+    </div>
     <?php 
         if($page !== null){
-
+            
             foreach($catalog as $catalogItem){ ?>
                 
                 <div class="card">

@@ -3,6 +3,8 @@ session_start();
 require_once "../model/database.php";
 require_once "../model/userModel.php";
 require_once "../model/catalogModel.php";
+require_once "../model/adminModel.php";
+require_once "../model/adminCatalogModel.php";
 
 const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400; 
@@ -19,6 +21,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
+
+        echo '<div class="cardNav">';
+            echo '<div class="cardNavHdr">menu catalog</div>';
+        echo '</div>';
+        
         foreach ($catalog as $catalogItem) {
         echo '<div class="card">';
 
@@ -44,6 +51,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
+        echo '<div class="cardNav">';
+            echo '<div class="cardNavHdr">menu catalog</div>';
+        echo '</div>';
         foreach ($catalog as $catalogItem) {
             echo '<div class="card">';
 
@@ -63,7 +73,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }else if($_POST['action'] == "pagination"){
 
         $nbFiltre = $_POST['nbElement'];
-        $elementsParPage = 81;
+        $elementsParPage = 80;
         $page = $_POST['page'];
         $filtre = $_POST['filtre'];
         $nbPages = ceil($nbFiltre / $elementsParPage);
@@ -196,6 +206,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "cataloginfo" => $catalogInfo,
             "type" => $type,
             "allType" => $allType,
+        ];
+        reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "newCatalogActif"){
+        $response_code = HTTP_OK;
+        $catalogInfo = AdminCatalog::catalogInfoAdmin($_POST['catalog_id']);
+        $newEtat = Admin::newCatalog_actif($_POST['catalog_id'], $catalogInfo['catalog_actif']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "newEtat" => $newEtat,
         ];
         reponse($response_code, $responseTab);
     }

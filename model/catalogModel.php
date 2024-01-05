@@ -13,6 +13,7 @@ class Catalog{
         }
     }
     
+    // a metre dant le model de tcg
     public static function tcgLastAdd() {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM tcg WHERE tcg_brouillon = 0 AND tcg_actif = 1 ORDER BY created_at DESC LIMIT 10");
@@ -52,8 +53,6 @@ class Catalog{
             $e->getMessage();
         }
     }
-
-
 
     public static function filtreCatalog($filtres, $limit, $offset){
         $db = Database::dbConnect();

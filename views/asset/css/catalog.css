@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
 .navAdminCatalog{
     color: aqua;
 }
@@ -47,6 +49,35 @@ img{
     border-radius: 12px;
     margin: 10px 15px;
     position: relative;
+}
+
+.cardNav{
+    background-color: rgb(38, 38, 38);
+    width: 180px;
+    height: 280px;
+    border-radius: 12px;
+    margin: 10px 15px;
+    overflow: auto;   
+}
+
+.cardNavHdr{
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(39, 39, 39);
+    color: white;
+    border-radius: 11px 11px 0px 0;
+}
+
+.cardNavSpan{
+    display: block;
+    margin: 10px 0px 10px 10px;
+    color: white;
 }
 
 .type{
@@ -174,7 +205,7 @@ img{
     justify-content: space-around;
 }
 
-.enregistre, .brouillon, .desactiver{
+.enregistre, .brouillon, .desactiver, .reactiver{
     width: 30%;
     min-width: 78px;
     font-size: 20px;
@@ -193,6 +224,9 @@ img{
 
 .desactiver{
     background-color: red;    
+}
+.reactiver{
+    background-color: rgb(0, 255, 115);    
 }
 
 #description{

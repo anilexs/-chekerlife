@@ -1,8 +1,26 @@
 var editBtnActif = true;
+function test(){
+    var tab = {
+        "all": $("#all").is(":checked"),
+        "actif": $("#actif").is(":checked"),
+        "disable": $("#disable").is(":checked"),
+        "brouillon": $("#brouillon").is(":checked"),
+    }
+    console.log(tab);
+}
+$(document).ready(function () {
+    test();
+})
+    $(document).ready(function () {
+        $(".cardNavAuto input[type=checkbox]").on("change", function () {
+            test();
+        });
+    });
 
-function catalogViews(offset, limit = 81) {
+
+function catalogViews(offset, limit = 80) {
     offset -= 1;
-    limit = 81;
+    limit = 80;
     $("#pagination").html("");
     $.ajax({
         url: host + "controller/CatalogAjaxControllerAdmin.php",
@@ -22,10 +40,10 @@ function catalogViews(offset, limit = 81) {
     });
 }
 
-function catalogFiltre(filtre, offset = 1, limit = 81){
+function catalogFiltre(filtre, offset = 1, limit = 80){
     
     offset -= 1;    
-    offset *= 81;
+    offset *= 80;
 
     $("#pagination").html("");
     $.ajax({
@@ -168,7 +186,11 @@ function editeCode(catalog_id){
                 var formController = $('<div class="formController"></div>');
                     formController.append('<button class="enregistre">enregistré</button>');
                     formController.append('<button class="brouillon">brouillon</button>');
-                    formController.append('<button class="desactiver">désactiver</button>');
+                    if(response['cataloginfo']['catalog_actif'] == 1){
+                        formController.append('<button class="desactiver">désactiver</button>');
+                    }else{
+                        formController.append('<button class="reactiver">Réactiver</button>');
+                    }
                     form.append(formController);
 
 
@@ -351,9 +373,54 @@ function editeCode(catalog_id){
                 }).get();
                 console.log(valeurs);
            })
-           $('.desactiver').on("click", function(e) {
+           $(document).on('click', '.desactiver, .reactiver', function(e) {
                 e.preventDefault();
-                console.log("desactiver");
+                $.ajax({
+                    url: host + "controller/CatalogAjaxControllerAdmin.php", 
+                    type: 'POST',
+                    data: {
+                        action: "newCatalogActif",
+                        catalog_id: catalog_id,
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response['newEtat'] == 1){
+                            var boutonDesactiver = $('<button class="desactiver">désactiver</button>');
+                            $(".reactiver").replaceWith(boutonDesactiver);
+                        }else{
+                            var boutonReactiver = $("<button class='reactiver'>Réactiver</button>");
+                            $(".desactiver").replaceWith(boutonReactiver);
+                        }
+                        // if(response['cataloginfo']['catalog_actif'] == 1){
+                        //     formController.append('<button class="desactiver">désactiver</button>');
+                        // }else{
+                        //     formController.append('<button class="reactiver">Réactiver</button>');
+                        // }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                    }
+                });
+           })
+           
+           $('.reactiver').on("click", function(e) {
+                e.preventDefault();
+                // $.ajax({
+                //     url: host + "controller/CatalogAjaxControllerAdmin.php", 
+                //     type: 'POST',
+                //     data: {
+                //         action: "reactiver",
+                //         catalog_id: catalog_id,
+                //     },
+                //     dataType: 'json',
+                //     success: function(response) {
+
+                //     },
+                //     error: function(xhr, status, error) {
+                //         console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                //     }
+                // });
            })
         },
         error: function(xhr, status, error) {

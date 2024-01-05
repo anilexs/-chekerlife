@@ -28,4 +28,21 @@ class Admin{
             echo $e->getMessage();
         }
     }
+    
+    public static function newCatalog_actif($catalog_id, $catalog_actif){
+        $db = Database::dbConnect();
+        if($catalog_actif == 1){
+            $newEtat = 0;
+        }else{
+            $newEtat = 1;
+        }
+        $request = $db->prepare("UPDATE catalog SET catalog_actif = ? WHERE id_catalogue = ?");
+
+        try {
+            $request->execute(array($newEtat, $catalog_id));
+            return $newEtat;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
