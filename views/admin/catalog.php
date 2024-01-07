@@ -44,7 +44,7 @@ require_once "../inc/header.php";
     <div class="cardNav">
         <div class="cardNavHdr">menu catalog</div>
         <div class="cardNavAuto">
-            <span class="cardNavSpan"><input type="checkbox" id="all"><label for="all">Tout afficher</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="allViews"><label for="allViews">Tout afficher</label></span>
             <span class="cardNavSpan"><input type="checkbox" id="actif" checked><label for="actif">Catalogue actif</label></span>
             <span class="cardNavSpan"><input type="checkbox" id="disable"><label for="disable">Catalogue désactivé</label></span>
             <span class="cardNavSpan"><input type="checkbox" id="brouillon"><label for="brouillon">Catalogue brouillon</label></span>

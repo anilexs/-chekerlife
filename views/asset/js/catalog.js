@@ -1,21 +1,15 @@
 var editBtnActif = true;
 function test(){
     var tab = {
-        "all": $("#all").is(":checked"),
+        "all": $("#allViews").is(":checked"),
         "actif": $("#actif").is(":checked"),
         "disable": $("#disable").is(":checked"),
         "brouillon": $("#brouillon").is(":checked"),
     }
-    console.log(tab);
+    return tab;
 }
-$(document).ready(function () {
-    test();
-})
-    $(document).ready(function () {
-        $(".cardNavAuto input[type=checkbox]").on("change", function () {
-            test();
-        });
-    });
+
+
 
 
 function catalogViews(offset, limit = 80) {
@@ -474,17 +468,17 @@ $(document).ready(function () {
             page = 1;
             removeGetParameter("page");
             catalogFiltre(searchTerm, page);
-            updateURL(searchTerm);
+            updateURL("titre" ,searchTerm);
         }
         ftrSize();
     });
 
-    function updateURL(searchTerm) {
+    function updateURL(getName, valer) {
         var urlParams = new URLSearchParams(window.location.search);
-        urlParams.set("titre", searchTerm);
-        var newURL = window.location.pathname + "?titre=" + searchTerm;
+        urlParams.set(getName, valer);
+        var newURL = window.location.pathname + "?" + getName + "=" + valer;
         urlParams.forEach(function (value, key) {
-            if (key !== "titre") {
+            if (key !== getName) {
                 newURL += "&" + key + "=" + value;
             }
         });
@@ -502,6 +496,68 @@ $(document).ready(function () {
             window.history.replaceState(null, "", newURL);
         }
     }
+
+    function allCheked(){
+        var allCheked = $("#actif").prop("checked") && $("#brouillon").prop("checked") && $("#disable").prop("checked");
+        if(allCheked){
+            console.log(false);
+        }
+        return allCheked;
+    }
+
+
+        $("#allViews").on("change", function () {
+            var allViews = $("#allViews").is(":checked");
+            if(allViews){
+                updateURL("allViews", $("#allViews").is(":checked"))
+                $("#actif").prop("checked", true);
+                $("#disable").prop("checked", true);
+                $("#brouillon").prop("checked", true);
+                removeGetParameter("actif");
+                removeGetParameter("disable");
+                removeGetParameter("brouillon");
+            }else{
+                $("#disable").prop("checked", false);
+                $("#brouillon").prop("checked", false);
+                removeGetParameter("allViews");
+            }
+        });
+        
+        $("#actif").on("change", function () {
+            var allCheke = allCheked();
+            // if(allCheke){
+
+            // }else{
+                
+            // }
+                var actif = $("#actif").is(":checked");
+                if(actif){
+                    removeGetParameter("actif");
+                }else{
+                    updateURL("actif", $("#actif").is(":checked"))
+                }
+        });
+
+        $("#brouillon").on("change", function () {
+            var allCheke = allCheked();
+                var actif = $("#brouillon").is(":checked");
+                if(actif){
+                    updateURL("brouillon", $("#brouillon").is(":checked"))
+                }else{
+                    removeGetParameter("brouillon");
+                }
+        });
+
+        $("#disable").on("change", function () {
+            var allCheke = allCheked();
+                var actif = $("#disable").is(":checked");
+                if(actif){
+                    updateURL("disable", $("#disable").is(":checked"))
+                }else{
+                    removeGetParameter("disable");
+                }
+            
+        });
 });
 
 
