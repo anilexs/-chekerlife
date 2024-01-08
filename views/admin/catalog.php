@@ -7,7 +7,7 @@ $actif = isset($_GET['actif']) ? true : false;
 $disable = isset($_GET['disable']) ? true : false;
 $brouillon = isset($_GET['brouillon']) ? true : false;
 
-$menu = [
+$parametre = [
     "allViews" => $allViews,
     "actif" => $actif,
     "disable" => $disable,
@@ -17,7 +17,6 @@ $menu = [
 if(isset($_GET['page']) && isset($_GET['titre'])){   
     $page = null;
 }else{
-    echo 123456789;
     if(isset($_GET['page'])){
         $page = $_GET['page'];
         $page -= 1;
@@ -25,7 +24,7 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
     }else{
         $page = 0;
     }
-    $catalog = AdminCatalog::Cataloglimit(80, $page);
+    $catalog = AdminCatalog::Cataloglimit(80, $page, $parametre);
 }
 
 $nbCatalog = AdminCatalog::nbCatalog();

@@ -14,7 +14,7 @@ class AdminCatalog{
         }
     }
     
-    public static function Cataloglimit($limit, $offset) {
+    public static function Cataloglimit($limit, $offset, $parametre) {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT * FROM `catalog` WHERE brouillon = 0 AND catalog_actif = 1 LIMIT :offset, :limit");
         
