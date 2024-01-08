@@ -1,9 +1,23 @@
 <?php 
 require_once "../../model/adminCatalogModel.php";
 require_once "../../model/userModel.php";  
+
+$allViews = isset($_GET['allViews']) ? true : false;
+$actif = isset($_GET['actif']) ? true : false;
+$disable = isset($_GET['disable']) ? true : false;
+$brouillon = isset($_GET['brouillon']) ? true : false;
+
+$menu = [
+    "allViews" => $allViews,
+    "actif" => $actif,
+    "disable" => $disable,
+    "brouillon" => $brouillon,
+];
+
 if(isset($_GET['page']) && isset($_GET['titre'])){   
     $page = null;
 }else{
+    echo 123456789;
     if(isset($_GET['page'])){
         $page = $_GET['page'];
         $page -= 1;

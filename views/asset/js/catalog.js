@@ -497,10 +497,35 @@ $(document).ready(function () {
         }
     }
 
+    function clearAllParams() {
+        var url = window.location.href.split('?')[0];
+        window.history.replaceState({}, document.title, url);
+        updateURL("allViews", $("#allViews").is(":checked"));
+    }
+
     function allCheked(){
         var allCheked = $("#actif").prop("checked") && $("#brouillon").prop("checked") && $("#disable").prop("checked");
         if(allCheked){
-            console.log(false);
+            clearAllParams();
+            $("#allViews").prop("checked", true);
+        }else{
+            $("#allViews").prop("checked", false);
+            removeGetParameter("allViews");
+            var actif = $("#actif").is(":checked");
+            var disable = $("#disable").is(":checked");
+            var brouillon = $("#brouillon").is(":checked");
+
+            if(!actif){
+                updateURL("actif", $("#actif").is(":checked"));
+            }
+
+            if(brouillon){
+                updateURL("brouillon", $("#brouillon").is(":checked"));
+            }
+
+            if(disable){
+                updateURL("disable", $("#disable").is(":checked"));
+            }
         }
         return allCheked;
     }
@@ -509,7 +534,7 @@ $(document).ready(function () {
         $("#allViews").on("change", function () {
             var allViews = $("#allViews").is(":checked");
             if(allViews){
-                updateURL("allViews", $("#allViews").is(":checked"))
+                updateURL("allViews", $("#allViews").is(":checked"));
                 $("#actif").prop("checked", true);
                 $("#disable").prop("checked", true);
                 $("#brouillon").prop("checked", true);
@@ -525,38 +550,38 @@ $(document).ready(function () {
         
         $("#actif").on("change", function () {
             var allCheke = allCheked();
-            // if(allCheke){
-
-            // }else{
-                
-            // }
+            if(!allCheke){
                 var actif = $("#actif").is(":checked");
-                if(actif){
-                    removeGetParameter("actif");
+                if(!actif){
+                    updateURL("actif", $("#actif").is(":checked"));
                 }else{
-                    updateURL("actif", $("#actif").is(":checked"))
+                    removeGetParameter("actif");
                 }
+            }
         });
 
         $("#brouillon").on("change", function () {
             var allCheke = allCheked();
-                var actif = $("#brouillon").is(":checked");
-                if(actif){
-                    updateURL("brouillon", $("#brouillon").is(":checked"))
+            if(!allCheke){
+                var brouillon = $("#brouillon").is(":checked");
+                if(brouillon){
+                    updateURL("brouillon", $("#brouillon").is(":checked"));
                 }else{
                     removeGetParameter("brouillon");
-                }
+                }               
+            }
         });
 
         $("#disable").on("change", function () {
             var allCheke = allCheked();
-                var actif = $("#disable").is(":checked");
-                if(actif){
-                    updateURL("disable", $("#disable").is(":checked"))
+            if(!allCheke){
+                var disable = $("#disable").is(":checked");
+                if(disable){
+                    updateURL("disable", $("#disable").is(":checked"));
                 }else{
                     removeGetParameter("disable");
                 }
-            
+            }            
         });
 });
 
