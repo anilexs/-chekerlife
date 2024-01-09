@@ -283,6 +283,17 @@ requette de statistique total
 SELECT DATE_FORMAT(u.created_at, '%Y/%m/%d') AS jour, (SELECT COUNT(*) FROM users u1 WHERE u1.created_at <= u.created_at) AS total_utilisateurs, (SELECT COUNT(*) FROM users u2 WHERE u2.created_at <= u.created_at AND u2.role = 'member') AS membres, (SELECT COUNT(*) FROM users u3 WHERE u3.created_at <= u.created_at AND u3.role = 'beta-testeur') AS beta_testers, (SELECT COUNT(*) FROM users u4 WHERE u4.created_at <= u.created_at AND u4.role = 'admin') AS admins, (SELECT COUNT(*) FROM users u5 WHERE u5.created_at <= u.created_at AND u5.role = 'owner') AS owners, COUNT(u.created_at) AS nombre_dutilisateurs_jour, SUM(CASE WHEN u.role = 'member' THEN 1 ELSE 0 END) AS total_membres_jour, SUM(CASE WHEN u.role = 'beta-testeur' THEN 1 ELSE 0 END) AS total_beta_testers_jour, SUM(CASE WHEN u.role = 'admin' THEN 1 ELSE 0 END) AS total_admins_jour, SUM(CASE WHEN u.role = 'owner' THEN 1 ELSE 0 END) AS total_owners_jour FROM users u WHERE u.created_at >= '2022-01-01' GROUP BY jour ORDER BY jour
 
 
-pour le textarea
-
+pour le textarea :
 wysiwyg
+
+requette pour la recherche admin :
+SELECT null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif FROM catalog UNION SELECT id_brouillon, catalog_id, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, null, null, null FROM catalog_brouillon ORDER BY id_catalogue;
+
+inversion
+
+SELECT null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif, 'catalog' as origin FROM catalog UNION ALL SELECT id_brouillon, catalog_id, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, null, null, null, 'brouillon' as origin FROM catalog_brouillon ORDER BY id_catalogue;
+
+
+
+
+

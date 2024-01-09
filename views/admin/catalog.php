@@ -66,40 +66,94 @@ require_once "../inc/header.php";
     <?php 
         if($page !== null){
             
-            foreach($catalog as $catalogItem){ ?>
-                
-                <div class="card">
-                    <?php
-                    $isActive = false;
-                    if(isset($_COOKIE['token'])){
-                        foreach($userLike as $like){
-                            if($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1){
-                                $isActive = true;
-                                break;
+            foreach($catalog as $catalogItem){ 
+                if($catalogItem['catalog_actif'] == 0){ ?>
+
+                    <div class="cardDisable">
+                        <?php
+                        $isActive = false;
+                        if(isset($_COOKIE['token'])){
+                            foreach($userLike as $like){
+                                if($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1){
+                                    $isActive = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    $urlName = str_replace(' ', '+', $catalogItem["nom"]);
-                    ?>
-                    <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogItem["id_catalogue"] ?>" id="<?= $catalogItem["id_catalogue"] ?> <? echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
-                        <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
-                        <i class="fa-solid fa-heart"></i>
-                    </button>
+                        $urlName = str_replace(' ', '+', $catalogItem["nom"]);
+                        ?>
+                        <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogItem["id_catalogue"] ?>" id="<?= $catalogItem["id_catalogue"] ?> <? echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
+                            <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+    
+                        <div class="type"><?= $catalogItem['type'] ?></div>
+                        <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+    
+                        <?php if($catalogItem['saison'] != null){ ?>
+                            <div class="saison">saision <?= $catalogItem['saison'] ?></div>
+                        <?php } ?>
+                        <a href="../catalog/<?= $urlName ?>">
+                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                        </a>
+                        <?= '<script type="text/javascript">
+                            likePosition(' . $catalogItem['id_catalogue'] .');
+                        </script>'; ?>
+                    </div>
+                    
+                <?php }else if($catalogItem['origin'] == "catalog"){ ?>
+                    <div class="card">
+                        <?php
+                        $isActive = false;
+                        if(isset($_COOKIE['token'])){
+                            foreach($userLike as $like){
+                                if($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1){
+                                    $isActive = true;
+                                    break;
+                                }
+                            }
+                        }
+                        $urlName = str_replace(' ', '+', $catalogItem["nom"]);
+                        ?>
+                        <button class="like <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogItem["id_catalogue"] ?>" id="<?= $catalogItem["id_catalogue"] ?> <? echo $isActive ? 'activeTrue' : 'activeFalse'; ?>" onclick="like(<?= $catalogItem["id_catalogue"] ?>)">
+                            <span class="cataLike <?= $catalogItem["id_catalogue"] ?> likeId<?= $catalogItem["id_catalogue"] ?>" id="likeId<?= $catalogItem["id_catalogue"] ?>"><?= $catalogItem['likes'] ?></span>
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+    
+                        <div class="type"><?= $catalogItem['type'] ?></div>
+                        <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+    
+                        <?php if($catalogItem['saison'] != null){ ?>
+                            <div class="saison">saision <?= $catalogItem['saison'] ?></div>
+                        <?php } ?>
+                        <a href="../catalog/<?= $urlName ?>">
+                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                        </a>
+                        <?= '<script type="text/javascript">
+                            likePosition(' . $catalogItem['id_catalogue'] .');
+                        </script>'; ?>
+                    </div>
 
-                    <div class="type"><?= $catalogItem['type'] ?></div>
-                    <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                    <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+                <?php }else{ ?>
 
-                    <?php if($catalogItem['saison'] != null){ ?>
-                        <div class="saison">saision <?= $catalogItem['saison'] ?></div>
-                    <?php } ?>
-                    <a href="../catalog/<?= $urlName ?>">
-                        <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
-                    </a>
-                    <?= '<script type="text/javascript">
-                        likePosition(' . $catalogItem['id_catalogue'] .');
-                    </script>'; ?>
-                </div>
+                    <div class="cardBrouillon">
+                        <?php
+                            $urlName = str_replace(' ', '+', $catalogItem["nom"]);
+                        ?>
+                        <div class="type"><?= $catalogItem['type'] ?></div>
+                        <div class="edite"><button onclick="edite(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+    
+                        <?php if($catalogItem['saison'] != null){ ?>
+                            <div class="saison">saision <?= $catalogItem['saison'] ?></div>
+                        <?php } ?>
+                        <a href="../catalog/<?= $urlName ?>">
+                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                        </a>
+                    </div>
+                <?php }?>
             <?php } 
         } ?>
 </div>
