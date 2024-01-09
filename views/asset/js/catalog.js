@@ -1,18 +1,36 @@
 var editBtnActif = true;
-function test(){
-    var tab = {
-        "all": $("#allViews").is(":checked"),
-        "actif": $("#actif").is(":checked"),
-        "disable": $("#disable").is(":checked"),
-        "brouillon": $("#brouillon").is(":checked"),
-    }
-    return tab;
-}
+
+// function parametre() {
+//     $.urlParam = function(name) {
+//         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+//         return results ? results[1] || 0 : false;
+//     };
+
+//     return {
+//         allViews: $.urlParam('allViews') === 'true',
+//         actif: $.urlParam('actif') === 'true',
+//         disable: $.urlParam('disable') === 'true',
+//         brouillon: $.urlParam('brouillon') === 'true',
+//     };
+// }
+
 
 
 
 
 function catalogViews(offset, limit = 80) {
+    $.urlParam = function(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results ? results[1] || 0 : false;
+    };
+    var parametre = {
+        allViews: $.urlParam('allViews') === 'true',
+        actif: $.urlParam('actif') === 'true',
+        disable: $.urlParam('disable') === 'true',
+        brouillon: $.urlParam('brouillon') === 'true',
+    };
+    
+    console.log(parametre);
     offset -= 1;
     limit = 80;
     $("#pagination").html("");

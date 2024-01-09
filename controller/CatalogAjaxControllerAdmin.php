@@ -15,30 +15,46 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $message = "il manque le paramétre ACTION";
 
     if($_POST['action'] == "catalog"){
-        $catalog = Catalog::Cataloglimit($_POST['limit'], $_POST['offset']);
-        $nbCatalog = Catalog::nbCatalog();
+        $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], null);
+        $nbCatalog = AdminCatalog::nbCatalog();
         $nbCatalog = $nbCatalog['COUNT(*)'];
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
 
-        echo '<div class="cardNav">';
-            echo '<div class="cardNavHdr">menu catalog</div>';
-        echo '</div>';
+        catalog_parametre();
         
         foreach ($catalog as $catalogItem) {
-        echo '<div class="card">';
-
-        $isActive = false;
-        if (isset($_COOKIE['token'])) {
-            foreach ($userLike as $like) {
-                if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                    $isActive = true;
-                    break;
+            if($catalogItem['catalog_actif'] == 0){
+                echo '<div class="cardDisable">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
+                    }
                 }
+                cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
+                echo '<div class="card">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
+                    }
+                }
+                cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else{
+                
             }
-        }
-        cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            
     }
     echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
@@ -51,9 +67,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
-        echo '<div class="cardNav">';
-            echo '<div class="cardNavHdr">menu catalog</div>';
-        echo '</div>';
+        
+        catalog_parametre();
+
         foreach ($catalog as $catalogItem) {
             echo '<div class="card">';
 
@@ -270,6 +286,26 @@ function cardBrouillon($id_catalogue, $isActive, $nom, $like, $image_catalogue, 
     echo '</a>';
     echo '</div>';
 }
+function cardDisable($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, $type){
+    $urlName = str_replace(' ', '+', $nom);
+    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . ' " onclick="like(' . $id_catalogue . ')">';
+    echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
+    echo '<i class="fa-solid fa-heart"></i>';
+    echo '</button>';
+    echo '<div class="type">'. $type .'</div>';
+    echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    if (!empty($saison)) {
+        echo '<div class="saison">saison ' . $saison . '</div>';
+    }
+
+    echo '<a href="catalog/' . $urlName . '">';
+    echo '<img src="http://localhost/!chekerlife/views/asset/img/catalog/' . $image_catalogue . '" alt="">';
+    echo '</a>';
+    echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); ftrSize();</script>';
+    echo '</div>';
+}
+
 
 function generateCode($length = 50) {
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -280,4 +316,17 @@ function generateCode($length = 50) {
     }
 
     return $code;
+}
+
+
+function catalog_parametre() {
+    echo '<div class="cardNav">';
+        echo '<div class="cardNavHdr">menu catalog</div>';
+        echo '<div class="cardNavAuto">';
+        echo '<span class="cardNavSpan"><input type="checkbox" id="allViews"><label for="allViews">Tout afficher</label></span>';
+        echo '<span class="cardNavSpan"><input type="checkbox" id="actif" checked><label for="actif">Catalogue actif</label></span>';
+        echo '<span class="cardNavSpan"><input type="checkbox" id="disable"><label for="disable">Catalogue désactivé</label></span>';
+        echo '<span class="cardNavSpan"><input type="checkbox" id="brouillon"><label for="brouillon">Catalogue brouillon</label></span>';
+        echo '</div>';
+    echo '</div>';
 }

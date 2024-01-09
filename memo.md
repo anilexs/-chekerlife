@@ -297,3 +297,4 @@ SELECT null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, descr
 
 
 
+echo "var_dump(" . var_export($catalog, true) . ");";

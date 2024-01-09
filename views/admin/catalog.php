@@ -3,7 +3,7 @@ require_once "../../model/adminCatalogModel.php";
 require_once "../../model/userModel.php";  
 
 $allViews = isset($_GET['allViews']) ? true : false;
-$actif = isset($_GET['actif']) ? true : false;
+$actif = isset($_GET['actif']) ? false : true;
 $disable = isset($_GET['disable']) ? true : false;
 $brouillon = isset($_GET['brouillon']) ? true : false;
 
@@ -25,6 +25,9 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
         $page = 0;
     }
     $catalog = AdminCatalog::Cataloglimit(80, $page, $parametre);
+    // echo '<pre style="color: red">';
+    // var_dump($catalog);
+    // echo '</pre>';
 }
 
 $nbCatalog = AdminCatalog::nbCatalog();
@@ -57,10 +60,10 @@ require_once "../inc/header.php";
     <div class="cardNav">
         <div class="cardNavHdr">menu catalog</div>
         <div class="cardNavAuto">
-            <span class="cardNavSpan"><input type="checkbox" id="allViews"><label for="allViews">Tout afficher</label></span>
-            <span class="cardNavSpan"><input type="checkbox" id="actif" checked><label for="actif">Catalogue actif</label></span>
-            <span class="cardNavSpan"><input type="checkbox" id="disable"><label for="disable">Catalogue désactivé</label></span>
-            <span class="cardNavSpan"><input type="checkbox" id="brouillon"><label for="brouillon">Catalogue brouillon</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="allViews" <?= $allViews ? 'checked' : ''; ?>><label for="allViews">Tout afficher</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="actif" <?= $actif || $allViews ? 'checked' : ''; ?>><label for="actif">Catalogue actif</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="disable" <?= $disable || $allViews ? 'checked' : ''; ?>><label for="disable">Catalogue désactivé</label></span>
+            <span class="cardNavSpan"><input type="checkbox" id="brouillon" <?= $brouillon || $allViews  ? 'checked' : ''; ?>><label for="brouillon">Catalogue brouillon</label></span>
         </div>
     </div>
     <?php 
@@ -102,7 +105,7 @@ require_once "../inc/header.php";
                         </script>'; ?>
                     </div>
                     
-                <?php }else if($catalogItem['origin'] == "catalog"){ ?>
+                <?php }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){ ?>
                     <div class="card">
                         <?php
                         $isActive = false;
