@@ -22,7 +22,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             $userLike = User::userLike($_COOKIE['token']);
         }
 
-        catalog_parametre();
+        $parametre = $_POST['parametre'];
+        catalog_parametre($parametre);
         
         foreach ($catalog as $catalogItem) {
             if($catalogItem['catalog_actif'] == 0){
@@ -52,7 +53,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 }
                 cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
             }else{
-                
+                echo '<div class="cardBrouillon">';
+                cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
             }
             
     }
@@ -68,7 +70,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             $userLike = User::userLike($_COOKIE['token']);
         }
         
-        catalog_parametre();
+        catalog_parametre($_POST['parametre']);
 
         foreach ($catalog as $catalogItem) {
             echo '<div class="card">';
@@ -87,6 +89,25 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
     }else if($_POST['action'] == "pagination"){
+        $parametre = $_POST['parametre'];
+        $paginationGet = '';
+
+        if ($parametre['allViews']) {   
+            $paginationGet .= "allViews=true";
+        }else{
+            if (!$parametre['actif']) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "actif=false";
+            }
+            
+            if ($parametre['disable']) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "disable=true";
+            }
+            
+            if ($parametre['brouillon']) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "brouillon=true";
+            }
+        }
+        
 
         $nbFiltre = $_POST['nbElement'];
         $elementsParPage = 80;
@@ -105,9 +126,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         
             if ($page > 1) {
                 if($filtre == null){
-                    echo '<a href="?page=' . ($page - 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
+                    echo '<a href="?page=' . ($page - 1) . ($paginationGet ? "&$paginationGet" : "") .'"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page - 1) . ($paginationGet ? "&$paginationGet" : "") .'"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
                 }
             } else {
                 echo '<i class="fa-solid fa-chevron-up fa-rotate-270"></i>';
@@ -118,41 +139,41 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         
             if ($page > 4) {
                 if($filtre == null){
-                    echo '<a href="?page=1">1</a>';
+                    echo '<a href="?page=1'. ($paginationGet ? "&$paginationGet" : "") .'">1</a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=1">1</a>';
+                    echo '<a href="?titre='.$filtre. ($paginationGet ? "&$paginationGet" : "") .'&page=1">1</a>';
                 }
             }
         
             for ($i = $start; $i <= $end; $i++) {
                 if ($i == $page) {
                     if($filtre == null){
-                        echo '<span><a href="?page=' . $i . '" class="current">' . $i . '</a></span>';
+                        echo '<span><a href="?page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'" class="current">' . $i . '</a></span>';
                     }else{
-                        echo '<span><a href="?titre='.$filtre.'&page=' . $i . '" class="current">' . $i . '</a></span>';
+                        echo '<span><a href="?titre='.$filtre.'&page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'" class="current">' . $i . '</a></span>';
                     }
                 } else {
                     if($filtre == null){
-                        echo '<a href="?page=' . $i . '">' . $i . '</a>';
+                        echo '<a href="?page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'">' . $i . '</a>';
                     }else{
-                        echo '<a href="?titre='.$filtre.'&page=' . $i . '">' . $i . '</a>';
+                        echo '<a href="?titre='.$filtre.'&page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'">' . $i . '</a>';
                     }
                 }
             }
         
             if ($nbPages - $page > 3 && $nbPages > 7) {
                 if($filtre == null){
-                    echo '<a href="?page=' . $nbPages . '">' . $nbPages . '</a>';
+                    echo '<a href="?page=' . $nbPages . ($paginationGet ? "&$paginationGet" : "") .'">' . $nbPages . '</a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=' . $nbPages . '">' . $nbPages . '</a>';
+                    echo '<a href="?titre='.$filtre.'&page=' . $nbPages . ($paginationGet ? "&$paginationGet" : "") .'">' . $nbPages . '</a>';
                 }
             }
         
             if ($page < $nbPages) {
                 if($filtre == null){
-                    echo '<a href="?page=' . ($page + 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
+                    echo '<a href="?page=' . ($page + 1) . ($paginationGet ? "&$paginationGet" : "") .'"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
                 }else{
-                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
+                    echo '<a href="?titre='.$filtre.'&page=' . ($page + 1) . ($paginationGet ? "&$paginationGet" : "") .'"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
                 }
             } else {
                 echo '<i class="fa-solid fa-chevron-up fa-rotate-90"></i>';
@@ -272,7 +293,7 @@ function cardCatalog($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
     echo '</div>';
 }
 
-function cardBrouillon($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, $type){
+function cardBrouillon($id_catalogue, $nom, $like, $image_catalogue, $saison, $type){
     $urlName = str_replace(' ', '+', $nom);
     echo '<div class="type">'. $type .'</div>';
     echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
@@ -319,14 +340,14 @@ function generateCode($length = 50) {
 }
 
 
-function catalog_parametre() {
+function catalog_parametre($parametre) {
     echo '<div class="cardNav">';
         echo '<div class="cardNavHdr">menu catalog</div>';
-        echo '<div class="cardNavAuto">';
-        echo '<span class="cardNavSpan"><input type="checkbox" id="allViews"><label for="allViews">Tout afficher</label></span>';
-        echo '<span class="cardNavSpan"><input type="checkbox" id="actif" checked><label for="actif">Catalogue actif</label></span>';
-        echo '<span class="cardNavSpan"><input type="checkbox" id="disable"><label for="disable">Catalogue désactivé</label></span>';
-        echo '<span class="cardNavSpan"><input type="checkbox" id="brouillon"><label for="brouillon">Catalogue brouillon</label></span>';
-        echo '</div>';
+            echo '<div class="cardNavAuto">';
+                echo '<span class="cardNavSpan"><input type="checkbox" id="allViews"'. ($parametre['allViews'] ? 'checked' : '') .'><label for="allViews">Tout afficher</label></span>';
+                echo '<span class="cardNavSpan"><input type="checkbox" id="actif"'. ($parametre['actif'] || $parametre['allViews'] ? 'checked' : '') .'><label for="actif">Catalogue actif</label></span>';
+                echo '<span class="cardNavSpan"><input type="checkbox" id="disable"'. ($parametre['disable'] || $parametre['allViews'] ? 'checked' : '') .'><label for="disable">Catalogue désactivé</label></span>';
+                echo '<span class="cardNavSpan"><input type="checkbox" id="brouillon"'. ($parametre['brouillon'] || $parametre['allViews'] ? 'checked' : '') .'><label for="brouillon">Catalogue brouillon</label></span>';
+            echo '</div>';
     echo '</div>';
 }

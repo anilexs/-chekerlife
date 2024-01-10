@@ -38,7 +38,8 @@ class AdminCatalog{
 
     public static function nbCatalog() {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(*) FROM `catalog` WHERE brouillon = 0 AND catalog_actif = 1");
+        // WHERE brouillon = 0 AND catalog_actif = 1
+        $request = $db->prepare("SELECT COUNT(*) FROM `catalog`");
         
         try {
             $request->execute();

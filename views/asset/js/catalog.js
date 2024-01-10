@@ -16,21 +16,19 @@ var editBtnActif = true;
 
 
 
-
-
 function catalogViews(offset, limit = 80) {
     $.urlParam = function(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results ? results[1] || 0 : false;
     };
+
     var parametre = {
-        allViews: $.urlParam('allViews') === 'true',
-        actif: $.urlParam('actif') === 'true',
-        disable: $.urlParam('disable') === 'true',
-        brouillon: $.urlParam('brouillon') === 'true',
+        allViews: $.urlParam('allViews') === 'true' ? true : null,
+        actif: $.urlParam('actif') === 'false' ? null : true,
+        disable: $.urlParam('disable') === 'true' ? true : null,
+        brouillon: $.urlParam('brouillon') === 'true' ? true : null,
     };
     
-    console.log(parametre);
     offset -= 1;
     limit = 80;
     $("#pagination").html("");
@@ -41,6 +39,7 @@ function catalogViews(offset, limit = 80) {
             action: "catalog",
             limit: limit,
             offset: offset,
+            parametre: parametre,
         },
         dataType: 'html',
         success: function (response) {
@@ -53,7 +52,17 @@ function catalogViews(offset, limit = 80) {
 }
 
 function catalogFiltre(filtre, offset = 1, limit = 80){
-    
+    $.urlParam = function(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results ? results[1] || 0 : false;
+    };
+
+    var parametre = {
+        allViews: $.urlParam('allViews') === 'true' ? true : null,
+        actif: $.urlParam('actif') === 'false' ? null : true,
+        disable: $.urlParam('disable') === 'true' ? true : null,
+        brouillon: $.urlParam('brouillon') === 'true' ? true : null,
+    };
     offset -= 1;    
     offset *= 80;
 
@@ -66,6 +75,7 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
             filtre: filtre,
             limit: limit,
             offset: offset,
+            parametre: parametre,
         },
         dataType: 'html',
         success: function(response) {
@@ -78,7 +88,19 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
     });
 }
 
-function pagination(nbElement) {
+function pagination(nbElement, parametre) {
+    $.urlParam = function(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results ? results[1] || 0 : false;
+    };
+
+    var parametre = {
+        allViews: $.urlParam('allViews') === 'true' ? true : null,
+        actif: $.urlParam('actif') === 'false' ? null : true,
+        disable: $.urlParam('disable') === 'true' ? true : null,
+        brouillon: $.urlParam('brouillon') === 'true' ? true : null,
+    };
+
     var urlParams = new URLSearchParams(window.location.search);
     var filtre = urlParams.get("titre");
     var page = urlParams.get("page");
@@ -90,6 +112,7 @@ function pagination(nbElement) {
             nbElement: nbElement,
             page: page,
             filtre: filtre,
+            parametre: parametre
         },
         dataType: 'html',
         success: function(response) {
@@ -549,7 +572,7 @@ $(document).ready(function () {
     }
 
 
-        $("#allViews").on("change", function () {
+        $(document).on("change", "#allViews", function () {
             var allViews = $("#allViews").is(":checked");
             if(allViews){
                 updateURL("allViews", $("#allViews").is(":checked"));
@@ -566,7 +589,7 @@ $(document).ready(function () {
             }
         });
         
-        $("#actif").on("change", function () {
+        $(document).on("change", "#actif", function () {
             var allCheke = allCheked();
             if(!allCheke){
                 var actif = $("#actif").is(":checked");
@@ -578,7 +601,7 @@ $(document).ready(function () {
             }
         });
 
-        $("#brouillon").on("change", function () {
+        $(document).on("change", "#brouillon", function () {
             var allCheke = allCheked();
             if(!allCheke){
                 var brouillon = $("#brouillon").is(":checked");
@@ -590,7 +613,7 @@ $(document).ready(function () {
             }
         });
 
-        $("#disable").on("change", function () {
+        $(document).on("change", "#disable", function () {
             var allCheke = allCheked();
             if(!allCheke){
                 var disable = $("#disable").is(":checked");

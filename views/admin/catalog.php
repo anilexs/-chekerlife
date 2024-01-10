@@ -163,6 +163,24 @@ require_once "../inc/header.php";
 <div class="page" id="pagination">
     <?php
         if($page !== null){
+            $paginationGet = '';
+        
+        if ($allViews) {   
+            $paginationGet .= "allViews=true";
+        }else{
+            if (!$actif) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "actif=false";
+            }
+            
+            if ($disable) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "disable=true";
+            }
+            
+            if ($brouillon) {
+                $paginationGet .= ($paginationGet ? "&" : "") . "brouillon=true";
+            }
+        }
+            // echo $paginationGet ? "&" : "?";
 
             $elementsParPage = 81;
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -178,7 +196,7 @@ require_once "../inc/header.php";
                 echo '<div class="pagination">';
             
                 if ($page > 1) {
-                    echo '<a href="?page=' . ($page - 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
+                    echo '<a href="?page=' . ($page - 1) . ($paginationGet ? "&$paginationGet" : "").'"><i class="fa-solid fa-chevron-up fa-rotate-270"></i></a>';
                 }else{
                     echo '<i class="fa-solid fa-chevron-up fa-rotate-270"></i>';
                 }
@@ -187,23 +205,23 @@ require_once "../inc/header.php";
                 $end = min($nbPages, $start + 6);
             
                 if ($page > 4) {
-                    echo '<a href="?page=1">1</a>';
+                    echo '<a href="?page=1'. ($paginationGet ? "&$paginationGet" : "") .'">1</a>';
                 }
     
                 for ($i = $start; $i <= $end; $i++) {
                     if ($i == $page) {
-                        echo '<span><a href="?page=' . $i . '" class="current">' . $i . '</a></span>';
+                        echo '<span><a href="?page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'" class="current">' . $i . '</a></span>';
                     } else {
-                        echo '<a href="?page=' . $i . '">' . $i . '</a>';
+                        echo '<a href="?page=' . $i . ($paginationGet ? "&$paginationGet" : "") .'">' . $i . '</a>';
                     }
                 }
             
                 if ($nbPages - $page > 3 && $nbPages > 7) {
-                    echo '<a href="?page=' . $nbPages . '">' . $nbPages . '</a>';
+                    echo '<a href="?page=' . $nbPages . ($paginationGet ? "&$paginationGet" : "") .'">' . $nbPages . '</a>';
                 }
             
                 if ($page < $nbPages) {
-                    echo '<a href="?page=' . ($page + 1) . '"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
+                    echo '<a href="?page=' . ($page + 1) . ($paginationGet ? "&$paginationGet" : "") .'"><i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>';
                 }else{
                     echo '<i class="fa-solid fa-chevron-up fa-rotate-90 chevron"></i>';
                 }
