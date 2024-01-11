@@ -45,6 +45,12 @@ require_once "../inc/header.php";
         header("Location:" . $host);
         die;
     }
+
+
+
+
+
+
 ?>
 <script src="../asset/js/catalog.js"></script>
 <link rel="stylesheet" href="../asset/css/catalog.css">

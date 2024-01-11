@@ -15,7 +15,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $message = "il manque le paramétre ACTION";
 
     if($_POST['action'] == "catalog"){
-        $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], null);
+        $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], $_POST['parametre']);
         $nbCatalog = AdminCatalog::nbCatalog();
         $nbCatalog = $nbCatalog['COUNT(*)'];
         if(isset($_COOKIE['token'])){
@@ -62,7 +62,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
     }else if($_POST['action'] == "filtre"){
 
-        $catalog = Catalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset']);
+        $catalog = AdminCatalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset'], $_POST['parametre']);
 
         $nbCatalog = Catalog::nbFiltreCatalog($_POST['filtre']);
         $nbCatalog = $nbCatalog['nbFiltre'];
@@ -73,18 +73,36 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         catalog_parametre($_POST['parametre']);
 
         foreach ($catalog as $catalogItem) {
-            echo '<div class="card">';
-
-            $isActive = false;
-            if (isset($_COOKIE['token'])) {
-                foreach ($userLike as $like) {
-                    if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                        $isActive = true;
-                        break;
+            if($catalogItem['catalog_actif'] == 0){
+                echo '<div class="cardDisable">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
                     }
                 }
+                cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
+                echo '<div class="card">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
+                    }
+                }
+                cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else{
+                echo '<div class="cardBrouillon">';
+                cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
             }
-            cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
         }
         echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 

@@ -63,6 +63,7 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
         disable: $.urlParam('disable') === 'true' ? true : null,
         brouillon: $.urlParam('brouillon') === 'true' ? true : null,
     };
+    console.log(parametre);
     offset -= 1;    
     offset *= 80;
 
