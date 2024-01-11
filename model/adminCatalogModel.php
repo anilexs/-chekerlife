@@ -22,7 +22,7 @@ class AdminCatalog{
             $prepar .= "null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif, 'catalog' as origin FROM catalog UNION ALL SELECT id_brouillon, catalog_id, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon ORDER BY id_catalogue, add_date LIMIT :offset, :limit";
         }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
             $prepar .= "null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif, 'catalog' as origin FROM catalog";
-            $where = [];
+
             $where = " WHERE ";
             if($parametre['actif']){
                 $where .= "catalog_actif=1";

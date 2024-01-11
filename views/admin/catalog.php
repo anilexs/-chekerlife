@@ -25,9 +25,6 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
         $page = 0;
     }
     $catalog = AdminCatalog::Cataloglimit(80, $page, $parametre);
-    // echo '<pre style="color: red">';
-    // var_dump($catalog);
-    // echo '</pre>';
 }
 
 $nbCatalog = AdminCatalog::nbCatalog();
