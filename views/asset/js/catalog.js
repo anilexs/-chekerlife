@@ -64,6 +64,7 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
         brouillon: $.urlParam('brouillon') === 'true' ? true : null,
     };
     console.log(parametre);
+    
     offset -= 1;    
     offset *= 80;
 
@@ -89,7 +90,7 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
     });
 }
 
-function pagination(nbElement, parametre) {
+function pagination(nbElement) {
     $.urlParam = function(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results ? results[1] || 0 : false;
@@ -407,7 +408,7 @@ function editeCode(catalog_id){
                 var valeurs = $('.seconderTypeDiv').map(function() {
                     return $(this).text();
                 }).get();
-                console.log(valeurs);
+                // console.log(valeurs);
            })
            $(document).on('click', '.desactiver, .reactiver', function(e) {
                 e.preventDefault();
@@ -545,31 +546,59 @@ $(document).ready(function () {
         updateURL("allViews", $("#allViews").is(":checked"));
     }
 
-    function allCheked(){
+    function allCheked(){        
+        var allNoCheked = !$("#actif").prop("checked") && !$("#brouillon").prop("checked") && !$("#disable").prop("checked");
         var allCheked = $("#actif").prop("checked") && $("#brouillon").prop("checked") && $("#disable").prop("checked");
-        if(allCheked){
-            clearAllParams();
-            $("#allViews").prop("checked", true);
+        
+        if(allNoCheked){
+            console.log("test");
+            $('#catalog').text("");
+            $('#pagination').text("");
+            var menuCatalog = $('<div class="cardNav"></div>');
+                menuCatalog.append('<div class="cardNavHdr">menu catalog</div>');
+            var cardNavAuto = $('<div class="cardNavAuto"></div>');
+                cardNavAuto.append('<span class="cardNavSpan"><input type="checkbox" id="allViews"' + ($("#allViews").prop("checked") ? 'checked' : '') + '><label for="allViews">Tout afficher</label></span>');
+                cardNavAuto.append('<span class="cardNavSpan"><input type="checkbox" id="actif"' + ($("#actif").prop("checked") || $("#allViews").prop("checked") ? 'checked' : '') + '><label for="actif">Catalogue actif</label></span>');
+                cardNavAuto.append('<span class="cardNavSpan"><input type="checkbox" id="disable"' + ($("#disable").prop("checked") || $("#allViews").prop("checked") ? 'checked' : '') + '><label for="disable">Catalogue désactivé</label></span>');
+                cardNavAuto.append('<span class="cardNavSpan"><input type="checkbox" id="brouillon"' + ($("#brouillon").prop("checked") || $("#allViews").prop("checked") ? 'checked' : '') + '><label for="brouillon">Catalogue brouillon</label></span>');
+            menuCatalog.append(cardNavAuto);
+            $('#catalog').html(menuCatalog);
+            ftrSize();
         }else{
-            $("#allViews").prop("checked", false);
-            removeGetParameter("allViews");
-            var actif = $("#actif").is(":checked");
-            var disable = $("#disable").is(":checked");
-            var brouillon = $("#brouillon").is(":checked");
+            if(allCheked){
+                clearAllParams();
+                $("#allViews").prop("checked", true);
+                updateURL("allViews", $("#allViews").is(":checked"));
+                $("#actif").prop("checked", true);
+                $("#disable").prop("checked", true);
+                $("#brouillon").prop("checked", true);
+                removeGetParameter("actif");
+                removeGetParameter("disable");
+                removeGetParameter("brouillon");
+            }else{
+                var urlParams = new URLSearchParams(window.location.search);
+                var titre = urlParams.get("titre");
+                
+                $("#allViews").prop("checked", false);
+                removeGetParameter("allViews");
+                var actif = $("#actif").is(":checked");
+                var disable = $("#disable").is(":checked");
+                var brouillon = $("#brouillon").is(":checked");
 
-            if(!actif){
-                updateURL("actif", $("#actif").is(":checked"));
-            }
+                if(!actif){
+                    updateURL("actif", $("#actif").is(":checked"));
+                }
 
-            if(brouillon){
-                updateURL("brouillon", $("#brouillon").is(":checked"));
-            }
+                if(brouillon){
+                    updateURL("brouillon", $("#brouillon").is(":checked"));
+                }
 
-            if(disable){
-                updateURL("disable", $("#disable").is(":checked"));
+                if(disable){
+                    updateURL("disable", $("#disable").is(":checked"));
+                }
             }
         }
-        return allCheked;
+        return [allCheked, allNoCheked, titre];
     }
 
 
@@ -588,43 +617,87 @@ $(document).ready(function () {
                 $("#brouillon").prop("checked", false);
                 removeGetParameter("allViews");
             }
+            var parametre = {
+                allViews: $("#allViews").prop("checked") ? true : null,
+                actif: $("#actif").prop("checked") ? null : true,
+                disable: $("#brouillon").prop("checked") ? true : null,
+                brouillon: $("#disable").prop("checked") ? true : null,
+            };
+            catalogMenu(parametre);
         });
         
         $(document).on("change", "#actif", function () {
             var allCheke = allCheked();
-            if(!allCheke){
-                var actif = $("#actif").is(":checked");
-                if(!actif){
-                    updateURL("actif", $("#actif").is(":checked"));
-                }else{
-                    removeGetParameter("actif");
+            if(allCheke[1]){
+                updateURL("actif", $("#actif").is(":checked"));
+            }else{
+                if(!allCheke[0]){
+                    var actif = $("#actif").is(":checked");
+                    if(!actif){
+                        updateURL("actif", $("#actif").is(":checked"));
+                    }else{
+                        removeGetParameter("actif");
+                    }
                 }
+            
+                var parametre = {
+                    allViews: $("#allViews").prop("checked") ? true : null,
+                    actif: $("#actif").prop("checked") ? null : true,
+                    disable: $("#brouillon").prop("checked") ? true : null,
+                    brouillon: $("#disable").prop("checked") ? true : null,
+                };
+                catalogMenu(parametre);
             }
         });
 
         $(document).on("change", "#brouillon", function () {
             var allCheke = allCheked();
-            if(!allCheke){
-                var brouillon = $("#brouillon").is(":checked");
-                if(brouillon){
-                    updateURL("brouillon", $("#brouillon").is(":checked"));
-                }else{
-                    removeGetParameter("brouillon");
-                }               
+            if(allCheke[1]){
+                removeGetParameter("brouillon");
+            }else{
+                if(!allCheke[0]){
+                    var brouillon = $("#brouillon").is(":checked");
+                    if(brouillon){
+                        updateURL("brouillon", $("#brouillon").is(":checked"));
+                    }else{
+                        removeGetParameter("brouillon");
+                    }               
+                }
+                var parametre = {
+                    allViews: $("#allViews").prop("checked") ? true : null,
+                    actif: $("#actif").prop("checked") ? null : true,
+                    disable: $("#brouillon").prop("checked") ? true : null,
+                    brouillon: $("#disable").prop("checked") ? true : null,
+                };
+                catalogMenu(parametre);
             }
         });
 
         $(document).on("change", "#disable", function () {
             var allCheke = allCheked();
-            if(!allCheke){
-                var disable = $("#disable").is(":checked");
-                if(disable){
-                    updateURL("disable", $("#disable").is(":checked"));
-                }else{
-                    removeGetParameter("disable");
-                }
-            }            
+            if(allCheke[1]){
+                removeGetParameter("disable");
+            }else{
+                if(!allCheke[0]){
+                    var disable = $("#disable").is(":checked");
+                    if(disable){
+                        updateURL("disable", $("#disable").is(":checked"));
+                    }else{
+                        removeGetParameter("disable");
+                    }
+                }     
+                var parametre = {
+                    allViews: $("#allViews").prop("checked") ? true : null,
+                    actif: $("#actif").prop("checked") ? null : true,
+                    disable: $("#brouillon").prop("checked") ? true : null,
+                    brouillon: $("#disable").prop("checked") ? true : null,
+                };       
+                catalogMenu(parametre);
+            }
         });
+
+        function catalogMenu (parametre){
+            removeGetParameter("page");
+            catalogViews();
+        }
 });
-
-

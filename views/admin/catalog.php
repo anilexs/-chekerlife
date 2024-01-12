@@ -13,6 +13,36 @@ $parametre = [
     "disable" => $disable,
     "brouillon" => $brouillon,
 ];
+var_dump($parametre);
+        // SELECT COUNT(*) AS total_count FROM ( SELECT nom FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table
+        $prepar = "SELECT COUNT(*) AS nbFiltre FROM ( SELECT nom FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE ";
+        if($parametre['allViews']){
+            //  UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table
+            
+            $prepar .= "(a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table";
+        }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
+
+            $where = " AND ";
+            if($parametre['actif']){
+                $where .= "catalog_actif=1";
+            }
+            if($parametre['disable']){
+                if ($parametre['actif']) {
+                    $where .= " OR ";
+                }
+                $where .= "catalog_actif=0";
+            }
+            if($parametre['brouillon']){
+                if ($parametre['actif'] || $parametre['disable']) {
+                    $where .= " OR ";
+                }
+                $where .= "brouillon=1";
+                $prepar .= "((a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))) " . $where . "  UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table";
+            }else{
+                $prepar .= "((a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))) " . $where . " AS combined_table";
+            }
+        }
+        echo '<div style="color: red">"' . $prepar . '"</div>';
 
 if(isset($_GET['page']) && isset($_GET['titre'])){   
     $page = null;
@@ -27,7 +57,7 @@ if(isset($_GET['page']) && isset($_GET['titre'])){
     $catalog = AdminCatalog::Cataloglimit(80, $page, $parametre);
 }
 
-$nbCatalog = AdminCatalog::nbCatalog();
+$nbCatalog = AdminCatalog::nbCatalog($parametre);
 $nbCatalog = $nbCatalog['COUNT(*)'];
 if(isset($_COOKIE['token'])){
     $userLike = User::userLike($_COOKIE['token']);
@@ -42,11 +72,6 @@ require_once "../inc/header.php";
         header("Location:" . $host);
         die;
     }
-
-
-
-
-
 
 ?>
 <script src="../asset/js/catalog.js"></script>

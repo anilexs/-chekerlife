@@ -16,7 +16,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
     if($_POST['action'] == "catalog"){
         $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], $_POST['parametre']);
-        $nbCatalog = AdminCatalog::nbCatalog();
+        $nbCatalog = AdminCatalog::nbCatalog($_POST['parametre']);
         $nbCatalog = $nbCatalog['COUNT(*)'];
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
@@ -64,7 +64,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
 
         $catalog = AdminCatalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset'], $_POST['parametre']);
 
-        $nbCatalog = Catalog::nbFiltreCatalog($_POST['filtre']);
+        $nbCatalog = AdminCatalog::nbFiltreCatalog($_POST['filtre'], $_POST['parametre']);
         $nbCatalog = $nbCatalog['nbFiltre'];
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);

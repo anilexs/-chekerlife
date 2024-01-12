@@ -60,10 +60,37 @@ class AdminCatalog{
         }
     }
 
-    public static function nbCatalog() {
+    public static function nbCatalog($parametre) {
         $db = Database::dbConnect();
-        // WHERE brouillon = 0 AND catalog_actif = 1
-        $request = $db->prepare("SELECT COUNT(*) FROM `catalog`");
+         $prepar = "SELECT COUNT(*) FROM ( SELECT nom FROM catalog ";
+        if($parametre['allViews']){
+            
+            $prepar .= " UNION ALL SELECT nom FROM catalog_brouillon) AS combined_table";
+        }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
+
+            $where = " WHERE ";
+            if($parametre['actif']){
+                $where .= "catalog_actif=1";
+            }
+            if($parametre['disable']){
+                if ($parametre['actif']) {
+                    $where .= " OR ";
+                }
+                $where .= "catalog_actif=0";
+            }
+            if($parametre['brouillon']){
+                if ($parametre['actif'] || $parametre['disable']) {
+                    $where .= " OR ";
+                }
+                $where .= "brouillon=1";
+                $prepar .= $where;
+                $prepar .= " UNION ALL SELECT nom FROM catalog_brouillon) AS combined_table";
+            }else{
+                $prepar .= $where . ") AS combined_table";
+            }
+        }
+
+        $request = $db->prepare($prepar);
         
         try {
             $request->execute();
@@ -76,8 +103,6 @@ class AdminCatalog{
 
     public static function filtreCatalog($filtres, $limit, $offset, $parametre){
         $db = Database::dbConnect();
-        // SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit
-        // $request = $db->prepare("SELECT null as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.type, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.type, cb.saison, cb.publish_date, cb.add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%') ORDER BY id_catalogue, add_date LIMIT :offset, :limit");
 
         $prepar = "SELECT ";
         if($parametre['allViews']){
@@ -124,12 +149,41 @@ class AdminCatalog{
     }
 
    
-    public static function nbFiltreCatalog($filtres){
+    public static function nbFiltreCatalog($filtres, $parametre){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT COUNT(DISTINCT c.id_catalogue) AS nbFiltre FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', ?, '%') OR c.nom LIKE CONCAT('%', ?, '%'))");
+
+        $prepar = "SELECT COUNT(*) AS nbFiltre FROM ( SELECT nom FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE ";
+        if($parametre['allViews']){
+            
+            $prepar .= "(a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table";
+        }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
+
+            $where = " AND ";
+            if($parametre['actif']){
+                $where .= "catalog_actif=1";
+            }
+            if($parametre['disable']){
+                if ($parametre['actif']) {
+                    $where .= " OR ";
+                }
+                $where .= "catalog_actif=0";
+            }
+            if($parametre['brouillon']){
+                if ($parametre['actif'] || $parametre['disable']) {
+                    $where .= " OR ";
+                }
+                $where .= "brouillon=1";
+                $prepar .= "((a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))) " . $where . "  UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table";
+            }else{
+                $prepar .= "((a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))) " . $where . " AS combined_table";
+            }
+        }
+
+        $request = $db->prepare($prepar);
 
         try{
-            $request->execute(array($filtres, $filtres));
+            $request->bindParam(':filtres', $filtres, PDO::PARAM_STR);
+            $request->execute();
             $filtres = $request->fetch(PDO::FETCH_ASSOC);
             return $filtres;
         }catch(PDOException $e){
