@@ -576,8 +576,6 @@ $(document).ready(function () {
                 removeGetParameter("disable");
                 removeGetParameter("brouillon");
             }else{
-                var urlParams = new URLSearchParams(window.location.search);
-                var titre = urlParams.get("titre");
                 
                 $("#allViews").prop("checked", false);
                 removeGetParameter("allViews");
@@ -617,13 +615,7 @@ $(document).ready(function () {
                 $("#brouillon").prop("checked", false);
                 removeGetParameter("allViews");
             }
-            var parametre = {
-                allViews: $("#allViews").prop("checked") ? true : null,
-                actif: $("#actif").prop("checked") ? null : true,
-                disable: $("#brouillon").prop("checked") ? true : null,
-                brouillon: $("#disable").prop("checked") ? true : null,
-            };
-            catalogMenu(parametre);
+            catalogMenu();
         });
         
         $(document).on("change", "#actif", function () {
@@ -640,13 +632,7 @@ $(document).ready(function () {
                     }
                 }
             
-                var parametre = {
-                    allViews: $("#allViews").prop("checked") ? true : null,
-                    actif: $("#actif").prop("checked") ? null : true,
-                    disable: $("#brouillon").prop("checked") ? true : null,
-                    brouillon: $("#disable").prop("checked") ? true : null,
-                };
-                catalogMenu(parametre);
+                catalogMenu();
             }
         });
 
@@ -663,13 +649,8 @@ $(document).ready(function () {
                         removeGetParameter("brouillon");
                     }               
                 }
-                var parametre = {
-                    allViews: $("#allViews").prop("checked") ? true : null,
-                    actif: $("#actif").prop("checked") ? null : true,
-                    disable: $("#brouillon").prop("checked") ? true : null,
-                    brouillon: $("#disable").prop("checked") ? true : null,
-                };
-                catalogMenu(parametre);
+
+                catalogMenu();
             }
         });
 
@@ -686,18 +667,19 @@ $(document).ready(function () {
                         removeGetParameter("disable");
                     }
                 }     
-                var parametre = {
-                    allViews: $("#allViews").prop("checked") ? true : null,
-                    actif: $("#actif").prop("checked") ? null : true,
-                    disable: $("#brouillon").prop("checked") ? true : null,
-                    brouillon: $("#disable").prop("checked") ? true : null,
-                };       
-                catalogMenu(parametre);
+                  
+                catalogMenu();
             }
         });
 
-        function catalogMenu (parametre){
+        function catalogMenu (){
+            var urlParams = new URLSearchParams(window.location.search);
+            var titre = urlParams.get("titre");
             removeGetParameter("page");
-            catalogViews();
+            if(titre == null){
+                catalogViews();
+            }else{
+                catalogFiltre(titre);
+            }
         }
 });
