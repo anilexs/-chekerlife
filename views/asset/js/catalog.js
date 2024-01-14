@@ -596,7 +596,7 @@ $(document).ready(function () {
                 }
             }
         }
-        return [allCheked, allNoCheked, titre];
+        return [allCheked, allNoCheked];
     }
 
 
