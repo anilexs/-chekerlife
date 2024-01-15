@@ -51,6 +51,15 @@ img{
     margin: 10px 15px;
     position: relative;
 }
+
+.cardBrouillonCatalog{
+    width: 180px;
+    height: 280px;
+    border: 3px solid rgb(206, 52, 170);
+    margin: 10px 15px;
+    position: relative;
+}
+
 .cardBrouillon{
     width: 180px;
     height: 280px;

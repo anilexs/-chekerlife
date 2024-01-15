@@ -127,12 +127,14 @@ function pagination(nbElement) {
     });
 }
 
-function editeCode(catalog_id){
+function editeCode(origin, catalog_id){
+    action = (origin == "catalog") ? "cataloginfo" : "brouilloninfo";
+    
     $.ajax({
         url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
-            action: "cataloginfo",
+            action: action,
             catalog_id: catalog_id,
         },
         dataType: 'json',
@@ -466,9 +468,9 @@ function editeCode(catalog_id){
     });
 }
 
-function edite(catalog_id){
+function edite(origin, catalog_id){
     if(editBtnActif){
-        editeCode(catalog_id);
+        editeCode(origin, catalog_id);
     }else{
         console.log("absens");
     }
@@ -566,7 +568,6 @@ $(document).ready(function () {
             ftrSize();
         }else{
             if(allCheked){
-                clearAllParams();
                 $("#allViews").prop("checked", true);
                 updateURL("allViews", $("#allViews").is(":checked"));
                 $("#actif").prop("checked", true);

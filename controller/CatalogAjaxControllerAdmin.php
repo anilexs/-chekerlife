@@ -52,6 +52,20 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                     }
                 }
                 cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
+                echo '<div class="cardBrouillonCatalog">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
+                    }
+                }
+                cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+
             }else{
                 echo '<div class="cardBrouillon">';
                 cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
@@ -99,6 +113,19 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                     }
                 }
                 cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
+                echo '<div class="cardBrouillonCatalog">';
+        
+                $isActive = false;
+                if (isset($_COOKIE['token'])) {
+                    foreach ($userLike as $like) {
+                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                            $isActive = true;
+                            break;
+                        }
+                    }
+                }
+                cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
             }else{
                 echo '<div class="cardBrouillon">';
                 cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
@@ -247,12 +274,24 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
-        $allType = Catalog::catalogAllType($_POST['catalog_id']);
+        $catalogAllType = Catalog::catalogAllType($_POST['catalog_id']);
         $responseTab = [
             "response_code" => HTTP_OK,
             "cataloginfo" => $catalogInfo,
             "type" => $type,
-            "allType" => $allType,
+            "allType" => $catalogAllType,
+        ];
+        reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "brouilloninfo"){
+        $response_code = HTTP_OK;
+        $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
+        $type = Catalog::catalogType();
+        $catalogAllType = Catalog::catalogAllType($_POST['catalog_id']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "cataloginfo" => $catalogInfo,
+            "type" => $type,
+            "allType" => $catalogAllType,
         ];
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "newCatalogActif"){
@@ -290,7 +329,27 @@ function cardCatalog($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
-    echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    if (!empty($saison)) {
+        echo '<div class="saison">saison ' . $saison . '</div>';
+    }
+
+    echo '<a href="catalog/' . $urlName . '">';
+    echo '<img src="http://localhost/!chekerlife/views/asset/img/catalog/' . $image_catalogue . '" alt="">';
+    echo '</a>';
+    echo '<script type="text/javascript"> likePosition('. $id_catalogue. '); ftrSize();</script>';
+    echo '</div>';
+}
+
+function cardBrouillonCatalog($id_catalogue, $isActive, $nom, $like, $image_catalogue, $saison, $type){
+    $urlName = str_replace(' ', '+', $nom);
+    echo '<button class="like ' . ($isActive ? 'activeTrue' : 'activeFalse') .  ' ' .'likeCollor'. $id_catalogue . '" id="' . $id_catalogue . ' " onclick="like(' . $id_catalogue . ')">';
+    echo '<span class="cataLike ' . $id_catalogue . ' likeId' . $id_catalogue .'" id="likeId' . $id_catalogue .'">' . $like . '</span>';
+    echo '<i class="fa-solid fa-heart"></i>';
+    echo '</button>';
+    echo '<div class="type">'. $type .'</div>';
+    echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
     echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
@@ -306,7 +365,7 @@ function cardCatalog($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
 function cardBrouillon($id_catalogue, $nom, $like, $image_catalogue, $saison, $type){
     $urlName = str_replace(' ', '+', $nom);
     echo '<div class="type">'. $type .'</div>';
-    echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="edite"><button onclick="edite(\'brouillon\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
     echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
@@ -324,7 +383,7 @@ function cardDisable($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
     echo '<i class="fa-solid fa-heart"></i>';
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
-    echo '<div class="edite"><button onclick="edite(' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
     echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
