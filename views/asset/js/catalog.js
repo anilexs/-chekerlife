@@ -127,14 +127,12 @@ function pagination(nbElement) {
     });
 }
 
-function editeCode(origin, catalog_id){
-    action = (origin == "catalog") ? "cataloginfo" : "brouilloninfo";
-    
+function editeCode(catalog_id){
     $.ajax({
         url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
-            action: action,
+            action: "cataloginfo",
             catalog_id: catalog_id,
         },
         dataType: 'json',
@@ -468,9 +466,9 @@ function editeCode(origin, catalog_id){
     });
 }
 
-function edite(origin, catalog_id){
+function edite(catalog_id){
     if(editBtnActif){
-        editeCode(origin, catalog_id);
+        editeCode(catalog_id);
     }else{
         console.log("absens");
     }
@@ -553,7 +551,6 @@ $(document).ready(function () {
         var allCheked = $("#actif").prop("checked") && $("#brouillon").prop("checked") && $("#disable").prop("checked");
         
         if(allNoCheked){
-            console.log("test");
             $('#catalog').text("");
             $('#pagination').text("");
             var menuCatalog = $('<div class="cardNav"></div>');
@@ -568,6 +565,7 @@ $(document).ready(function () {
             ftrSize();
         }else{
             if(allCheked){
+                clearAllParams();
                 $("#allViews").prop("checked", true);
                 updateURL("allViews", $("#allViews").is(":checked"));
                 $("#actif").prop("checked", true);
@@ -633,8 +631,8 @@ $(document).ready(function () {
                     }
                 }
             
-                catalogMenu();
             }
+            catalogMenu();
         });
 
         $(document).on("change", "#brouillon", function () {
@@ -651,11 +649,12 @@ $(document).ready(function () {
                     }               
                 }
 
-                catalogMenu();
             }
+            catalogMenu();
         });
 
         $(document).on("change", "#disable", function () {
+            var allNoCheked = !$("#actif").prop("checked") && !$("#brouillon").prop("checked") && !$("#disable").prop("checked");
             var allCheke = allCheked();
             if(allCheke[1]){
                 removeGetParameter("disable");
@@ -669,18 +668,25 @@ $(document).ready(function () {
                     }
                 }     
                   
-                catalogMenu();
             }
+            catalogMenu();
         });
 
         function catalogMenu (){
+            removeGetParameter("page");
             var urlParams = new URLSearchParams(window.location.search);
             var titre = urlParams.get("titre");
-            removeGetParameter("page");
-            if(titre == null){
+            var allNoCheked = !$("#actif").prop("checked") && !$("#brouillon").prop("checked") && !$("#disable").prop("checked");
+            if(allNoCheked){
+                menuNoCheked();
+            }else if(titre == null){
                 catalogViews();
             }else{
                 catalogFiltre(titre);
             }
+        }
+
+        function menuNoCheked (){
+            console.log("yes");
         }
 });
