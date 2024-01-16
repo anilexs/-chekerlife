@@ -70,7 +70,7 @@ require_once "../inc/header.php";
             foreach($catalog as $catalogItem){ 
                 if($catalogItem['catalog_actif'] == 0){ ?>
 
-                    <div class="cardDisable">
+                    <div class="cardDisable catalogId<?=$catalogItem["id_catalogue"]?>">
                         <?php
                         $isActive = false;
                         if(isset($_COOKIE['token'])){
@@ -104,7 +104,7 @@ require_once "../inc/header.php";
                     </div>
                     
                 <?php }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){ ?>
-                    <div class="card">
+                    <div class="card catalogId<?=$catalogItem["id_catalogue"]?>">
                         <?php
                         $isActive = false;
                         if(isset($_COOKIE['token'])){
@@ -138,7 +138,7 @@ require_once "../inc/header.php";
                     </div>
                     
                     <?php }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){ ?>
-                        <div class="cardBrouillonCatalog">
+                        <div class="cardBrouillonCatalog catalogId<?=$catalogItem["id_catalogue"]?>">
                             <?php
                             $isActive = false;
                             if(isset($_COOKIE['token'])){
@@ -173,12 +173,12 @@ require_once "../inc/header.php";
 
                 <?php }else{ ?>
 
-                    <div class="cardBrouillon">
+                    <div class="cardBrouillon brouillonId<?= $catalogItem['id_brouillon'] ?>">
                         <?php
                             $urlName = str_replace(' ', '+', $catalogItem["nom"]);
                         ?>
                         <div class="type"><?= $catalogItem['type'] ?></div>
-                        <div class="edite"><button onclick="edite('brouillon', <?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
+                        <div class="edite"><button onclick="edite('brouillon', <?= $catalogItem['id_brouillon'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
                         <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
     
                         <?php if($catalogItem['saison'] != null){ ?>

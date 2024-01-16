@@ -17,121 +17,124 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     if($_POST['action'] == "catalog"){
         $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], $_POST['parametre']);
         $nbCatalog = AdminCatalog::nbCatalog($_POST['parametre']);
-        $nbCatalog = $nbCatalog['COUNT(*)'];
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
-
+        
         $parametre = $_POST['parametre'];
         catalog_parametre($parametre);
-        
-        foreach ($catalog as $catalogItem) {
-            if($catalogItem['catalog_actif'] == 0){
-                echo '<div class="cardDisable">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
-                        }
-                    }
-                }
-                cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
-                echo '<div class="card">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
-                        }
-                    }
-                }
-                cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
-                echo '<div class="cardBrouillonCatalog">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
-                        }
-                    }
-                }
-                cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+        if($catalog != null){
+            $nbCatalog = $nbCatalog['COUNT(*)'];
 
-            }else{
-                echo '<div class="cardBrouillon">';
-                cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }
+            foreach ($catalog as $catalogItem) {
+                if($catalogItem['catalog_actif'] == 0){
+                    echo '<div class="cardDisable catalogId'.$catalogItem["id_catalogue"].'">';
             
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
+                        }
+                    }
+                    cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
+                    echo '<div class="card catalogId'.$catalogItem["id_catalogue"].'">';
+            
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
+                        }
+                    }
+                    cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
+                    echo '<div class="cardBrouillonCatalog catalogId'.$catalogItem["id_catalogue"].'">';
+            
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
+                        }
+                    }
+                    cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+    
+                }else{
+                    echo '<div class="cardBrouillon brouillonId'.$catalogItem["id_catalogue"].'">';
+                    cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }
+                
+        }
+        echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
     }
-    echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
     }else if($_POST['action'] == "filtre"){
 
         $catalog = AdminCatalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset'], $_POST['parametre']);
 
         $nbCatalog = AdminCatalog::nbFiltreCatalog($_POST['filtre'], $_POST['parametre']);
-        $nbCatalog = $nbCatalog['nbFiltre'];
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
         }
         
         catalog_parametre($_POST['parametre']);
-
-        foreach ($catalog as $catalogItem) {
-            if($catalogItem['catalog_actif'] == 0){
-                echo '<div class="cardDisable">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
+        if($nbCatalog != null){
+            $nbCatalog = $nbCatalog['nbFiltre'];
+            foreach ($catalog as $catalogItem) {
+                if($catalogItem['catalog_actif'] == 0){
+                    echo '<div class="cardDisable catalogId'.$catalogItem["id_catalogue"].'">';
+            
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
                         }
                     }
-                }
-                cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
-                echo '<div class="card">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
+                    cardDisable($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 0){
+                    echo '<div class="card catalogId'.$catalogItem["id_catalogue"].'">';
+            
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
                         }
                     }
-                }
-                cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
-                echo '<div class="cardBrouillonCatalog">';
-        
-                $isActive = false;
-                if (isset($_COOKIE['token'])) {
-                    foreach ($userLike as $like) {
-                        if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
-                            $isActive = true;
-                            break;
+                    cardCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }else if($catalogItem['origin'] == "catalog" && $catalogItem['brouillon'] == 1){
+                    echo '<div class="cardBrouillonCatalog catalogId'.$catalogItem["id_catalogue"].'">';
+            
+                    $isActive = false;
+                    if (isset($_COOKIE['token'])) {
+                        foreach ($userLike as $like) {
+                            if ($like['catalog_id'] == $catalogItem["id_catalogue"] && $like['like_active'] == 1) {
+                                $isActive = true;
+                                break;
+                            }
                         }
                     }
+                    cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
+                }else{
+                    echo '<div class="cardBrouillon brouillonId'.$catalogItem["id_catalogue"].'">';
+                    cardBrouillon($catalogItem["id_brouillon"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
                 }
-                cardBrouillonCatalog($catalogItem["id_catalogue"], $isActive, $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
-            }else{
-                echo '<div class="cardBrouillon">';
-                cardBrouillon($catalogItem["id_catalogue"], $catalogItem["nom"], $catalogItem['likes'], $catalogItem["image_catalogue"], $catalogItem['saison'], $catalogItem['type']);
             }
+            echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
         }
-        echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
     }else if($_POST['action'] == "pagination"){
         $parametre = $_POST['parametre'];
@@ -272,7 +275,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
     }else if($_POST['action'] == "cataloginfo"){
         $response_code = HTTP_OK;
-        $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
+        $catalogInfo = AdminCatalog::catalogInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
         $catalogAllType = Catalog::catalogAllType($_POST['catalog_id']);
         $responseTab = [
@@ -284,12 +287,12 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "brouilloninfo"){
         $response_code = HTTP_OK;
-        $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
+        $brouilloninfo = AdminCatalog::brouillonInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
         $catalogAllType = Catalog::catalogAllType($_POST['catalog_id']);
         $responseTab = [
             "response_code" => HTTP_OK,
-            "cataloginfo" => $catalogInfo,
+            "cataloginfo" => $brouilloninfo,
             "type" => $type,
             "allType" => $catalogAllType,
         ];
@@ -362,11 +365,11 @@ function cardBrouillonCatalog($id_catalogue, $isActive, $nom, $like, $image_cata
     echo '</div>';
 }
 
-function cardBrouillon($id_catalogue, $nom, $like, $image_catalogue, $saison, $type){
+function cardBrouillon($id_brouillon, $nom, $like, $image_catalogue, $saison, $type){
     $urlName = str_replace(' ', '+', $nom);
     echo '<div class="type">'. $type .'</div>';
-    echo '<div class="edite"><button onclick="edite(\'brouillon\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
-    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    echo '<div class="edite"><button onclick="edite(\'brouillon\',' . $id_brouillon . ')"><i class="fa-solid fa-pencil"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_brouillon . ')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }
