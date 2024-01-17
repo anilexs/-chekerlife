@@ -192,8 +192,7 @@ function editeCode(origin, catalog_id){
                         });
 
                 
-                    TypeSeconder.append(TypeInputeContenaire);
-                    TypeSeconder.append(contenaireSeconderType);
+                    TypeSeconder.append(TypeInputeContenaire, contenaireSeconderType);
                     
                     $(document).on("keyup", '#inputeType', function(e) {
                         if(e.key === "Enter" && $(this).val() != ""){  
@@ -218,8 +217,7 @@ function editeCode(origin, catalog_id){
                 $("body").prepend(back, edite);
                 $("body").append(controler);
                 contenaireType.append(type);
-                form.append(contenaireType);
-                form.append(TypeSeconder);
+                form.append(contenaireType, TypeSeconder);
                 
                 var formController = $('<div class="formController"></div>');
                 if(origin == "catalog"){
@@ -497,8 +495,33 @@ function addCatalog(){
     console.log("ajouter un catalog");
 }
 
-function addEpisode(id_episod){
-    console.log("ajouter un episode au catalog avec id = " + id_episod);
+function addEpisode(catalog_id){
+    $('body').css('overflow', 'hidden');
+    var back = $('<div class="editeBack"></div>');
+    var edite = $('<div class="editeContenaire"></div>');
+    $("body").prepend(back, edite);
+    var episodeView = $('<div id="episodeView"></div>');
+    $("episodeView").prepend(episodeView);
+
+    $('.editeBack, .close').on("click", () =>{
+        $('body').css('overflow', '');
+        $('.editeBack, .editeContenaire').remove();
+    });
+    $.ajax({
+        url: host + "controller/CatalogAjaxControllerAdmin.php", 
+        type: 'POST',
+        data: {
+            action: "episodeViews",
+        },
+        dataType: 'html',
+        success: function(response) {
+            $('#episodeView').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+
 }
 
 

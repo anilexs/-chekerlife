@@ -489,7 +489,7 @@ img{
     width: 100%;
   }
 } */
-@media only screen and (max-width: 1365px) {
+/* @media only screen and (max-width: 1365px) {
     .right{
         display: flex;
         flex-direction: row-reverse;
@@ -520,5 +520,5 @@ img{
   .right {
     order: 1;
   }
-}
+} */
 
