@@ -222,12 +222,16 @@ function editeCode(origin, catalog_id){
                 form.append(TypeSeconder);
                 
                 var formController = $('<div class="formController"></div>');
-                    formController.append('<button class="enregistre">enregistré</button>');
-                    formController.append('<button class="brouillon">brouillon</button>');
-                    if(response['cataloginfo']['catalog_actif'] == 1){
-                        formController.append('<button class="desactiver">désactiver</button>');
+                if(origin == "catalog"){
+                        formController.append('<button class="enregistre">enregistré</button>');
+                        formController.append('<button class="brouillon">brouillon</button>');
+                        if(response['cataloginfo']['catalog_actif'] == 1){
+                            formController.append('<button class="desactiver">désactiver</button>');
+                        }else{
+                            formController.append('<button class="reactiver">Réactiver</button>');
+                        }
                     }else{
-                        formController.append('<button class="reactiver">Réactiver</button>');
+                        formController.append('<button class="update">metre a jour</button>');
                     }
                     form.append(formController);
 
@@ -425,9 +429,15 @@ function editeCode(origin, catalog_id){
                         if(response['newEtat'] == 1){
                             var boutonDesactiver = $('<button class="desactiver">désactiver</button>');
                             $(".reactiver").replaceWith(boutonDesactiver);
+                            $('.'+ origin +"Id"+catalog_id).css({
+                                "border": "3px solid rgb(0, 119, 255)",
+                            });
                         }else{
                             var boutonReactiver = $("<button class='reactiver'>Réactiver</button>");
                             $(".desactiver").replaceWith(boutonReactiver);
+                            $('.'+ origin +"Id"+catalog_id).css({
+                                "border": "3px solid red",
+                            });
                         }
                         // if(response['cataloginfo']['catalog_actif'] == 1){
                         //     formController.append('<button class="desactiver">désactiver</button>');

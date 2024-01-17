@@ -243,6 +243,16 @@ img{
     background-color: rgb(64, 255, 0);    
 }
 
+.update{
+    width: 45%;
+    min-width: 78px;
+    font-size: 20px;
+    height: 40px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    background-color: rgb(64, 255, 0);    
+}
+
 .brouillon{
     background-color: rgb(0, 225, 255);
 }
