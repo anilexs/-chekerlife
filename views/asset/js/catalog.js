@@ -223,29 +223,32 @@ function editeCode(origin, catalog_id){
                 
                 var formController = $('<div class="formController"></div>');
                 if(origin == "catalog"){
-                        formController.append('<button class="enregistre">enregistré</button>');
-                        formController.append('<button class="brouillon">brouillon</button>');
-                        if(response['cataloginfo']['catalog_actif'] == 1){
-                            formController.append('<button class="desactiver">désactiver</button>');
-                        }else{
-                            formController.append('<button class="reactiver">Réactiver</button>');
-                        }
+                    formController.append('<button class="enregistre">enregistré</button>');
+                    formController.append('<button class="brouillonCatalog">brouillon</button>');
+                    if(response['cataloginfo']['catalog_actif'] == 1){
+                        formController.append('<button class="desactiver">désactiver</button>');
                     }else{
-                        formController.append('<button class="update">metre a jour</button>');
+                        formController.append('<button class="reactiver">Réactiver</button>');
                     }
-                    form.append(formController);
+                }else{
+                    formController.append('<button class="update">metre a jour ver le catalog</button>');
+                    formController.append('<button class="brouillon">metre a jour le brouillon</button>');
+                }
+                form.append(formController);
 
 
+                var imgCatalogController = $('<div class="imgCatalogController"></div>');
                 var imgCatalog = $('<div class="catalogimg"></div>');
                     imgCatalog.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
                     $('body').css('overflow', 'hidden');
 
             
            
-                edite.prepend(right);
-                edite.prepend(left);
-                left.prepend(form);
-                right.prepend(imgCatalog);
+                    edite.append(left);
+                    edite.append(right);
+                    right.append(imgCatalogController);
+                    right.append(imgCatalog);
+                    left.append(form);
 
        
             $('.move').on("click", () => {
@@ -399,7 +402,7 @@ function editeCode(origin, catalog_id){
                 }).get();
            })
            
-           $('.brouillon').on("click", function(e) {
+           $('.brouillonCatalog').on("click", function(e) {
                 e.preventDefault();
                 var nom = $('#nom').val();
                 var date = $('#date').val();
@@ -470,6 +473,7 @@ function editeCode(origin, catalog_id){
                 //     }
                 // });
            })
+           
         },
         error: function(xhr, status, error) {
             console.error('Une erreur s\'est produite lors du chargement du contenu.');

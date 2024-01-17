@@ -230,7 +230,7 @@ img{
     justify-content: space-around;
 }
 
-.enregistre, .brouillon, .desactiver, .reactiver{
+.enregistre, .brouillon, .brouillonCatalog, .desactiver, .reactiver{
     width: 30%;
     min-width: 78px;
     font-size: 20px;
@@ -243,17 +243,22 @@ img{
     background-color: rgb(64, 255, 0);    
 }
 
-.update{
+.update, .brouillon{
     width: 45%;
     min-width: 78px;
     font-size: 20px;
     height: 40px;
     border-radius: 20px;
     text-transform: uppercase;
+}
+.update{
     background-color: rgb(64, 255, 0);    
 }
-
 .brouillon{
+    background-color: rgb(0, 225, 255);
+}
+
+.brouillonCatalog{
     background-color: rgb(0, 225, 255);
 }
 
@@ -298,11 +303,23 @@ img{
     overflow-y: auto;
 }
 .right{
-    display: flex;
     height: 100%;
     width: 30%;
     align-items: center;
 }
+.imgCatalogController{
+    background-color: black;
+    height: 10vh;
+    width: 85%;
+    margin: 3vh auto 0 auto;
+}
+.catalogimg{
+    width: 85%;
+    height: 80%;
+    margin: auto;
+    background-size: 100% 100%;
+}
+
 .imgCatalogContener{
     height: 100%;
     width: 100%;
@@ -380,13 +397,6 @@ img{
     border: none;
 }
 
-.catalogimg{
-    width: 95%;
-    height: 90%;
-    margin: auto;
-    background-size: 100% 100%;
-}
-
 .like{
     background-color: transparent;
     border: none;
@@ -436,7 +446,6 @@ img{
     color: white;
 }
 
-
 .pagination a {
     text-decoration: none;
     color: #333;
@@ -467,3 +476,49 @@ img{
     margin: 0 4px;
     color: #333;
 }
+
+/* @media only screen and (max-width: 1365px) {
+    
+  .editeContenaire{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .left{
+    overflow: visible; 
+    width: 100%;
+  }
+} */
+@media only screen and (max-width: 1365px) {
+    .right{
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+    }
+    .imgCatalogController{
+        width: 65%;
+        height: 480px;
+        margin: 25px;
+    }
+    .catalogimg{
+        margin: 15px;
+        width: 380px;
+        height: 480px;
+    }
+    .editeContenaire {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .left {
+        overflow: visible; 
+        width: 100%;
+        order: 2;
+    }
+
+  .right {
+    order: 1;
+  }
+}
+
