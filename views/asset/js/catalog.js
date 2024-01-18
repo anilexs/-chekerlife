@@ -499,23 +499,57 @@ function addEpisode(catalog_id){
     $('body').css('overflow', 'hidden');
     var back = $('<div class="editeBack"></div>');
     var edite = $('<div class="editeContenaire"></div>');
-    $("body").prepend(back, edite);
+    var controler = $('<div class="editeControler"></div>');
+        controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
+        controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
+        controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
+    $("body").prepend(back, edite, controler);
     var episodeView = $('<div id="episodeView"></div>');
     $("episodeView").prepend(episodeView);
 
     $('.editeBack, .close').on("click", () =>{
         $('body').css('overflow', '');
-        $('.editeBack, .editeContenaire').remove();
+        $('.editeBack, .editeContenaire, .editeControler').remove();
     });
+
     $.ajax({
         url: host + "controller/CatalogAjaxControllerAdmin.php", 
         type: 'POST',
         data: {
-            action: "episodeViews",
+            action: "episodeAll",
+            catalog_id: catalog_id,
         },
-        dataType: 'html',
+        dataType: 'json',
         success: function(response) {
-            $('#episodeView').html(response);
+            console.log(response['episodAll']);
+            if(response['episodAll'].length > 0){
+                var divEpisod = $('<div class="divEpisod"></div>');
+                divEpisod.append(
+                        '<div class="episodeHdr">' +
+                            '<span>episode</span>' +
+                            '<span>titre</span>' +
+                            '<span>description</span>' +
+                            '<span>date de publication</span>' +
+                            '<span>durée</span>'+
+                        '</div>'
+                    );
+
+                    response['episodAll'].forEach(episode => {
+                        divEpisod.append(
+                            '<div class="episodeBd">' +
+                                '<span>' + episode['nb_episode'] + '</span>' +
+                                '<span>' + episode['title'] + '</span>' +
+                                '<span>' + episode['description'] + '</span>' +
+                                '<span>' + episode['publish_date'] + '</span>' +
+                                '<span>' + episode['Dure'] + '</span>' +
+                            '</div>'
+                        );
+                    });
+                    edite.append(divEpisod);
+            }else{
+                console.log("vide");
+            }
+            // $('#episodeView').html(response);
         },
         error: function(xhr, status, error) {
             console.error('Une erreur s\'est produite lors du chargement du contenu.');

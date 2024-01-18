@@ -477,6 +477,44 @@ img{
     color: #333;
 }
 
+/* addEpisode */
+.divEpisod{
+    width: 100%;
+}
+
+.episodeHdr, .episodeBd{
+    width: 100%;
+    background-color: #e52e71;
+    display: flex;
+}
+.episodeBd span:first-child, .episodeHdr span:first-child{
+    background-color: red;
+    width: 7%;
+    margin-right: 3vh;
+    text-align: center;
+}
+
+.episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
+    background-color: rgb(0, 255, 55);
+    width: 20%;
+}
+
+.episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
+    background-color: rgb(0, 119, 255);
+    width: 30%;
+}
+
+.episodeBd span:nth-child(4), .episodeHdr span:nth-child(4){
+    background-color: rgb(0, 255, 170);
+    width: 15%;
+}
+
+.episodeBd span:nth-child(5), .episodeHdr span:nth-child(5){
+    background-color: rgb(255, 81, 0);
+    width: 10%;
+    text-align: center;
+}
+
 /* @media only screen and (max-width: 1365px) {
     
   .editeContenaire{

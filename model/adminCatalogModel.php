@@ -213,4 +213,17 @@ class AdminCatalog{
             $e->getMessage();
         }
     }
+    
+    public static function episodeAll($catalog_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT * FROM episode WHERE catalog_id = ?");
+
+        try{
+            $request->execute(array($catalog_id));
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 }

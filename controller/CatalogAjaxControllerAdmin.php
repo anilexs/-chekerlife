@@ -306,6 +306,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "newEtat" => $newEtat,
         ];
         reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "episodeAll"){
+        $response_code = HTTP_OK;
+        $episodAll = AdminCatalog::episodeAll($_POST['catalog_id']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "episodAll" => $episodAll,
+        ];
+        reponse($response_code, $responseTab);
     }
 
 }else {
