@@ -498,18 +498,18 @@ function addCatalog(){
 function addEpisode(catalog_id){
     $('body').css('overflow', 'hidden');
     var back = $('<div class="editeBack"></div>');
-    var edite = $('<div class="editeContenaire"></div>');
+    var episodContenaire = $('<div class="episodContenaire"></div>');
     var controler = $('<div class="editeControler"></div>');
         controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
         controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
         controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
-    $("body").prepend(back, edite, controler);
+    $("body").prepend(back, episodContenaire, controler);
     var episodeView = $('<div id="episodeView"></div>');
     $("episodeView").prepend(episodeView);
 
     $('.editeBack, .close').on("click", () =>{
         $('body').css('overflow', '');
-        $('.editeBack, .editeContenaire, .editeControler').remove();
+        $('.editeBack, .episodContenaire, .editeControler').remove();
     });
 
     $.ajax({
@@ -531,6 +531,7 @@ function addEpisode(catalog_id){
                             '<span>description</span>' +
                             '<span>date de publication</span>' +
                             '<span>durée</span>'+
+                            '<span></span>'+
                         '</div>'
                     );
 
@@ -542,14 +543,14 @@ function addEpisode(catalog_id){
                                 '<span>' + episode['description'] + '</span>' +
                                 '<span>' + episode['publish_date'] + '</span>' +
                                 '<span>' + episode['Dure'] + '</span>' +
+                                '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
                             '</div>'
                         );
                     });
-                    edite.append(divEpisod);
+                    episodContenaire.append(divEpisod);
             }else{
                 console.log("vide");
             }
-            // $('#episodeView').html(response);
         },
         error: function(xhr, status, error) {
             console.error('Une erreur s\'est produite lors du chargement du contenu.');
@@ -557,6 +558,28 @@ function addEpisode(catalog_id){
     });
 
 }
+
+$(document).on('click', '.afichageBtn', function(e) {
+    e.preventDefault();
+
+    var icon = $(this).find('i');
+    var parent = $(this).closest('.episodeBd');
+    parent.stop(true, false);
+
+
+    if (!icon.hasClass('rotate-right')) {
+        icon.addClass('rotate-right');
+        parent.animate({
+            'height': '500px'
+        }, 300); // 300ms est la durée de l'animation
+    } else {
+        icon.removeClass('rotate-right');
+        parent.animate({
+            'height': '50px'
+        }, 300);
+    }
+});
+
 
 
 $(document).ready(function () {

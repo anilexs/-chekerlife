@@ -478,30 +478,56 @@ img{
 }
 
 /* addEpisode */
+.episodContenaire {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 90%;
+    height: 85%;
+    z-index: 5;
+    background: linear-gradient(to top left, #5A1Df3, #6EECDD);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
 .divEpisod{
     width: 100%;
+    height: min-content;
+    margin-bottom: 25px;
 }
 
 .episodeHdr, .episodeBd{
     width: 100%;
-    background-color: #e52e71;
+    background-color: #000000;
     display: flex;
 }
-.episodeBd span:first-child, .episodeHdr span:first-child{
+.episodeHdr span{
+    height: 30px;
+}
+.episodeHdr span, .episodeBd span{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.episodeHdr span:first-child, .episodeBd span:first-child{
     background-color: red;
     width: 7%;
     margin-right: 3vh;
-    text-align: center;
 }
 
 .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
     background-color: rgb(0, 255, 55);
     width: 20%;
 }
-
 .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
     background-color: rgb(0, 119, 255);
     width: 30%;
+}
+.episodeBd span:nth-child(3){
+    justify-content: left;
 }
 
 .episodeBd span:nth-child(4), .episodeHdr span:nth-child(4){
@@ -512,7 +538,24 @@ img{
 .episodeBd span:nth-child(5), .episodeHdr span:nth-child(5){
     background-color: rgb(255, 81, 0);
     width: 10%;
-    text-align: center;
+}
+
+.episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+    background-color: rgb(0, 255, 162);
+    width: 5%;
+}
+
+.fa-arrow-right {
+    transition: transform 0.3s ease;
+}
+
+.rotate-right {
+    transform: rotate(90deg);
+}
+
+.arrowBtn button{
+    background-color: transparent;
+    border: none;
 }
 
 /* @media only screen and (max-width: 1365px) {
