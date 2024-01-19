@@ -531,6 +531,8 @@ function addEpisode(catalog_id){
                             '<span>description</span>' +
                             '<span>date de publication</span>' +
                             '<span>durée</span>'+
+                            '<span>edite</span>'+
+                            '<span>desactiver</span>'+
                             '<span></span>'+
                         '</div>'
                     );
@@ -543,6 +545,8 @@ function addEpisode(catalog_id){
                                 '<span>' + episode['description'] + '</span>' +
                                 '<span>' + episode['publish_date'] + '</span>' +
                                 '<span>' + episode['Dure'] + '</span>' +
+                                '<span class="editeEp"><button>modifier</button></span>' +
+                                '<span class="desactiverEp"><button>desactiver</button></span>' +
                                 '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
                             '</div>'
                         );
@@ -571,11 +575,61 @@ $(document).on('click', '.afichageBtn', function(e) {
         icon.addClass('rotate-right');
         parent.animate({
             'height': '500px'
-        }, 300); // 300ms est la durée de l'animation
+        }, 300);
+        $(parent).find('span').css('position', 'absolute');
+
+            $('.episodeBd span:first-child').css({
+                'top': '20%'
+            });
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '7%',
+                'top': '20%'
+            });
+            $('.episodeBd span:nth-child(3)').css({
+                'left': '27%',
+                'top': '20%'
+            });
+            
+            $('.episodeBd span:nth-child(4)').css({
+                'left': '57%',
+                'top': '20%'
+            });
+            
+            $('.episodeBd span:nth-child(5)').css({
+                'left': '72%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '11.5%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '5%',
+                'top': '20%'
+            });
+
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            // $(parent).find('span:nth-child(8)').animate({
+            //     'right': '0%',
+            //     'top': '0%'
+            // }, 300);
+
     } else {
         icon.removeClass('rotate-right');
-        parent.animate({
-            'height': '50px'
+        $(parent).find('span:nth-child(8)').animate({
+                'right': '0%',
+                'top': '0%'
+            }, 300);
+            parent.animate({
+                'height': '9vh'
+            }, 300);
+        setTimeout(function() {
+            $(parent).find('span').css('position', '');
         }, 300);
     }
 });
