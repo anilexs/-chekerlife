@@ -532,7 +532,7 @@ function addEpisode(catalog_id){
                             '<span>date de publication</span>' +
                             '<span>durée</span>'+
                             '<span>edite</span>'+
-                            '<span>desactiver</span>'+
+                            '<span>disabled</span>'+
                             '<span></span>'+
                         '</div>'
                     );
@@ -546,7 +546,7 @@ function addEpisode(catalog_id){
                                 '<span>' + episode['publish_date'] + '</span>' +
                                 '<span>' + episode['Dure'] + '</span>' +
                                 '<span class="editeEp"><button>modifier</button></span>' +
-                                '<span class="desactiverEp"><button>desactiver</button></span>' +
+                                '<span class="desactiverEp"><button>disabled</button></span>' +
                                 '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
                             '</div>'
                         );
@@ -569,6 +569,7 @@ $(document).on('click', '.afichageBtn', function(e) {
     var icon = $(this).find('i');
     var parent = $(this).closest('.episodeBd');
     parent.stop(true, false);
+    parent.find('span').stop(true, true);
 
 
     if (!icon.hasClass('rotate-right')) {
@@ -621,16 +622,20 @@ $(document).on('click', '.afichageBtn', function(e) {
 
     } else {
         icon.removeClass('rotate-right');
-        $(parent).find('span:nth-child(8)').animate({
-                'right': '0%',
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '5%',
                 'top': '0%'
             }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
             parent.animate({
                 'height': '9vh'
-            }, 300);
-        setTimeout(function() {
-            $(parent).find('span').css('position', '');
-        }, 300);
+            }, 300, function() {
+                // Code à exécuter après l'animation de hauteur
+                parent.find('span').css('position', '');
+            });
     }
 });
 

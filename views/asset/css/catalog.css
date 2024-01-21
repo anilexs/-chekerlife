@@ -491,7 +491,8 @@ img{
 }
 
 .divEpisod{
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
     height: min-content;
     margin-bottom: 25px;
 }
@@ -501,7 +502,9 @@ img{
     background-color: #000000;
     display: flex;
     font-family: 'Roboto', sans-serif;
+    margin: 25px 0 25px 0;
 }
+
 .episodeHdr span{
     height: 30px;
 }
@@ -519,6 +522,7 @@ img{
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 .episodeHdr span:first-child, .episodeBd span:first-child{
     background-color: red;
