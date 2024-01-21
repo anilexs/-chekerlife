@@ -575,7 +575,7 @@ $(document).on('click', '.afichageBtn', function(e) {
     if (!icon.hasClass('rotate-right')) {
         icon.addClass('rotate-right');
         parent.animate({
-            'height': '500px'
+            'height': '50vh'
         }, 300);
         $(parent).find('span').css('position', 'absolute');
 
