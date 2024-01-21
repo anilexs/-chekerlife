@@ -622,6 +622,29 @@ $(document).on('click', '.afichageBtn', function(e) {
 
     } else {
         icon.removeClass('rotate-right');
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '7%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '27%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(4)').animate({
+                'left': '57%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(5)').animate({
+                'left': '72%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '11.5%',
+                'top': '0%'
+            }, 300);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '5%',
                 'top': '0%'
