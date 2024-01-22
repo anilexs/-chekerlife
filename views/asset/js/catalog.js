@@ -367,6 +367,13 @@ function editeCode(origin, catalog_id){
                $('.editeBack, .editeContenaire, .editeControler').remove();
                editBtnActif = true;
            })
+           $(document).keydown(function(e) {
+                if (e.keyCode === 27) {
+                    $('body').css('overflow', '');
+                    $('.editeBack, .editeContenaire, .editeControler').remove();
+                    editBtnActif = true;
+                }
+            });
            
            
             $('#saison').on('change', function() {
@@ -511,6 +518,12 @@ function addEpisode(catalog_id){
         $('body').css('overflow', '');
         $('.editeBack, .episodContenaire, .editeControler').remove();
     });
+    $(document).keydown(function(e) {
+        if (e.keyCode === 27) {
+            $('body').css('overflow', '');
+            $('.editeBack, .episodContenaire, .editeControler').remove();
+        }
+    });
 
     $.ajax({
         url: host + "controller/CatalogAjaxControllerAdmin.php", 
@@ -571,7 +584,6 @@ $(document).on('click', '.afichageBtn', function(e) {
     parent.stop(true, false);
     parent.find('span').stop(true, true);
 
-
     if (!icon.hasClass('rotate-right')) {
         icon.addClass('rotate-right');
         parent.animate({
@@ -579,47 +591,8 @@ $(document).on('click', '.afichageBtn', function(e) {
         }, 300);
         $(parent).find('span').css('position', 'absolute');
 
-            $('.episodeBd span:first-child').css({
-                'top': '20%'
-            });
-            $('.episodeBd span:nth-child(2)').css({
-                'left': '7%',
-                'top': '20%'
-            });
-            $('.episodeBd span:nth-child(3)').css({
-                'left': '27%',
-                'top': '20%'
-            });
-            
-            $('.episodeBd span:nth-child(4)').css({
-                'left': '57%',
-                'top': '20%'
-            });
-            
-            $('.episodeBd span:nth-child(5)').css({
-                'left': '72%',
-                'top': '20%'
-            });
-            
-            $(parent).find('span:nth-child(6)').css({
-                'right': '11.5%',
-                'top': '20%'
-            });
-            $(parent).find('span:nth-child(7)').css({
-                'right': '5%',
-                'top': '20%'
-            });
-
-            $(parent).find('span:nth-child(8)').css({
-                'right': '0%',
-                'top': '0%'
-            });
-
-            // $(parent).find('span:nth-child(8)').animate({
-            //     'right': '0%',
-            //     'top': '0%'
-            // }, 300);
-
+        detailEpUp(parent);
+        
     } else {
         icon.removeClass('rotate-right');
             $(parent).find('span:first-child').animate({
@@ -630,23 +603,23 @@ $(document).on('click', '.afichageBtn', function(e) {
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(3)').animate({
-                'left': '27%',
+                'left': '25%',
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(4)').animate({
-                'left': '57%',
+                'left': '55%',
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(5)').animate({
-                'left': '72%',
+                'left': '70%',
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(6)').animate({
-                'right': '11.5%',
+                'right': '13%',
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(7)').animate({
-                'right': '5%',
+                'right': '6%',
                 'top': '0%'
             }, 300);
             $(parent).find('span:nth-child(8)').css({
@@ -661,6 +634,94 @@ $(document).on('click', '.afichageBtn', function(e) {
             });
     }
 });
+
+function detailEpUp(parent){
+    var largeurFenetre = $(window).width();
+        console.log(largeurFenetre);
+            if(largeurFenetre > 1320){
+                $('.episodeBd span:first-child').css({
+                    'top': '5%'
+                });
+    
+                $('.episodeBd span:nth-child(2)').css({
+                    'left': '7%',
+                    'top': '20%'
+                });
+    
+                $('.episodeBd span:nth-child(3)').css({
+                    'left': '25%',
+                    'top': '20%'
+                });
+                
+                $('.episodeBd span:nth-child(4)').css({
+                    'left': '55%',
+                    'top': '20%'
+                });
+                
+                $('.episodeBd span:nth-child(5)').css({
+                    'left': '70%',
+                    'top': '20%'
+                });
+                
+                $(parent).find('span:nth-child(6)').css({
+                    'right': '13%',
+                    'top': '20%'
+                });
+                $(parent).find('span:nth-child(7)').css({
+                    'right': '6%',
+                    'top': '20%'
+                });
+    
+                $(parent).find('span:nth-child(8)').css({
+                    'right': '0%',
+                    'top': '0%'
+                });
+                
+                // $(parent).find('span:nth-child(8)').animate({
+                    //     'right': '0%',
+                    //     'top': '0%'
+                    // }, 300);
+            }else{
+                $('.episodeBd span:first-child').css({
+                    'top': '5%'
+                });
+    
+                $('.episodeBd span:nth-child(2)').css({
+                    'left': '7%',
+                    'top': '20%'
+                });
+    
+                $('.episodeBd span:nth-child(3)').css({
+                    'left': '25%',
+                    'top': '20%'
+                });
+                
+                $('.episodeBd span:nth-child(4)').css({
+                    'left': '55%',
+                    'top': '20%'
+                });
+                
+                $('.episodeBd span:nth-child(5)').css({
+                    'left': '70%',
+                    'top': '20%'
+                });
+                
+                $(parent).find('span:nth-child(6)').css({
+                    'right': '13%',
+                    'top': '20%'
+                });
+                $(parent).find('span:nth-child(7)').css({
+                    'right': '6%',
+                    'top': '20%'
+                });
+    
+                $(parent).find('span:nth-child(8)').css({
+                    'right': '0%',
+                    'top': '0%'
+                });
+
+            }
+}
 
 
 

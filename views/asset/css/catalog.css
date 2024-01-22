@@ -509,16 +509,16 @@ img{
 }
 
 .episodeHdr{
-    font-size: 2.5vh;
+    font-size: 2vh;
 }
 .episodeBd{
     position: relative;
     font-size: 2vh;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
     background-image: url(../img/bg-ep.png);
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
 }
 
 .episodeHdr span, .episodeBd span{
@@ -535,7 +535,7 @@ img{
 
 .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
     background-color: rgb(0, 255, 55);
-    width: 20%;
+    width: 18%;
     text-align: center;
 }
 .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
@@ -561,17 +561,116 @@ img{
 
 .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
     background-color: rgb(255, 0, 179);
-    width: 6.5%;
+    width: 7%;
 }
 
 .episodeBd span:nth-child(7), .episodeHdr span:nth-child(7){
     background-color: rgb(66, 119, 92);
-    width: 6.5%;
+    width: 7%;
 }
 
 .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
     background-color: rgb(0, 255, 162);
-    width: 5%;
+    width: 6%;
+}
+
+@media only screen and (max-width: 1320px) {
+    .episodeHdr span:first-child, .episodeBd span:first-child{
+        width: 9%;
+    }
+    .episodeBd span:nth-child(4), .episodeHdr span:nth-child(4){
+        width: 18%;
+    }
+    .episodeBd span:nth-child(5), .episodeHdr span:nth-child(5){
+        display: none;
+    }
+    .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+        width: 8.5%;
+    }
+    .episodeBd span:nth-child(7), .episodeHdr span:nth-child(7){
+        width: 8.5%;
+    }
+    .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
+        width: 8%;
+    }
+}
+
+@media only screen and (max-width: 1075px) {
+    .episodeHdr span:first-child, .episodeBd span:first-child{
+        width: 11%;
+    }
+    .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
+        width: 21%;
+    }
+    .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
+        width: 36%;
+    }
+    .episodeBd span:nth-child(4), .episodeHdr span:nth-child(4){
+        display: none;
+    }
+    .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+        width: 11%;
+    }
+    .episodeBd span:nth-child(7), .episodeHdr span:nth-child(7){
+        width: 11%;
+    }
+    .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
+        width: 10%;
+    }
+}
+
+@media only screen and (max-width: 785px) {
+    .episodeHdr span:first-child, .episodeBd span:first-child{
+        width: 13%;
+    }
+    .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
+        width: 38%;
+    }
+    .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+        width: 15%;
+    }
+    .episodeBd span:nth-child(7), .episodeHdr span:nth-child(7){
+        display: none;
+    }
+    .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
+        width: 13%;
+    }
+}
+
+@media only screen and (max-width: 530px) {
+    .episodeHdr span:first-child, .episodeBd span:first-child{
+        width: 24%;
+    }
+    .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
+        width: 35.9%;
+    }
+    .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
+        display: none;
+    }
+    .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+        width: 22%;
+    }
+    .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
+        width: 18%;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .episodeHdr span:first-child{
+        font-size: 70%;
+    }
+    .episodeHdr span:first-child, .episodeBd span:first-child{
+        width: 30%;
+    }
+    .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
+        width: 47%;
+    }
+    .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
+        display: none;
+    }
+    .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
+        width: 23%;
+    }
 }
 
 .fa-arrow-right {
@@ -597,6 +696,7 @@ img{
     border: none;
     font-size: 2vh;
 }
+
 
 /* @media only screen and (max-width: 1365px) {
     
