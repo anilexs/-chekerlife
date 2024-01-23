@@ -517,12 +517,17 @@ function addEpisode(catalog_id){
     $('.editeBack, .close').on("click", () =>{
         $('body').css('overflow', '');
         $('.editeBack, .episodContenaire, .editeControler').remove();
+        $(window).off('resize');
+        $(document).off('keydown');
     });
     $(document).keydown(function(e) {
         if (e.keyCode === 27) {
             $('body').css('overflow', '');
             $('.editeBack, .episodContenaire, .editeControler').remove();
+            $(window).off('resize');
+            $(document).off('keydown');
         }
+        console.log(e.keyCode);
     });
 
     $.ajax({
@@ -565,6 +570,13 @@ function addEpisode(catalog_id){
                         );
                     });
                     episodContenaire.append(divEpisod);
+                    $(window).resize(function() {
+                        var largeurFenetre = $(window).width();
+                        console.log(largeurFenetre);
+                        $('.detailUp span:first-child').css({
+                            'top': '25%'
+                        });
+                    });
             }else{
                 console.log("vide");
             }
@@ -595,6 +607,184 @@ $(document).on('click', '.afichageBtn', function(e) {
         
     } else {
         icon.removeClass('rotate-right');
+        detailEpDown(parent);
+    }
+});
+
+function detailEpUp(parent){
+    parent.addClass("detailUp");
+    var largeurFenetre = $(window).width();
+    console.log(largeurFenetre);
+        if(largeurFenetre > 1320){
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '7%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(3)').css({
+                'left': '25%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(4)').css({
+                'left': '55%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(5)').css({
+                'left': '70%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '13%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '6%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            
+        }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
+            $('.episodeBd span:first-child').css({
+                'top': '5%'
+            });
+    
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '9%',
+                'top': '20%'
+            });
+    
+            $('.episodeBd span:nth-child(3)').css({
+                'left': '27%',
+                'top': '20%'
+            });
+            
+            $('.episodeBd span:nth-child(4)').css({
+                'left': '57%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '16.5%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '8%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+        }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
+            $('.episodeBd span:first-child').css({
+                'top': '5%'
+            });
+    
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '11%',
+                'top': '20%'
+            });
+    
+            $('.episodeBd span:nth-child(3)').css({
+                'left': '32%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '21%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '10%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+        }else if(largeurFenetre > 530 && largeurFenetre <= 785){
+            $('.episodeBd span:first-child').css({
+                'top': '5%'
+            });
+    
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '13%',
+                'top': '20%'
+            });
+    
+            $('.episodeBd span:nth-child(3)').css({
+                'left': '34%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '13%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+        }else if(largeurFenetre > 380 && largeurFenetre <= 530){
+            $('.episodeBd span:first-child').css({
+                'top': '5%'
+            });
+    
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '24%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '18%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+        }else if(largeurFenetre <= 380){
+            $('.episodeBd span:first-child').css({
+                'top': '5%'
+            });
+    
+            $('.episodeBd span:nth-child(2)').css({
+                'left': '30%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+        }
+    }
+
+function detailEpDown(parent){
+    parent.removeClass("detailUp");
+    var largeurFenetre = $(window).width();
+    console.log(largeurFenetre);
+        if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
             }, 300);
@@ -629,101 +819,141 @@ $(document).on('click', '.afichageBtn', function(e) {
             parent.animate({
                 'height': '9vh'
             }, 300, function() {
-                // Code à exécuter après l'animation de hauteur
                 parent.find('span').css('position', '');
             });
+            
+        }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '9%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '27%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(4)').animate({
+                'left': '57%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '16.5%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '8%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            parent.animate({
+                'height': '9vh'
+            }, 300, function() {
+                parent.find('span').css('position', '');
+            });
+
+        }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '11%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '32%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '21%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '10%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            parent.animate({
+                'height': '9vh'
+            }, 300, function() {
+                parent.find('span').css('position', '');
+            });
+
+        }else if(largeurFenetre > 530 && largeurFenetre <= 785){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '13%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '34%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '13%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            parent.animate({
+                'height': '9vh'
+            }, 300, function() {
+                parent.find('span').css('position', '');
+            }); 
+
+        }else if(largeurFenetre > 380 && largeurFenetre <= 530){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '24%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '18%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            parent.animate({
+                'height': '9vh'
+            }, 300, function() {
+                parent.find('span').css('position', '');
+            }); 
+
+        }else if(largeurFenetre <= 380){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '30%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            parent.animate({
+                'height': '9vh'
+            }, 300, function() {
+                parent.find('span').css('position', '');
+            }); 
+
+        }
     }
-});
-
-function detailEpUp(parent){
-    var largeurFenetre = $(window).width();
-        console.log(largeurFenetre);
-            if(largeurFenetre > 1320){
-                $('.episodeBd span:first-child').css({
-                    'top': '5%'
-                });
-    
-                $('.episodeBd span:nth-child(2)').css({
-                    'left': '7%',
-                    'top': '20%'
-                });
-    
-                $('.episodeBd span:nth-child(3)').css({
-                    'left': '25%',
-                    'top': '20%'
-                });
-                
-                $('.episodeBd span:nth-child(4)').css({
-                    'left': '55%',
-                    'top': '20%'
-                });
-                
-                $('.episodeBd span:nth-child(5)').css({
-                    'left': '70%',
-                    'top': '20%'
-                });
-                
-                $(parent).find('span:nth-child(6)').css({
-                    'right': '13%',
-                    'top': '20%'
-                });
-                $(parent).find('span:nth-child(7)').css({
-                    'right': '6%',
-                    'top': '20%'
-                });
-    
-                $(parent).find('span:nth-child(8)').css({
-                    'right': '0%',
-                    'top': '0%'
-                });
-                
-                // $(parent).find('span:nth-child(8)').animate({
-                    //     'right': '0%',
-                    //     'top': '0%'
-                    // }, 300);
-            }else{
-                $('.episodeBd span:first-child').css({
-                    'top': '5%'
-                });
-    
-                $('.episodeBd span:nth-child(2)').css({
-                    'left': '7%',
-                    'top': '20%'
-                });
-    
-                $('.episodeBd span:nth-child(3)').css({
-                    'left': '25%',
-                    'top': '20%'
-                });
-                
-                $('.episodeBd span:nth-child(4)').css({
-                    'left': '55%',
-                    'top': '20%'
-                });
-                
-                $('.episodeBd span:nth-child(5)').css({
-                    'left': '70%',
-                    'top': '20%'
-                });
-                
-                $(parent).find('span:nth-child(6)').css({
-                    'right': '13%',
-                    'top': '20%'
-                });
-                $(parent).find('span:nth-child(7)').css({
-                    'right': '6%',
-                    'top': '20%'
-                });
-    
-                $(parent).find('span:nth-child(8)').css({
-                    'right': '0%',
-                    'top': '0%'
-                });
-
-            }
-}
-
-
 
 $(document).ready(function () {
     ftrSize();
