@@ -551,31 +551,30 @@ function addEpisode(catalog_id){
                             '<span>durée</span>'+
                             '<span>edite</span>'+
                             '<span>disabled</span>'+
-                            '<span></span>'+
+                            '<span><button class="afichageBtnHdr"><i class="fa-solid fa-arrow-right"></i></button></span>'+
                         '</div>'
                     );
 
                     response['episodAll'].forEach(episode => {
+                        var etat = (episode['episod_actif'] == 1) ? "" : "epDisable";
                         divEpisod.append(
-                            '<div class="episodeBd">' +
+                            '<div class="episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
                                 '<span>' + episode['nb_episode'] + '</span>' +
                                 '<span>' + episode['title'] + '</span>' +
                                 '<span>' + episode['description'] + '</span>' +
                                 '<span>' + episode['publish_date'] + '</span>' +
                                 '<span>' + episode['Dure'] + '</span>' +
                                 '<span class="editeEp"><button>modifier</button></span>' +
-                                '<span class="desactiverEp"><button>disabled</button></span>' +
+                                '<span class="desactiverEp"><button onclick="disabledEp('+ episode['id_episode']+')">disabled</button></span>' +
                                 '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
                             '</div>'
                         );
                     });
                     episodContenaire.append(divEpisod);
                     $(window).resize(function() {
-                        var largeurFenetre = $(window).width();
-                        console.log(largeurFenetre);
-                        $('.detailUp span:first-child').css({
-                            'top': '25%'
-                        });
+                        // var largeurFenetre = $(window).width();
+                        // console.log(largeurFenetre);
+                        detailEpUp('.detailUp');
                     });
             }else{
                 console.log("vide");
@@ -588,6 +587,28 @@ function addEpisode(catalog_id){
 
 }
 
+$(document).on('click', '.afichageBtnHdr', function(e) {
+    e.preventDefault();
+
+    var icon = $(this).find('i');
+    $('.episodeBd').stop(true, false);
+    $('.episodeBd').find('span').stop(true, true);
+
+    if (!icon.hasClass('rotate-right')) {
+        $(icon).addClass('rotate-right');
+        $('.episodeBd').find('span').css('position', 'absolute');
+        $('.episodeBd i').addClass('rotate-right');
+        $('.episodeBd').addClass("detailUp");
+        detailEpUp(".episodeBd");
+        
+    } else {
+        $(icon).removeClass('rotate-right');
+        $('.episodeBd i').removeClass('rotate-right');
+        $('.episodeBd').removeClass("detailUp");
+        detailEpDown(".episodeBd");
+    }
+});
+
 $(document).on('click', '.afichageBtn', function(e) {
     e.preventDefault();
 
@@ -597,25 +618,31 @@ $(document).on('click', '.afichageBtn', function(e) {
     parent.find('span').stop(true, true);
 
     if (!icon.hasClass('rotate-right')) {
+        parent.addClass("detailUp");
         icon.addClass('rotate-right');
-        parent.animate({
-            'height': '50vh'
-        }, 300);
         $(parent).find('span').css('position', 'absolute');
-
         detailEpUp(parent);
-        
     } else {
+        parent.removeClass("detailUp");
         icon.removeClass('rotate-right');
         detailEpDown(parent);
+    }
+
+    if($('.detailUp').length == 0){
+        $('.afichageBtnHdr i').removeClass('rotate-right');
+    }else{
+        $('.afichageBtnHdr i').addClass('rotate-right');
     }
 });
 
 function detailEpUp(parent){
-    parent.addClass("detailUp");
+    
     var largeurFenetre = $(window).width();
     console.log(largeurFenetre);
         if(largeurFenetre > 1320){
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
             });
@@ -655,21 +682,24 @@ function detailEpUp(parent){
             });
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
-            $('.episodeBd span:first-child').css({
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
                 'top': '5%'
             });
     
-            $('.episodeBd span:nth-child(2)').css({
+            $(parent).find('span:nth-child(2)').css({
                 'left': '9%',
                 'top': '20%'
             });
     
-            $('.episodeBd span:nth-child(3)').css({
+            $(parent).find('span:nth-child(3)').css({
                 'left': '27%',
                 'top': '20%'
             });
             
-            $('.episodeBd span:nth-child(4)').css({
+            $(parent).find('span:nth-child(4)').css({
                 'left': '57%',
                 'top': '20%'
             });
@@ -689,16 +719,19 @@ function detailEpUp(parent){
             });
 
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
-            $('.episodeBd span:first-child').css({
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
                 'top': '5%'
             });
     
-            $('.episodeBd span:nth-child(2)').css({
+            $(parent).find('span:nth-child(2)').css({
                 'left': '11%',
                 'top': '20%'
             });
     
-            $('.episodeBd span:nth-child(3)').css({
+            $(parent).find('span:nth-child(3)').css({
                 'left': '32%',
                 'top': '20%'
             });
@@ -718,16 +751,19 @@ function detailEpUp(parent){
             });
 
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
-            $('.episodeBd span:first-child').css({
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
                 'top': '5%'
             });
     
-            $('.episodeBd span:nth-child(2)').css({
+            $(parent).find('span:nth-child(2)').css({
                 'left': '13%',
                 'top': '20%'
             });
     
-            $('.episodeBd span:nth-child(3)').css({
+            $(parent).find('span:nth-child(3)').css({
                 'left': '34%',
                 'top': '20%'
             });
@@ -743,11 +779,14 @@ function detailEpUp(parent){
             });
 
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
-            $('.episodeBd span:first-child').css({
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
                 'top': '5%'
             });
     
-            $('.episodeBd span:nth-child(2)').css({
+            $(parent).find('span:nth-child(2)').css({
                 'left': '24%',
                 'top': '20%'
             });
@@ -763,11 +802,14 @@ function detailEpUp(parent){
             });
 
         }else if(largeurFenetre <= 380){
-            $('.episodeBd span:first-child').css({
+            $(parent).animate({
+                'height': '50vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
                 'top': '5%'
             });
     
-            $('.episodeBd span:nth-child(2)').css({
+            $(parent).find('span:nth-child(2)').css({
                 'left': '30%',
                 'top': '20%'
             });
@@ -781,9 +823,9 @@ function detailEpUp(parent){
     }
 
 function detailEpDown(parent){
-    parent.removeClass("detailUp");
+    
     var largeurFenetre = $(window).width();
-    console.log(largeurFenetre);
+        console.log(largeurFenetre);
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
@@ -816,10 +858,11 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             });
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
@@ -850,10 +893,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             });
 
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
@@ -880,10 +923,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             });
 
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
@@ -906,10 +949,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             }); 
 
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
@@ -928,10 +971,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             }); 
 
         }else if(largeurFenetre <= 380){
@@ -946,14 +989,38 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
-            parent.animate({
+            $(parent).animate({
                 'height': '9vh'
             }, 300, function() {
-                parent.find('span').css('position', '');
+                $(parent).find('span').css('position', '');
             }); 
 
         }
     }
+
+function disabledEp(episod_id){
+    $.ajax({
+        url: host + "controller/CatalogAjaxControllerAdmin.php",
+        type: 'POST',
+        data: {
+            action: "disabledEp",
+            episod_id: episod_id,
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response['newEtat']);
+            if(response['newEtat'] == 0){
+                $('.epBd' + episod_id).addClass('epDisable');
+                console.log("click");
+            }else{
+                $('.epBd' + episod_id).removeClass('epDisable');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Une erreur s\'est produite lors du chargement du contenu.');
+        }
+    });
+}
 
 $(document).ready(function () {
     ftrSize();

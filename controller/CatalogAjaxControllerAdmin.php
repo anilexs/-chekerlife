@@ -314,6 +314,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "episodAll" => $episodAll,
         ];
         reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "disabledEp"){
+        $response_code = HTTP_OK;
+        $newEtat = AdminCatalog::disabledEp($_POST['episod_id']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "newEtat" => $newEtat,
+        ];
+        reponse($response_code, $responseTab);
     }
 
 }else {

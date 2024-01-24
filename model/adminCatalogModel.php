@@ -226,4 +226,20 @@ class AdminCatalog{
             $e->getMessage();
         }
     }
+    
+    public static function disabledEp($episode_id){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT episod_actif FROM `episode` WHERE id_episode = ?");
+        $update = $db->prepare("UPDATE episode SET episod_actif = ? WHERE id_episode = ?");
+        
+        try{
+            $request->execute(array($episode_id));
+            $episod = $request->fetch(PDO::FETCH_ASSOC);
+            $newEtat = ($episod['episod_actif'] == 1) ? 0 : 1; 
+            $update->execute(array($newEtat, $episode_id));
+            return $newEtat;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 }

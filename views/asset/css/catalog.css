@@ -681,7 +681,7 @@ img{
     transform: rotate(90deg);
 }
 
-.arrowBtn button{
+.arrowBtn button, .afichageBtnHdr{
     background-color: transparent;
     border: none;
     font-size: 3vh;
@@ -695,6 +695,10 @@ img{
     background-color: transparent;
     border: none;
     font-size: 2vh;
+}
+
+.epDisable{
+    border: 2px solid red;
 }
 
 
