@@ -605,7 +605,7 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
         $('.episodeBd').removeClass("detailUp");
-        detailEpDown(".episodeBd");
+        detailEpDown(".episodeBd", "all");
     }
 });
 
@@ -822,10 +822,15 @@ function detailEpUp(parent){
         }
     }
 
-function detailEpDown(parent){
+function detailEpDown(parent, origin = "solo"){
     
     var largeurFenetre = $(window).width();
-        console.log(largeurFenetre);
+    var height = 0;
+    if(origin == "solo"){
+        var disable = (parent.hasClass('epDisable')) ? true : false;
+            height += (disable == true) ? 0.5 : 0;
+    }
+        console.log(height);
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
@@ -859,8 +864,9 @@ function detailEpDown(parent){
                 'top': '0%'
             });
             
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             });
@@ -893,8 +899,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             });
@@ -923,8 +931,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             });
@@ -949,8 +959,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             }); 
@@ -971,8 +983,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             }); 
@@ -989,8 +1003,10 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            height += 9;
             $(parent).animate({
-                'height': '9vh'
+                'height': height + "vh",
             }, 300, function() {
                 $(parent).find('span').css('position', '');
             }); 
