@@ -605,16 +605,7 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
         $('.episodeBd').removeClass("detailUp");
-        var height = detailEpDown(".episodeBd", "all");
-        height += 0.5;
-        $(".epDisable").css({
-            'height': height + 'vh'
-        });
-        setTimeout(function() {
-            $(".epDisable").css({
-                'height': height + 'vh'
-            });
-        }, 300);
+        detailEpDown(".episodeBd");
 
         console.log(height);
     }
@@ -644,6 +635,9 @@ $(document).on('click', '.afichageBtn', function(e) {
 });
 
 function detailEpUp(parent){
+    $(parent).find('span').css({
+        "height": ""
+    });
     
     var largeurFenetre = $(window).width();
     console.log(largeurFenetre);
@@ -830,7 +824,7 @@ function detailEpUp(parent){
         }
     }
 
-function detailEpDown(parent, origin = "solo"){
+function detailEpDown(parent){
     
     var largeurFenetre = $(window).width();
     var height = 0;
@@ -875,6 +869,9 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             });
             
@@ -911,6 +908,9 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             });
 
@@ -943,6 +943,9 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             });
 
@@ -971,6 +974,9 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             }); 
 
@@ -995,6 +1001,9 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             }); 
 
@@ -1015,11 +1024,13 @@ function detailEpDown(parent, origin = "solo"){
             $(parent).animate({
                 'height': height + "vh",
             }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
                 $(parent).find('span').css('position', '');
             }); 
 
         }
-        return height;
     }
 
 function disabledEp(episod_id){
