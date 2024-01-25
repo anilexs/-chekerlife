@@ -605,7 +605,18 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
         $('.episodeBd').removeClass("detailUp");
-        detailEpDown(".episodeBd", "all");
+        var height = detailEpDown(".episodeBd", "all");
+        height += 0.5;
+        $(".epDisable").css({
+            'height': height + 'vh'
+        });
+        setTimeout(function() {
+            $(".epDisable").css({
+                'height': height + 'vh'
+            });
+        }, 300);
+
+        console.log(height);
     }
 });
 
@@ -618,21 +629,18 @@ $(document).on('click', '.afichageBtn', function(e) {
     parent.find('span').stop(true, true);
 
     if (!icon.hasClass('rotate-right')) {
+        $('.afichageBtnHdr i').addClass('rotate-right');
         parent.addClass("detailUp");
         icon.addClass('rotate-right');
         $(parent).find('span').css('position', 'absolute');
         detailEpUp(parent);
     } else {
+        $('.afichageBtnHdr i').removeClass('rotate-right');
         parent.removeClass("detailUp");
         icon.removeClass('rotate-right');
         detailEpDown(parent);
     }
 
-    if($('.detailUp').length == 0){
-        $('.afichageBtnHdr i').removeClass('rotate-right');
-    }else{
-        $('.afichageBtnHdr i').addClass('rotate-right');
-    }
 });
 
 function detailEpUp(parent){
@@ -830,7 +838,6 @@ function detailEpDown(parent, origin = "solo"){
         var disable = (parent.hasClass('epDisable')) ? true : false;
             height += (disable == true) ? 0.5 : 0;
     }
-        console.log(height);
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
@@ -1012,6 +1019,7 @@ function detailEpDown(parent, origin = "solo"){
             }); 
 
         }
+        return height;
     }
 
 function disabledEp(episod_id){
