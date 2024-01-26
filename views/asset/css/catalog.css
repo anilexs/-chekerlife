@@ -531,16 +531,19 @@ img{
 .episodeHdr span:first-child, .episodeBd span:first-child{
     background-color: red;
     width: 7%;
+    z-index: 2;
 }
 
 .episodeBd span:nth-child(2), .episodeHdr span:nth-child(2){
     background-color: rgb(0, 255, 55);
     width: 18%;
     text-align: center;
+    z-index: 3;
 }
 .episodeBd span:nth-child(3), .episodeHdr span:nth-child(3){
     background-color: rgb(0, 119, 255);
     width: 30%;
+    z-index: 4;
 }
 .episodeBd span:nth-child(3){
     justify-content: left;
@@ -552,26 +555,36 @@ img{
 .episodeBd span:nth-child(4), .episodeHdr span:nth-child(4){
     background-color: rgb(0, 255, 170);
     width: 15%;
+    z-index: 5;
 }
 
 .episodeBd span:nth-child(5), .episodeHdr span:nth-child(5){
     background-color: rgb(255, 81, 0);
     width: 10%;
+    z-index: 6;
 }
 
 .episodeBd span:nth-child(6), .episodeHdr span:nth-child(6){
     background-color: rgb(255, 0, 179);
     width: 7%;
+    z-index: 7;
 }
 
 .episodeBd span:nth-child(7), .episodeHdr span:nth-child(7){
     background-color: rgb(66, 119, 92);
     width: 7%;
+    z-index: 8;
 }
 
 .episodeBd span:nth-child(8), .episodeHdr span:nth-child(8){
     background-color: rgb(0, 255, 162);
     width: 6%;
+    z-index: 9;
+}
+.episodeBd span:nth-child(9), .episodeHdr span:nth-child(9){
+    background-color: rgb(149, 0, 255);
+    width: 25%;
+    z-index: 1;
 }
 
 @media only screen and (max-width: 1320px) {
@@ -681,7 +694,7 @@ img{
     transform: rotate(90deg);
 }
 
-.arrowBtn button, .afichageBtnHdr{
+.arrowBtn button, .afichageBtnHdr, .brouillonEpBtn{
     background-color: transparent;
     border: none;
     font-size: 3vh;

@@ -607,7 +607,6 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         $('.episodeBd').removeClass("detailUp");
         detailEpDown(".episodeBd");
 
-        console.log(height);
     }
 });
 
@@ -638,12 +637,19 @@ function detailEpUp(parent){
     $(parent).find('span').css({
         "height": ""
     });
+    if ($(parent).find('.brouillonEp').length === 0) {
+        $(parent).append('<span class="brouillonEp"><button class="brouillonEpBtn">brouillon</button></span>');
+        $(parent).find('.brouillonEp').css({
+            'position': 'absolute',
+            'zIndex': '0'
+        });
+    }
     
     var largeurFenetre = $(window).width();
     console.log(largeurFenetre);
         if(largeurFenetre > 1320){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -682,10 +688,15 @@ function detailEpUp(parent){
                 'right': '0%',
                 'top': '0%'
             });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -720,9 +731,13 @@ function detailEpUp(parent){
                 'top': '0%'
             });
 
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -752,9 +767,13 @@ function detailEpUp(parent){
                 'top': '0%'
             });
 
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -780,9 +799,13 @@ function detailEpUp(parent){
                 'top': '0%'
             });
 
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -803,9 +826,13 @@ function detailEpUp(parent){
                 'top': '0%'
             });
 
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
         }else if(largeurFenetre <= 380){
             $(parent).animate({
-                'height': '50vh'
+                'height': '60vh'
             }, 300);
             $(parent).find('span:first-child').css({
                 'top': '5%'
@@ -821,17 +848,16 @@ function detailEpUp(parent){
                 'top': '0%'
             });
 
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
         }
     }
 
 function detailEpDown(parent){
-    
     var largeurFenetre = $(window).width();
     var height = 0;
-    if(origin == "solo"){
-        var disable = (parent.hasClass('epDisable')) ? true : false;
-            height += (disable == true) ? 0.5 : 0;
-    }
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
@@ -863,6 +889,12 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
             });
             
             height += 9;
@@ -903,6 +935,12 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
 
             height += 9;
             $(parent).animate({
@@ -938,6 +976,12 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
 
             height += 9;
             $(parent).animate({
@@ -969,6 +1013,12 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
 
             height += 9;
             $(parent).animate({
@@ -996,6 +1046,12 @@ function detailEpDown(parent){
                 'right': '0%',
                 'top': '0%'
             });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
 
             height += 9;
             $(parent).animate({
@@ -1018,6 +1074,12 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
