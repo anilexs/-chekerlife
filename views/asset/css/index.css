@@ -11,6 +11,7 @@
 .hdrtxt {
   text-align: left;
   padding-right: 15px;
+  margin: 25px 0;
 }
 
 .hdrtxt h1 {
@@ -42,9 +43,25 @@
   background-color: rgb(54, 54, 54);
   width: 95%;
   margin: auto;
-  height: 190px;
+  height: 225px;
   overflow: hidden;
   position: relative;
+  border-radius: 15px 15px 0 0;
+}
+
+.hdrLast{
+  width: 100%;
+  height: 30px;
+  background-color: rgb(44, 44, 44);
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hdrLast a{
+  text-decoration: none;
+  color: white;
+  margin-right: 15px;
 }
 
 .catalogDiv {

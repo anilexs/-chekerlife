@@ -20,6 +20,10 @@ require_once "inc/header.php"; ?>
             
         </div>
         <div class="lastCatalog">
+            <div class="hdrLast">
+                <div></div>
+                <div><a href="./catalogue.php">En voir plus</a></div>
+            </div>
             <div class="catalogDiv">
                 <?php foreach ($lastCatalog as $lastCatalog) { 
                     $urlName = str_replace(' ', '+', $lastCatalog["nom"]); ?>
