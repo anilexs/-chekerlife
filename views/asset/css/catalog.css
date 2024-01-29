@@ -587,6 +587,9 @@ img{
     z-index: 1;
 }
 
+/* .spanTxT1{
+} */
+
 @media only screen and (max-width: 1320px) {
     .episodeHdr span:first-child, .episodeBd span:first-child{
         width: 9%;

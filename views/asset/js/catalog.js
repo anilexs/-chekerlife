@@ -651,37 +651,39 @@ function detailEpUp(parent){
             $(parent).animate({
                 'height': '60vh'
             }, 300);
+
             $(parent).find('span:first-child').css({
-                'top': '5%'
+                'top': '0%'
             });
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '7%',
-                'top': '20%'
+                'top': '50%'
             });
     
             $(parent).find('span:nth-child(3)').css({
                 'left': '25%',
-                'top': '20%'
+                'top': '50%'
             });
             
             $(parent).find('span:nth-child(4)').css({
                 'left': '55%',
-                'top': '20%'
+                'top': '50%'
             });
             
             $(parent).find('span:nth-child(5)').css({
                 'left': '70%',
-                'top': '20%'
+                'top': '50%'
             });
             
             $(parent).find('span:nth-child(6)').css({
                 'right': '13%',
-                'top': '20%'
+                'top': '50%'
             });
+
             $(parent).find('span:nth-child(7)').css({
                 'right': '6%',
-                'top': '20%'
+                'top': '50%'
             });
     
             $(parent).find('span:nth-child(8)').css({
@@ -691,7 +693,7 @@ function detailEpUp(parent){
 
             $(parent).find('span:nth-child(9)').css({
                 'right': '0%',
-                'top': '30%'
+                'top': '50%'
             });
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
@@ -1105,10 +1107,8 @@ function disabledEp(episod_id){
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response['newEtat']);
             if(response['newEtat'] == 0){
                 $('.epBd' + episod_id).addClass('epDisable');
-                console.log("click");
             }else{
                 $('.epBd' + episod_id).removeClass('epDisable');
             }
