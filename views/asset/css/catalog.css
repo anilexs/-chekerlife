@@ -477,8 +477,6 @@ img{
 
 /* addEpisode */
 .episodContenaire {
-    display: flex;
-    justify-content: space-between;
     position: fixed;
     width: 90%;
     height: 85%;
@@ -496,7 +494,11 @@ img{
     height: min-content;
     margin-bottom: 25px;
 }
-
+.hdrEpisod{
+    background-color: red;
+    width: 95%;
+    margin: 50px auto 0 auto;
+}
 .episodeHdr, .episodeBd{
     width: 100%;
     display: flex;

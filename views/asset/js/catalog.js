@@ -502,7 +502,7 @@ function addCatalog(){
     console.log("ajouter un catalog");
 }
 
-function addEpisode(catalog_id){
+function addEpisode(catalog_id, origin){
     $('body').css('overflow', 'hidden');
     var back = $('<div class="editeBack"></div>');
     var episodContenaire = $('<div class="episodContenaire"></div>');
@@ -511,8 +511,6 @@ function addEpisode(catalog_id){
         controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
         controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
     $("body").prepend(back, episodContenaire, controler);
-    var episodeView = $('<div id="episodeView"></div>');
-    $("episodeView").prepend(episodeView);
 
     $('.editeBack, .close').on("click", () =>{
         $('body').css('overflow', '');
@@ -536,10 +534,18 @@ function addEpisode(catalog_id){
         data: {
             action: "episodeAll",
             catalog_id: catalog_id,
+            origin: origin,
         },
         dataType: 'json',
         success: function(response) {
             console.log(response['episodAll']);
+            console.log(response['catalog']);
+            var episodHdr = $(
+                '<div class="hdrEpisod">'+
+                '<img src="" alt="">' +
+                '</div>'
+                );
+            episodContenaire.append(episodHdr);
             if(response['episodAll'].length > 0){
                 var divEpisod = $('<div class="divEpisod"></div>');
                 divEpisod.append(

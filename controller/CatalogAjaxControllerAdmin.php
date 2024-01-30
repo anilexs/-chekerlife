@@ -308,10 +308,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "episodeAll"){
         $response_code = HTTP_OK;
+        $origin = ($_POST['origin'] == 'catalog') ? "catalogInfo" : "brouilloninfo";
+        $catalog = AdminCatalog::$origin($_POST['catalog_id']);
         $episodAll = AdminCatalog::episodeAll($_POST['catalog_id']);
         $responseTab = [
             "response_code" => HTTP_OK,
             "episodAll" => $episodAll,
+            "catalog" => $catalog,
         ];
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "disabledEp"){
@@ -349,7 +352,7 @@ function cardCatalog($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
     echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
-    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ', \'catalog\')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }
@@ -369,7 +372,7 @@ function cardBrouillonCatalog($id_catalogue, $isActive, $nom, $like, $image_cata
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
     echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
-    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ', \'catalog\')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }
@@ -385,7 +388,7 @@ function cardBrouillon($id_brouillon, $nom, $like, $image_catalogue, $saison, $t
     $urlName = str_replace(' ', '+', $nom);
     echo '<div class="type">'. $type .'</div>';
     echo '<div class="edite"><button onclick="edite(\'brouillon\',' . $id_brouillon . ')"><i class="fa-solid fa-pencil"></i></button></div>';
-    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_brouillon . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_brouillon . ', \'brouillon\')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }
@@ -403,7 +406,7 @@ function cardDisable($id_catalogue, $isActive, $nom, $like, $image_catalogue, $s
     echo '</button>';
     echo '<div class="type">'. $type .'</div>';
     echo '<div class="edite"><button onclick="edite(\'catalog\',' . $id_catalogue . ')"><i class="fa-solid fa-pencil"></i></button></div>';
-    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ')"><i class="fa-solid fa-plus"></i></button></div>';
+    echo '<div class="addEpisode"><button onclick="addEpisode(' . $id_catalogue . ', \'catalog\')"><i class="fa-solid fa-plus"></i></button></div>';
     if (!empty($saison)) {
         echo '<div class="saison">saison ' . $saison . '</div>';
     }

@@ -90,7 +90,7 @@ require_once "../inc/header.php";
     
                         <div class="type"><?= $catalogItem['type'] ?></div>
                         <div class="edite"><button onclick="edite('catalog', <?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>, 'catalog')"><i class="fa-solid fa-plus"></i></button></div>
     
                         <?php if($catalogItem['saison'] != null){ ?>
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
@@ -124,7 +124,7 @@ require_once "../inc/header.php";
     
                         <div class="type"><?= $catalogItem['type'] ?></div>
                         <div class="edite"><button onclick="edite('catalog', <?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>, 'catalog')"><i class="fa-solid fa-plus"></i></button></div>
     
                         <?php if($catalogItem['saison'] != null){ ?>
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
@@ -158,7 +158,7 @@ require_once "../inc/header.php";
         
                             <div class="type"><?= $catalogItem['type'] ?></div>
                             <div class="edite"><button onclick="edite('catalog', <?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                            <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+                            <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>, 'catalog')"><i class="fa-solid fa-plus"></i></button></div>
         
                             <?php if($catalogItem['saison'] != null){ ?>
                                 <div class="saison">saision <?= $catalogItem['saison'] ?></div>
@@ -179,7 +179,7 @@ require_once "../inc/header.php";
                         ?>
                         <div class="type"><?= $catalogItem['type'] ?></div>
                         <div class="edite"><button onclick="edite('brouillon', <?= $catalogItem['id_brouillon'] ?>)"><i class="fa-solid fa-pencil"></i></button></div>
-                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>)"><i class="fa-solid fa-plus"></i></button></div>
+                        <div class="addEpisode"><button onclick="addEpisode(<?= $catalogItem['id_catalogue'] ?>, 'brouillon')"><i class="fa-solid fa-plus"></i></button></div>
     
                         <?php if($catalogItem['saison'] != null){ ?>
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
