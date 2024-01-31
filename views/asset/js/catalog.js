@@ -563,19 +563,34 @@ function addEpisode(catalog_id, origin){
                     );
 
                     response['episodAll'].forEach(episode => {
-                        var etat = (episode['episod_actif'] == 1) ? "" : "epDisable";
-                        divEpisod.append(
-                            '<div class="episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
-                                '<span>' + episode['nb_episode'] + '</span>' +
-                                '<span>' + episode['title'] + '</span>' +
-                                '<span>' + episode['description'] + '</span>' +
-                                '<span>' + episode['publish_date'] + '</span>' +
-                                '<span>' + episode['Dure'] + '</span>' +
-                                '<span class="editeEp"><button>modifier</button></span>' +
-                                '<span class="desactiverEp"><button onclick="disabledEp('+ episode['id_episode']+')">disabled</button></span>' +
-                                '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
-                            '</div>'
-                        );
+                        if(episode['origin'] == 'catalog'){
+                            var etat = (episode['episod_actif'] == 1) ? "" : "epDisable";
+                            divEpisod.append(
+                                '<div class="catalogEp episodeCatalog episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
+                                    '<span>' + episode['nb_episode'] + '</span>' +
+                                    '<span>' + episode['title'] + '</span>' +
+                                    '<span>' + episode['description'] + '</span>' +
+                                    '<span>' + episode['publish_date'] + '</span>' +
+                                    '<span>' + episode['dure'] + '</span>' +
+                                    '<span class="editeEp"><button>modifier</button></span>' +
+                                    '<span class="desactiverEp"><button onclick="disabledEp('+ episode['id_episode']+')">disabled</button></span>' +
+                                    '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
+                                '</div>'
+                            );
+                        }else{
+                            divEpisod.append(
+                                '<div class="brouillonEp episodeBd episodeBrouillon epBd'+ episode['id_episode'] +'">' +
+                                    '<span>' + episode['nb_episode'] + '</span>' +
+                                    '<span>' + episode['title'] + '</span>' +
+                                    '<span>' + episode['description'] + '</span>' +
+                                    '<span>' + episode['publish_date'] + '</span>' +
+                                    '<span>' + episode['dure'] + '</span>' +
+                                    '<span class="editeEp"><button>modifier</button></span>' +
+                                    '<span class="desactiverEp"><button></button></span>' +
+                                    '<span class="arrowBtn"><button class="afichageBtn"><i class="fa-solid fa-arrow-right"></i></button></span>' +
+                                '</div>'
+                            );
+                        }
                     });
                     episodContenaire.append(divEpisod);
                     $(window).resize(function() {
@@ -603,16 +618,18 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
 
     if (!icon.hasClass('rotate-right')) {
         $(icon).addClass('rotate-right');
-        $('.episodeBd').find('span').css('position', 'absolute');
+        $('.episodeCatalog, .episodeBrouillon').find('span').css('position', 'absolute');
         $('.episodeBd i').addClass('rotate-right');
         $('.episodeBd').addClass("detailUp");
-        detailEpUp(".episodeBd");
+        detailEpUp(".episodeCatalog");
+        detailEpUpBrouillon(".episodeBrouillon");
         
     } else {
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
         $('.episodeBd').removeClass("detailUp");
-        detailEpDown(".episodeBd");
+        detailEpDown(".episodeCatalog");
+        detailEpDownBrouillon(".episodeBrouillon");
 
     }
 });
@@ -622,6 +639,7 @@ $(document).on('click', '.afichageBtn', function(e) {
 
     var icon = $(this).find('i');
     var parent = $(this).closest('.episodeBd');
+    var origin = (parent.hasClass('catalogEp')) ? "catalog" : "brouillon";
     parent.stop(true, false);
     parent.find('span').stop(true, true);
 
@@ -630,11 +648,18 @@ $(document).on('click', '.afichageBtn', function(e) {
         parent.addClass("detailUp");
         icon.addClass('rotate-right');
         $(parent).find('span').css('position', 'absolute');
-        detailEpUp(parent);
+        if(origin == 'catalog'){
+            detailEpUp(parent);
+        }else{
+            detailEpUpBrouillon(parent);
+        }
     } else {
-        $('.afichageBtnHdr i').removeClass('rotate-right');
-        parent.removeClass("detailUp");
         icon.removeClass('rotate-right');
+        var countRotateRight = $(".episodeBd i.rotate-right").length;
+        if(countRotateRight == 0){
+            $('.afichageBtnHdr i').removeClass('rotate-right');
+        }
+        parent.removeClass("detailUp");
         detailEpDown(parent);
     }
 
@@ -865,6 +890,470 @@ function detailEpUp(parent){
     }
 
 function detailEpDown(parent){
+    var largeurFenetre = $(window).width();
+    var height = 0;
+        if(largeurFenetre > 1320){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '7%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '25%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(4)').animate({
+                'left': '55%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(5)').animate({
+                'left': '70%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '13%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '6%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+            
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            });
+            
+        }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '9%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '27%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(4)').animate({
+                'left': '57%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '16.5%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '8%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            });
+
+        }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '11%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '32%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '21%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(7)').animate({
+                'right': '10%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            });
+
+        }else if(largeurFenetre > 530 && largeurFenetre <= 785){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '13%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(3)').animate({
+                'left': '34%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '13%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            }); 
+
+        }else if(largeurFenetre > 380 && largeurFenetre <= 530){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '24%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(6)').animate({
+                'right': '18%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            }); 
+
+        }else if(largeurFenetre <= 380){
+            $(parent).find('span:first-child').animate({
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(2)').animate({
+                'left': '30%',
+                'top': '0%'
+            }, 300);
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+            $(parent).find('span:nth-child(9)').animate({
+                'opacity': '0',
+                'top': '0%'
+            }, 300, function() {
+                $(parent).find('.brouillonEp').remove();
+            });
+
+            height += 9;
+            $(parent).animate({
+                'height': height + "vh",
+            }, 300, function() {
+                $(parent).find('span').css({
+                    "height": "auto"
+                });
+                $(parent).find('span').css('position', '');
+            }); 
+
+        }
+    }
+
+function detailEpUpBrouillon(parent){
+    $(parent).find('span').css({
+        "height": ""
+    });
+    if ($(parent).find('.brouillonEp').length === 0) {
+        $(parent).append('<span class="brouillonEp"><button class="brouillonEpBtn">brouillon</button></span>');
+        $(parent).find('.brouillonEp').css({
+            'position': 'absolute',
+            'zIndex': '0'
+        });
+    }
+    
+    var largeurFenetre = $(window).width();
+    console.log(largeurFenetre);
+        if(largeurFenetre > 1320){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+
+            $(parent).find('span:first-child').css({
+                'top': '0%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '7%',
+                'top': '50%'
+            });
+    
+            $(parent).find('span:nth-child(3)').css({
+                'left': '25%',
+                'top': '50%'
+            });
+            
+            $(parent).find('span:nth-child(4)').css({
+                'left': '55%',
+                'top': '50%'
+            });
+            
+            $(parent).find('span:nth-child(5)').css({
+                'left': '70%',
+                'top': '50%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '13%',
+                'top': '50%'
+            });
+
+            $(parent).find('span:nth-child(7)').css({
+                'right': '6%',
+                'top': '50%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '50%'
+            });
+            
+        }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '9%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(3)').css({
+                'left': '27%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(4)').css({
+                'left': '57%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '16.5%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '8%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
+        }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '11%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(3)').css({
+                'left': '32%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '21%',
+                'top': '20%'
+            });
+            $(parent).find('span:nth-child(7)').css({
+                'right': '10%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
+        }else if(largeurFenetre > 530 && largeurFenetre <= 785){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '13%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(3)').css({
+                'left': '34%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '13%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
+        }else if(largeurFenetre > 380 && largeurFenetre <= 530){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '24%',
+                'top': '20%'
+            });
+            
+            $(parent).find('span:nth-child(6)').css({
+                'right': '18%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
+        }else if(largeurFenetre <= 380){
+            $(parent).animate({
+                'height': '60vh'
+            }, 300);
+            $(parent).find('span:first-child').css({
+                'top': '5%'
+            });
+    
+            $(parent).find('span:nth-child(2)').css({
+                'left': '30%',
+                'top': '20%'
+            });
+    
+            $(parent).find('span:nth-child(8)').css({
+                'right': '0%',
+                'top': '0%'
+            });
+
+            $(parent).find('span:nth-child(9)').css({
+                'right': '0%',
+                'top': '30%'
+            });
+        }
+    }
+
+function detailEpDownBrouillon(parent){
     var largeurFenetre = $(window).width();
     var height = 0;
         if(largeurFenetre > 1320){

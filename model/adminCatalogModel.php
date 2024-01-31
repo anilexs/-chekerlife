@@ -216,7 +216,7 @@ class AdminCatalog{
     
     public static function episodeAll($catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM episode WHERE catalog_id = ?");
+        $request = $db->prepare("SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_episode, title, dure, description, publish_date, add_date, brouillon, episod_actif, 'catalog' AS origin FROM episode UNION ALL SELECT id_episode_brouillon, null, catalog_id, nb_episode, title, dure, description, publish_date, add_date, null, null, 'brouillon' AS origin FROM episode_brouillon) AS combined_episodes WHERE catalog_id = ? ORDER BY nb_episode, add_date");
 
         try{
             $request->execute(array($catalog_id));

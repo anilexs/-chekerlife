@@ -314,5 +314,7 @@ echo "var_dump(" . var_export($catalog, true) . ");";
         SELECT COUNT(*) AS total_count FROM ( SELECT nom FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table;
 
 
-requette a continuer : 
-SELECT title FROM episode UNION ALL SELECT title FROM episode_brouillon ORDER BY nb_episode
+requette admin episod : 
+SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_episode, title, dure, description, publish_date, add_date, brouillon, episod_actif FROM episode UNION ALL SELECT id_episode_brouillon, null, catalog_id, nb_episode, title, dure, description, publish_date, add_date, null, null FROM episode_brouillon) AS combined_episodes ORDER BY nb_episode, add_date
+avec condition :
+SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_episode, title, dure, description, publish_date, add_date, brouillon, episod_actif, 'catalog' AS origin FROM episode UNION ALL SELECT id_episode_brouillon, null, catalog_id, nb_episode, title, dure, description, publish_date, add_date, null, null, 'brouillon' AS origin FROM episode_brouillon) AS combined_episodes WHERE catalog_id = ? ORDER BY nb_episode, add_date
