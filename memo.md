@@ -312,3 +312,7 @@ echo "var_dump(" . var_export($catalog, true) . ");";
         new requette
 
         SELECT COUNT(*) AS total_count FROM ( SELECT nom FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT nom FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')) AS combined_table;
+
+
+requette a continuer : 
+SELECT title FROM episode UNION ALL SELECT title FROM episode_brouillon ORDER BY nb_episode

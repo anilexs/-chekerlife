@@ -542,7 +542,8 @@ function addEpisode(catalog_id, origin){
             console.log(response['catalog']);
             var episodHdr = $(
                 '<div class="hdrEpisod">'+
-                '<img src="" alt="">' +
+                '<div> <img src="../asset/img/catalog/'+ response['catalog']['image_catalogue'] +'" alt=""></div>' +
+                '<div>'+ response['catalog']['description'] +'</div>' +
                 '</div>'
                 );
             episodContenaire.append(episodHdr);
