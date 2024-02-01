@@ -566,7 +566,7 @@ function addEpisode(catalog_id, origin){
                         if(episode['origin'] == 'catalog'){
                             var etat = (episode['episod_actif'] == 1) ? "" : "epDisable";
                             divEpisod.append(
-                                '<div class="catalogEp episodeCatalog episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
+                                '<div class="catalogEp episodeCatalog detailDown episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
                                     '<span>' + episode['nb_episode'] + '</span>' +
                                     '<span>' + episode['title'] + '</span>' +
                                     '<span>' + episode['description'] + '</span>' +
@@ -579,7 +579,7 @@ function addEpisode(catalog_id, origin){
                             );
                         }else{
                             divEpisod.append(
-                                '<div class="brouillonEp episodeBd episodeBrouillon epBd'+ episode['id_episode'] +'">' +
+                                '<div class="brouillonEp detailDown episodeBd episodeBrouillon epBd'+ episode['id_episode'] +'">' +
                                     '<span>' + episode['nb_episode'] + '</span>' +
                                     '<span>' + episode['title'] + '</span>' +
                                     '<span>' + episode['description'] + '</span>' +
@@ -596,7 +596,10 @@ function addEpisode(catalog_id, origin){
                     $(window).resize(function() {
                         // var largeurFenetre = $(window).width();
                         // console.log(largeurFenetre);
-                        detailEpUp('.detailUp');
+                        detailEpUp('.detailUp', 100);
+                        detailEpUpBrouillon('.detailUp', 100);
+                        detailEpDown('.detailDown', 100);
+                        detailEpDownBrouillon('.detailDown', 100);
                     });
             }else{
                 console.log("vide");
@@ -617,19 +620,27 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
     $('.episodeBd').find('span').stop(true, true);
 
     if (!icon.hasClass('rotate-right')) {
+        $('.episodeBd').find('span').css({
+            "overflow": "visible"
+        });
         $(icon).addClass('rotate-right');
         $('.episodeCatalog, .episodeBrouillon').find('span').css('position', 'absolute');
         $('.episodeBd i').addClass('rotate-right');
+        $('.episodeBd').removeClass("detailDown");
         $('.episodeBd').addClass("detailUp");
-        detailEpUp(".episodeCatalog");
-        detailEpUpBrouillon(".episodeBrouillon");
+        detailEpUp(".episodeCatalog", 300);
+        detailEpUpBrouillon(".episodeBrouillon", 300);
         
     } else {
+        $('.episodeBd').find('span').css({
+            "overflow": "hidden"
+        });
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
         $('.episodeBd').removeClass("detailUp");
-        detailEpDown(".episodeCatalog");
-        detailEpDownBrouillon(".episodeBrouillon");
+        $('.episodeBd').addClass("detailDown");
+        detailEpDown(".episodeCatalog", 300);
+        detailEpDownBrouillon(".episodeBrouillon", 300);
 
     }
 });
@@ -642,30 +653,42 @@ $(document).on('click', '.afichageBtn', function(e) {
     var origin = (parent.hasClass('catalogEp')) ? "catalog" : "brouillon";
     parent.stop(true, false);
     parent.find('span').stop(true, true);
-
+    
     if (!icon.hasClass('rotate-right')) {
+        parent.find('span').css({
+            "overflow": "visible"
+        });
         $('.afichageBtnHdr i').addClass('rotate-right');
+        parent.removeClass("detailDown");
         parent.addClass("detailUp");
         icon.addClass('rotate-right');
         $(parent).find('span').css('position', 'absolute');
         if(origin == 'catalog'){
-            detailEpUp(parent);
+            detailEpUp(parent, 300);
         }else{
-            detailEpUpBrouillon(parent);
+            detailEpUpBrouillon(parent, 300);
         }
     } else {
+        parent.find('span').css({
+            "overflow": "hidden"
+        });
         icon.removeClass('rotate-right');
         var countRotateRight = $(".episodeBd i.rotate-right").length;
         if(countRotateRight == 0){
             $('.afichageBtnHdr i').removeClass('rotate-right');
         }
         parent.removeClass("detailUp");
-        detailEpDown(parent);
+        parent.addClass("detailDown");
+        if(origin == 'catalog'){
+            detailEpDown(parent, 300);
+        }else{
+            detailEpDownBrouillon(parent, 300);
+        }
     }
 
 });
 
-function detailEpUp(parent){
+function detailEpUp(parent, time){
     $(parent).find('span').css({
         "height": ""
     });
@@ -679,15 +702,24 @@ function detailEpUp(parent){
     
     var largeurFenetre = $(window).width();
     console.log(largeurFenetre);
+
+    var nb_episod = $('<div class="txtBdEpisod">episode numero : </div>');
         if(largeurFenetre > 1320){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
 
             $(parent).find('span:first-child').css({
-                'top': '0%'
+                'top': '0%',
+                "overflow": "visible"
             });
-    
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
+            
             $(parent).find('span:nth-child(2)').css({
                 'left': '7%',
                 'top': '50%'
@@ -730,11 +762,18 @@ function detailEpUp(parent){
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
             $(parent).animate({
-                'height': '60vh'
-            }, 300);
+                'height': '60vh',
+                "overflow": "visible"
+            }, time);
             $(parent).find('span:first-child').css({
                 'top': '5%'
             });
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '9%',
@@ -772,10 +811,17 @@ function detailEpUp(parent){
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
             $(parent).find('span:first-child').css({
-                'top': '5%'
+                'top': '5%',
+                "overflow": "visible"
             });
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '11%',
@@ -808,10 +854,17 @@ function detailEpUp(parent){
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
             $(parent).find('span:first-child').css({
-                'top': '5%'
+                'top': '5%',
+                "overflow": "visible"
             });
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '13%',
@@ -840,10 +893,17 @@ function detailEpUp(parent){
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
             $(parent).find('span:first-child').css({
-                'top': '5%'
+                'top': '5%',
+                "overflow": "visible"
             });
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '24%',
@@ -867,10 +927,17 @@ function detailEpUp(parent){
         }else if(largeurFenetre <= 380){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
             $(parent).find('span:first-child').css({
-                'top': '5%'
+                'top': '5%',
+                "overflow": "visible"
             });
+            $(parent).find('span:first-child').animate({
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '30%',
@@ -889,37 +956,40 @@ function detailEpUp(parent){
         }
     }
 
-function detailEpDown(parent){
+function detailEpDown(parent, time){
     var largeurFenetre = $(window).width();
     var height = 0;
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '7%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '7%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '25%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(4)').animate({
                 'left': '55%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(5)').animate({
                 'left': '70%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '6%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -927,14 +997,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
             
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -943,28 +1013,31 @@ function detailEpDown(parent){
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '9%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '9%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '27%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(4)').animate({
                 'left': '57%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '16.5%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '8%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -972,14 +1045,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -988,24 +1061,27 @@ function detailEpDown(parent){
 
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '11%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '11%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '32%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '21%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '10%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1013,14 +1089,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1029,20 +1105,23 @@ function detailEpDown(parent){
 
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '13%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '34%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1050,14 +1129,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1066,16 +1145,19 @@ function detailEpDown(parent){
 
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '24%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '24%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '18%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1083,14 +1165,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1100,11 +1182,13 @@ function detailEpDown(parent){
         }else if(largeurFenetre <= 380){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
-            }, 300);
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '30%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1112,14 +1196,14 @@ function detailEpDown(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1129,7 +1213,7 @@ function detailEpDown(parent){
         }
     }
 
-function detailEpUpBrouillon(parent){
+function detailEpUpBrouillon(parent, time){
     $(parent).find('span').css({
         "height": ""
     });
@@ -1143,14 +1227,20 @@ function detailEpUpBrouillon(parent){
     
     var largeurFenetre = $(window).width();
     console.log(largeurFenetre);
+
+    var nb_episod = $('<div class="txtBdEpisod">episode numero : </div>');
         if(largeurFenetre > 1320){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
+            }, time);
 
-            $(parent).find('span:first-child').css({
-                'top': '0%'
-            });
+            $(parent).find('span:first-child').animate({
+                'top': '0%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '7%',
@@ -1179,8 +1269,11 @@ function detailEpUpBrouillon(parent){
 
             $(parent).find('span:nth-child(7)').css({
                 'right': '6%',
-                'top': '50%'
+                'top': '50%',
             });
+            $(parent).find('span:nth-child(7)').animate({
+                'opacity': '0'
+            }, time);
     
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
@@ -1195,10 +1288,14 @@ function detailEpUpBrouillon(parent){
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
-            $(parent).find('span:first-child').css({
-                'top': '5%'
-            });
+            }, time);
+            $(parent).find('span:first-child').animate({
+                'top': '5%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '9%',
@@ -1223,6 +1320,9 @@ function detailEpUpBrouillon(parent){
                 'right': '8%',
                 'top': '20%'
             });
+            $(parent).find('span:nth-child(7)').animate({
+                'opacity': '0'
+            }, time);
     
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
@@ -1236,10 +1336,14 @@ function detailEpUpBrouillon(parent){
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
-            $(parent).find('span:first-child').css({
-                'top': '5%'
-            });
+            }, time);
+            $(parent).find('span:first-child').animate({
+                'top': '5%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '11%',
@@ -1259,6 +1363,9 @@ function detailEpUpBrouillon(parent){
                 'right': '10%',
                 'top': '20%'
             });
+            $(parent).find('span:nth-child(7)').animate({
+                'opacity': '0'
+            }, time);
     
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
@@ -1272,10 +1379,14 @@ function detailEpUpBrouillon(parent){
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
-            $(parent).find('span:first-child').css({
-                'top': '5%'
-            });
+            }, time);
+            $(parent).find('span:first-child').animate({
+                'top': '5%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '13%',
@@ -1304,11 +1415,15 @@ function detailEpUpBrouillon(parent){
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
-            $(parent).find('span:first-child').css({
-                'top': '5%'
-            });
-    
+            }, time);
+            $(parent).find('span:first-child').animate({
+                'top': '5%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
+
             $(parent).find('span:nth-child(2)').css({
                 'left': '24%',
                 'top': '20%'
@@ -1331,10 +1446,14 @@ function detailEpUpBrouillon(parent){
         }else if(largeurFenetre <= 380){
             $(parent).animate({
                 'height': '60vh'
-            }, 300);
-            $(parent).find('span:first-child').css({
-                'top': '5%'
-            });
+            }, time);
+            $(parent).find('span:first-child').animate({
+                'top': '5%',
+                'width': '25%',
+            }, time);
+            if ($(parent).find('.txtBdEpisod').length === 0) {
+                $(parent).find('span:first-child').prepend(nb_episod);
+            }
     
             $(parent).find('span:nth-child(2)').css({
                 'left': '30%',
@@ -1353,37 +1472,42 @@ function detailEpUpBrouillon(parent){
         }
     }
 
-function detailEpDownBrouillon(parent){
+function detailEpDownBrouillon(parent, time){
     var largeurFenetre = $(window).width();
     var height = 0;
         if(largeurFenetre > 1320){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '7%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+            
             $(parent).find('span:nth-child(2)').animate({
                 'left': '7%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '25%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(4)').animate({
                 'left': '55%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(5)').animate({
                 'left': '70%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '6%',
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'opacity': '1'
+            }, time);
+
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1391,14 +1515,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
             
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1407,28 +1531,33 @@ function detailEpDownBrouillon(parent){
             
         }else if(largeurFenetre > 1075 && largeurFenetre <= 1320){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '9%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+            
             $(parent).find('span:nth-child(2)').animate({
                 'left': '9%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '27%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(4)').animate({
                 'left': '57%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '16.5%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '8%',
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'opacity': '1'
+                
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1436,14 +1565,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1452,24 +1581,28 @@ function detailEpDownBrouillon(parent){
 
         }else if(largeurFenetre > 785 && largeurFenetre <= 1075){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '11%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '11%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '32%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '21%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(7)').animate({
                 'right': '10%',
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'opacity': '1'
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1477,14 +1610,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1493,20 +1626,23 @@ function detailEpDownBrouillon(parent){
 
         }else if(largeurFenetre > 530 && largeurFenetre <= 785){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '13%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(3)').animate({
                 'left': '34%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '13%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1514,14 +1650,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1530,16 +1666,19 @@ function detailEpDownBrouillon(parent){
 
         }else if(largeurFenetre > 380 && largeurFenetre <= 530){
             $(parent).find('span:first-child').animate({
-                'top': '0%'
-            }, 300);
+                'top': '0%',
+                'width': '24%',
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '24%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(6)').animate({
                 'right': '18%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1547,14 +1686,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1564,11 +1703,13 @@ function detailEpDownBrouillon(parent){
         }else if(largeurFenetre <= 380){
             $(parent).find('span:first-child').animate({
                 'top': '0%'
-            }, 300);
+            }, time);
+            $(parent).find('.txtBdEpisod').remove('.txtBdEpisod');
+
             $(parent).find('span:nth-child(2)').animate({
                 'left': '30%',
                 'top': '0%'
-            }, 300);
+            }, time);
             $(parent).find('span:nth-child(8)').css({
                 'right': '0%',
                 'top': '0%'
@@ -1576,14 +1717,14 @@ function detailEpDownBrouillon(parent){
             $(parent).find('span:nth-child(9)').animate({
                 'opacity': '0',
                 'top': '0%'
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('.brouillonEp').remove();
             });
 
             height += 9;
             $(parent).animate({
                 'height': height + "vh",
-            }, 300, function() {
+            }, time, function() {
                 $(parent).find('span').css({
                     "height": "auto"
                 });
@@ -1592,6 +1733,7 @@ function detailEpDownBrouillon(parent){
 
         }
     }
+
 
 function disabledEp(episod_id){
     $.ajax({
