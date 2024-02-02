@@ -566,8 +566,8 @@ function addEpisode(catalog_id, origin){
                         if(episode['origin'] == 'catalog'){
                             var etat = (episode['episod_actif'] == 1) ? "" : "epDisable";
                             divEpisod.append(
-                                '<div class="catalogEp episodeCatalog detailDown episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
-                                    '<span>' + episode['nb_episode'] + '</span>' +
+                                '<div class="catalogEp episodeCatalog detailCatalogDown episodeBd ' + etat + ' epBd'+ episode['id_episode'] +'">' +
+                                    '<span><div>' + episode['nb_episode'] + '</div></span>' +
                                     '<span>' + episode['title'] + '</span>' +
                                     '<span>' + episode['description'] + '</span>' +
                                     '<span>' + episode['publish_date'] + '</span>' +
@@ -579,8 +579,8 @@ function addEpisode(catalog_id, origin){
                             );
                         }else{
                             divEpisod.append(
-                                '<div class="brouillonEp detailDown episodeBd episodeBrouillon epBd'+ episode['id_episode'] +'">' +
-                                    '<span>' + episode['nb_episode'] + '</span>' +
+                                '<div class="brouillonEp detailBrouillonDown episodeBd episodeBrouillon epBd'+ episode['id_episode'] +'">' +
+                                    '<span><div>' + episode['nb_episode'] + '</div></span>' +
                                     '<span>' + episode['title'] + '</span>' +
                                     '<span>' + episode['description'] + '</span>' +
                                     '<span>' + episode['publish_date'] + '</span>' +
@@ -596,10 +596,10 @@ function addEpisode(catalog_id, origin){
                     $(window).resize(function() {
                         // var largeurFenetre = $(window).width();
                         // console.log(largeurFenetre);
-                        detailEpUp('.detailUp', 100);
-                        detailEpUpBrouillon('.detailUp', 100);
-                        detailEpDown('.detailDown', 100);
-                        detailEpDownBrouillon('.detailDown', 100);
+                        detailEpUp('.detailCatalogUp', 100);
+                        detailEpUpBrouillon('.detailBrouillonUp', 100);
+                        detailEpDown('.detailCatalogDown', 100);
+                        detailEpDownBrouillon('.detailBrouillonDown', 100);
                     });
             }else{
                 console.log("vide");
@@ -626,8 +626,9 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         $(icon).addClass('rotate-right');
         $('.episodeCatalog, .episodeBrouillon').find('span').css('position', 'absolute');
         $('.episodeBd i').addClass('rotate-right');
-        $('.episodeBd').removeClass("detailDown");
-        $('.episodeBd').addClass("detailUp");
+        $('.episodeBd').removeClass("detailCatalogDown detailBrouillonDown");
+        $('.catalogEp').addClass("detailCatalogUp");
+        $('.brouillonEp').addClass("detailBrouillonUp");
         detailEpUp(".episodeCatalog", 300);
         detailEpUpBrouillon(".episodeBrouillon", 300);
         
@@ -637,8 +638,9 @@ $(document).on('click', '.afichageBtnHdr', function(e) {
         });
         $(icon).removeClass('rotate-right');
         $('.episodeBd i').removeClass('rotate-right');
-        $('.episodeBd').removeClass("detailUp");
-        $('.episodeBd').addClass("detailDown");
+        $('.episodeBd').removeClass("detailCatalogUp detailBrouillonUp");
+        $('.catalogEp').addClass("detailCatalogDown");
+        $('.brouillonEp').addClass("detailBrouillonDown");
         detailEpDown(".episodeCatalog", 300);
         detailEpDownBrouillon(".episodeBrouillon", 300);
 
@@ -659,8 +661,13 @@ $(document).on('click', '.afichageBtn', function(e) {
             "overflow": "visible"
         });
         $('.afichageBtnHdr i').addClass('rotate-right');
-        parent.removeClass("detailDown");
-        parent.addClass("detailUp");
+        if(origin == "catalog"){
+            parent.removeClass("detailCatalogDown");
+            parent.addClass("detailCatalogUp");
+        }else{
+            parent.removeClass("detailBrouillonDown");
+            parent.addClass("detailBrouillonUp");
+        }
         icon.addClass('rotate-right');
         $(parent).find('span').css('position', 'absolute');
         if(origin == 'catalog'){
@@ -677,11 +684,13 @@ $(document).on('click', '.afichageBtn', function(e) {
         if(countRotateRight == 0){
             $('.afichageBtnHdr i').removeClass('rotate-right');
         }
-        parent.removeClass("detailUp");
-        parent.addClass("detailDown");
         if(origin == 'catalog'){
+            parent.removeClass("detailCatalogUp");
+            parent.addClass("detailCatalogDown");
             detailEpDown(parent, 300);
         }else{
+            parent.removeClass("detailBrouillonUp");
+            parent.addClass("detailBrouillonDown");
             detailEpDownBrouillon(parent, 300);
         }
     }
@@ -769,7 +778,7 @@ function detailEpUp(parent, time){
                 'top': '5%'
             });
             $(parent).find('span:first-child').animate({
-                'width': '25%',
+                'width': '9%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -817,7 +826,7 @@ function detailEpUp(parent, time){
                 "overflow": "visible"
             });
             $(parent).find('span:first-child').animate({
-                'width': '25%',
+                'width': '11%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -860,7 +869,7 @@ function detailEpUp(parent, time){
                 "overflow": "visible"
             });
             $(parent).find('span:first-child').animate({
-                'width': '25%',
+                'width': '13%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -899,7 +908,7 @@ function detailEpUp(parent, time){
                 "overflow": "visible"
             });
             $(parent).find('span:first-child').animate({
-                'width': '25%',
+                'width': '24%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -933,7 +942,7 @@ function detailEpUp(parent, time){
                 "overflow": "visible"
             });
             $(parent).find('span:first-child').animate({
-                'width': '25%',
+                // 'width': '25%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -1291,7 +1300,7 @@ function detailEpUpBrouillon(parent, time){
             }, time);
             $(parent).find('span:first-child').animate({
                 'top': '5%',
-                'width': '25%',
+                'width': '9%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -1339,7 +1348,7 @@ function detailEpUpBrouillon(parent, time){
             }, time);
             $(parent).find('span:first-child').animate({
                 'top': '5%',
-                'width': '25%',
+                'width': '11%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -1382,7 +1391,7 @@ function detailEpUpBrouillon(parent, time){
             }, time);
             $(parent).find('span:first-child').animate({
                 'top': '5%',
-                'width': '25%',
+                'width': '13%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -1418,7 +1427,7 @@ function detailEpUpBrouillon(parent, time){
             }, time);
             $(parent).find('span:first-child').animate({
                 'top': '5%',
-                'width': '25%',
+                'width': '24%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);
@@ -1449,7 +1458,7 @@ function detailEpUpBrouillon(parent, time){
             }, time);
             $(parent).find('span:first-child').animate({
                 'top': '5%',
-                'width': '25%',
+                'width': '11%',
             }, time);
             if ($(parent).find('.txtBdEpisod').length === 0) {
                 $(parent).find('span:first-child').prepend(nb_episod);

@@ -730,6 +730,9 @@ img{
     border: 2px solid red;
 }
 
+.txtBdEpisod{
+    margin-right: 15px;
+}
 
 /* @media only screen and (max-width: 1365px) {
     
