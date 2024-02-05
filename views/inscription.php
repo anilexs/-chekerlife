@@ -49,7 +49,7 @@ require_once "inc/header.php";
                     data-client_id="224348978546-jki2a29kf80k1q441lp7khc05k67j8kt.apps.googleusercontent.com"
                     data-context="signup"
                     data-ux_mode="popup"
-                    data-login_uri="http://localhost/!chekerlife/connexion.php"
+                    data-login_uri="http://localhost/!chekerlife/authenticate_google.php"
                     data-auto_prompt="false">
                 </div>
 

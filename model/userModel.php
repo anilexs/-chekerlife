@@ -357,4 +357,21 @@ class User{
             echo $e->getMessage();
         }
     }
+    
+    public static function googleAconteVerify($email, $sub){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT google_sub FROM users WHERE email = ?");
+        try {
+            $request->execute(array($email));
+            $userViews = $request->fetch(PDO::FETCH_ASSOC);
+            if(password_verify($sub, $userViews["google_sub"])){
+                $retour = true;
+            }else{
+                $retour = false;
+            }
+            return $retour;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

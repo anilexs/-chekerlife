@@ -8,7 +8,7 @@ if(isset($_COOKIE['token'])) {
 
 require_once "inc/header.php"; 
 ?>
-<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="asset/css/connexion.css">
 <script src="asset/js/connexion.js" defer></script>
 <title>connexion</title>
@@ -35,6 +35,22 @@ require_once "inc/header.php";
                         <input type="reset" value="réinitialisation" id="btnReinitialiser">
                     </div>
                 </form>
+                    <div id="g_id_onload"
+                        data-client_id="224348978546-jki2a29kf80k1q441lp7khc05k67j8kt.apps.googleusercontent.com"
+                        data-context="signup"
+                        data-ux_mode="popup"
+                        data-login_uri="http://localhost/!chekerlife/authenticate_google.php"
+                        data-auto_prompt="false">
+                    </div>
+    
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="pill"
+                        data-theme="filled_blue"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="left">
+                    </div>
             </div>
         </div>
         <div id="right">

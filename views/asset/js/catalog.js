@@ -235,16 +235,16 @@ function editeCode(origin, catalog_id){
                 form.append(formController);
 
 
-                var imgCatalogController = $('<div class="imgCatalogController"></div>');
+                // var imgCatalogController = $('<div class="imgCatalogController"></div>');
                 var imgCatalog = $('<div class="catalogimg"></div>');
                     imgCatalog.css('background-image', 'url("../asset/img/catalog/' + response['cataloginfo']['image_catalogue'] + '")');
                     $('body').css('overflow', 'hidden');
 
             
            
-                    edite.append(left);
-                    edite.append(right);
-                    right.append(imgCatalogController);
+                    edite.append(left, right);
+                    // edite.append(right);
+                    // right.append(imgCatalogController);
                     right.append(imgCatalog);
                     left.append(form);
 
