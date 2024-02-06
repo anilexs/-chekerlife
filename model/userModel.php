@@ -360,16 +360,21 @@ class User{
     
     public static function googleAconteVerify($email, $sub){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT google_sub FROM users WHERE email = ?");
+        $request = $db->prepare("SELECT google_sub FROM users WHERE google_email = ?");
         try {
             $request->execute(array($email));
-            $userViews = $request->fetch(PDO::FETCH_ASSOC);
-            if(password_verify($sub, $userViews["google_sub"])){
-                $retour = true;
+            $userSub = $request->fetch(PDO::FETCH_ASSOC);
+            $acount = (!empty($userSub)) ? true : false;
+            if($acount == "count"){
+                if(password_verify($sub, $userSub["google_sub"])){
+                    $retour = true;
+                }else{
+                    $retour = false;
+                }
             }else{
                 $retour = false;
             }
-            return $retour;
+            return [$acount, $retour];
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
