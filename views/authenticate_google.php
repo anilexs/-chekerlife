@@ -12,37 +12,51 @@ if(isset($_COOKIE['token'])) {
     
     $headerData = json_decode($decodedHeader, true);
     $payloadData = json_decode($decodedPayload, true);
-    // print_r($payloadData);
     
     $name = $payloadData['given_name'] ?? '';
-    $family_name = $payloadData['family_name'] ?? '';
+    $prenom = $payloadData['family_name'] ?? '';
     $email = $payloadData['email'] ?? '';
     $picture = $payloadData['picture'] ?? '';
     $sub = $payloadData['sub'] ?? '';
     $hashedSub = password_hash($sub, PASSWORD_DEFAULT);
 
-    // echo "<br>Nom: $name<br>";
-    // echo "Prénom: $family_name<br>";
-    // echo "Email: $email<br>";
-    // echo 'id google : '. $sub . '<br>';
-    // echo 'id google  hach: '. $hashedSub . '<br>';
-    // echo '<img src="'.$picture.'" alt="" style="width: 100px; height: 100px"><br>';
     $user = User::googleAconteVerify($email, $sub);
     if($user[0]){
         echo "il a un compte <br>";
+        echo 'id google : '. $sub . '<br>';
+
+        
+        echo "Nom: $name<br>";
+        echo "Prénom: $prenom<br>";
+        echo "Email: $email<br>";
+        echo 'id google  hach: '. $hashedSub . '<br>';
+        echo '<img src="'.$picture.'" alt="" style="width: 100px; height: 100px"><br>';
         if($user[1]){
-            echo "true";
+            $userInfo = User::loginGoogle($email);
+            var_dump($userInfo);
         }else{
             echo "false";
         }
     }else{
-        echo "il na pas de compte <br>";
+        $dateEtHeure = date("Y-m-d-H:i:s");
+        echo "La date et l'heure actuelles sont : " . $dateEtHeure;
+
+        $inscription = User::inscriptionGoogle($name, $prenom, $email, $hashedSub, $picture);
+        echo $inscription;
     }
 }else{
     header("Location: index");
 }
 ?>
-<!-- <?php require_once "inc/header.php"; ?>
+<?php require_once "inc/header.php"; ?>
+<link rel="stylesheet" href="asset/css/authenticate_google.css">
 <title>authenticate google</title>
 <?php require_once "inc/nav.php"; ?>
 <?php require_once "inc/footer.php"; ?>
+<script>
+    $(document).ready(function() {
+    $("body::before").on("animationend", function() {
+        console.log("fini");
+    });
+    });
+</script>

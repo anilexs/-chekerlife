@@ -162,6 +162,28 @@ class User{
         }
         return $return;
     }
+    
+    public static function inscriptionGoogle($nom, $prenom, $google_email, $google_sub, $profil_image){
+        $token = self::generateToken();
+        $pictureName = "";
+        // $destination = "asset/img/'.$pictureName.'.jpg";
+        // $file = file_get_contents($picture);
+        // file_put_contents($destination, $file);
+    }
+
+    public static function loginGoogle($googleEmail) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT token.token FROM users LEFT JOIN token ON users.id_user = token.user_id AND token.token_active = 1 WHERE google_email = ?");
+        try {
+            $request->execute(array($googleEmail));
+            $token = $request->fetch(PDO::FETCH_ASSOC);
+            setcookie("token", $token['token'], time() + 3600 * 5, "/", DOMAINNAME);
+            header('Location:' . host);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function deconnexion() {
         if(isset($_COOKIE)){
             setcookie("token", "", time() - 3600, "/", DOMAINNAME);
@@ -372,7 +394,7 @@ class User{
                     $retour = false;
                 }
             }else{
-                $retour = false;
+                $retour = null;
             }
             return [$acount, $retour];
         } catch (PDOException $e) {
