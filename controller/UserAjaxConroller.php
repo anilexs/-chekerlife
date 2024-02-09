@@ -53,7 +53,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
         reponse($response_code, $responseTab);
         
-    }else if($_POST['action'] == "views"){
+    }else if($_POST['action'] == "views" && isset($_POST['chekboxId'])){
         if(isset($_COOKIE['token'])){
             $response_code = HTTP_OK;
             $actif = User::user_actif($_COOKIE['token']);

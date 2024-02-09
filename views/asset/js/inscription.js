@@ -40,6 +40,7 @@ $(document).ready(function(){
 
 
         if(pseudo == "" || email == "" || password == "" || password.length < 5 || password === pseudo || password === email || isBlacklisted == true || pseudoVerify.length < 5 || pseudoVerify.length > 18 || pseudoVerify.length > 18 || !(email.match(emailPreviews)) || password !== passwordConfirmation){
+            
             if(pseudo == ""){
                 // le pseudo choisir n'est pas disponible sur ce site
                 $("#pseudo").css("border", "3px solid red");

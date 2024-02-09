@@ -42,7 +42,23 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         ];
 
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "connexion"){
+    }else if($_POST['action'] == "inscriptionGoogle" && isset($_POST['name']) && isset($_POST['prenom']) && isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['subHach']) && isset($_POST['picture'])){
+        $name = htmlspecialchars($_POST['name']);
+        $prenom = htmlspecialchars($_POST['prenom']);
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $email = htmlspecialchars($_POST['email']);
+        $subHach = htmlspecialchars($_POST['subHach']);
+        $picture = htmlspecialchars($_POST['picture']);
+        
+        $user = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $subHach, $picture);
+        $response_code = HTTP_OK;
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "retour" => $user,
+        ];
+
+        reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "connexion" && isset($_POST['email']) && isset($_POST['password'])){
         $response_code = HTTP_OK;
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);

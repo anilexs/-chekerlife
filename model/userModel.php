@@ -163,9 +163,10 @@ class User{
         return $return;
     }
     
-    public static function inscriptionGoogle($nom, $prenom, $google_email, $google_sub, $picture){
+    public static function inscriptionGoogle($nom, $prenom, $pseudo, $google_email, $google_sub, $picture){
         $token = self::generateToken();
         $dateEtHeure = date("Y-m-d-H\hi\ms\s");
+        return $picture;
         
         // $request = $db->prepare("INSERT INTO `users`(nom, prenom, pseudo, google_email, google_sub) VALUES ()");
         // $destination = "asset/img/picture-$dateEtHeure.jpg";

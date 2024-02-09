@@ -51,7 +51,7 @@ if(isset($_COOKIE['token'])) {
     <div class="googleContenair">
         <img src="asset/img/logoGoogle.png" alt="" class="googleLogo">
         <input type="text" id="pseudo">
-        <button id="inscription">s'inscrire</button>
+        <button onclick="inscription('<?= $name ?>','<?= $prenom ?>','<?= $email ?>','<?= $hashedSub ?>','<?= $picture ?>')" id="inscription">s'inscrire</button>
     </div>
     <!-- // $pseudo = "";
     // $inscription = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $hashedSub, $picture);
