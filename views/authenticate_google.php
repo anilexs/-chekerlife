@@ -37,12 +37,6 @@ if(isset($_COOKIE['token'])) {
         }else{
             echo "false";
         }
-    }else{
-        $dateEtHeure = date("Y-m-d-H:i:s");
-        echo "La date et l'heure actuelles sont : " . $dateEtHeure;
-
-        $inscription = User::inscriptionGoogle($name, $prenom, $email, $hashedSub, $picture);
-        echo $inscription;
     }
 }else{
     header("Location: index");
@@ -50,13 +44,17 @@ if(isset($_COOKIE['token'])) {
 ?>
 <?php require_once "inc/header.php"; ?>
 <link rel="stylesheet" href="asset/css/authenticate_google.css">
+<script src="asset/js/authenticate_google.js" defer></script>
 <title>authenticate google</title>
 <?php require_once "inc/nav.php"; ?>
+<?php if(!$user[0]){ ?>
+    <div class="googleContenair">
+        <img src="asset/img/logoGoogle.png" alt="" class="googleLogo">
+        <input type="text" id="pseudo">
+        <button id="inscription">s'inscrire</button>
+    </div>
+    <!-- // $pseudo = "";
+    // $inscription = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $hashedSub, $picture);
+    // echo $inscription; -->
+<?php } ?>
 <?php require_once "inc/footer.php"; ?>
-<script>
-    $(document).ready(function() {
-    $("body::before").on("animationend", function() {
-        console.log("fini");
-    });
-    });
-</script>

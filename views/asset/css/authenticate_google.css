@@ -12,3 +12,14 @@ body::before{
     height: 100%;
     z-index: -1;
 }
+
+.googleContenair{
+    margin: 5% auto 0 auto;
+    width: 70%;
+    height: 60vh;
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+}
+.googleLogo{
+    width: 35%;
+}

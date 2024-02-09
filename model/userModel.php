@@ -163,12 +163,14 @@ class User{
         return $return;
     }
     
-    public static function inscriptionGoogle($nom, $prenom, $google_email, $google_sub, $profil_image){
+    public static function inscriptionGoogle($nom, $prenom, $google_email, $google_sub, $picture){
         $token = self::generateToken();
-        $pictureName = "";
-        // $destination = "asset/img/'.$pictureName.'.jpg";
+        $dateEtHeure = date("Y-m-d-H\hi\ms\s");
+        
+        // $request = $db->prepare("INSERT INTO `users`(nom, prenom, pseudo, google_email, google_sub) VALUES ()");
+        // $destination = "asset/img/picture-$dateEtHeure.jpg";
         // $file = file_get_contents($picture);
-        // file_put_contents($destination, $file);
+        // file_put_contents($destination, $file)
     }
 
     public static function loginGoogle($googleEmail) {
