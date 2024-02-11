@@ -44,11 +44,11 @@ class User{
         return $token;
     }
     
-    public static function defaux_img($user_id) {
+    public static function defaux_img($user_id, $profil = "profile-defaux.png") {
         $db = Database::dbConnect();
         $image = $db->prepare("INSERT INTO user_image (user_id, user_image, image_type) VALUES (?, ?, ?), (?, ?, ?)");
         try {
-            $image->execute(array($user_id, "profile-defaux.png", "profil", $user_id, "banner-defaux.png", "banner"));
+            $image->execute(array($user_id, $profil, "profil", $user_id, "banner-defaux.png", "banner"));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -166,12 +166,28 @@ class User{
     public static function inscriptionGoogle($nom, $prenom, $pseudo, $google_email, $google_sub, $picture){
         $token = self::generateToken();
         $dateEtHeure = date("Y-m-d-H\hi\ms\s");
-        return $picture;
         
-        // $request = $db->prepare("INSERT INTO `users`(nom, prenom, pseudo, google_email, google_sub) VALUES ()");
-        // $destination = "asset/img/picture-$dateEtHeure.jpg";
-        // $file = file_get_contents($picture);
-        // file_put_contents($destination, $file)
+        $db = Database::dbConnect();
+        $request = $db->prepare("INSERT INTO users (nom, prenom, pseudo, google_email, google_sub) VALUES (?,?,?,?,?)");
+        try {
+            $request->execute(array($nom, $prenom, $pseudo, $google_email, $google_sub));
+            
+            $lastUserId = $db->lastInsertId();
+
+            $pictureName = "picture-$dateEtHeure.jpg";
+            $destination = "../views/asset/img/user/profile/$pictureName";
+            $file = file_get_contents($picture);
+            file_put_contents($destination, $file);
+            self::defaux_img($lastUserId, $pictureName);
+
+            return $dateEtHeure;
+
+            // return $pictureName;
+            // setcookie("token", $token['token'], time() + 3600 * 5, "/", DOMAINNAME);
+            // header('Location:' . host);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     public static function loginGoogle($googleEmail) {
