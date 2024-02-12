@@ -22,7 +22,11 @@ function inscription(name, prenom, email, subHach, picture){
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
+                if (window.history.length <= 2) {
+                    window.location.href = host; 
+                } else {
+                    window.history.go(-2); 
+                }
             },
             error: function (xhr, status, error) {
                 console.log(error);

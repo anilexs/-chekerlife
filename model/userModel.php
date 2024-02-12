@@ -169,22 +169,23 @@ class User{
         
         $db = Database::dbConnect();
         $request = $db->prepare("INSERT INTO users (nom, prenom, pseudo, google_email, google_sub) VALUES (?,?,?,?,?)");
+
+        $requestToken = $db->prepare("INSERT INTO token (user_id, token) VALUES (?, ?)");
+
         try {
             $request->execute(array($nom, $prenom, $pseudo, $google_email, $google_sub));
             
+            $token = self::generateToken();
             $lastUserId = $db->lastInsertId();
+            // $requestToken->execute(array($lastUserId, $token));
 
-            $pictureName = "picture-$dateEtHeure.jpg";
-            $destination = "../views/asset/img/user/profile/$pictureName";
-            $file = file_get_contents($picture);
-            file_put_contents($destination, $file);
-            self::defaux_img($lastUserId, $pictureName);
+            // $pictureName = "picture-$dateEtHeure.jpg";
+            // $destination = "../views/asset/img/user/profile/$pictureName";
+            // $file = file_get_contents($picture);
+            // file_put_contents($destination, $file);
+            // self::defaux_img($lastUserId, $pictureName);
 
-            return $dateEtHeure;
-
-            // return $pictureName;
-            // setcookie("token", $token['token'], time() + 3600 * 5, "/", DOMAINNAME);
-            // header('Location:' . host);
+            // setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

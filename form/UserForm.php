@@ -18,7 +18,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $newslatter = $_POST['Newslatter'];
-        // boolvar potensiellement inutile a verifier
+        // boolval potensiellement inutile a verifier
         $newslatter = boolval($newslatter); 
 
         $inscription = User::inscription($pseudo, $email, $password);
@@ -50,11 +50,10 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $subHach = htmlspecialchars($_POST['subHach']);
         $picture = htmlspecialchars($_POST['picture']);
         
-        $user = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $subHach, $picture);
+        User::inscriptionGoogle($name, $prenom, $pseudo, $email, $subHach, $picture);
         $response_code = HTTP_OK;
         $responseTab = [
             "response_code" => HTTP_OK,
-            "retour" => $user,
         ];
 
         reponse($response_code, $responseTab);
