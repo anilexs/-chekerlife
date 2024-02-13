@@ -177,15 +177,15 @@ class User{
             
             $token = self::generateToken();
             $lastUserId = $db->lastInsertId();
-            // $requestToken->execute(array($lastUserId, $token));
+            $requestToken->execute(array($lastUserId, $token));
 
-            // $pictureName = "picture-$dateEtHeure.jpg";
-            // $destination = "../views/asset/img/user/profile/$pictureName";
-            // $file = file_get_contents($picture);
-            // file_put_contents($destination, $file);
-            // self::defaux_img($lastUserId, $pictureName);
+            $pictureName = "picture-$dateEtHeure.jpg";
+            $destination = "../views/asset/img/user/profile/$pictureName";
+            $file = file_get_contents($picture);
+            file_put_contents($destination, $file);
+            self::defaux_img($lastUserId, $pictureName);
 
-            // setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
+            setcookie("token", $token, time() + 3600 * 5, "/", DOMAINNAME);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

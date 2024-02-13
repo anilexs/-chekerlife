@@ -49,9 +49,14 @@ if(isset($_COOKIE['token'])) {
 <?php require_once "inc/nav.php"; ?>
 <?php if(!$user[0]){ ?>
     <div class="googleContenair">
-        <img src="asset/img/logoGoogle.png" alt="" class="googleLogo">
-        <input type="text" id="pseudo">
-        <button onclick="inscription('<?= $name ?>','<?= $prenom ?>','<?= $email ?>','<?= $hashedSub ?>','<?= $picture ?>')" id="inscription">s'inscrire</button>
+        <div class="logoContenair">
+            <img src="asset/img/logoGoogle.png" alt="" class="googleLogo">
+        </div>
+        <div class="form">
+            <h2>Merci de choisir un pseudo pour finaliser votre inscription</h2>
+            <input type="text" id="pseudo">
+            <button onclick="inscription('<?= $name ?>','<?= $prenom ?>','<?= $email ?>','<?= $hashedSub ?>','<?= $picture ?>')" id="inscription">s'inscrire</button>
+        </div>
     </div>
     <!-- // $pseudo = "";
     // $inscription = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $hashedSub, $picture);
