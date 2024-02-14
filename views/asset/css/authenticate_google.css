@@ -53,11 +53,6 @@ body::before{
     margin-bottom: 5%;
 }
 
-label{
-    color: white;
-    font-size: 40px;
-    font-weight: 700;
-}
 #input{
     transform: skew(20deg);
     border-left: 2px solid gray;
@@ -83,4 +78,38 @@ label{
     border: 2px solid greenyellow;
     border-radius: 15px;
     font-size: 30px;
+}
+
+@media only screen and (max-width: 1340px) {
+    .googleContenair{
+        width: 1000px;
+    }
+    .gachat{
+        top: -17%;
+        left: 8.1%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .googleContenair{
+        width: 800px;
+    }
+}
+
+@media only screen and (max-width: 860px) {
+    .googleContenair{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 560px) {
+    .googleContenair{
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 325px) {
+    .googleContenair{
+        width: 300px;
+    }
 }

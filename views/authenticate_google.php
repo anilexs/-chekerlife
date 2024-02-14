@@ -63,8 +63,5 @@ if(isset($_COOKIE['token'])) {
             <button onclick="inscription('<?= $name ?>','<?= $prenom ?>','<?= $email ?>','<?= $hashedSub ?>','<?= $picture ?>')" id="inscription">s'inscrire</button>
         </div>
     </div>
-    <!-- // $pseudo = "";
-    // $inscription = User::inscriptionGoogle($name, $prenom, $pseudo, $email, $hashedSub, $picture);
-    // echo $inscription; -->
 <?php } ?>
 <?php require_once "inc/footer.php"; ?>

@@ -37,6 +37,8 @@
                 <ul class="menu">
                         <li><i class="fa-solid fa-user"></i><a href="<?= $host ?>profil/<?= $userInfo['pseudo'] ?>" class="navProfil">Profile</a></li>
                         <li><i class="fa-solid fa-sack-dollar"></i><a href="<?= $host ?>soutien" class="navSoutien">Nous soutenir</a></li>
+                        <li><i class="fa-solid fa-user-group"></i><a href="<?= $host ?>amis" class="navAmi">amis</a></li>
+                        <li><i class="fa-solid fa-message"></i></i><a href="<?= $host ?>messagerie" class="navMessagerie">messagerie</a></li>
                         <li><i class="fa-solid fa-gear"></i><a href="<?= $host ?>undefined-page" class="navParametre">Parametre</a></li>
                         <?php if ($userInfo['role'] == "admin" || $userInfo['role'] == "owner") {?>
                             <li class="admin">A D M I N</li>
@@ -67,14 +69,6 @@
                 <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
                 <li><a href="<?= $host ?>tcg" class="navTcg">Tcg</a></li>
                 <li><a href="<?= $host ?>quiz" class="navQuiz">Quiz</a></li>
-                <li class="navLike">
-                    <a href="">
-                        <div class="likePgae">
-                            <i class="fa-regular fa-heart iconNavLike" style="color: #fa0000;"></i>
-                            <span class="nbLike">0</span>
-                        </div>
-                    </a>
-                </li>
                 <li><a href="<?= $host ?>connexion">connexion</a></li>
                 <li><a href="<?= $host ?>inscription">inscription</a></li>
             </ul>
