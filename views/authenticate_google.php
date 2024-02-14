@@ -50,11 +50,16 @@ if(isset($_COOKIE['token'])) {
 <?php if(!$user[0]){ ?>
     <div class="googleContenair">
         <div class="logoContenair">
+            <div class="gachat">
+                <img src="asset/img/gacha/gacha1.png" alt="">
+            </div>
             <img src="asset/img/logoGoogle.png" alt="" class="googleLogo">
         </div>
         <div class="form">
             <h2>Merci de choisir un pseudo pour finaliser votre inscription</h2>
-            <input type="text" id="pseudo">
+            <div id="input">
+                <input type="text" id="pseudo" placeholder="speudo">
+            </div>
             <button onclick="inscription('<?= $name ?>','<?= $prenom ?>','<?= $email ?>','<?= $hashedSub ?>','<?= $picture ?>')" id="inscription">s'inscrire</button>
         </div>
     </div>

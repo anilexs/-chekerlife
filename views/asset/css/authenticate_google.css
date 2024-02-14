@@ -15,7 +15,7 @@ body::before{
 
 .googleContenair{
     margin: 5% auto 0 auto;
-    width: 70%;
+    width: 1200px;
     height: 60vh;
     border-radius: 10px;
     background-color: rgba(128, 128, 128, 0.5);
@@ -26,23 +26,55 @@ body::before{
 .logoContenair{
     position: absolute;
     display: flex;
-    top: 0px;
-    left: 3%;
+    top: 3%;
+    left: 1%;
 }
 .googleLogo{
-    width: 35%;
+    width: 30%;
 }
+.gachat{
+    position: absolute;
+    top: -10%;
+    left: 8.8%;
+}
+.gachat > img{
+    width: 30%;
+}
+
+
 .form{
     width: 100%;
     text-align: center;
 }
 .form > h2{
     color: white;
+    width: 50%;
+    margin: auto;
     margin-bottom: 5%;
 }
 
+label{
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+}
+#input{
+    transform: skew(20deg);
+    border-left: 2px solid gray;
+    border-bottom: 2px solid gray;
+    width: 20%;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 3%;
+}
 #pseudo{
+    transform: skew(-20deg);
     font-size: 30px;
+    width: 95%;
+    margin: auto;
+    background-color: transparent;
+    border: none;
 }
 
 #inscription{
