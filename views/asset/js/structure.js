@@ -1,3 +1,5 @@
+const urlAjax = "http://localhost/!chekerlife/controller/UserAjaxConroller.php";
+
 function ftrSize() {
     var footer = document.getElementById('footer');
     if (document.body.scrollHeight > window.innerHeight) {
@@ -37,3 +39,24 @@ function ftrSize() {
 //     }, 1000); 
 // });
 
+$(document).ready(function() {
+
+    function action() {
+        $.ajax({
+            url: urlAjax,
+            type: 'POST',
+            data: {
+                action: "userOnligne",
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+        });
+    }
+    // action();
+    // setInterval(action, 60000);
+});

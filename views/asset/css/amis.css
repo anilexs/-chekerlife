@@ -1,0 +1,15 @@
+.navAmi{
+    color: aqua;
+}
+
+
+.contenaire{
+    background-color: red;
+    width: 98%;
+    margin: 15px auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+/* .leftContenair{
+
+} */

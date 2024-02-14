@@ -214,6 +214,40 @@ class User{
         }
     }
 
+    public static function onligne($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("INSERT INTO user_online (user_id) SELECT user_id FROM token WHERE token = ?");
+        try {
+            $request->execute(array($token));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function friend($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare('SELECT * FROM `friend` LEFT JOIN token ON token.token = ? WHERE statut="confirme" AND (expediteur_id = token.user_id OR receiver_id = token.user_id);');
+        try {
+            $request->execute(array($token));
+            $friend = $request->fetch(PDO::FETCH_ASSOC);
+            return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function friend_requette($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare('SELECT * FROM `friend` LEFT JOIN token ON token.token = ? WHERE statut="en attente" AND (expediteur_id = token.user_id OR receiver_id = token.user_id);');
+        try {
+            $request->execute(array($token));
+            $friend = $request->fetch(PDO::FETCH_ASSOC);
+            return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function userInfo($token) {
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT u.*, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u JOIN token t ON u.id_user = t.user_id LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1 WHERE t.token = ?");
