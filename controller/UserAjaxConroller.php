@@ -142,7 +142,7 @@ function friendCard($friend){
             echo '</div>';
             echo '<div class="friendController">';
 
-            echo '<div class="removeFriend"><button class="'. $friend['id_user'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
