@@ -99,13 +99,19 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "response_code" => HTTP_OK,
         ];
         reponse($response_code, $responseTab); 
-    }else if($_POST['action'] == "userOnligne"){
+    }else if($_POST['action'] == "allFriend"){
         $response_code = HTTP_OK;
         $friend = User::friend($_COOKIE['token']);
+        friendCard($friend);
+    }else if($_POST['action'] == "removeFriend"){
+        $response_code = HTTP_OK;
+        User::removeFriend($_POST['friend']);
+        
         $responseTab = [
             "response_code" => HTTP_OK,
+            "friend" => $_POST['friend'],
         ];
-        reponse($response_code, $responseTab); 
+        reponse($response_code, $responseTab);  
     }
     
 }else {
@@ -124,3 +130,22 @@ function reponse($response_code, $response){
     
     echo json_encode($response);
 }
+
+function friendCard($friend){   
+    foreach ($friend as $friend) {
+        $cadreName = explode(".", $friend['cadre_image']);
+        echo $cadreName[0];
+        echo '<div class="friendCard">';
+            echo '<div class="friendImgContenair">';
+                echo '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+                echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
+            echo '</div>';
+            echo '<div class="friendController">';
+
+            echo '<div class="removeFriend"><button class="'. $friend['id_user'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+            
+            echo '</div>';
+        echo '</div>';
+    }
+}
+?>

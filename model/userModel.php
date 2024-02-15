@@ -226,10 +226,10 @@ class User{
 
     public static function friend($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare('SELECT * FROM `friend` LEFT JOIN token ON token.token = ? WHERE statut="confirme" AND (expediteur_id = token.user_id OR receiver_id = token.user_id);');
+        $request = $db->prepare("SELECT f.*, u.id_user, u.pseudo, u.level, u.xp_total, u.xp_actuelle, CASE WHEN f.expediteur_id = t.user_id THEN profile_receiver.user_image ELSE profile_expediteur.user_image END AS user_image, CASE WHEN f.expediteur_id = t.user_id THEN banner_receiver.user_image ELSE banner_expediteur.user_image END AS banner_image, CASE WHEN f.expediteur_id = t.user_id THEN cadre_receiver.user_image ELSE cadre_expediteur.user_image END AS cadre_image FROM friend f LEFT JOIN token t ON t.token = ? LEFT JOIN users u ON (f.expediteur_id = u.id_user OR f.receiver_id = u.id_user) LEFT JOIN user_image AS profile_expediteur ON (f.expediteur_id = profile_expediteur.user_id AND profile_expediteur.image_type = 'profil') LEFT JOIN user_image AS profile_receiver ON (f.receiver_id = profile_receiver.user_id AND profile_receiver.image_type = 'profil') LEFT JOIN user_image AS banner_expediteur ON (f.expediteur_id = banner_expediteur.user_id AND banner_expediteur.image_type = 'banner') LEFT JOIN user_image AS banner_receiver ON (f.receiver_id = banner_receiver.user_id AND banner_receiver.image_type = 'banner') LEFT JOIN user_image AS cadre_expediteur ON (f.expediteur_id = cadre_expediteur.user_id AND cadre_expediteur.image_type = 'cadre') LEFT JOIN user_image AS cadre_receiver ON (f.receiver_id = cadre_receiver.user_id AND cadre_receiver.image_type = 'cadre') WHERE f.statut = 'confirme' AND (f.expediteur_id = t.user_id OR f.receiver_id = t.user_id) AND f.friend_actif = 1 AND u.id_user != t.user_id;");
         try {
             $request->execute(array($token));
-            $friend = $request->fetch(PDO::FETCH_ASSOC);
+            $friend = $request->fetchAll(PDO::FETCH_ASSOC);
             return $friend;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -243,6 +243,16 @@ class User{
             $request->execute(array($token));
             $friend = $request->fetch(PDO::FETCH_ASSOC);
             return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function removeFriend($id_friend) {
+        $db = Database::dbConnect();
+        $request = $db->prepare('UPDATE friend SET friend_actif=0 WHERE id_friend = ?');
+        try {
+            $request->execute(array($id_friend));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

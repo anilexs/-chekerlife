@@ -41,7 +41,7 @@ function ftrSize() {
 
 $(document).ready(function() {
 
-    function action() {
+    function online() {
         $.ajax({
             url: urlAjax,
             type: 'POST',
@@ -57,6 +57,6 @@ $(document).ready(function() {
             }
         });
     }
-    // action();
-    // setInterval(action, 60000);
+    // online();
+    // setInterval(online, 60000);
 });
