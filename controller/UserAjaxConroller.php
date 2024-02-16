@@ -106,13 +106,23 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }else if($_POST['action'] == "removeFriend"){
         $response_code = HTTP_OK;
         User::removeFriend($_POST['friend']);
-        
-        $responseTab = [
+         $responseTab = [
             "response_code" => HTTP_OK,
-            "friend" => $_POST['friend'],
         ];
-        reponse($response_code, $responseTab);  
+        reponse($response_code, $responseTab); 
+    }else if($_POST['action'] == "requetteFriend"){
+        $response_code = HTTP_OK;
+        $friend = User::requetteFriend($_COOKIE['token']);
+        friendRequette($friend); 
+    }else if($_POST['action'] == "friendStatue"){
+        $response_code = HTTP_OK;
+        User::friendStatue($_POST['update'], $_POST['friend']);
+         $responseTab = [
+            "response_code" => HTTP_OK,
+        ];
+        reponse($response_code, $responseTab); 
     }
+    
     
 }else {
     $response_code = HTTP_METHOD_NOT_ALLOWED;
@@ -143,6 +153,25 @@ function friendCard($friend){
             echo '<div class="friendController">';
 
             echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+            
+            echo '</div>';
+        echo '</div>';
+    }
+}
+
+function friendRequette($friend){   
+    foreach ($friend as $friend) {
+        $cadreName = explode(".", $friend['cadre_image']);
+        echo $cadreName[0];
+        echo '<div class="friendCard">';
+            echo '<div class="friendImgContenair">';
+                echo '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+                echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
+            echo '</div>';
+            echo '<div class="friendController">';
+
+            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
+            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
