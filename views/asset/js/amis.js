@@ -105,5 +105,25 @@ $(document).ready(function() {
             }
         });
     }); 
+    
+    $(document).on('click', '#blockFriend', function(e) {
+        var id_friend = $(this).attr('class');
+
+        $.ajax({
+            url: urlAjax,
+            type: 'POST',
+            data: {
+                action: "friendBlock",
+                friend: id_friend,
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+        });
+    }); 
 
 })

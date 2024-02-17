@@ -121,6 +121,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "response_code" => HTTP_OK,
         ];
         reponse($response_code, $responseTab); 
+    }else if($_POST['action'] == "friendBlock"){
+        $response_code = HTTP_OK;
+        $statue = User::friendBloque($_COOKIE['token'], $_POST['friend']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "statue" => $statue,
+        ];
+        reponse($response_code, $responseTab); 
     }
     
     
@@ -153,6 +161,7 @@ function friendCard($friend){
             echo '<div class="friendController">';
 
             echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
@@ -172,6 +181,7 @@ function friendRequette($friend){
 
             echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
             echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
