@@ -226,10 +226,7 @@ class User{
 
     public static function friend($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT f.*, u.id_user, u.pseudo, u.level, u.xp_total, u.xp_actuelle, 
-        CASE WHEN f.expediteur_id = t.user_id THEN profile_receiver.user_image ELSE profile_expediteur.user_image END AS user_image, 
-        CASE WHEN f.expediteur_id = t.user_id THEN banner_receiver.user_image ELSE banner_expediteur.user_image END AS banner_image, 
-        CASE WHEN f.expediteur_id = t.user_id THEN cadre_receiver.user_image ELSE cadre_expediteur.user_image END AS cadre_image FROM friend f LEFT JOIN token t ON t.token = ? LEFT JOIN users u ON (f.expediteur_id = u.id_user OR f.receiver_id = u.id_user) LEFT JOIN user_image AS profile_expediteur ON (f.expediteur_id = profile_expediteur.user_id AND profile_expediteur.image_type = 'profil') LEFT JOIN user_image AS profile_receiver ON (f.receiver_id = profile_receiver.user_id AND profile_receiver.image_type = 'profil') LEFT JOIN user_image AS banner_expediteur ON (f.expediteur_id = banner_expediteur.user_id AND banner_expediteur.image_type = 'banner') LEFT JOIN user_image AS banner_receiver ON (f.receiver_id = banner_receiver.user_id AND banner_receiver.image_type = 'banner') LEFT JOIN user_image AS cadre_expediteur ON (f.expediteur_id = cadre_expediteur.user_id AND cadre_expediteur.image_type = 'cadre') LEFT JOIN user_image AS cadre_receiver ON (f.receiver_id = cadre_receiver.user_id AND cadre_receiver.image_type = 'cadre') LEFT JOIN user_bloques AS bloques1 ON (f.expediteur_id = bloques1.user_id AND f.receiver_id = bloques1.user_bloque_id) LEFT JOIN user_bloques AS bloques2 ON (f.receiver_id = bloques2.user_id AND f.expediteur_id = bloques2.user_bloque_id) WHERE f.statut = 'confirme' AND (f.expediteur_id = t.user_id OR f.receiver_id = t.user_id) AND f.friend_actif = 1 AND u.id_user != t.user_id AND (bloques1.id_bloque IS NULL OR bloques1.bloque_actif != 1) AND (bloques2.id_bloque IS NULL OR bloques2.bloque_actif != 1);");
+        $request = $db->prepare("SELECT f.*, u.id_user, u.pseudo, u.level, u.xp_total, u.xp_actuelle, CASE WHEN f.expediteur_id = t.user_id THEN profile_receiver.user_image ELSE profile_expediteur.user_image END AS user_image, CASE WHEN f.expediteur_id = t.user_id THEN banner_receiver.user_image ELSE banner_expediteur.user_image END AS banner_image, CASE WHEN f.expediteur_id = t.user_id THEN cadre_receiver.user_image ELSE cadre_expediteur.user_image END AS cadre_image FROM friend f LEFT JOIN token t ON t.token = ? LEFT JOIN users u ON (f.expediteur_id = u.id_user OR f.receiver_id = u.id_user) LEFT JOIN user_image AS profile_expediteur ON (f.expediteur_id = profile_expediteur.user_id AND profile_expediteur.image_type = 'profil') LEFT JOIN user_image AS profile_receiver ON (f.receiver_id = profile_receiver.user_id AND profile_receiver.image_type = 'profil') LEFT JOIN user_image AS banner_expediteur ON (f.expediteur_id = banner_expediteur.user_id AND banner_expediteur.image_type = 'banner') LEFT JOIN user_image AS banner_receiver ON (f.receiver_id = banner_receiver.user_id AND banner_receiver.image_type = 'banner') LEFT JOIN user_image AS cadre_expediteur ON (f.expediteur_id = cadre_expediteur.user_id AND cadre_expediteur.image_type = 'cadre') LEFT JOIN user_image AS cadre_receiver ON (f.receiver_id = cadre_receiver.user_id AND cadre_receiver.image_type = 'cadre') LEFT JOIN user_bloques AS bloques1 ON (f.expediteur_id = bloques1.user_id AND f.receiver_id = bloques1.user_bloque_id) LEFT JOIN user_bloques AS bloques2 ON (f.receiver_id = bloques2.user_id AND f.expediteur_id = bloques2.user_bloque_id) WHERE f.statut = 'confirme' AND (f.expediteur_id = t.user_id OR f.receiver_id = t.user_id) AND f.friend_actif = 1 AND u.id_user != t.user_id AND (bloques1.id_bloque IS NULL OR bloques1.bloque_actif != 1) AND (bloques2.id_bloque IS NULL OR bloques2.bloque_actif != 1);");
         try {
             $request->execute(array($token));
             $friend = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -246,6 +243,18 @@ class User{
             $request->execute(array($token));
             $friend = $request->fetchAll(PDO::FETCH_ASSOC);
             return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function friendBloque($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT u.* FROM user_bloques AS ub LEFT JOIN users AS u ON ub.user_bloque_id = u.id_user LEFT JOIN token AS t ON ub.user_id = t.user_id WHERE t.token = ? AND ub.bloque_actif = 1;");
+        try {
+            $request->execute(array($token));
+            $bloque = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $bloque;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -271,7 +280,7 @@ class User{
         }
     }
     
-    public static function friendBloque($token, $id_friend) {
+    public static function blockFriend($token, $id_friend) {
         $db = Database::dbConnect();
         $request = $db->prepare('SELECT id_bloque, bloque_actif FROM user_bloques LEFT JOIN token ON (user_bloques.user_id = token.user_id AND user_bloques.user_bloque_id = :id_friend) OR (user_bloques.user_bloque_id = token.user_id AND user_bloques.user_id = :id_friend) WHERE token.token = :token');
         try {
@@ -282,7 +291,7 @@ class User{
             $requestBloque = (!empty($statue)) ? 
             $db->prepare('UPDATE user_bloques SET bloque_actif = 0 WHERE id_bloque = ?') : 
             $db->prepare('');
-
+            // INSERT INTO user_bloques (user_id, user_bloque_id) SELECT user_id, 32 FROM token WHERE token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@
             $requestBloque->execute(array($id_friend));
 
             return $requestBloque;

@@ -53,6 +53,21 @@ $(document).ready(function() {
         disable("blocket");
         console.log("click");
         $friend.html("");
+        $.ajax({
+            url: urlAjax,
+            type: 'POST',
+            data: {
+                action: "friendBloque",
+            },
+            dataType: 'html',
+            success: function (response) {
+                $friend.append(response);
+                ftrSize();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+        });
     })
     
     function disable(id){
@@ -113,7 +128,7 @@ $(document).ready(function() {
             url: urlAjax,
             type: 'POST',
             data: {
-                action: "friendBlock",
+                action: "blockFriend",
                 friend: id_friend,
             },
             dataType: 'json',

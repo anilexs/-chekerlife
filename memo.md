@@ -318,3 +318,6 @@ requette admin episod :
 SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_episode, title, dure, description, publish_date, add_date, brouillon, episod_actif FROM episode UNION ALL SELECT id_episode_brouillon, null, catalog_id, nb_episode, title, dure, description, publish_date, add_date, null, null FROM episode_brouillon) AS combined_episodes ORDER BY nb_episode, add_date
 avec condition :
 SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_episode, title, dure, description, publish_date, add_date, brouillon, episod_actif, 'catalog' AS origin FROM episode UNION ALL SELECT id_episode_brouillon, null, catalog_id, nb_episode, title, dure, description, publish_date, add_date, null, null, 'brouillon' AS origin FROM episode_brouillon) AS combined_episodes WHERE catalog_id = ? ORDER BY nb_episode, add_date
+
+
+SELECT * FROM user_bloques LEFT JOIN token ON user_bloques.user_id = token.user_id WHERE token.token = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@" AND bloque_actif = 1
