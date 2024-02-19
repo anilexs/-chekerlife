@@ -250,11 +250,21 @@ class User{
     
     public static function friendBloque($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT u.* FROM user_bloques AS ub LEFT JOIN users AS u ON ub.user_bloque_id = u.id_user LEFT JOIN token AS t ON ub.user_id = t.user_id WHERE t.token = ? AND ub.bloque_actif = 1;");
+        $request = $db->prepare("SELECT ub.user_bloque_id, ub.bloque_actif, u.*, profil.user_image AS user_image, cadre.user_image AS cadre_image, banner.user_image AS banner_image FROM token t JOIN user_bloques ub ON t.user_id = ub.user_id LEFT JOIN users u ON ub.user_bloque_id = u.id_user LEFT JOIN user_image AS profil ON (ub.user_bloque_id = profil.user_id AND profil.image_type = 'profil' AND profil.image_active = 1) LEFT JOIN user_image AS cadre ON (ub.user_bloque_id = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1) LEFT JOIN user_image AS banner ON (ub.user_bloque_id = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1) WHERE t.token = ? AND ub.bloque_actif = 1 AND t.token_active = 1;");
         try {
             $request->execute(array($token));
             $bloque = $request->fetchAll(PDO::FETCH_ASSOC);
             return $bloque;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function unblockedFriend($token, $id_friend) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("UPDATE user_bloques LEFT JOIN token ON user_bloques.user_id = token.user_id SET user_bloques.bloque_actif = 0 WHERE user_bloques.user_bloque_id = ? AND token.token = ? AND token.user_id IS NOT NULL;");
+        try {
+            $request->execute(array($id_friend, $token));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -288,11 +298,13 @@ class User{
             $request->bindParam(':id_friend', $id_friend, PDO::PARAM_INT);
             $request->execute();
             $statue = $request->fetch(PDO::FETCH_ASSOC);
-            $requestBloque = (!empty($statue)) ? 
-            $db->prepare('UPDATE user_bloques SET bloque_actif = 0 WHERE id_bloque = ?') : 
-            $db->prepare('');
-            // INSERT INTO user_bloques (user_id, user_bloque_id) SELECT user_id, 32 FROM token WHERE token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@
-            $requestBloque->execute(array($id_friend));
+            if(empty($statue)){
+                $requestBloque = $db->prepare('INSERT INTO user_bloques (user_id, user_bloque_id) SELECT user_id, ? FROM token WHERE token = ?');
+                $requestBloque->execute(array($id_friend, $token));
+            }else{
+                $requestBloque = $db->prepare('UPDATE user_bloques SET bloque_actif = 1 WHERE id_bloque = ?');
+                $requestBloque->execute(array($statue['id_bloque']));
+            }
 
             return $requestBloque;
         } catch (PDOException $e) {

@@ -7,6 +7,7 @@
     <div class="leftContenair">
         <div class="leftoption">
             <ul>
+                <li><h4><button id="addFriend">ajoute un amis</button></h4></li>
                 <li><h4><button id="online">En ligne</button></h4></li>
                 <li><h4><button id="all">Tous</button></h4></li>
                 <li><h4><button id="requette">En attente</button></h4></li>

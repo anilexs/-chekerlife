@@ -133,6 +133,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $bloque = User::friendBloque($_COOKIE['token']);
         friendBloque($bloque); 
+    }else if($_POST['action'] == "unblockedFriend"){
+        $response_code = HTTP_OK;
+        $bloque = User::unblockedFriend($_COOKIE['token'], $_POST['friend']);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+        ];
+        reponse($response_code, $responseTab); 
     }
     
     
@@ -155,17 +162,18 @@ function reponse($response_code, $response){
 
 function friendCard($friend){   
     foreach ($friend as $friend) {
-        $cadreName = explode(".", $friend['cadre_image']);
-        echo $cadreName[0];
         echo '<div class="friendCard">';
-            echo '<div class="friendImgContenair">';
+        echo '<div class="friendImgContenair">';
+        if(!empty($friend['cadre_image'])){
+                $cadreName = explode(".", $friend['cadre_image']);
                 echo '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+            }
                 echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
             echo '</div>';
             echo '<div class="friendController">';
 
             echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+            echo '<div class="blockFriend"><button class="'. $friend['id_user'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
@@ -174,18 +182,19 @@ function friendCard($friend){
 
 function friendRequette($friend){   
     foreach ($friend as $friend) {
-        $cadreName = explode(".", $friend['cadre_image']);
-        echo $cadreName[0];
         echo '<div class="friendCard">';
-            echo '<div class="friendImgContenair">';
+        echo '<div class="friendImgContenair">';
+        if(!empty($friend['cadre_image'])){
+                $cadreName = explode(".", $friend['cadre_image']);
                 echo '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+            }
                 echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
             echo '</div>';
             echo '<div class="friendController">';
 
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+            echo '<div class="Friendtrue"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
+            echo '<div class="FriendFalse"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="blockFriend"><button class="'. $friend['id_user'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
@@ -194,18 +203,17 @@ function friendRequette($friend){
 
 function friendBloque($friend){   
     foreach ($friend as $friend) {
-        $cadreName = explode(".", $friend['cadre_image']);
-        echo $cadreName[0];
         echo '<div class="friendCard">';
-            echo '<div class="friendImgContenair">';
-                echo '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+        echo '<div class="friendImgContenair">';
+        if(!empty($friend['cadre_image'])){
+                    $cadreName = explode(".", $friend['cadre_image']);
+                    echo  '<img src="views/asset/img/user/cadre/'.$friend['cadre_image'].'" alt="profil img" class="'.$cadreName[0].'">';
+                }
                 echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
             echo '</div>';
             echo '<div class="friendController">';
 
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+                echo '<div class="unblockedFriend"><button class="'. $friend['user_bloque_id'] .'" id="unblockedFriend"><i class="fa-solid fa-x"></i></button></div>';
             
             echo '</div>';
         echo '</div>';

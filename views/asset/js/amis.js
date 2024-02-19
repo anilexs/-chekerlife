@@ -3,15 +3,19 @@ $(document).ready(function() {
     const urlAjax = "http://localhost/!chekerlife/controller/UserAjaxConroller.php";
     $friend = $('.friend');
 
+    $(document).on('click', '#addFriend', function(e) {
+        disable("online");
+        $friend.html("");
+    })
+
     $(document).on('click', '#online', function(e) {
         disable("online");
-        console.log("click");
         $friend.html("");
     })
 
     $(document).on('click', '#all', function(e) {
-        disable("all");
         $friend.html("");
+        disable("all");
             $.ajax({
                 url: urlAjax,
                 type: 'POST',
@@ -51,7 +55,6 @@ $(document).ready(function() {
 
     $(document).on('click', '#blocket', function(e) {
         disable("blocket");
-        console.log("click");
         $friend.html("");
         $.ajax({
             url: urlAjax,
@@ -100,9 +103,7 @@ $(document).ready(function() {
         var id_friend = $(this).attr('class');
 
         var update = (id_btn == "Friendtrue") ? "confirme" : "refuse";
-        console.log(update);
 
-        console.log(id_btn + " true");
         $.ajax({
             url: urlAjax,
             type: 'POST',
@@ -129,6 +130,26 @@ $(document).ready(function() {
             type: 'POST',
             data: {
                 action: "blockFriend",
+                friend: id_friend,
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+        });
+    }); 
+    
+    $(document).on('click', '#unblockedFriend', function(e) {
+        var id_friend = $(this).attr('class');
+
+        $.ajax({
+            url: urlAjax,
+            type: 'POST',
+            data: {
+                action: "unblockedFriend",
                 friend: id_friend,
             },
             dataType: 'json',

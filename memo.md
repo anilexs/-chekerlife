@@ -321,3 +321,43 @@ SELECT * FROM (SELECT null as id_episode_brouillon, id_episode, catalog_id, nb_e
 
 
 SELECT * FROM user_bloques LEFT JOIN token ON user_bloques.user_id = token.user_id WHERE token.token = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@" AND bloque_actif = 1
+
+
+SELECT 
+    ub.user_bloque_id, 
+    ub.bloque_actif,
+    u.*, 
+    profil.user_image AS profil_image_url, 
+    cadre.user_image AS cadre_image_url, 
+    banner.user_image AS banner_image_url
+FROM token t
+JOIN user_bloques ub ON t.user_id = ub.user_id
+LEFT JOIN users u ON ub.user_bloque_id = u.id_user
+LEFT JOIN user_image AS profil ON (ub.user_bloque_id = profil.user_id AND profil.image_type = 'profil')
+LEFT JOIN user_image AS cadre ON (ub.user_bloque_id = cadre.user_id AND cadre.image_type = 'cadre')
+LEFT JOIN user_image AS banner ON (ub.user_bloque_id = banner.user_id AND banner.image_type = 'banner')
+WHERE t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@' AND ub.bloque_actif = 1;
+
+
+SELECT 
+    ub.user_bloque_id, 
+    ub.bloque_actif,
+    u.*, 
+    profil.user_image AS profil_image_url, 
+    cadre.user_image AS cadre_image_url, 
+    banner.user_image AS banner_image_url
+FROM token t
+JOIN user_bloques ub ON t.user_id = ub.user_id
+LEFT JOIN users u ON ub.user_bloque_id = u.id_user
+LEFT JOIN user_image AS profil ON (ub.user_bloque_id = profil.user_id AND profil.image_type = 'profil' AND profil.image_active = 1)
+LEFT JOIN user_image AS cadre ON (ub.user_bloque_id = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1)
+LEFT JOIN user_image AS banner ON (ub.user_bloque_id = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1)
+WHERE t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@' AND ub.bloque_actif = 1 AND t.token_active = 1; 
+
+UPDATE user_bloques 
+LEFT JOIN token ON user_bloques.user_id = token.user_id 
+SET user_bloques.bloque_actif = 0 
+WHERE user_bloques.user_bloque_id = 39 
+AND token.token = 'AUv8@uV-RZd4*3kmr4T7n_9S7xFk7S1Z' 
+AND token.user_id IS NOT NULL;
+
