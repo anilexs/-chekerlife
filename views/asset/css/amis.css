@@ -21,7 +21,7 @@
     border: transparent;
 }
 
-#online:hover, #all:hover, #requette:hover, #blocket:hover{
+#online:hover, #all:hover, #requette:hover, #blocket:hover, #addFriend:hover{
     color: rgb(89, 89, 89);
 }
 
