@@ -4,13 +4,46 @@ $(document).ready(function() {
     $friend = $('.friend');
 
     $(document).on('click', '#addFriend', function(e) {
-        disable("online");
+        disable("addFriend");
         $friend.html("");
+        $rechercheFriend = $('<div class="rechercheFriend"></div>')
+            $rechercheFriend.append('<input type="text" placeholder="pseudo ?" maxlength="30" id="inputeFriend">')
+            $rechercheFriend.append('<button id="parametreFriend"><i class="fa-solid fa-gear"></i></button>')
+        $suggestion = $('<div class="suggestion"></div>');            
+        $friend.append($rechercheFriend, $suggestion);
+    })
+    
+    $(document).on("input", '#inputeFriend', function(e) {
+        var pseudo = $(this).val();
+        disable("online");
+        $('.suggestion').html("");
+        if(pseudo != ""){
+            $.ajax({
+                url: urlAjax,
+                type: 'POST',
+                data: {
+                    action: "returnFriend",
+                    pseudo: pseudo,
+                },
+                dataType: 'html',
+                success: function (response) {
+                    $('.suggestion').append(response);
+                    ftrSize();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr);
+                }
+            });
+        }else{
+            ftrSize();
+        }
+        
     })
 
     $(document).on('click', '#online', function(e) {
         disable("online");
         $friend.html("");
+        console.log("text");
     })
 
     $(document).on('click', '#all', function(e) {
@@ -74,7 +107,7 @@ $(document).ready(function() {
     })
     
     function disable(id){
-        $("#online, #all, #requette, #blocket").prop("disabled", false);
+        $("#online, #all, #requette, #blocket, #addFriend").prop("disabled", false);
         $("#" + id).prop("disabled", true);
     }
     
@@ -122,6 +155,26 @@ $(document).ready(function() {
         });
     }); 
     
+    $(document).on('click', '#addFriendBtn', function(e) {
+        var pseudo = $(this).attr('class');
+
+        $.ajax({
+            url: urlAjax,
+            type: 'POST',
+            data: {
+                action: "addFriend",
+                pseudo: pseudo,
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+        });
+    }); 
+    
     $(document).on('click', '#blockFriend', function(e) {
         var id_friend = $(this).attr('class');
 
@@ -143,14 +196,15 @@ $(document).ready(function() {
     }); 
     
     $(document).on('click', '#unblockedFriend', function(e) {
-        var id_friend = $(this).attr('class');
+        var pseudo = $(this).attr('class');
+        console.log(pseudo);
 
         $.ajax({
             url: urlAjax,
             type: 'POST',
             data: {
                 action: "unblockedFriend",
-                friend: id_friend,
+                pseudo: pseudo,
             },
             dataType: 'json',
             success: function (response) {

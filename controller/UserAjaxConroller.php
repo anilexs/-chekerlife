@@ -92,6 +92,10 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "xp_requis" => 1200,
         ];
         reponse($response_code, $responseTab); 
+    }else if($_POST['action'] == "returnFriend"){
+        $response_code = HTTP_OK;
+        $friend = User::returnFriend($_COOKIE['token'], $_POST['pseudo']);
+        returnFriend($friend);
     }else if($_POST['action'] == "userOnligne"){
         $response_code = HTTP_OK;
         User::onligne($_COOKIE['token']);
@@ -114,6 +118,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $friend = User::requetteFriend($_COOKIE['token']);
         friendRequette($friend); 
+    }else if($_POST['action'] == "addFriend"){
+        $response_code = HTTP_OK;
+        $friend = User::addFriend($_COOKIE['token'], $_POST['pseudo']);
+         $responseTab = [
+            "response_code" => HTTP_OK,
+            'friend' => $friend,
+        ];
+        reponse($response_code, $responseTab); 
     }else if($_POST['action'] == "friendStatue"){
         $response_code = HTTP_OK;
         User::friendStatue($_POST['update'], $_POST['friend']);
@@ -135,7 +147,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         friendBloque($bloque); 
     }else if($_POST['action'] == "unblockedFriend"){
         $response_code = HTTP_OK;
-        $bloque = User::unblockedFriend($_COOKIE['token'], $_POST['friend']);
+        $bloque = User::unblockedFriend($_COOKIE['token'], $_POST['pseudo']);
         $responseTab = [
             "response_code" => HTTP_OK,
         ];
@@ -158,6 +170,25 @@ function reponse($response_code, $response){
     http_response_code($response_code);
     
     echo json_encode($response);
+}
+
+function returnFriend($friend){   
+    foreach ($friend as $friend) {
+        echo '<div class="friendCard">';
+        echo '<div class="friendImgContenair">';
+        if(!empty($friend['cadre'])){
+                    $cadreName = explode(".", $friend['cadre']);
+                    echo  '<img src="views/asset/img/user/cadre/'.$friend['cadre'].'" alt="profil img" class="'.$cadreName[0].'">';
+                }
+                echo '<img src="views/asset/img/user/profile/'.$friend['profil'].'" alt="profil img" class="friendImg">';
+            echo '</div>';
+            echo '<div class="friendController">';
+
+                echo '<div class="unblockedFriend"><button class="'. $friend['pseudo'] .'" id="addFriendBtn"><i class="fa-solid fa-check"></i></button></div>';
+            
+            echo '</div>';
+        echo '</div>';
+    }
 }
 
 function friendCard($friend){   
@@ -213,7 +244,7 @@ function friendBloque($friend){
             echo '</div>';
             echo '<div class="friendController">';
 
-                echo '<div class="unblockedFriend"><button class="'. $friend['user_bloque_id'] .'" id="unblockedFriend"><i class="fa-solid fa-x"></i></button></div>';
+                echo '<div class="unblockedFriend"><button class="'. $friend['pseudo'] .'" id="unblockedFriend"><i class="fa-solid fa-x"></i></button></div>';
             
             echo '</div>';
         echo '</div>';

@@ -214,6 +214,18 @@ class User{
         }
     }
 
+    public static function returnFriend($token, $pseudo) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1;");
+        try {
+            $request->execute(array($token, $pseudo));
+            $friend = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function onligne($token) {
         $db = Database::dbConnect();
         $request = $db->prepare("INSERT INTO user_online (user_id) SELECT user_id FROM token WHERE token = ?");
@@ -248,9 +260,20 @@ class User{
         }
     }
     
+    public static function addFriend($token, $pseudo) {
+        // $db = Database::dbConnect();
+        // $request = $db->prepare('');
+        try {
+            // $request->execute(array());
+            return $pseudo;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function friendBloque($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT ub.user_bloque_id, ub.bloque_actif, u.*, profil.user_image AS user_image, cadre.user_image AS cadre_image, banner.user_image AS banner_image FROM token t JOIN user_bloques ub ON t.user_id = ub.user_id LEFT JOIN users u ON ub.user_bloque_id = u.id_user LEFT JOIN user_image AS profil ON (ub.user_bloque_id = profil.user_id AND profil.image_type = 'profil' AND profil.image_active = 1) LEFT JOIN user_image AS cadre ON (ub.user_bloque_id = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1) LEFT JOIN user_image AS banner ON (ub.user_bloque_id = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1) WHERE t.token = ? AND ub.bloque_actif = 1 AND t.token_active = 1;");
+        $request = $db->prepare("SELECT ub.user_bloque_id, ub.bloque_actif, u.*, profil.user_image AS user_image, cadre.user_image AS cadre_image, banner.user_image AS banner_image FROM token t JOIN user_bloques ub ON t.user_id = ub.user_id LEFT JOIN users u ON ub.user_bloque_id = u.id_user LEFT JOIN user_image AS profil ON (ub.user_bloque_id = profil.user_id AND profil.image_type = 'profil' AND profil.image_active = 1) LEFT JOIN user_image AS cadre ON (ub.user_bloque_id = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1) LEFT JOIN user_image AS banner ON (ub.user_bloque_id = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1) WHERE t.token = ? AND ub.bloque_actif = 1 AND t.token_active = 1 ORDER BY ub.created_at DESC;");
         try {
             $request->execute(array($token));
             $bloque = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -260,11 +283,11 @@ class User{
         }
     }
     
-    public static function unblockedFriend($token, $id_friend) {
+    public static function unblockedFriend($token, $pseudo) {
         $db = Database::dbConnect();
-        $request = $db->prepare("UPDATE user_bloques LEFT JOIN token ON user_bloques.user_id = token.user_id SET user_bloques.bloque_actif = 0 WHERE user_bloques.user_bloque_id = ? AND token.token = ? AND token.user_id IS NOT NULL;");
+        $request = $db->prepare("UPDATE user_bloques LEFT JOIN token ON user_bloques.user_id = token.user_id SET user_bloques.bloque_actif = 0 WHERE user_bloques.user_bloque_id = (SELECT id_user FROM users WHERE pseudo = ?) AND token.token = ? AND token.user_id IS NOT NULL;");
         try {
-            $request->execute(array($id_friend, $token));
+            $request->execute(array($pseudo, $token));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

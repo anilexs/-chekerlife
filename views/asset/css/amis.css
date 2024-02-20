@@ -30,9 +30,44 @@ li{
 }
 
 .rightContenair{
-    background-color: rgb(12, 239, 255);
+    background-color: rgb(56, 56, 56);
     width: 100%;
 }
+
+.rechercheFriend{
+    margin: 1% auto 0 auto;
+    width: 80%;
+}
+.rechercheFriend input{
+    width: 70%;
+    font-size: 30px;
+    border-radius: 15px;
+    padding-left: 15px;
+    background-color: #4d5057;
+    color: white;
+}
+
+#parametreFriend{
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    height: 50px;
+    width: 50px;
+}
+
+#parametreFriend i:hover {
+    animation: spin 3s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 .friendCard{
     background-color: #3a3d46;

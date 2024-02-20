@@ -361,3 +361,52 @@ WHERE user_bloques.user_bloque_id = 39
 AND token.token = 'AUv8@uV-RZd4*3kmr4T7n_9S7xFk7S1Z' 
 AND token.user_id IS NOT NULL;
 
+
+SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@" LEFT JOIN user_image AS profil ON (profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1) LEFT JOIN user_image AS cadre ON (cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1) LEFT JOIN user_image AS banner ON (banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1) WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', "a", '%');
+
+SELECT 
+    u.*, 
+    profil.user_image AS profil, 
+    cadre.user_image AS cadre, 
+    banner.user_image AS banner 
+FROM 
+    users AS u 
+LEFT JOIN 
+    token ON token.token = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+LEFT JOIN 
+    user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1
+LEFT JOIN 
+    user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1
+LEFT JOIN 
+    user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1
+LEFT JOIN 
+    friend ON (friend.expediteur_id = token.user_id AND friend.receiver_id = u.id_user)
+        OR (friend.expediteur_id = u.id_user AND friend.receiver_id = token.user_id)
+WHERE 
+    (token.user_id != u.id_user OR token.user_id IS NULL) 
+    AND u.pseudo LIKE CONCAT('%', "a", '%')
+    AND (friend.friend_actif IS NULL OR friend.friend_actif != 1);
+
+    
+
+SELECT 
+    u.*, 
+    profil.user_image AS profil, 
+    cadre.user_image AS cadre, 
+    banner.user_image AS banner 
+FROM 
+    users AS u 
+LEFT JOIN 
+    token ON token.token = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+LEFT JOIN 
+    user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1
+LEFT JOIN 
+    user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1
+LEFT JOIN 
+    user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1
+LEFT JOIN 
+    user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1
+WHERE 
+    (token.user_id != u.id_user OR token.user_id IS NULL) 
+    AND u.pseudo LIKE CONCAT('%', "a", '%')
+    AND user_bloques.user_id IS NULL;

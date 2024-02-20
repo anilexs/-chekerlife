@@ -1,4 +1,4 @@
-urlAjax = "http://localhost/!chekerlife/form/UserForm.php";
+
 
 function inscription(name, prenom, email, subHach, picture){
     
@@ -9,7 +9,7 @@ function inscription(name, prenom, email, subHach, picture){
         console.log(pseudo.length);
     }else{
         $.ajax({
-            url: urlAjax,
+            url: "http://localhost/!chekerlife/form/UserForm.php",
             type: 'POST',
             data: {
                 action: "inscriptionGoogle",

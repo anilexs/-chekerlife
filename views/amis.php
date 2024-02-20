@@ -7,7 +7,7 @@
     <div class="leftContenair">
         <div class="leftoption">
             <ul>
-                <li><h4><button id="addFriend">ajoute un amis</button></h4></li>
+                <li><h4><button id="addFriend" disabled>ajoute un amis</button></h4></li>
                 <li><h4><button id="online">En ligne</button></h4></li>
                 <li><h4><button id="all">Tous</button></h4></li>
                 <li><h4><button id="requette">En attente</button></h4></li>
@@ -17,7 +17,12 @@
     </div>
     <div class="rightContenair">
         <div class="friend">
-            online
+            <div class="rechercheFriend">
+                <input type="text" placeholder="pseudo ?" maxlength="30" id="inputeFriend">
+                <button id="parametreFriend"><i class="fa-solid fa-gear"></i></button>
+            </div>
+            <div class="suggestion">
+            </div>
         </div>
     </div>
 </div>
