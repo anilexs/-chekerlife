@@ -109,7 +109,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         friendCard($friend);
     }else if($_POST['action'] == "removeFriend"){
         $response_code = HTTP_OK;
-        User::removeFriend($_POST['friend']);
+        User::removeFriend($_COOKIE['token'], $_POST['pseudo']);
          $responseTab = [
             "response_code" => HTTP_OK,
         ];
@@ -128,14 +128,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         reponse($response_code, $responseTab); 
     }else if($_POST['action'] == "friendStatue"){
         $response_code = HTTP_OK;
-        User::friendStatue($_POST['update'], $_POST['friend']);
+        User::friendStatue($_POST['update'], $_POST['pseudo'], $_COOKIE['token']);
          $responseTab = [
             "response_code" => HTTP_OK,
         ];
         reponse($response_code, $responseTab); 
     }else if($_POST['action'] == "blockFriend"){
         $response_code = HTTP_OK;
-        $statue = User::blockFriend($_COOKIE['token'], $_POST['friend']);
+        $statue = User::blockFriend($_COOKIE['token'], $_POST['pseudo']);
         $responseTab = [
             "response_code" => HTTP_OK,
             "statue" => $statue,
@@ -203,8 +203,8 @@ function friendCard($friend){
             echo '</div>';
             echo '<div class="friendController">';
 
-            echo '<div class="removeFriend"><button class="'. $friend['id_friend'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="blockFriend"><button class="'. $friend['id_user'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+            echo '<div class="removeFriend"><button class="'. $friend['pseudo'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
@@ -223,9 +223,9 @@ function friendRequette($friend){
             echo '</div>';
             echo '<div class="friendController">';
 
-            echo '<div class="Friendtrue"><button class="'. $friend['id_friend'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
-            echo '<div class="FriendFalse"><button class="'. $friend['id_friend'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="blockFriend"><button class="'. $friend['id_user'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+            echo '<div class="Friendtrue"><button class="'. $friend['pseudo'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
+            echo '<div class="FriendFalse"><button class="'. $friend['pseudo'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
+            echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             
             echo '</div>';
         echo '</div>';

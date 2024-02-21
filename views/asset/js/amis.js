@@ -112,14 +112,15 @@ $(document).ready(function() {
     }
     
     $(document).on('click', '#removeFriend', function(e) {
-        var id_friend = $(this).attr('class');
+        var pseudo = $(this).attr('class');
+        console.log(pseudo);
 
         $.ajax({
             url: urlAjax,
             type: 'POST',
             data: {
                 action: "removeFriend",
-                friend: id_friend,
+                pseudo: pseudo,
             },
             dataType: 'json',
             success: function (response) {
@@ -133,7 +134,7 @@ $(document).ready(function() {
     
     $(document).on('click', '#Friendtrue, #FriendFalse', function(e) {
         var id_btn = $(this).attr('id');
-        var id_friend = $(this).attr('class');
+        var pseudo = $(this).attr('class');
 
         var update = (id_btn == "Friendtrue") ? "confirme" : "refuse";
 
@@ -142,7 +143,7 @@ $(document).ready(function() {
             type: 'POST',
             data: {
                 action: "friendStatue",
-                friend: id_friend,
+                pseudo: pseudo,
                 update: update
             },
             dataType: 'json',
@@ -176,14 +177,15 @@ $(document).ready(function() {
     }); 
     
     $(document).on('click', '#blockFriend', function(e) {
-        var id_friend = $(this).attr('class');
+        var pseudo = $(this).attr('class');
+        console.log(pseudo);
 
         $.ajax({
             url: urlAjax,
             type: 'POST',
             data: {
                 action: "blockFriend",
-                friend: id_friend,
+                pseudo: pseudo,
             },
             dataType: 'json',
             success: function (response) {

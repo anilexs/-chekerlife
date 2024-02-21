@@ -216,6 +216,11 @@ class User{
 
     public static function returnFriend($token, $pseudo) {
         $db = Database::dbConnect();
+        // requette a ameliore pour pas retourne les persone deja en ami
+        // SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 LEFT JOIN friend ON (friend.expediteur_id = u.id_user OR friend.receiver_id = u.id_user) WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', "a", '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1 AND (friend.statut IS NULL OR friend.statut = 'refuser' OR friend.friend_actif = 0);
+
+        // SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1;
+
         $request = $db->prepare("SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1;");
         try {
             $request->execute(array($token, $pseudo));
@@ -250,7 +255,7 @@ class User{
     
     public static function requetteFriend($token) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT f.*, u.id_user, u.pseudo, u.level, u.xp_total, u.xp_actuelle, CASE WHEN f.expediteur_id = t.user_id THEN profile_receiver.user_image ELSE profile_expediteur.user_image END AS user_image, CASE WHEN f.expediteur_id = t.user_id THEN banner_receiver.user_image ELSE banner_expediteur.user_image END AS banner_image, CASE WHEN f.expediteur_id = t.user_id THEN cadre_receiver.user_image ELSE cadre_expediteur.user_image END AS cadre_image FROM friend f LEFT JOIN token t ON t.token = ? LEFT JOIN users u ON (f.expediteur_id = u.id_user OR f.receiver_id = u.id_user) LEFT JOIN user_image AS profile_expediteur ON (f.expediteur_id = profile_expediteur.user_id AND profile_expediteur.image_type = 'profil') LEFT JOIN user_image AS profile_receiver ON (f.receiver_id = profile_receiver.user_id AND profile_receiver.image_type = 'profil') LEFT JOIN user_image AS banner_expediteur ON (f.expediteur_id = banner_expediteur.user_id AND banner_expediteur.image_type = 'banner') LEFT JOIN user_image AS banner_receiver ON (f.receiver_id = banner_receiver.user_id AND banner_receiver.image_type = 'banner') LEFT JOIN user_image AS cadre_expediteur ON (f.expediteur_id = cadre_expediteur.user_id AND cadre_expediteur.image_type = 'cadre') LEFT JOIN user_image AS cadre_receiver ON (f.receiver_id = cadre_receiver.user_id AND cadre_receiver.image_type = 'cadre') WHERE f.statut = 'en attente' AND f.receiver_id = t.user_id AND f.friend_actif = 1 AND u.id_user != t.user_id;");
+        $request = $db->prepare("SELECT f.*, u.id_user, u.pseudo, u.level, u.xp_total, u.xp_actuelle, CASE WHEN f.expediteur_id = t.user_id THEN profile_receiver.user_image ELSE profile_expediteur.user_image END AS user_image, CASE WHEN f.expediteur_id = t.user_id THEN banner_receiver.user_image ELSE banner_expediteur.user_image END AS banner_image, CASE WHEN f.expediteur_id = t.user_id THEN cadre_receiver.user_image ELSE cadre_expediteur.user_image END AS cadre_image FROM friend f LEFT JOIN token t ON t.token = ? LEFT JOIN users u ON (f.expediteur_id = u.id_user OR f.receiver_id = u.id_user) LEFT JOIN user_image AS profile_expediteur ON (f.expediteur_id = profile_expediteur.user_id AND profile_expediteur.image_type = 'profil') LEFT JOIN user_image AS profile_receiver ON (f.receiver_id = profile_receiver.user_id AND profile_receiver.image_type = 'profil') LEFT JOIN user_image AS banner_expediteur ON (f.expediteur_id = banner_expediteur.user_id AND banner_expediteur.image_type = 'banner') LEFT JOIN user_image AS banner_receiver ON (f.receiver_id = banner_receiver.user_id AND banner_receiver.image_type = 'banner') LEFT JOIN user_image AS cadre_expediteur ON (f.expediteur_id = cadre_expediteur.user_id AND cadre_expediteur.image_type = 'cadre') LEFT JOIN user_image AS cadre_receiver ON (f.receiver_id = cadre_receiver.user_id AND cadre_receiver.image_type = 'cadre') WHERE f.statut = 'en attente' AND f.receiver_id = t.user_id AND f.friend_actif = 1 AND u.id_user != t.user_id AND u.id_user NOT IN (SELECT DISTINCT CASE WHEN user_id = t.user_id THEN user_bloque_id ELSE user_id END AS blocked_user_id FROM user_bloques WHERE (user_id = t.user_id AND bloque_actif = 1) OR (user_bloque_id = t.user_id AND bloque_actif = 1));");
         try {
             $request->execute(array($token));
             $friend = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -261,11 +266,21 @@ class User{
     }
     
     public static function addFriend($token, $pseudo) {
-        // $db = Database::dbConnect();
-        // $request = $db->prepare('');
+        $db = Database::dbConnect();
+        $request = $db->prepare('SELECT friend.* FROM friend LEFT JOIN token ON (friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id) LEFT JOIN users ON (friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user) WHERE token.token = ? AND users.pseudo = ?;');
         try {
-            // $request->execute(array());
-            return $pseudo;
+            $request->execute(array($token, $pseudo));
+            $friend = $request->fetch(PDO::FETCH_ASSOC);
+            if(!empty($friend)){
+                if($friend['statut'] != "en attente"){
+                    $requestFriend = $db->prepare('UPDATE `friend` SET statut="en attente", friend_actif= 1 WHERE id_friend = ?');
+                    $requestFriend->execute(array($friend['id_friend']));
+                }
+            }else{
+                $requestFriend = $db->prepare('INSERT INTO friend (expediteur_id, receiver_id) SELECT token.user_id, users.id_user FROM token LEFT JOIN users ON users.pseudo = ? WHERE token.token = ?;');
+                $requestFriend->execute(array($pseudo, $token));
+            }
+            return $friend;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -293,43 +308,41 @@ class User{
         }
     }
     
-    public static function removeFriend($id_friend) {
+    public static function removeFriend($token, $pseudo) {
         $db = Database::dbConnect();
-        $request = $db->prepare('UPDATE friend SET friend_actif = 0 WHERE id_friend = ?');
+        $request = $db->prepare('UPDATE friend LEFT JOIN token ON friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id LEFT JOIN users ON friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user SET statut = refuse, friend_actif = 0 WHERE (token.token = ? AND users.pseudo = ?);');
         try {
-            $request->execute(array($id_friend));
+            $request->execute(array($token, $pseudo));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
     
-    public static function friendStatue($statue, $id_friend) {
+    public static function friendStatue($statue, $pseudo, $token) {
         $db = Database::dbConnect();
-        $request = $db->prepare('UPDATE friend SET statut= ? WHERE id_friend = ?');
+        $request = $db->prepare('UPDATE friend LEFT JOIN token ON friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id LEFT JOIN users ON friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user SET statut = ? WHERE token.token = ? AND users.pseudo = ?;');
         try {
-            $request->execute(array($statue, $id_friend));
+            $request->execute(array($statue, $token, $pseudo));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
     
-    public static function blockFriend($token, $id_friend) {
+    public static function blockFriend($token, $pseudo) {
         $db = Database::dbConnect();
-        $request = $db->prepare('SELECT id_bloque, bloque_actif FROM user_bloques LEFT JOIN token ON (user_bloques.user_id = token.user_id AND user_bloques.user_bloque_id = :id_friend) OR (user_bloques.user_bloque_id = token.user_id AND user_bloques.user_id = :id_friend) WHERE token.token = :token');
+        $request = $db->prepare('SELECT id_bloque, bloque_actif, users.id_user FROM user_bloques LEFT JOIN users ON user_bloques.user_bloque_id = users.id_user LEFT JOIN token ON (user_bloques.user_id = token.user_id OR user_bloques.user_bloque_id = token.user_id) WHERE token.token = ? AND users.pseudo = ?;');
         try {
-            $request->bindParam(':token', $token, PDO::PARAM_INT);
-            $request->bindParam(':id_friend', $id_friend, PDO::PARAM_INT);
-            $request->execute();
+            $request->execute(array($token, $pseudo));
             $statue = $request->fetch(PDO::FETCH_ASSOC);
             if(empty($statue)){
-                $requestBloque = $db->prepare('INSERT INTO user_bloques (user_id, user_bloque_id) SELECT user_id, ? FROM token WHERE token = ?');
-                $requestBloque->execute(array($id_friend, $token));
+                $requestBloque = $db->prepare('INSERT INTO user_bloques (user_id, user_bloque_id) SELECT token.user_id, users.id_user FROM token JOIN users ON users.pseudo = ? WHERE token.token = ?;');
+                $requestBloque->execute(array($pseudo, $token));
             }else{
                 $requestBloque = $db->prepare('UPDATE user_bloques SET bloque_actif = 1 WHERE id_bloque = ?');
                 $requestBloque->execute(array($statue['id_bloque']));
             }
 
-            return $requestBloque;
+            return $statue;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
