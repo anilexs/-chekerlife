@@ -38,6 +38,22 @@
 }
 
 /* last */
+.lastCatalogHdrTxt{
+  color: white;
+  width: 95%;
+  margin: 3% auto 2% auto;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 25px;
+}
+.lastCatalogHdrTxt2{
+  color: white;
+  width: 95%;
+  margin: 0% auto 3% auto;
+  font-weight: 700;
+  font-size: 25px;
+}
 
 .lastCatalog {
   background-color: rgb(54, 54, 54);

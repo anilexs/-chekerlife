@@ -410,3 +410,6 @@ WHERE
     (token.user_id != u.id_user OR token.user_id IS NULL) 
     AND u.pseudo LIKE CONCAT('%', "a", '%')
     AND user_bloques.user_id IS NULL;
+
+
+SELECT type, COUNT(*) AS nombre_par_type FROM catalog WHERE catalog_actif = 1 AND brouillon = 0 GROUP BY type;

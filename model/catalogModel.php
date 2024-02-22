@@ -13,6 +13,18 @@ class Catalog{
         }
     }
     
+    public static function catalogTypeNb() {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT type, COUNT(*) AS nombre_par_type FROM catalog WHERE catalog_actif = 1 AND brouillon = 0 GROUP BY type;");
+        try {
+            $request->execute();
+            $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $catalog;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+    
     // a metre dant le model de tcg
     public static function tcgLastAdd() {
         $db = Database::dbConnect();

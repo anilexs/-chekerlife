@@ -11,6 +11,21 @@ function ftrSize() {
     }
 }
 
+// function ftrSize() {
+//     var footer = document.getElementById('footer');
+//     var contentHeight = document.body.scrollHeight;
+//     var windowHeight = window.innerHeight;
+//     var scrollPosition = window.scrollY || window.pageYOffset;
+
+//     if (scrollPosition + windowHeight >= contentHeight) {
+//         footer.style.position = 'static';
+//         footer.style.bottom = 'auto';
+//     } else {
+//         footer.style.position = 'fixed';
+//         footer.style.bottom = '0';
+//     }
+// }
+
 // $(document).ready(function() {
 //     var imageCliquable = $('<img>', {
 //       id: 'chibi',
