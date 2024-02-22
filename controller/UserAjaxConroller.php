@@ -201,12 +201,12 @@ function friendCard($friend){
             }
                 echo '<img src="views/asset/img/user/profile/'.$friend['user_image'].'" alt="profil img" class="friendImg">';
             echo '</div>';
-            echo '<div class="friendController">';
 
-            echo '<div class="removeFriend"><button class="'. $friend['pseudo'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
-            echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
-            
+            echo '<div class="friendController">';
+                echo '<div class="removeFriend"><button class="'. $friend['pseudo'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
+                echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
             echo '</div>';
+            
         echo '</div>';
     }
 }

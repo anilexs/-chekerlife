@@ -221,7 +221,7 @@ class User{
 
         // SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1;
 
-        $request = $db->prepare("SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1;");
+        $request = $db->prepare("SELECT u.*, profil.user_image AS profil, cadre.user_image AS cadre, banner.user_image AS banner FROM users AS u LEFT JOIN token ON token.token = ? LEFT JOIN user_image AS profil ON profil.user_id = u.id_user AND profil.image_type = 'profil' AND profil.image_active = 1 LEFT JOIN user_image AS cadre ON cadre.user_id = u.id_user AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN user_image AS banner ON banner.user_id = u.id_user AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_bloques ON user_bloques.user_bloque_id = u.id_user AND user_bloques.bloque_actif = 1 LEFT JOIN friend ON (friend.expediteur_id = u.id_user OR friend.receiver_id = u.id_user) WHERE (token.user_id != u.id_user OR token.user_id IS NULL) AND u.pseudo LIKE CONCAT('%', ?, '%') AND user_bloques.user_id IS NULL AND u.user_statut = 1 AND (friend.statut IS NULL OR friend.statut = 'refuser' OR friend.friend_actif = 0);");
         try {
             $request->execute(array($token, $pseudo));
             $friend = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -273,7 +273,7 @@ class User{
             $friend = $request->fetch(PDO::FETCH_ASSOC);
             if(!empty($friend)){
                 if($friend['statut'] != "en attente"){
-                    $requestFriend = $db->prepare('UPDATE `friend` SET statut="en attente", friend_actif= 1 WHERE id_friend = ?');
+                    $requestFriend = $db->prepare('UPDATE `friend` SET statut="en attente", friend_actif = 1 WHERE id_friend = ?');
                     $requestFriend->execute(array($friend['id_friend']));
                 }
             }else{
@@ -310,7 +310,7 @@ class User{
     
     public static function removeFriend($token, $pseudo) {
         $db = Database::dbConnect();
-        $request = $db->prepare('UPDATE friend LEFT JOIN token ON friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id LEFT JOIN users ON friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user SET statut = refuse, friend_actif = 0 WHERE (token.token = ? AND users.pseudo = ?);');
+        $request = $db->prepare('UPDATE friend LEFT JOIN token ON friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id LEFT JOIN users ON friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user SET statut = "refuse", friend_actif = 0 WHERE (token.token = ? AND users.pseudo = ?);');
         try {
             $request->execute(array($token, $pseudo));
         } catch (PDOException $e) {
