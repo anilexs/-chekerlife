@@ -265,6 +265,18 @@ class User{
         }
     }
     
+    public static function postFriend($token) {
+        $db = Database::dbConnect();
+        $request = $db->prepare('SELECT user.pseudo, user.level, user.xp_actuelle, user.xp_total, friend.*, cadre.user_image AS cadre, profil.user_image AS profil, banner.user_image AS banner FROM friend LEFT JOIN token ON expediteur_id = token.user_id LEFT JOIN users AS user ON id_user = receiver_id LEFT JOIN user_image AS profil ON (profil.user_id = friend.receiver_id AND profil.image_type = "profil" AND profil.image_active = 1) LEFT JOIN user_image AS cadre ON (cadre.user_id = friend.receiver_id AND cadre.image_type = "cadre" AND cadre.image_active = 1) LEFT JOIN user_image AS banner ON (banner.user_id = friend.receiver_id AND banner.image_type = "banner" AND banner.image_active = 1) WHERE token.token = ? AND statut = "en attente" AND friend_actif = 1 ORDER BY friend.created_at DESC;');
+        try {
+            $request->execute(array($token));
+            $friend = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $friend;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
     public static function addFriend($token, $pseudo) {
         $db = Database::dbConnect();
         $request = $db->prepare('SELECT friend.* FROM friend LEFT JOIN token ON (friend.expediteur_id = token.user_id OR friend.receiver_id = token.user_id) LEFT JOIN users ON (friend.expediteur_id = users.id_user OR friend.receiver_id = users.id_user) WHERE token.token = ? AND users.pseudo = ?;');
