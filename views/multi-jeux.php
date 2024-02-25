@@ -12,8 +12,10 @@
             <img src="asset/img/multi-jeux/quiz.jpg" alt="">
         </div>
     </div>
-    <div class="quizRight right">
-
+    <div class="pokemonGame right">
+        <div class="pokemonImg">
+            <img src="asset/img/multi-jeux/pokemon.jpg" alt="">
+        </div>
     </div>
 </div>
 <!-- <div class="container">
