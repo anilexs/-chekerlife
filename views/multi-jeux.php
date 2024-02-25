@@ -1,7 +1,7 @@
 <?php require_once "inc/header.php"; ?>
 <link rel="stylesheet" href="asset/css/multi-jeux.css">
 <script src="asset/js/multi-jeux.js"></script>
-<title>Quiz</title>
+<title>multi jeux</title>
 <?php require_once "inc/nav.php"; ?>
 <div class="container">
     <div class="quizGame left">
