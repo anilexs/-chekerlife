@@ -14,19 +14,19 @@
     </div>
     <div class="pokemonGame right">
         <div class="pokemonImg">
-            <img src="asset/img/multi-jeux/pokemon.jpg" alt="">
+            <img src="asset/img/multi-jeux/pokemon.png" alt="">
         </div>
     </div>
+</div>
+<div class="container">
+    <div class="left"></div>
+    <div class="right"></div>
 </div>
 <!-- <div class="container">
     <div class="left"></div>
     <div class="right"></div>
-</div>
-<div class="container">
-    <div class="left"></div>
-    <div class="right"></div>
-</div>
-<div class="container">
+</div> -->
+<!-- <div class="container">
     <div class="left"></div>
     <div class="right"></div>
 </div> -->
