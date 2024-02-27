@@ -36,6 +36,10 @@ body{
     direction: rtl;
 }
 
+.nullGame{
+    background-color: rgb(27, 24, 24);
+}
+
 .quizImg, .pokemonImg {
     position: relative;
 }
@@ -89,5 +93,28 @@ body{
     width: 20%; 
     height: 100%;
     background: linear-gradient(to left, rgba(255, 255, 255, 0), orange);
+    z-index: 1;
+}
+
+.blindTestGame{
+    display: flex;
+    align-items: center;   
+    background-color: aqua;
+}
+
+.blindTestImg img{
+    margin-top: 20px;
+    width: 50%;
+    height: 450px;
+}
+
+.blindTestGame::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 16%;
+    width: 20%; 
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), aqua);
     z-index: 1;
 }

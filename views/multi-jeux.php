@@ -19,8 +19,14 @@
     </div>
 </div>
 <div class="container">
-    <div class="left"></div>
-    <div class="right"></div>
+    <div class="blindTestGame left">
+        <div class="blindTestImg">
+            <img src="asset/img/multi-jeux/blindtest.png" alt="">
+        </div>
+    </div>
+    <div class="nullGame right">
+
+    </div>
 </div>
 <!-- <div class="container">
     <div class="left"></div>

@@ -185,6 +185,7 @@ function returnFriend($friend){
             echo '<div class="friendController">';
 
                 echo '<div class="unblockedFriend"><button class="'. $friend['pseudo'] .'" id="addFriendBtn"><i class="fa-solid fa-check"></i></button></div>';
+                echo '<div class="messageFriend"><button class="'. $friend['pseudo'] .'" id="messageFriend"><i class="fa-solid fa-message"></i></button></div>';
             
             echo '</div>';
         echo '</div>';
@@ -205,6 +206,7 @@ function friendCard($friend){
             echo '<div class="friendController">';
                 echo '<div class="removeFriend"><button class="'. $friend['pseudo'] .'" id="removeFriend"><i class="fa-solid fa-x"></i></button></div>';
                 echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
+                echo '<div class="messageFriend"><a href="messagerie/'. $friend['pseudo'] .'"><i class="fa-solid fa-message"></i></a></div>';
             echo '</div>';
             
         echo '</div>';
@@ -226,7 +228,8 @@ function friendRequette($friend){
             echo '<div class="Friendtrue"><button class="'. $friend['pseudo'] .'" id="Friendtrue"><i class="fa-solid fa-check"></i></button></div>';
             echo '<div class="FriendFalse"><button class="'. $friend['pseudo'] .'" id="FriendFalse"><i class="fa-solid fa-x"></i></button></div>';
             echo '<div class="blockFriend"><button class="'. $friend['pseudo'] .'" id="blockFriend"><i class="fa-solid fa-shield"></i></button></div>';
-            
+            echo '<div class="messageFriend"><a href="messagerie/'. $friend['pseudo'] .'"><i class="fa-solid fa-message"></i></a></div>';
+
             echo '</div>';
         echo '</div>';
     }
@@ -245,7 +248,8 @@ function friendBloque($friend){
             echo '<div class="friendController">';
 
                 echo '<div class="unblockedFriend"><button class="'. $friend['pseudo'] .'" id="unblockedFriend"><i class="fa-solid fa-x"></i></button></div>';
-            
+                echo '<div class="messageFriend"><a href="messagerie/'. $friend['pseudo'] .'"><i class="fa-solid fa-message"></i></a></div>';
+
             echo '</div>';
         echo '</div>';
     }

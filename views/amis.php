@@ -35,7 +35,8 @@ $postFriend = User::postFriend($_COOKIE['token']);
                             <img src="views/asset/img/user/profile/<?= $friend['profil'] ?>" alt="profil img" class="friendImg">
                         </div>
                         <div class="friendController">
-                            <div class="removeFriend"><button class="'. $friend['pseudo'] .'" id="cancelFriend"><i class="fa-solid fa-x"></i></button></div>
+                            <div class="removeFriend"><button class="<?= $friend['pseudo'] ?>" id="cancelFriend"><i class="fa-solid fa-x"></i></button></div>
+                            <div class="messageFriend"><a href="messagerie/<?= $friend['pseudo'] ?>"><i class="fa-solid fa-message"></i></a></div>
                         </div>
                     </div>
                 <?php } ?>

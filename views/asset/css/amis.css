@@ -105,6 +105,27 @@ li{
 }
 
 
+/* btn controler */
+.friendController{
+    display: flex;
+}
+
+.removeFriend button{
+    background-color: black;
+    border-radius: 50%;
+    border: 2px solid red;
+    color: white;
+    padding: 13px;
+}
+
+.messageFriend a{
+    background-color: black;
+    border-radius: 50%;
+    border: 2px solid green;
+    color: white;
+    padding: 10px;
+}
+
 /* css cadre */
 .cercleDeFeuxRose{
     position: absolute;
