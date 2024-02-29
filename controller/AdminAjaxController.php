@@ -13,7 +13,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
 
-    if($_POST['action'] == "nombre_dutilisateurs_day"){
+    if($_POST['action'] == "nombre_dutilisateurs_day" && isset($_POST['date'])){
         $response_code = HTTP_OK;
         $createsUserDay = Admin::nombre_comptes_créés_last_24h($_POST['date']);
         $responseTab = [
@@ -29,7 +29,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "userConte" => $userConte_total,
         ];
         reponse($response_code, $responseTab); 
-    }else if($_POST['action'] == "nombre_conte_jour"){
+    }else if($_POST['action'] == "nombre_conte_jour" && isset($_POST['date'])){
         $response_code = HTTP_OK;
         $nombre_conte_jour = Admin::nombre_conte_jour($_POST['date']);
         $responseTab = [

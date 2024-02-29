@@ -40,7 +40,7 @@ body{
     background-color: rgb(27, 24, 24);
 }
 
-.quizImg, .pokemonImg {
+.quizImg, .pokemonImg, .blindTestImg {
     position: relative;
 }
 

@@ -12,7 +12,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
 
-    if($_POST['action'] == "catalog"){
+    if($_POST['action'] == "catalog" && isset($_POST['limit']) && isset($_POST['offset'])){
         $catalog = Catalog::Cataloglimit($_POST['limit'], $_POST['offset']);
         $nbCatalog = Catalog::nbCatalog();
         $nbCatalog = $nbCatalog['COUNT(*)'];
@@ -35,7 +35,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }
     echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
-    }else if($_POST['action'] == "filtre"){
+    }else if($_POST['action'] == "filtre" && isset($_POST['filtre']) && isset($_POST['limit']) && isset($_POST['offset'])){
 
         $catalog = Catalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset']);
 
@@ -60,7 +60,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         }
         echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
 
-    }else if($_POST['action'] == "pagination"){
+    }else if($_POST['action'] == "pagination" && isset($_POST['nbElement']) && isset($_POST['page']) && isset($_POST['filtre'])){
 
         $nbFiltre = $_POST['nbElement'];
         $elementsParPage = 81;
@@ -135,7 +135,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             echo '</div>';
         }
 
-    }else if($_POST['action'] == "navFiltre"){
+    }else if($_POST['action'] == "navFiltre" && isset($_POST['filtreNav'])){
         $catalog = Catalog::navRechercher($_POST['filtreNav']);
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
@@ -186,7 +186,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "lastAdd" => $lastAdd,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "cataloginfo"){
+    }else if($_POST['action'] == "cataloginfo" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();

@@ -92,7 +92,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "xp_requis" => 1200,
         ];
         reponse($response_code, $responseTab); 
-    }else if($_POST['action'] == "returnFriend"){
+    }else if($_POST['action'] == "returnFriend" && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         $friend = User::returnFriend($_COOKIE['token'], $_POST['pseudo']);
         returnFriend($friend);
@@ -107,7 +107,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $friend = User::friend($_COOKIE['token']);
         friendCard($friend);
-    }else if($_POST['action'] == "removeFriend"){
+    }else if($_POST['action'] == "removeFriend" && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         User::removeFriend($_COOKIE['token'], $_POST['pseudo']);
          $responseTab = [
@@ -118,7 +118,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $friend = User::requetteFriend($_COOKIE['token']);
         friendRequette($friend); 
-    }else if($_POST['action'] == "addFriend"){
+    }else if($_POST['action'] == "addFriend" && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         $friend = User::addFriend($_COOKIE['token'], $_POST['pseudo']);
          $responseTab = [
@@ -126,14 +126,14 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             'friend' => $friend,
         ];
         reponse($response_code, $responseTab); 
-    }else if($_POST['action'] == "friendStatue"){
+    }else if($_POST['action'] == "friendStatue" && isset($_POST['update']) && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         User::friendStatue($_POST['update'], $_POST['pseudo'], $_COOKIE['token']);
          $responseTab = [
             "response_code" => HTTP_OK,
         ];
         reponse($response_code, $responseTab); 
-    }else if($_POST['action'] == "blockFriend"){
+    }else if($_POST['action'] == "blockFriend" && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         $statue = User::blockFriend($_COOKIE['token'], $_POST['pseudo']);
         $responseTab = [
@@ -145,7 +145,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $response_code = HTTP_OK;
         $bloque = User::friendBloque($_COOKIE['token']);
         friendBloque($bloque); 
-    }else if($_POST['action'] == "unblockedFriend"){
+    }else if($_POST['action'] == "unblockedFriend" && isset($_POST['pseudo'])){
         $response_code = HTTP_OK;
         $bloque = User::unblockedFriend($_COOKIE['token'], $_POST['pseudo']);
         $responseTab = [

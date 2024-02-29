@@ -12,7 +12,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
 
-    if($_POST['action'] == "inscription"){
+    if($_POST['action'] == "inscription" && isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])){
         $response_code = HTTP_OK;
         $pseudo = htmlspecialchars($_POST['pseudo']);
         $email = htmlspecialchars($_POST['email']);

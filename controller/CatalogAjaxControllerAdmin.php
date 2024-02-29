@@ -14,7 +14,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
 
-    if($_POST['action'] == "catalog"){
+    if($_POST['action'] == "catalog" && isset($_POST['limit']) && isset($_POST['offset']) && isset($_POST['parametre'])){
         $catalog = AdminCatalog::Cataloglimit($_POST['limit'], $_POST['offset'], $_POST['parametre']);
         $nbCatalog = AdminCatalog::nbCatalog($_POST['parametre']);
         if(isset($_COOKIE['token'])){
@@ -76,7 +76,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
     }
 
-    }else if($_POST['action'] == "filtre"){
+    }else if($_POST['action'] == "filtre" && isset($_POST['filtre']) && isset($_POST['limit']) && isset($_POST['offset']) && isset($_POST['parametre'])){
 
         $catalog = AdminCatalog::filtreCatalog($_POST['filtre'], $_POST['limit'], $_POST['offset'], $_POST['parametre']);
 
@@ -136,7 +136,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             echo '<script type="text/javascript">pagination('. $nbCatalog .');</script>';
         }
 
-    }else if($_POST['action'] == "pagination"){
+    }else if($_POST['action'] == "pagination" && isset($_POST['parametre']) && isset($_POST['nbElement']) && isset($_POST['page']) && isset($_POST['filtre'])){
         $parametre = $_POST['parametre'];
         $paginationGet = '';
 
@@ -230,7 +230,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             echo '</div>';
         }
 
-    }else if($_POST['action'] == "navFiltre"){
+    }else if($_POST['action'] == "navFiltre" && isset($_POST['filtreNav'])){
         $catalog = Catalog::navRechercher($_POST['filtreNav']);
         if(isset($_COOKIE['token'])){
             $userLike = User::userLike($_COOKIE['token']);
@@ -273,7 +273,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 echo '</li>';
             }
         }
-    }else if($_POST['action'] == "cataloginfo"){
+    }else if($_POST['action'] == "cataloginfo" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $catalogInfo = AdminCatalog::catalogInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
@@ -285,7 +285,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "allType" => $catalogAllType,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "brouilloninfo"){
+    }else if($_POST['action'] == "brouilloninfo" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $brouilloninfo = AdminCatalog::brouillonInfo($_POST['catalog_id']);
         $type = Catalog::catalogType();
@@ -297,7 +297,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "allType" => $catalogAllType,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "newCatalogActif"){
+    }else if($_POST['action'] == "newCatalogActif" && isset($_POST['catalog_id']) && isset($_POST['catalog_actif'])){
         $response_code = HTTP_OK;
         $catalogInfo = AdminCatalog::catalogInfoAdmin($_POST['catalog_id']);
         $newEtat = Admin::newCatalog_actif($_POST['catalog_id'], $catalogInfo['catalog_actif']);
@@ -306,7 +306,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "newEtat" => $newEtat,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "episodeAll"){
+    }else if($_POST['action'] == "episodeAll" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $origin = ($_POST['origin'] == 'catalog') ? "catalogInfo" : "brouilloninfo";
         $catalog = AdminCatalog::$origin($_POST['catalog_id']);
@@ -317,7 +317,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "catalog" => $catalog,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "disabledEp"){
+    }else if($_POST['action'] == "disabledEp" && isset($_POST['episod_id'])){
         $response_code = HTTP_OK;
         $newEtat = AdminCatalog::disabledEp($_POST['episod_id']);
         $responseTab = [
