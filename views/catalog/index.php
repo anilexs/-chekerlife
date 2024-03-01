@@ -42,29 +42,29 @@
     <title><?= $name ?></title>
 
 <?php require_once "../inc/nav.php"; ?>
-    <div class="contenaire">
-        <div class="contenaireheader">
-            <img src="<?= $host ?>views/asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
-            <div class="droite">
-                <div class="info">
-                    <ul class="ul">
-                        <li><?= $catalogInfo['nom'] ?></li>
-                        <li><?= $catalogInfo['publish_date'] ?></li>
-                        <li><?= $catalogInfo['type'] ?></li>
-                        <li>
-                            <button class="likeList <?php echo $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogInfo["id_catalogue"] ?>" id="<?= $catalogInfo["id_catalogue"] ?>" onclick="likeList(<?= $catalogInfo["id_catalogue"] ?>)">
-                            <i class="fa-solid fa-heart"></i>
-                        </button>
-                            <span class="cataLikeList <?= $catalogInfo["id_catalogue"] ?>" id="likeId<?= $catalogInfo["id_catalogue"] ?>"><?= $catalogInfo['likes'] ?></span>
-                        </li>
-                    </ul>
+    <div class="banner" style="background-image: url(https://static.bandainamcoent.eu/high/sword-art-online/brand-setup/sao_banner2.jpg)">
+        <div class="contenaire">
+            <div class="contenaireheader">
+                <img src="<?= $host ?>views/asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
+                <div class="droite">
+                    <div class="info">
+                        <ul class="ul">
+                            <li><?= $catalogInfo['nom'] ?></li>
+                            <li><?= $catalogInfo['publish_date'] ?></li>
+                            <li><?= $catalogInfo['type'] ?></li>
+                            <li>
+                                <button class="likeList <?= $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogInfo["id_catalogue"] ?>" id="<?= $catalogInfo["id_catalogue"] ?>" onclick="likeList(<?= $catalogInfo["id_catalogue"] ?>)"><i class="fa-solid fa-heart"></i></button>
+                                <span class="cataLikeList <?= $catalogInfo["id_catalogue"] ?>" id="likeId<?= $catalogInfo["id_catalogue"] ?>"><?= $catalogInfo['likes'] ?></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="description"><?= $catalogInfo['description'] ?></span>
                 </div>
-                <span class="description"><?= $catalogInfo['description'] ?></span>
             </div>
         </div>
     </div>
 
-    <?php if($collection !== null && count($collection) != 1){ ?>
+    <!-- <?php if($collection !== null && count($collection) != 1){ ?>
         <div class="btnCollectionDiv">
             <button class="btnCollection"><i class="fa-solid fa-chevron-right fa-xl" id="icon"></i></button>
         </div>
@@ -124,6 +124,6 @@
                 </tbody>
             </table>
         <?php } ?>
-    </div>
+    </div> -->
 
 <?php require_once "../inc/footer.php"; ?>
