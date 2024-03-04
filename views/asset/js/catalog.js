@@ -499,7 +499,29 @@ function inputeSecondarType(valer){
 }
 
 function addCatalog(){
-    console.log("ajouter un catalog");
+    $('body').css('overflow', 'hidden');
+    var back = $('<div class="editeBack"></div>');
+    var edite = $('<div class="editeContenaire"></div>');
+
+    var controler = $('<div class="editeControler"></div>');
+                controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
+                controler.append('<button class="reload"><i class="fa-solid fa-rotate-right"></i></button>');
+                controler.append('<button class="close"><i class="fa-solid fa-xmark"></i></button>');
+
+    $("body").prepend(back, edite, controler);
+
+    $('.editeBack, .close').on("click", () =>{
+        $('body').css('overflow', '');
+        $('.editeBack, .editeContenaire, .editeControler').remove();
+        editBtnActif = true;
+    })
+    $(document).keydown(function(e) {
+         if (e.keyCode === 27) {
+             $('body').css('overflow', '');
+             $('.editeBack, .editeContenaire, .editeControler').remove();
+             editBtnActif = true;
+         }
+     });
 }
 
 function addEpisode(catalog_id, origin){
