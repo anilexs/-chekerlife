@@ -48,23 +48,30 @@ function views (epViews){
     });
 }
 
+function editeBanner (nom){
+    var back = $('<div class="editeBack"></div>');
+    var edite = $('<div class="editeContenaire"></div>');
+
+    $("body").prepend(back, edite);
+}
+
 
 $(document).ready(function(){
     ftrSize();
-    var $profilButton = $('.btnCollection');
-    var $menu = $('.collection');
+    // var $profilButton = $('.btnCollection');
+    // var $menu = $('.collection');
     
-    $profilButton.click(function(event){
-      $('#icon').toggleClass('fa-rotate-90');
-      event.stopPropagation();
-      if ($menu.is(":animated")) {
-        var currentHeight = $menu.height();
-        $menu.stop().css({ height: currentHeight });
-      }
-      $menu.slideToggle(function() {
-        ftrSize();
-      });
-    });
+    // $profilButton.click(function(event){
+    //   $('#icon').toggleClass('fa-rotate-90');
+    //   event.stopPropagation();
+    //   if ($menu.is(":animated")) {
+    //     var currentHeight = $menu.height();
+    //     $menu.stop().css({ height: currentHeight });
+    //   }
+    //   $menu.slideToggle(function() {
+    //     ftrSize();
+    //   });
+    // });
 
     $('.chekboxViews').click(function() {
         var chekboxId = $(this).attr('id');

@@ -43,6 +43,10 @@
 
 <?php require_once "../inc/nav.php"; ?>
     <div class="banner" style="background-image: url(https://static.bandainamcoent.eu/high/sword-art-online/brand-setup/sao_banner2.jpg)">
+        <?php if(isset($_COOKIE['token']) && ($userInfo['role'] == "admin" || $userInfo['role'] == "owner")) { ?>
+            <button id="editebanner" onclick="editeBanner('<?= $name ?>')"><i class="fa-solid fa-pencil"></i></button>
+        <?php } ?>
+
         <div class="contenaire">
             <div class="contenaireheader">
                 <img src="<?= $host ?>views/asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
@@ -76,7 +80,7 @@
                 </div>
             <?php } ?>
         </div>
-    <?php } ?>
+    <?php } ?> -->
     <div class="episode">
         <?php if(empty($episodes)){ ?>
 
@@ -124,6 +128,6 @@
                 </tbody>
             </table>
         <?php } ?>
-    </div> -->
+    </div>
 
 <?php require_once "../inc/footer.php"; ?>
