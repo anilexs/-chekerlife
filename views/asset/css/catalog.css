@@ -156,6 +156,32 @@ img{
     font-size: 20px;
 }
 
+/* add catalog */
+
+.leftCatalog{
+    width: 100%;
+    height: 100px;
+    background-color: red;
+}
+.rightCatalog{
+    width: 500px;
+    min-width: 500px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.catalogAddImg{
+    background-color: black;
+    width: 90%;
+    height: 80%;
+    margin: auto;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 /* add episode */
 .addEpisode button{
     position: absolute;
@@ -601,8 +627,6 @@ img{
     z-index: 1;
 }
 
-/* .spanTxT1{
-} */
 
 @media only screen and (max-width: 1320px) {
     .episodeHdr span:first-child, .episodeBd span:first-child{
