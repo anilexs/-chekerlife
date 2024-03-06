@@ -1,4 +1,4 @@
-urlAjax = "http://localhost/!chekerlife/controller/AdminAjaxController.php";
+// var urlAjax = "http://localhost/!chekerlife/controller/AdminAjaxController.php";
 //  Object.values(labels) : pour convertire un associatif en indexe
 var nbCoutCreatedHour = new Date().toLocaleDateString().split('/').reverse().join('/');
 
@@ -83,7 +83,7 @@ $(document).ready(function(){
         $('#nombre_conte_total').prop('disabled', true);
         clearCanvas();
         $.ajax({
-            url: urlAjax, 
+            url: "http://localhost/!chekerlife/controller/AdminAjaxController.php", 
             type: 'POST',
             data: {
                 action: "nombre_dutilisateurs_total",
@@ -136,7 +136,7 @@ $(document).ready(function(){
         $('#inscriptions_journalières').prop('disabled', true);
         clearCanvas();
         $.ajax({
-            url: urlAjax, 
+            url: "http://localhost/!chekerlife/controller/AdminAjaxController.php", 
             type: 'POST',
             data: {
                 action: "nombre_dutilisateurs_day",

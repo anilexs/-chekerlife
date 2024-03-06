@@ -182,7 +182,7 @@ function editeCode(origin, catalog_id){
                 var contenaireSeconderType = $('<div class="contenaireSeconderType"></div>');
                 
                     response['allType'].forEach(typeCatalog => {
-                        contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + typeCatalog['type'] + '</span></div>');
+                        contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><d class="removeType"><i class="fa-solid fa-xmark"></i></d>' + typeCatalog['type'] + '</span></div>');
                     });
                 
                         
@@ -515,6 +515,7 @@ function addCatalog(){
     var left = $('<div class="leftCatalog"></div>');
 
     var right = $('<div class="rightCatalog"></div>');
+        right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
 
     $(document).ready(function(){
