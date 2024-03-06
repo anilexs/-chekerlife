@@ -514,11 +514,12 @@ function addCatalog(){
 
     var left = $('<div class="leftCatalog"></div>');
 
+    
     var right = $('<div class="rightCatalog"></div>');
         right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
-
-    $(document).ready(function(){
+        $(document).ready(function(){
+            $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
         
         // Fonction pour gérer la sélection de fichiers
         function handleFileSelect(event) {
