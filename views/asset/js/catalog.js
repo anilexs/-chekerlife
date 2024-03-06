@@ -520,6 +520,10 @@ function addCatalog(){
         right.append('<div class="catalogAddImg"></div>');
         $(document).ready(function(){
             $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
+            $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
+            $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
+            $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
+            $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
         
         // Fonction pour gérer la sélection de fichiers
         function handleFileSelect(event) {
