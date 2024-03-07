@@ -518,12 +518,12 @@ function addCatalog(){
     var right = $('<div class="rightCatalog"></div>');
         right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
-        $(document).ready(function(){
-            $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
-            $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
-            $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
-            $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
-            $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
+    $(document).ready(function(){
+        $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
         
         // Fonction pour gérer la sélection de fichiers
         function handleFileSelect(event) {
@@ -536,56 +536,56 @@ function addCatalog(){
             reader.readAsDataURL(file);
         }
 
-    var startX, startY, startLeft, startTop;
-    var isDragging = false;
-    
-    var $div = $('.catalogAddImg');
-    var scale = 1.0;
-    var increment = 0.1;
-    var maxScale = 10.0;
-    var minScale = 0.5;
-    
-    // Gérer le défilement de la molette de la souris sur la div spécifiée
-    $('.catalogAddImg').on('wheel', function(event) {
-        event.preventDefault();
+        var startX, startY, startLeft, startTop;
+        var isDragging = false;
         
-        // Calculer la nouvelle échelle en fonction de la direction du défilement
-        scale += event.originalEvent.deltaY > 0 ? increment : -increment;
-        scale = Math.min(Math.max(scale, minScale), maxScale);
+        var $div = $('.catalogAddImg');
+        var scale = 1.0;
+        var increment = 0.1;
+        var maxScale = 10.0;
+        var minScale = 0.5;
+        
+        // Gérer le défilement de la molette de la souris sur la div spécifiée
+        $('.catalogAddImg').on('wheel', function(event) {
+            event.preventDefault();
 
-        // Appliquer la nouvelle échelle à l'image de fond
-        $div.css({
-            'background-size': (scale * 100) + '%'
-        });
-    });
+            // Calculer la nouvelle échelle en fonction de la direction du défilement
+            scale += event.originalEvent.deltaY > 0 ? increment : -increment;
+            scale = Math.min(Math.max(scale, minScale), maxScale);
 
-    // Gérer le clic sur l'image pour commencer le déplacement
-    $('.catalogAddImg').on('mousedown', function(e) {
-        isDragging = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        startLeft = parseInt($(this).css('background-position-x'));
-        startTop = parseInt($(this).css('background-position-y'));
-    });
-
-    // Gérer le mouvement de la souris pour déplacer l'image
-    $(document).on('mousemove', function(e) {
-        if (isDragging) {
-            var offsetX = e.clientX - startX;
-            var offsetY = e.clientY - startY;
-            var newLeft = startLeft + offsetX;
-            var newTop = startTop + offsetY;
-            $('.catalogAddImg').css({
-                'background-position-x': newLeft + 'px',
-                'background-position-y': newTop + 'px'
+            // Appliquer la nouvelle échelle à l'image de fond
+            $div.css({
+                'background-size': (scale * 100) + '%'
             });
-        }
-    });
+        });
 
-    // Arrêter le déplacement lorsque le clic est relâché
-    $(document).on('mouseup', function() {
-        isDragging = false;
-    });
+        // Gérer le clic sur l'image pour commencer le déplacement
+        $('.catalogAddImg').on('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = parseInt($(this).css('background-position-x'));
+            startTop = parseInt($(this).css('background-position-y'));
+        });
+
+        // Gérer le mouvement de la souris pour déplacer l'image
+        $(document).on('mousemove', function(e) {
+            if (isDragging) {
+                var offsetX = e.clientX - startX;
+                var offsetY = e.clientY - startY;
+                var newLeft = startLeft + offsetX;
+                var newTop = startTop + offsetY;
+                $('.catalogAddImg').css({
+                    'background-position-x': newLeft + 'px',
+                    'background-position-y': newTop + 'px'
+                });
+            }
+        });
+
+        // Arrêter le déplacement lorsque le clic est relâché
+        $(document).on('mouseup', function() {
+            isDragging = false;
+        });
     
         // Fonction pour gérer le background d'images
 
@@ -636,6 +636,17 @@ function addCatalog(){
      });
 }
 
+$(document).on('click', '.catalogAddImgReset', function(e) {})
+
+$(document).on('click', '.catalogAddImgCenter', function(e) {})
+
+$(document).on('click', '.catalogAddImgCover', function(e) {})
+
+$(document).on('click', '.catalogAddImgMax', function(e) {})
+
+$(document).on('click', '.catalogAddImgClear', function(e) {
+    $(this).closest('.rightCatalog').find('.catalogAddImg').removeAttr('style');
+})
 
 
 function addEpisode(catalog_id, origin){
