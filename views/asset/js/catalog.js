@@ -182,7 +182,7 @@ function editeCode(origin, catalog_id){
                 var contenaireSeconderType = $('<div class="contenaireSeconderType"></div>');
                 
                     response['allType'].forEach(typeCatalog => {
-                        contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><d class="removeType"><i class="fa-solid fa-xmark"></i></d>' + typeCatalog['type'] + '</span></div>');
+                        contenaireSeconderType.append('<div class="seconderTypeDiv"><span class="spanTxtType"><div class="removeType"><i class="fa-solid fa-xmark"></i></div>' + typeCatalog['type'] + '</span></div>');
                     });
                 
                         
@@ -424,16 +424,17 @@ function editeCode(origin, catalog_id){
                 // console.log(valeurs);
            })
            $(document).on('click', '.desactiver, .reactiver', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: host + "controller/CatalogAjaxControllerAdmin.php", 
-                    type: 'POST',
-                    data: {
-                        action: "newCatalogActif",
-                        catalog_id: catalog_id,
+               e.preventDefault();
+               $.ajax({
+                   url: host + "controller/CatalogAjaxControllerAdmin.php", 
+                   type: 'POST',
+                   data: {
+                       action: "newCatalogActif",
+                       catalog_id: catalog_id,
                     },
                     dataType: 'json',
                     success: function(response) {
+                        // warning
                         if(response['newEtat'] == 1){
                             var boutonDesactiver = $('<button class="desactiver">désactiver</button>');
                             $(".reactiver").replaceWith(boutonDesactiver);
@@ -447,11 +448,6 @@ function editeCode(origin, catalog_id){
                                 "border": "3px solid red",
                             });
                         }
-                        // if(response['cataloginfo']['catalog_actif'] == 1){
-                        //     formController.append('<button class="desactiver">désactiver</button>');
-                        // }else{
-                        //     formController.append('<button class="reactiver">Réactiver</button>');
-                        // }
 
                     },
                     error: function(xhr, status, error) {
@@ -636,7 +632,14 @@ function addCatalog(){
      });
 }
 
-$(document).on('click', '.catalogAddImgReset', function(e) {})
+$(document).on('click', '.catalogAddImgReset', function(e) {
+    $(this).closest('.rightCatalog').find('.catalogAddImg').css({
+        'background-repeat': '',
+        'background-size': 'cover',
+        'background-position': 'center'
+    });
+
+})
 
 $(document).on('click', '.catalogAddImgCenter', function(e) {})
 

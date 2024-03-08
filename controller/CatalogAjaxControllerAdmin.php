@@ -297,7 +297,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             "allType" => $catalogAllType,
         ];
         reponse($response_code, $responseTab);
-    }else if($_POST['action'] == "newCatalogActif" && isset($_POST['catalog_id']) && isset($_POST['catalog_actif'])){
+    }else if($_POST['action'] == "newCatalogActif" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $catalogInfo = AdminCatalog::catalogInfoAdmin($_POST['catalog_id']);
         $newEtat = Admin::newCatalog_actif($_POST['catalog_id'], $catalogInfo['catalog_actif']);
