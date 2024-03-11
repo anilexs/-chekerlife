@@ -494,7 +494,26 @@ function inputeSecondarType(valer){
     console.log(valer);
 }
 
+function handleImageUpload(event) {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
+            $('.catalogAddImg').css({
+                'background-position': '',
+                'background-size': ''
+            });
 
+            $('.catalogAddImg').off('click');
+        }
+        reader.readAsDataURL(file);
+    }
+    input.click();
+}
 
 function addCatalog(){
     $('body').css('overflow', 'hidden');
@@ -520,6 +539,7 @@ function addCatalog(){
         $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
         $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
         $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgRemplacer">remplacer l\'image</button>');
         
         // Fonction pour gérer la sélection de fichiers
         function handleFileSelect(event) {
@@ -528,77 +548,63 @@ function addCatalog(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
+                $('.catalogAddImg').off('click');
             }
             reader.readAsDataURL(file);
         }
 
-        var startX, startY, startLeft, startTop;
-        var isDragging = false;
+        // var startX, startY, startLeft, startTop;
+        // var isDragging = false;
         
-        var $div = $('.catalogAddImg');
-        var scale = 1.0;
-        var increment = 0.1;
-        var maxScale = 10.0;
-        var minScale = 0.5;
+        // var $div = $('.catalogAddImg');
+        // var scale = 1.0;
+        // var increment = 0.1;
+        // var maxScale = 10.0;
+        // var minScale = 0.5;
         
-        // Gérer le défilement de la molette de la souris sur la div spécifiée
-        $('.catalogAddImg').on('wheel', function(event) {
-            event.preventDefault();
+        // // Gérer le défilement de la molette de la souris sur la div spécifiée
+        // $('.catalogAddImg').on('wheel', function(event) {
+        //     event.preventDefault();
 
-            // Calculer la nouvelle échelle en fonction de la direction du défilement
-            scale += event.originalEvent.deltaY > 0 ? increment : -increment;
-            scale = Math.min(Math.max(scale, minScale), maxScale);
+        //     // Calculer la nouvelle échelle en fonction de la direction du défilement
+        //     scale += event.originalEvent.deltaY > 0 ? increment : -increment;
+        //     scale = Math.min(Math.max(scale, minScale), maxScale);
 
-            // Appliquer la nouvelle échelle à l'image de fond
-            $div.css({
-                'background-size': (scale * 100) + '%'
-            });
-        });
+        //     // Appliquer la nouvelle échelle à l'image de fond
+        //     $div.css({
+        //         'background-size': (scale * 100) + '%'
+        //     });
+        // });
 
-        // Gérer le clic sur l'image pour commencer le déplacement
-        $('.catalogAddImg').on('mousedown', function(e) {
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            startLeft = parseInt($(this).css('background-position-x'));
-            startTop = parseInt($(this).css('background-position-y'));
-        });
+        // // Gérer le clic sur l'image pour commencer le déplacement
+        // $('.catalogAddImg').on('mousedown', function(e) {
+        //     isDragging = true;
+        //     startX = e.clientX;
+        //     startY = e.clientY;
+        //     startLeft = parseInt($(this).css('background-position-x'));
+        //     startTop = parseInt($(this).css('background-position-y'));
+        // });
 
-        // Gérer le mouvement de la souris pour déplacer l'image
-        $(document).on('mousemove', function(e) {
-            if (isDragging) {
-                var offsetX = e.clientX - startX;
-                var offsetY = e.clientY - startY;
-                var newLeft = startLeft + offsetX;
-                var newTop = startTop + offsetY;
-                $('.catalogAddImg').css({
-                    'background-position-x': newLeft + 'px',
-                    'background-position-y': newTop + 'px'
-                });
-            }
-        });
+        // // Gérer le mouvement de la souris pour déplacer l'image
+        // $(document).on('mousemove', function(e) {
+        //     if (isDragging) {
+        //         var offsetX = e.clientX - startX;
+        //         var offsetY = e.clientY - startY;
+        //         var newLeft = startLeft + offsetX;
+        //         var newTop = startTop + offsetY;
+        //         $('.catalogAddImg').css({
+        //             'background-position-x': newLeft + 'px',
+        //             'background-position-y': newTop + 'px'
+        //         });
+        //     }
+        // });
 
-        // Arrêter le déplacement lorsque le clic est relâché
-        $(document).on('mouseup', function() {
-            isDragging = false;
-        });
+        // // Arrêter le déplacement lorsque le clic est relâché
+        // $(document).on('mouseup', function() {
+        //     isDragging = false;
+        // });
     
         // Fonction pour gérer le background d'images
-
-        function handleImageUpload(event) {
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function(event) {
-                var file = event.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
-                }
-                reader.readAsDataURL(file);
-            }
-            input.click();
-        }
     
         // Activer la fonctionnalité glisser-déposer
         $('.catalogAddImg').on('dragover', function(event) {
@@ -649,6 +655,13 @@ $(document).on('click', '.catalogAddImgMax', function(e) {})
 
 $(document).on('click', '.catalogAddImgClear', function(e) {
     $(this).closest('.rightCatalog').find('.catalogAddImg').removeAttr('style');
+    $('.catalogAddImg').on('click', function(event) {
+        handleImageUpload(event);
+    });
+})
+
+$(document).on('click', '.catalogAddImgRemplacer', function(e) {
+    handleImageUpload(e);
 })
 
 
