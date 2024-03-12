@@ -534,12 +534,14 @@ function addCatalog(){
         right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
     $(document).ready(function(){
-        $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
-        $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
-        $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
-        $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
-        $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
+        // $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
+        // $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
+        // $('.catalogAddImgController').append('<button class="catalogAddImgCover">cover</button>');
+        // $('.catalogAddImgController').append('<button class="catalogAddImgMax">max</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgSetup">vus original</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgZoom" disabled>vus zoomer</button>');
         $('.catalogAddImgController').append('<button class="catalogAddImgRemplacer">remplacer l\'image</button>');
+        $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
         
         // Fonction pour gérer la sélection de fichiers
         function handleFileSelect(event) {
@@ -638,22 +640,44 @@ function addCatalog(){
      });
 }
 
-$(document).on('click', '.catalogAddImgReset', function(e) {
-    $(this).closest('.rightCatalog').find('.catalogAddImg').css({
-        'background-repeat': '',
-        'background-size': 'cover',
-        'background-position': 'center'
-    });
+// $(document).on('click', '.catalogAddImgReset', function(e) {
+//     $(this).closest('.rightCatalog').find('.catalogAddImg').css({
+//         'background-repeat': '',
+//         'background-size': 'cover',
+//         'background-position': 'center'
+//     });
 
+// })
+
+// $(document).on('click', '.catalogAddImgCenter', function(e) {})
+
+// $(document).on('click', '.catalogAddImgCover', function(e) {})
+
+// $(document).on('click', '.catalogAddImgMax', function(e) {})
+
+function BtnControllerAddImg(clas){
+    $('.catalogAddImgSetup, .catalogAddImgZoom').prop('disabled', false);
+    $('.' + clas).prop('disabled', true);
+}
+
+$(document).on('click', '.catalogAddImgSetup', function(e) {
+    BtnControllerAddImg('catalogAddImgSetup');
+    $('.catalogAddImg').css({
+        'width': '180px',
+        'height': '280px'
+    })
 })
 
-$(document).on('click', '.catalogAddImgCenter', function(e) {})
-
-$(document).on('click', '.catalogAddImgCover', function(e) {})
-
-$(document).on('click', '.catalogAddImgMax', function(e) {})
+$(document).on('click', '.catalogAddImgZoom', function(e) {
+    BtnControllerAddImg('catalogAddImgZoom');
+    $('.catalogAddImg').css({
+        'width': '400px',
+        'height': '600px'
+    })
+})
 
 $(document).on('click', '.catalogAddImgClear', function(e) {
+    BtnControllerAddImg('catalogAddImgZoom');
     $(this).closest('.rightCatalog').find('.catalogAddImg').removeAttr('style');
     $('.catalogAddImg').on('click', function(event) {
         handleImageUpload(event);
