@@ -188,10 +188,13 @@ img{
     height: 6%;
     top: 3.5%;
     left: 10%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .catalogAddImgSetup, .catalogAddImgZoom, .catalogAddImgRemplacer, .catalogAddImgClear{
     border: none;
+    height: 100%;
 }
 .catalogAddImgClear{
     background-color: red;
