@@ -507,8 +507,6 @@ function handleImageUpload(event) {
                 'background-position': '',
                 'background-size': ''
             });
-
-            $('.catalogAddImg').off('click');
         }
         reader.readAsDataURL(file);
     }
@@ -550,7 +548,6 @@ function addCatalog(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
-                $('.catalogAddImg').off('click');
             }
             reader.readAsDataURL(file);
         }
@@ -679,9 +676,9 @@ $(document).on('click', '.catalogAddImgZoom', function(e) {
 $(document).on('click', '.catalogAddImgClear', function(e) {
     BtnControllerAddImg('catalogAddImgZoom');
     $(this).closest('.rightCatalog').find('.catalogAddImg').removeAttr('style');
-    $('.catalogAddImg').on('click', function(event) {
-        handleImageUpload(event);
-    });
+    // $('.catalogAddImg').on('click', function(event) {
+    //     handleImageUpload(event);
+    // });
 })
 
 $(document).on('click', '.catalogAddImgRemplacer', function(e) {
