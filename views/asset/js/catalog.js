@@ -526,8 +526,12 @@ function addCatalog(){
     $("body").prepend(back, edite, controler);
 
     var left = $('<div class="leftCatalog"></div>');
-        left.append('<label for="addNom">Nom : </label>');
-        left.append('<input id="addNom" name="addNom"></input>');
+    var leftHdr = $('<div class="leftHdr"></div>');
+        leftHdr.append('<label for="addNom">Nom : </label>');
+        leftHdr.append('<input id="addNom" name="addNom"></input>');
+        left.append(leftHdr);
+
+        left.append('<div class="addDescription" contentEditable></div>');
 
     
     var right = $('<div class="rightCatalog"></div>');

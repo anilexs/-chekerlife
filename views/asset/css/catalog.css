@@ -160,6 +160,16 @@ img{
 
 .leftCatalog{
     width: 100%;
+    box-sizing: border-box;
+}
+
+.leftCatalog .addDescription {
+    background-color: gray;
+    color: white;
+    border: ridge 2px;
+    padding: 5px;
+    width: 20em;
+    min-height: 5em;
 }
 
 .leftCatalog label {
