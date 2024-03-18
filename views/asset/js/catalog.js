@@ -63,7 +63,6 @@ function catalogFiltre(filtre, offset = 1, limit = 80){
         disable: $.urlParam('disable') === 'true' ? true : null,
         brouillon: $.urlParam('brouillon') === 'true' ? true : null,
     };
-    console.log(parametre);
     
     offset -= 1;    
     offset *= 80;
@@ -513,6 +512,17 @@ function handleImageUpload(event) {
     input.click();
 }
 
+// Fonction pour gérer la sélection de fichiers
+function handleFileSelect(event) {
+    event.preventDefault();
+    var file = event.originalEvent.dataTransfer.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
+    }
+    reader.readAsDataURL(file);
+}
+
 function addCatalog(){
     $('body').css('overflow', 'hidden');
     var back = $('<div class="editeBack"></div>');
@@ -526,17 +536,33 @@ function addCatalog(){
     $("body").prepend(back, edite, controler);
 
     var left = $('<div class="leftCatalog"></div>');
-    var leftHdr = $('<div class="leftHdr"></div>');
-        leftHdr.append('<label for="addNom">Nom : </label>');
-        leftHdr.append('<input id="addNom" name="addNom"></input>');
-        left.append(leftHdr);
+    var leftNom = $('<div class="leftNom"></div>');
+            leftNom.append('<label for="addNom">Nom : </label>');
+            leftNom.append('<div id="addNom" contentEditable></div>');
+        left.append(leftNom);
 
-        left.append('<div class="addDescription" contentEditable></div>');
+        left.append('<div id="addDescription" contentEditable></div>');
+
+    var formController = $('<div class="formController"></div>');
+            formController.append('<button class="addEnregistre">enregistré</button>');
+            formController.append('<button class="addBrouillonCatalog">brouillon</button>');
+        left.append(formController);
+
+        $(document).on('click', '.addEnregistre', function(e) {
+            var nom = $('#addNom').html().replace(/<div>|<\/div>|<br>|&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+            console.log(nom);
+            var description = $('#addDescription').html().replace(/<div>|<\/div>|<br>|&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+            console.log(description);
+        });
+
+
+
 
     
     var right = $('<div class="rightCatalog"></div>');
         right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
+
     $(document).ready(function(){
         // $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
         // $('.catalogAddImgController').append('<button class="catalogAddImgCenter">center</button>');
@@ -547,16 +573,6 @@ function addCatalog(){
         $('.catalogAddImgController').append('<button class="catalogAddImgRemplacer">remplacer l\'image</button>');
         $('.catalogAddImgController').append('<button class="catalogAddImgClear">suprime</button>');
         
-        // Fonction pour gérer la sélection de fichiers
-        function handleFileSelect(event) {
-            event.preventDefault();
-            var file = event.originalEvent.dataTransfer.files[0];
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
-            }
-            reader.readAsDataURL(file);
-        }
 
         // var startX, startY, startLeft, startTop;
         // var isDragging = false;
