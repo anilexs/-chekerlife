@@ -526,7 +526,7 @@ function handleFileSelect(event) {
 function addCatalog(){
     $('body').css('overflow', 'hidden');
     var back = $('<div class="editeBack"></div>');
-    var edite = $('<div class="editeContenaire"></div>');
+    var edite = $('<div class="editeAddContenaire"></div>');
 
     var controler = $('<div class="editeControler"></div>');
         controler.append('<button class="move"><i class="fa-solid fa-minus"></i></button>');
@@ -647,13 +647,13 @@ function addCatalog(){
 
     $('.editeBack, .close').on("click", () =>{
         $('body').css('overflow', '');
-        $('.editeBack, .editeContenaire, .editeControler').remove();
+        $('.editeBack, .editeAddContenaire, .editeControler').remove();
         editBtnActif = true;
     })
     $(document).keydown(function(e) {
          if (e.keyCode === 27) {
              $('body').css('overflow', '');
-             $('.editeBack, .editeContenaire, .editeControler').remove();
+             $('.editeBack, .editeAddContenaire, .editeControler').remove();
              editBtnActif = true;
          }
      });

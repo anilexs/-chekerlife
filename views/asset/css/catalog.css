@@ -158,6 +158,19 @@ img{
 
 /* add catalog */
 
+.editeAddContenaire {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 90%;
+    height: 85%;
+    z-index: 5;
+    background: linear-gradient(to top left, #5A1Df3, #6EECDD);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .leftCatalog{
     width: 100%;
     box-sizing: border-box;
@@ -210,27 +223,24 @@ img{
     width: 500px;
     min-width: 500px;
     height: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
+    overflow-x: auto;
 }
 
 .catalogAddImg{
     background-color: black;
     width: 400px;
     height: 600px;
-    margin: auto;
+    margin: 0 auto 4% auto;
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
+
+
 .catalogAddImgController{
-    position: absolute;
-    /* background-color: red; */
+    margin: 6% 0% 3% 10%;
     width: 80%;
     height: 6%;
-    top: 3.5%;
-    left: 10%;
     display: flex;
     justify-content: space-between;
 }
@@ -243,6 +253,10 @@ img{
 .catalogAddImgClear{
     background-color: red;
 }
+
+/* @media only screen and (max-height: 747px) {
+
+}    */
 
 /* add episode */
 .addEpisode button{
