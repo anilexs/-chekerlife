@@ -40,7 +40,7 @@ class Catalog{
 
     public static function Cataloglimit($limit, $offset) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM `catalog` WHERE brouillon = 0 AND catalog_actif = 1 LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT c.*, t.type  FROM catalog c LEFT JOIN type_principal_catalog p ON p.catalog_id = c.id_catalogue LEFT JOIN catalog_type_principal t ON t.id_type_principal = p.principal_id AND t.type_actif = 1 WHERE brouillon = 0 AND catalog_actif = 1 LIMIT :offset, :limit");
         
         try {
             $request->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -68,7 +68,7 @@ class Catalog{
 
     public static function filtreCatalog($filtres, $limit, $offset){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT c.* FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit");
+        $request = $db->prepare("SELECT DISTINCT c.*, ctp.type FROM catalog c LEFT JOIN type_principal_catalog tpc ON c.id_catalogue = tpc.catalog_id LEFT JOIN catalog_type_principal ctp ON tpc.principal_id = ctp.id_type_principal LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE brouillon = 0 AND catalog_actif = 1 AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) LIMIT :offset, :limit");
 
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
         $request->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -125,7 +125,8 @@ class Catalog{
 
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ? AND brouillon = 0 AND catalog_actif = 1");
+        // SELECT c.*, IFNULL(t.type, 'null') AS type FROM catalog c LEFT JOIN type_principal_catalog tpc ON tpc.catalog_id = c.id_catalogue AND tpc.catalog_type_actif = 1 LEFT JOIN catalog_type_principal t ON t.id_type_principal = tpc.principal_id WHERE c.id_catalogue = ? AND c.brouillon = 0 AND c.catalog_actif = 1
+        $request = $db->prepare("SELECT *, t.type FROM catalog LEFT JOIN type_principal_catalog p ON p.catalog_id = id_catalogue  LEFT JOIN catalog_type_principal t ON t.id_type_principal = p.principal_id WHERE p.catalog_type_actif = 1 AND id_catalogue = ? AND brouillon = 0 AND catalog_actif = 1");
 
         try{
             $request->execute(array($catalog_id));
@@ -138,7 +139,7 @@ class Catalog{
     
     public static function catalogInfoName($name){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE nom = ? AND brouillon = 0 AND catalog_actif = 1");
+        $request = $db->prepare("SELECT c.*, IFNULL(t.type, 'null') AS type FROM catalog c LEFT JOIN type_principal_catalog tpc ON tpc.catalog_id = c.id_catalogue AND tpc.catalog_type_actif = 1 LEFT JOIN catalog_type_principal t ON t.id_type_principal = tpc.principal_id WHERE c.nom = ? AND c.brouillon = 0 AND c.catalog_actif = 1");
 
         try{
             $request->execute(array($name));

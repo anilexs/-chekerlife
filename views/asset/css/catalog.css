@@ -523,9 +523,7 @@ img{
     height: 40px;
     padding-top: 5px;
 }
-.activeTrue span{
-    color: white;
-}
+
 .activeFalse{
     color: white;
     background-color: rgba(80, 80, 80, 0.600);
@@ -533,13 +531,15 @@ img{
     height: 40px;
     padding-top: 5px;
 }
-.cataLike{
+
+/* a edite dant nav.css */
+/* .cataLike{
     position: absolute;
     color: black;
     left: 16px;
     top: 12px;
     font-size: 14px;
-}
+} */
 
 .page{
     margin-top: 20px;

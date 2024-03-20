@@ -17,9 +17,9 @@ class AdminCatalog{
     public static function Cataloglimit($limit, $offset, $parametre) {
         $prepar = "SELECT ";
         if($parametre['allViews']){
-            $prepar .= "null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif, 'catalog' as origin FROM catalog UNION ALL SELECT id_brouillon, catalog_id, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon ORDER BY id_catalogue, add_date LIMIT :offset, :limit";
+            $prepar .= "NULL as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin, IFNULL(t.type, 'null') as type FROM catalog c LEFT JOIN type_principal_catalog p ON p.catalog_id = c.id_catalogue LEFT JOIN catalog_type_principal t ON t.id_type_principal = p.principal_id AND t.type_actif = 1 UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.saison, cb.publish_date, cb.add_date, NULL as likes, 0 as brouillon, 1 as catalog_actif, 'brouillon' as origin, IFNULL(tb.type, 'null') as type FROM catalog_brouillon cb LEFT JOIN type_principal_brouillon p ON p.brouillon_id = cb.id_brouillon LEFT JOIN brouillon_type_principal tb ON tb.	id_brouillon_type_p  = p.principal_id AND tb.type_actif = 1 ORDER BY id_catalogue, add_date LIMIT :offset, :limit";
         }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
-            $prepar .= "null as id_brouillon, id_catalogue, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, likes, brouillon, catalog_actif, 'catalog' as origin FROM catalog";
+            $prepar .= "NULL as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin, IFNULL(t.type, 'null') as type FROM catalog c LEFT JOIN type_principal_catalog p ON p.catalog_id = c.id_catalogue LEFT JOIN catalog_type_principal t ON t.id_type_principal = p.principal_id AND t.type_actif = 1";
 
             $where = " WHERE ";
             if($parametre['actif']){
@@ -37,7 +37,7 @@ class AdminCatalog{
                 }
                 $where .= "brouillon=1";
                 $prepar .= $where;
-                $prepar .= " UNION ALL SELECT id_brouillon, catalog_id, image_catalogue, last_img, nom, description, type, saison, publish_date, add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon";
+                $prepar .= " UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.saison, cb.publish_date, cb.add_date, NULL as likes, 0 as brouillon, 1 as catalog_actif, 'brouillon' as origin, IFNULL(tb.type, 'null') as type FROM catalog_brouillon cb LEFT JOIN type_principal_brouillon p ON p.brouillon_id = cb.id_brouillon LEFT JOIN brouillon_type_principal tb ON tb.	id_brouillon_type_p  = p.principal_id AND tb.type_actif = 1";
             }else{
                 $prepar .= $where;
             }
@@ -104,9 +104,9 @@ class AdminCatalog{
 
         $prepar = "SELECT ";
         if($parametre['allViews']){
-            $prepar .= "null as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.type, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.type, cb.saison, cb.publish_date, cb.add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%') ORDER BY id_catalogue, add_date LIMIT :offset, :limit";
+            $prepar .= "NULL as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin, IFNULL(ctp.type, 'null') as type FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id LEFT JOIN type_principal_catalog tpc ON c.id_catalogue = tpc.catalog_id LEFT JOIN catalog_type_principal ctp ON tpc.principal_id = ctp.id_type_principal WHERE (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%')) UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.saison, cb.publish_date, cb.add_date, NULL as likes, 0 as brouillon, 1 as catalog_actif, 'brouillon' as origin, IFNULL(ctp_brouillon.type, 'null') as type FROM catalog_brouillon cb LEFT JOIN type_principal_brouillon tpc_brouillon ON cb.catalog_id = tpc_brouillon.brouillon_id LEFT JOIN brouillon_type_principal ctp_brouillon ON tpc_brouillon.principal_id = ctp_brouillon.id_brouillon_type_p WHERE cb.nom LIKE CONCAT('%', :filtres, '%') ORDER BY id_catalogue, add_date LIMIT :offset, :limit;";
         }else if($parametre['actif'] || $parametre['disable'] || $parametre['brouillon']){
-            $prepar .= "null as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.type, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id";
+            $prepar .= "NULL as id_brouillon, c.id_catalogue, c.image_catalogue, c.last_img, c.nom, c.description, c.saison, c.publish_date, c.add_date, c.likes, c.brouillon, c.catalog_actif, 'catalog' as origin, IFNULL(ctp.type, 'null') as type FROM catalog c LEFT JOIN catalog_alias a ON c.id_catalogue = a.catalog_id LEFT JOIN type_principal_catalog tpc ON c.id_catalogue = tpc.catalog_id LEFT JOIN catalog_type_principal ctp ON tpc.principal_id = ctp.id_type_principal";
             $where = " WHERE (";
             if($parametre['actif']){
                 $where .= "catalog_actif=1";
@@ -123,7 +123,7 @@ class AdminCatalog{
                 }
                 $where .= "brouillon=1";
                 $prepar .= $where . " ) AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))";
-                $prepar .= " UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.type, cb.saison, cb.publish_date, cb.add_date, null, 0, 1, 'brouillon' as origin FROM catalog_brouillon cb WHERE cb.nom LIKE CONCAT('%', :filtres, '%')";
+                $prepar .= " UNION ALL SELECT cb.id_brouillon, cb.catalog_id, cb.image_catalogue, cb.last_img, cb.nom, cb.description, cb.saison, cb.publish_date, cb.add_date, NULL as likes, 0 as brouillon, 1 as catalog_actif, 'brouillon' as origin, IFNULL(ctp_brouillon.type, 'null') as type FROM catalog_brouillon cb LEFT JOIN type_principal_brouillon tpc_brouillon ON cb.catalog_id = tpc_brouillon.brouillon_id LEFT JOIN brouillon_type_principal ctp_brouillon ON tpc_brouillon.principal_id = ctp_brouillon.id_brouillon_type_p WHERE cb.nom LIKE CONCAT('%', :filtres, '%')";
             }else{
                 $prepar .= $where . " ) AND (a.aliasName LIKE CONCAT('%', :filtres, '%') OR c.nom LIKE CONCAT('%', :filtres, '%'))";
             }
@@ -190,7 +190,7 @@ class AdminCatalog{
     }
     public static function catalogInfo($catalog_id){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT * FROM catalog WHERE id_catalogue = ?");
+        $request = $db->prepare("SELECT *, t.type FROM catalog LEFT JOIN type_principal_catalog p ON p.catalog_id = id_catalogue  LEFT JOIN catalog_type_principal t ON t.id_type_principal = p.principal_id WHERE p.catalog_type_actif = 1 AND id_catalogue = ?");
 
         try{
             $request->execute(array($catalog_id));
