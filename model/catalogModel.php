@@ -15,7 +15,7 @@ class Catalog{
     
     public static function catalogTypeNb() {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT type, COUNT(*) AS nombre_par_type FROM catalog WHERE catalog_actif = 1 AND brouillon = 0 GROUP BY type;");
+        $request = $db->prepare("SELECT tp.type, COUNT(ctp.id_catalogue) AS nombre_par_type FROM catalog_type_principal tp JOIN type_principal_catalog tpc ON tp.id_type_principal = tpc.principal_id JOIN catalog ctp ON tpc.catalog_id = ctp.id_catalogue WHERE ctp.catalog_actif = 1 AND ctp.brouillon = 0 GROUP BY tp.type");
         try {
             $request->execute();
             $catalog = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -99,7 +99,7 @@ class Catalog{
     
     public static function catalogType (){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT DISTINCT type FROM catalog;");
+        $request = $db->prepare("SELECT DISTINCT type FROM catalog_type_principal;");
 
         try{
             $request->execute();

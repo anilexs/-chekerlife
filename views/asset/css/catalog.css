@@ -236,6 +236,16 @@ img{
     background-repeat: no-repeat;
 }
 
+.catalogAddLastImg{
+    background-color: black;
+    width: 250px;
+    height: 170px;
+    margin: 0 auto 4% auto;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 
 .catalogAddImgController{
     margin: 6% 0% 3% 10%;

@@ -493,7 +493,7 @@ function inputeSecondarType(valer){
     console.log(valer);
 }
 
-function handleImageUpload(event) {
+function imageClick(event, clas) {
     var input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
@@ -501,8 +501,8 @@ function handleImageUpload(event) {
         var file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = function(e) {
-            $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
-            $('.catalogAddImg').css({
+            $('.' + clas).css('background-image', 'url(' + e.target.result + ')');
+            $('.' + clas).css({
                 'background-position': '',
                 'background-size': ''
             });
@@ -513,12 +513,12 @@ function handleImageUpload(event) {
 }
 
 // Fonction pour gérer la sélection de fichiers
-function handleFileSelect(event) {
+function handleFileSelect(event, clas) {
     event.preventDefault();
     var file = event.originalEvent.dataTransfer.files[0];
     var reader = new FileReader();
     reader.onload = function(e) {
-        $('.catalogAddImg').css('background-image', 'url(' + e.target.result + ')');
+        $('.' + clas).css('background-image', 'url(' + e.target.result + ')');
     }
     reader.readAsDataURL(file);
 }
@@ -562,6 +562,7 @@ function addCatalog(){
     var right = $('<div class="rightCatalog"></div>');
         right.append('<div class="catalogAddImgController"></div>');
         right.append('<div class="catalogAddImg"></div>');
+        right.append('<div class="catalogAddLastImg"></div>');
 
     $(document).ready(function(){
         // $('.catalogAddImgController').append('<button class="catalogAddImgReset">reset</button>');
@@ -628,17 +629,25 @@ function addCatalog(){
         // Fonction pour gérer le background d'images
     
         // Activer la fonctionnalité glisser-déposer
-        $('.catalogAddImg').on('dragover', function(event) {
-            event.preventDefault();
+        $('.catalogAddImg, .catalogAddLastImg').on('dragover', function(e) {
+            e.preventDefault();
         });
     
-        $('.catalogAddImg').on('drop', function(event) {
-            handleFileSelect(event);
+        $('.catalogAddImg').on('drop', function(e) {
+            handleFileSelect(e, "catalogAddImg");
+        });
+        
+        $('.catalogAddLastImg').on('drop', function(e) {
+            handleFileSelect(e, "catalogAddLastImg");
         });
     
         // Activer la fonctionnalité cliquer pour télécharger
-        $('.catalogAddImg').on('click', function(event) {
-            handleImageUpload(event);
+        $('.catalogAddImg').on('click', function(e) {
+            imageClick(e, "catalogAddImg");
+        });
+        
+        $('.catalogAddLastImg').on('click', function(e) {
+            imageClick(e, "catalogAddLastImg");
         });
     
     });
@@ -665,7 +674,6 @@ function addCatalog(){
 //         'background-size': 'cover',
 //         'background-position': 'center'
 //     });
-
 // })
 
 // $(document).on('click', '.catalogAddImgCenter', function(e) {})
@@ -699,12 +707,12 @@ $(document).on('click', '.catalogAddImgClear', function(e) {
     BtnControllerAddImg('catalogAddImgZoom');
     $(this).closest('.rightCatalog').find('.catalogAddImg').removeAttr('style');
     // $('.catalogAddImg').on('click', function(event) {
-    //     handleImageUpload(event);
+    //     imageClick(event);
     // });
 })
 
 $(document).on('click', '.catalogAddImgRemplacer', function(e) {
-    handleImageUpload(e);
+    imageClick(e, "catalogAddImg");
 })
 
 
