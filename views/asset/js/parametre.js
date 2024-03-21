@@ -11,6 +11,7 @@ $(document).on('click', '.navParametre', function(e) {
     var back = $('<div class="parametreBack"></div>');
         $('body').prepend(back);
     var left = $('<div class="parametreLeft"></div>');
-        $('.parametreBack').append(left);
+    var right = $('<div class="parametreRight"></div>');
+        $('.parametreBack').append(left, right);
 
 });
