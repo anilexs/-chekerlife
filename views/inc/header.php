@@ -25,8 +25,10 @@
     <link rel="stylesheet" href="<?= $host ?>asset/css/style.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/nav.css">
     <link rel="stylesheet" href="<?= $host ?>asset/css/footer.css">
+    <link rel="stylesheet" href="<?= $host ?>asset/css/parametre.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="<?= $host ?>asset/js/structure.js"></script>
     <script src="<?= $host ?>asset/js/nav.js"></script>
+    <script src="<?= $host ?>asset/js/parametre.js" defer></script>
     <link rel="icon" type="image/png" href="<?= $host ?>asset/img/logo.png">
