@@ -1,4 +1,10 @@
+var $menu = $('.menu');
 $(document).on('click', '.navParametre', function(e) {
+    e.stopPropagation();
+    var defauxHeight = $menu.height();
+    $menu.stop().css({ height: defauxHeight });
+    $menu.slideUp();
+
     $('body').css({
         'overflow': 'hidden'
     });
