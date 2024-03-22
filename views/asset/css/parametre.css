@@ -5,16 +5,26 @@
     position: absolute;
     z-index: 30;
     display: flex;
+    justify-content: center;
 }
 
 .parametreLeft{
-    width: 50%;
+    width: 20%;
     height: 100%;
     background-color: red;
+    position: relative;
+}
+
+#parametreReturn{
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 1%;
+    left: 2%;
 }
 
 .parametreRight{
-    width: 50%;
+    width: 60%;
     height: 100%;
     background-color: orange;
 }
