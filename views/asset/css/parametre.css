@@ -16,11 +16,9 @@
 }
 
 #parametreReturn{
-    position: absolute;
     background-color: transparent;
     border: none;
-    top: 1%;
-    left: 2%;
+    color: white;
 }
 
 .parametreRight{

@@ -39,7 +39,7 @@
                         <li><i class="fa-solid fa-sack-dollar"></i><a href="<?= $host ?>soutien" class="navSoutien">Nous soutenir</a></li>
                         <li><i class="fa-solid fa-user-group"></i><a href="<?= $host ?>amis" class="navAmi">amis</a></li>
                         <li><i class="fa-solid fa-message"></i></i><a href="<?= $host ?>messagerie" class="navMessagerie">messagerie</a></li>
-                       <li><i class="fa-solid fa-gear"></i><button class="navParametre">Parametre</button></li> 
+                       <li><i class="fa-solid fa-gear"></i><button class="navParametre" onclick="parametre()">Parametre</button></li> 
                         <?php if ($userInfo['role'] == "admin" || $userInfo['role'] == "owner") {?>
                             <li class="admin">A D M I N</li>
                             <li><i class="fa-solid fa-screwdriver-wrench"></i><a href="<?= $host ?>admin/" class="navDashboard">Dashboard</a></li>
