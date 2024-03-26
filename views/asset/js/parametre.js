@@ -1,6 +1,6 @@
 var $menu = $('.menu');
 
-function parametre(page = 'profil'){
+function parametre(page = 'compte'){
     var defauxHeight = $menu.height();
     $menu.stop().css({ height: defauxHeight });
     $menu.slideUp();
@@ -14,6 +14,7 @@ function parametre(page = 'profil'){
         left.append('<button id="parametreReturn"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button>');
 
     var list = $('<ul class="parametreUl"></ul>');
+
         list.append('<li><button id="parametreComte">mon compte</button></li>');
         $(document).on('click', '#parametreComte', function(e) {
             myAcount();
@@ -36,7 +37,7 @@ function parametre(page = 'profil'){
 
         list.append('<li><button id="parametreSociaux">réseaux sociaux</button></li>');
         $(document).on('click', '#parametreSociaux', function(e) {
-            console.log('parametreSociaux');
+            mySociaux();
         })
 
         left.append(list);
@@ -77,4 +78,8 @@ function mySecuAndConf(){
 
 function myFriend(){
     console.log('parametreFriend');
+}
+
+function mySociaux(){
+    console.log('parametreSociaux');
 }
