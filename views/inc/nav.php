@@ -17,7 +17,7 @@
             </li>
             <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
             <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
-            <li><a href="<?= $host ?>tcg" class="navTcg">Tcg</a></li>
+            <li><a href="<?= $host ?>trading-card-game" class="navTcg">Tcg</a></li>
             <li><a href="<?= $host ?>multi-jeux" class="navMulti-jeux">multi-jeux</a></li>
             <li class="navLike">
                 <a href="<?= $host ?>likepage">
@@ -67,7 +67,7 @@
                 </li>
                 <li><a href="<?= $host ?>" class="navAccueil">Accueil</a></li>
                 <li><a href="<?= $host ?>catalogue" class="navCatalogue">Catalogue</a></li>
-                <li><a href="<?= $host ?>tcg" class="navTcg">Tcg</a></li>
+                <li><a href="<?= $host ?>trading-card-game" class="navTcg">Tcg</a></li>
                 <li><a href="<?= $host ?>multi-jeux" class="navMulti-jeux">multi-jeux</a></li>
                 <li><a href="<?= $host ?>connexion">connexion</a></li>
                 <li><a href="<?= $host ?>inscription">inscription</a></li>

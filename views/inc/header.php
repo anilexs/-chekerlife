@@ -3,7 +3,7 @@
     $currentPath = $_SERVER['REQUEST_URI'];
     
     // Vérification des dossiers
-    if (strpos($currentPath, '/catalog/') !== false || strpos($currentPath, '/profil/') !== false || strpos($currentPath, '/admin/') !== false || strpos($currentPath, '/messagerie/') !== false) {
+    if (strpos($currentPath, '/catalog/') !== false || strpos($currentPath, '/profil/') !== false || strpos($currentPath, '/admin/') !== false || strpos($currentPath, '/messagerie/') !== false || strpos($currentPath, '/tcg/') !== false) {
         require_once "../../model/userModel.php";
     } else {
         require_once "../model/userModel.php";
