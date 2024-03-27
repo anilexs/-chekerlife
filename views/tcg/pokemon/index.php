@@ -69,11 +69,11 @@ $collection = file_get_contents($url_sets_fr);
     //     }
     // }
 // }
-require_once "../inc/header.php"; ?>
-<link rel="stylesheet" href="../asset/css/pokemon.css">
-<script src="../asset/js/pokemon.js" defer></script>
+require_once "../../inc/header.php"; ?>
+<link rel="stylesheet" href="../../asset/css/pokemon.css">
+<script src="../../asset/js/pokemon.js" defer></script>
 <title>pokemon</title>
-<?php require_once "../inc/nav.php"; ?>
+<?php require_once "../../inc/nav.php"; ?>
 <div class="controller">
     <div class="block">
     <?php foreach (array_reverse($blocks) as $block_name => $block_sets) { ?>
@@ -89,4 +89,4 @@ require_once "../inc/header.php"; ?>
     <?php } ?>
     </div>
 </div>
-<?php require_once "../inc/footer.php"; ?>
+<?php require_once "../../inc/footer.php"; ?>
