@@ -1,0 +1,2 @@
+ftrSize();
+console.log("click");  

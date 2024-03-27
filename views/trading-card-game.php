@@ -5,7 +5,8 @@ $tcg = Tcg::tcg();
 
 require_once "inc/header.php"; 
 ?>
-<link rel="stylesheet" href="asset/css/tcg.css">
+<link rel="stylesheet" href="asset/css/trading-card-game.css">
+<script src="asset/js/trading-card-game.js" defer></script>
 <title>Jeu de cartes à collectionner</title>
 <?php require_once "inc/nav.php"; ?>
 

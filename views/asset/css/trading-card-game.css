@@ -11,11 +11,12 @@
 }
 
 .card{
-    width: 300px;
-    height: 200px;
+    width: 400px;
+    height: 250px;
     background-size: 100% 100%;
     border-radius: 20px;
     border: 2px solid white;
+    margin: 50px 0px;
 }
 
 /* .card:hover{
