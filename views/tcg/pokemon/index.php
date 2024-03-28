@@ -26,9 +26,9 @@ $collection = file_get_contents($url_sets_fr);
         }
         $blocks[$block][] = $set;
     }
-    // echo "<pre>";
-    // var_dump($blocks);
-    // echo "</pre>";
+    echo "<pre style='color: red'>";
+    var_dump($blocks);
+    echo "</pre>";
 
 //     // Affichage des ensembles par bloc
     // foreach ($blocks as $block_name => $block_sets) {
@@ -80,12 +80,12 @@ require_once "../../inc/header.php"; ?>
         <!-- <select name="" id="">
             <option value=""></option>
         </select> -->
-        <!-- <h2><?= $block_name ?></h2>
+        <h2><?= $block_name ?></h2>
         <ul>
         <?php foreach ($block_sets as $set) { ?>
             <li><a href="?set=' . urlencode($set['id']) . '"><?= $set['name'] ?></a></li>
         <?php } ?>
-        </ul> -->
+        </ul>
     <?php } ?>
     </div>
 </div>

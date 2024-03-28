@@ -4,13 +4,14 @@
     margin:  20px auto 0 auto;
     background-color: rgb(42, 42, 42);
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .block{
     background-color: white;
     width: 20%;
-    height: 70%;
+    /* height: 70%; */
+    height: 700px;
     margin-left: 30px;
-    overflow: hidden;
+    overflow: auto;
 }
