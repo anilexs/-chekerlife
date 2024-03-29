@@ -41,12 +41,6 @@ require_once "../../inc/header.php"; ?>
     
         </div>
         <div class="blockSelect">
-                <?php // foreach ($organizedBlocks as $block) {
-                //     echo "Block: " . $block['block_name'] . "<br>";
-                //     foreach ($block['sets'] as $set) {
-                //         echo "\tSet: " . $set['set_name'] . " - Cards: " . $set['nb_card'] . "<br>";
-                //     }
-                // } ?>
             <?php foreach ($organizedBlocks as $block) { ?>
                 <div class="block">
                     <div class="blockName">
