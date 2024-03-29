@@ -1,17 +1,72 @@
-.controller{
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
+
+.contenaire{
     width: 90%;
     height: 70px;
     margin:  20px auto 0 auto;
     background-color: rgb(42, 42, 42);
+}
+
+.menuBlock{
+    position: relative;
     display: flex;
-    /* align-items: center; */
+    align-items: center;
+    height: 100%;
+}
+
+.blockContainer{
+    background-color: white;
+    width: 280px;
+    height: 70%;
+}
+
+.blockSelect{
+    position: absolute;
+    background-color: rgb(48, 48, 48);
+    top: 86%;
+    width: 280px;
+    height: 500px;
+    padding-bottom: 20px;
+    overflow: auto;
 }
 
 .block{
-    background-color: white;
-    width: 20%;
-    /* height: 70%; */
-    height: 700px;
-    margin-left: 30px;
-    overflow: auto;
+    background-color: gray;
+    width: 90%;
+    margin: 10px auto;
+    height: 50px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.blockName{
+    font-family: "Kanit", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+.blockName:hover{
+    background-color: aqua;
+}
+
+/* .setContenaire{
+    height: 0;
+} */
+
+.set{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    margin: 10px auto;
+    border-radius: 15px;
+}
+
+.setLogo{
+    width: 30px;
+    height: 30px;
 }
