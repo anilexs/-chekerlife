@@ -47,7 +47,10 @@ require_once "../../inc/header.php"; ?>
                         <?= $block['block_name'] ?>
                     </div>
                     <div class="setContenaire">
-                    <?php foreach ($block['sets'] as $set) { ?>
+                    <?php foreach ($block['sets'] as $set) {
+                        $name = str_replace(' ', '-', $set["set_name"]); 
+                        echo $name; ?>
+                        
                         <button class="set">
                             <img src="../../asset/img/tcg/pokemon/block/logo/<?= $set['logo'] ?>" class="setLogo" alt="">
                             <?= $set['set_name'] ?>
