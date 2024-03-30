@@ -13,5 +13,12 @@ $(document).ready(function() {
             $(this).parent('.block').css("height", "auto");
         }
     })
+    
+    $('.set').click(function() {
+        var name = $(this).attr('id');
+            name = name.replace(/\+/g, ' ');
+
+        console.log(name);
+    })
 });
 

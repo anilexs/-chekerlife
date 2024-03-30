@@ -575,3 +575,6 @@ if ($response_sets_fr === false) {
         <?php } ?>
         </ul>
     <?php } ?>
+
+
+    'commune','peu commune','rare','double rare','ultra rare','illustration rare','illustration speciale rare'
