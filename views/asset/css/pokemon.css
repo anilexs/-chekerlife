@@ -25,8 +25,8 @@
     background-color: rgb(48, 48, 48);
     top: 86%;
     width: 280px;
-    height: 500px;
-    padding-bottom: 20px;
+    height: 0;
+    /* padding-bottom: 20px; */
     overflow: auto;
 }
 
@@ -37,6 +37,10 @@
     height: 50px;
     border-radius: 15px;
     overflow: hidden;
+}
+
+.block:last-child{
+    margin-bottom: 20px;
 }
 
 .blockName{

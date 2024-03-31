@@ -29,17 +29,11 @@ foreach ($blockSet as $row) {
     }
 }
 
-// $setCard = array_reverse($organizedBlocks);
-// // [1]['sets'][1]['set_name']
-// echo '<pre>';
-// var_dump($setCard[1]);
-// echo '</pre>';
-
-// if(isset($_GET['q'])){
-//     $card = Pokemon::setCard($_GET['q']);
-// }else{
-//     $card = Pokemon::setCard($_GET['q']);
-// }
+if(isset($_GET['q'])){
+    $card = Pokemon::setCard($_GET['q']);
+}else{
+    $card = Pokemon::setCard($blockSet[0]['set_name']);
+}
 
 require_once "../../inc/header.php"; ?>
 <link rel="stylesheet" href="../../asset/css/pokemon.css">
@@ -49,7 +43,7 @@ require_once "../../inc/header.php"; ?>
 <div class="contenaire">
     <div class="menuBlock">
         <div class="blockContainer">
-    
+         
         </div>
         <div class="blockSelect">
             <?php foreach ($organizedBlocks as $block) { ?>
@@ -73,5 +67,8 @@ require_once "../../inc/header.php"; ?>
             <?php } ?>
         </div>
     </div>
+</div>
+<div class="card">
+    
 </div>
 <?php require_once "../../inc/footer.php"; ?>

@@ -178,14 +178,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
                 echo '</li>';
             }
         }
-    }else if($_POST['action'] == "lastAdd"){
-        $response_code = HTTP_OK;
-        $lastAdd = Catalog::lastAdd();
-        $responseTab = [
-            "response_code" => HTTP_OK,
-            "lastAdd" => $lastAdd,
-        ];
-        reponse($response_code, $responseTab);
     }else if($_POST['action'] == "cataloginfo" && isset($_POST['catalog_id'])){
         $response_code = HTTP_OK;
         $catalogInfo = Catalog::catalogInfo($_POST['catalog_id']);

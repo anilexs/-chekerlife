@@ -1,6 +1,23 @@
 ftrSize();
 
 $(document).ready(function() {
+
+    var openMenu = false; 
+
+    $('.blockContainer').click(function(event) {
+        event.stopPropagation();
+        $('.blockSelect').stop(true, false);
+
+        if (openMenu == false) {
+            $('.blockSelect').stop().animate({ height: '300px' }, 300);
+            openMenu = true;
+        } else {
+            $('.blockSelect').stop().animate({ height: '0' }, 300);
+            openMenu = false;
+        }
+    });
+
+
     $('.blockName').click(function() {
         
         var hauteur = $(this).parent('.block').css('height');
@@ -23,7 +40,21 @@ $(document).ready(function() {
     
         name = name.replace(/\+/g, ' ');
     
-        console.log(name);
+        $.ajax({
+            url: host + "controller/pokemonAjaxController.php", 
+            type: 'POST',
+            data: {
+                action: "setcard",
+                set_name: name
+            },
+            dataType: 'html',
+            success: function(response) {
+                $('.card').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Une erreur s\'est produite lors du chargement du contenu.');
+            }
+        });
     });
     
 });
