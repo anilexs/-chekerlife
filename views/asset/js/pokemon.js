@@ -16,9 +16,15 @@ $(document).ready(function() {
     
     $('.set').click(function() {
         var name = $(this).attr('id');
-            name = name.replace(/\+/g, ' ');
-
+        var urlParts = window.location.href.split('/');
+        var baseUrl = urlParts.slice(0, -1).join('/'); // Reconstitue l'URL sans la dernière partie (après le dernier slash)
+        var newUrl = baseUrl + '/' + name; // Ajoutez le nouveau nom à la fin de l'URL
+        history.pushState({}, '', newUrl);
+    
+        name = name.replace(/\+/g, ' ');
+    
         console.log(name);
-    })
+    });
+    
 });
 

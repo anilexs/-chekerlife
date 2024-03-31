@@ -3,7 +3,6 @@ require_once "../../../model/pokemonModel.php";
 $blockSet = Pokemon::blockSet();
 
 $organizedBlocks = [];
-
 foreach ($blockSet as $row) {
     // Vérifie si le block actuel a déjà été ajouté à notre tableau organisé
     if (!array_key_exists($row['id_block'], $organizedBlocks)) {
@@ -29,6 +28,18 @@ foreach ($blockSet as $row) {
         ];
     }
 }
+
+// $setCard = array_reverse($organizedBlocks);
+// // [1]['sets'][1]['set_name']
+// echo '<pre>';
+// var_dump($setCard[1]);
+// echo '</pre>';
+
+// if(isset($_GET['q'])){
+//     $card = Pokemon::setCard($_GET['q']);
+// }else{
+//     $card = Pokemon::setCard($_GET['q']);
+// }
 
 require_once "../../inc/header.php"; ?>
 <link rel="stylesheet" href="../../asset/css/pokemon.css">

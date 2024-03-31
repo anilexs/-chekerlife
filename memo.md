@@ -578,3 +578,8 @@ if ($response_sets_fr === false) {
 
 
     'commune','peu commune','rare','double rare','ultra rare','illustration rare','illustration speciale rare'
+
+SELECT pc.* 
+FROM pokemon_card pc 
+LEFT JOIN pokemon_set ps ON  ps.name = 'Calendrier des Fêtes 2023' WHERE pc.set_id = ps.id_set
+ORDER BY pc.number;

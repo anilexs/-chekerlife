@@ -13,5 +13,17 @@ class Pokemon{
             echo $e->getMessage();
         }
     }
+    
+    public static function setCard($name) {
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT pc.* FROM pokemon_card pc LEFT JOIN pokemon_set ps ON  ps.name = ? WHERE pc.set_id = ps.id_set ORDER BY pc.number");
+        try {
+            $request->execute(array($name));
+            $blockSet = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $blockSet;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
 ?>
