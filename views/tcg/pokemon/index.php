@@ -43,7 +43,7 @@ require_once "../../inc/header.php"; ?>
 <div class="contenaire">
     <div class="menuBlock">
         <div class="blockContainer">
-         
+
         </div>
         <div class="blockSelect">
             <?php foreach ($organizedBlocks as $block) { ?>
@@ -68,7 +68,13 @@ require_once "../../inc/header.php"; ?>
         </div>
     </div>
 </div>
-<div class="card">
-    
+<div class="cardContenaire">
+    <?php foreach ($card as $card) { 
+        $name = str_replace(' ', '+', trim($card['name'])); ?>
+        
+        <div class="card" style="background-image: url(../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>)">
+
+        </div>
+    <?php } ?>
 </div>
 <?php require_once "../../inc/footer.php"; ?>

@@ -16,7 +16,7 @@ class Pokemon{
     
     public static function setCard($name) {
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT pc.* FROM pokemon_card pc LEFT JOIN pokemon_set ps ON  ps.name = ? WHERE pc.set_id = ps.id_set ORDER BY pc.number");
+        $request = $db->prepare("SELECT pc.*, ps.name, pb.name AS block FROM pokemon_card pc LEFT JOIN pokemon_set ps ON  ps.name = ? LEFT JOIN pokemon_block pb ON pb.id_block = ps.block_id WHERE pc.set_id = ps.id_set ORDER BY pc.number");
         try {
             $request->execute(array($name));
             $blockSet = $request->fetchAll(PDO::FETCH_ASSOC);
