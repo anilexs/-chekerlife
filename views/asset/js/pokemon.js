@@ -61,5 +61,8 @@ $(document).ready(function() {
         });
     });
     
+    $('.card').click(function() {
+        console.log('card click');
+    })
 });
 

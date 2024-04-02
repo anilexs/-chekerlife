@@ -30,9 +30,9 @@ foreach ($blockSet as $row) {
 }
 
 if(isset($_GET['q'])){
-    $card = Pokemon::setCard($_GET['q']);
+    $card = Pokemon::setCard($_GET['q'], $_COOKIE['token']);
 }else{
-    $card = Pokemon::setCard($blockSet[0]['set_name']);
+    $card = Pokemon::setCard($blockSet[0]['set_name'], $_COOKIE['token']);
 }
 
 require_once "../../inc/header.php"; ?>
@@ -70,6 +70,9 @@ require_once "../../inc/header.php"; ?>
 </div>
 <div class="cardContenaire">
     <?php foreach ($card as $card) { 
+        echo "<pre>";
+        var_dump($card);
+        echo "</pre>";
         $name = str_replace(' ', '+', trim($card['name'])); ?>
         
         <div class="card" style="background-image: url(../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>)">
