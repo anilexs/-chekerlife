@@ -12,7 +12,7 @@ require_once "inc/header.php";
 
 <div class="contenaire">
     <?php foreach ($tcg as $collection) { ?>
-        <a href="tcg/<?=$collection['nom']?>">
+        <a href="<?= $host ?>tcg/<?=$collection['nom']?>/">
             <div class="card" style="background-image: url(asset/img/tcg/<?=$collection['image']?>)">
                 
             </div>

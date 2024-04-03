@@ -1,6 +1,7 @@
 ftrSize();
 
 $(document).ready(function() {
+    ftrSize();
 
     var openMenu = false; 
 
