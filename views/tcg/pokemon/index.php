@@ -34,9 +34,11 @@ foreach ($blockSet as $row) {
             'set_order' => $row['set_order']
         ];
     }
-    $name = str_replace('+', ' ', trim($_GET['q']));
-    if($row['set_name'] == $name){
-       $get = $row; 
+    if(isset($_GET['q'])){
+        $name = str_replace('+', ' ', trim($_GET['q']));
+        if($row['set_name'] == $name){
+           $get = $row; 
+        }
     }
 }
 
@@ -96,8 +98,18 @@ require_once "../../inc/header.php"; ?>
         // var_dump($card);
         // echo "</pre>";
         $name = str_replace(' ', '+', trim($card['name'])); 
-        $cardSecondary = explode(', ', $card['card_secondary']); ?>
+        $cardSecondary = explode(', ', $card['card_secondary']); 
+        
+        $card_user = 0;
+        
+        foreach ($cardSecondary as $cardSecondaire) {
+            $secondaireCarte = explode('=', $cardSecondaire); 
 
+            if(isset($secondaireCarte[1]) && $secondaireCarte[1] == 1){
+                $card_user = 1;
+                break; 
+            }
+        } ?>
         
         <div class="contenaireCard">
             <div class="card">
@@ -112,11 +124,12 @@ require_once "../../inc/header.php"; ?>
 
             <div class="cardLegend">
                 <div class="normal">
-                    <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" <?= ($card['user_card'] == 1) ? "" : 'style="opacity: 0.5"' ?>>
+                    <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" <?= ($card['user_card'] == 1 || $getUser_card = 1) ? "" : 'style="opacity: 0.5"' ?>>
                 </div>
                 
                 <?php foreach ($cardSecondary as $key) {
                     $cardSecondaryKey = explode('=', $key);
+                    var_dump($key);
                     if(isset($cardSecondaryKey[1])){
                         if($cardSecondaryKey[0] == "Reverse"){ ?>
                             <div class="reverse">

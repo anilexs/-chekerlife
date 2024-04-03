@@ -36,6 +36,7 @@
     height: 0;
     /* padding-bottom: 20px; */
     overflow: auto;
+    z-index: 12;
 }
 
 .block{
