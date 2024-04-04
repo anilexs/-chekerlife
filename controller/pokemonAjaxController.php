@@ -12,6 +12,16 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     $message = "il manque le paramétre ACTION";
     if($_POST['action'] == "setcard" && isset($_POST['set_name'])){
         $card = Pokemon::setCard($_POST['set_name'], $_COOKIE['token']);
+    }else if($_POST['action'] == "pokeball"){
+        $response_code = HTTP_OK;
+        $pokeball = Pokemon::pokeball($_COOKIE['token'], $_POST['idCard'], $_POST['set_name'], $_POST['secondary_name']);
+
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "pokeball" => $pokeball
+        ];
+
+        reponse($response_code, $responseTab);
     }
 }else {
     $response_code = HTTP_METHOD_NOT_ALLOWED;

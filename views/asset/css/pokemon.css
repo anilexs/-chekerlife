@@ -96,6 +96,7 @@
 }
 
 .contenaireCard{
+    width: 200px;
     margin: 10px 0;
     background-color: white;
     border-radius: 10px;
@@ -130,5 +131,85 @@
 }
 
 .cardLegend{
+    max-width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.normal, .reverse, .special{
+    position: relative;
+    margin: 10px 11px 5px 11px;
+}
+.normal{
+    order: 0;
+}
+.reverse{
+    order: 1;
+}
+.special{
+    order: 2;
+}
+
+.hover {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.642);
+    padding: 5px;
+    color: white;
+    z-index: 30;
+    top: -10px;
+    left: 100%;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.cardEtatContenaire{
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 33;
+    top: 0;
+}
+
+.returne{
+    color: white;
+    margin: 10px 0 10px 10px;
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+}
+.cardEtatTxt{
+    color: white;
+    width: 95%;
+    margin: 30px auto 0 auto;
+    text-align: center;
+    font-size: 20px;
+}
+
+.cardEtatbtn{
+    position: absolute;
+    bottom: 0;
+    z-index: 33;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+}
+.plus{
+    background-color: green;
+    width: 48%;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 30px;
+    border: none;
+}
+.moins{
+    background-color: red;
+    width: 48%;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 30px;
+    border: none;
 }
