@@ -41,18 +41,18 @@ class Pokemon{
     }
     
     public static function pokeball($token, $cardId, $set, $secondary_name = null) {
-        $db = Database::dbConnect();
+        // $db = Database::dbConnect();
         
-        if($secondary_name == null){
-            $request = $db->prepare("INSERT INTO `pokemon_user_card` (`user_id`, `card_id`) SELECT t.user_id, pc.id_card FROM token t LEFT JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE t.token = ? LIMIT 1"); 
-        }else{
-            $request = $db->prepare(""); 
-        }
+        // if($secondary_name == null){
+            // $request = $db->prepare("INSERT INTO `pokemon_user_card` (`user_id`, `card_id`) SELECT t.user_id, pc.id_card FROM token t LEFT JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE t.token = ? LIMIT 1"); 
+        // }else{
+            // $request = $db->prepare(""); 
+        // }
         
         try {
-            // $request->execute();
             // $blockSet = $request->fetchAll(PDO::FETCH_ASSOC);
-            return $request;
+            // $request->execute();
+            // return $token;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

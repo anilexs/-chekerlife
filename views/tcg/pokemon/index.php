@@ -157,7 +157,7 @@ require_once "../../inc/header.php"; ?>
                                 <?php if(isset($_COOKIE['token'])){ ?>
                                     <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] secondaireName : [<?= $cardSecondaryKey[0] ?>] user_card : [<?=$cardSecondaryKey[1]?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
                                     <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
-                                    <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" style="opacity: 0.5">
+                                    <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" <?= ($cardSecondaryKey[1] == 1) ? "" : 'style="opacity: 0.5"' ?>>
                                 <?php }else{ ?>
                                     <a href="<?= $host ?>connexion">
                                         <div class="hover"><?= $cardSecondaryKey[0]; ?></div>

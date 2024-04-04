@@ -73,6 +73,7 @@ $(document).ready(function() {
         var name = $(this).attr('id');
         
         var ballSetId = $(this).find('.ballSetId').val();
+        console.log(ballSetId);
         
         var regex = /(\w+)\s*:\s*\[([^\]]+)\]/g;
         var tableauAssoc = ballSetId.match(regex).reduce(function(acc, match) {
@@ -143,10 +144,10 @@ $(document).ready(function() {
             data: data,
             dataType: 'json',
             success: function(response) {
-                // console.log(response);
+                console.log(response);
             },
             error: function(xhr, status, error) {
-                console.error('Une erreur s\'est produite lors du chargement du contenu.');
+                console.error(xhr);
             }
         });
     }
