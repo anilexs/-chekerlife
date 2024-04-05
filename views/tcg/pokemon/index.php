@@ -5,7 +5,7 @@ $token = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
 $blockSet = Pokemon::blockSet($token);
 
 // echo "<pre>";
-// var_dump($blockSet);
+// var_dump($allEtat);
 // echo "</pre>";
 
 $get = null;
@@ -97,7 +97,7 @@ require_once "../../inc/header.php"; ?>
         // echo "<pre>";
         // var_dump($card);
         // echo "</pre>";
-        $name = str_replace(' ', '+', trim($card['name'])); 
+        $name = str_replace(' ', '+', trim($card['set_name'])); 
         $cardSecondary = explode(', ', $card['card_secondary']); 
         
         $card_user = 0;
@@ -127,7 +127,7 @@ require_once "../../inc/header.php"; ?>
                     <?php if(isset($_COOKIE['token'])){ ?>
                         <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] user_card : [<?=$card['user_card']?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
                         <div class="hover">standard</div>
-                        <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" <?= ($card['user_card'] == 1) ? "" : 'style="opacity: 0.5"' ?>>
+                        <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" <?= ($card['user_card'] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
                         <?php }else{ ?>
                             <a href="<?= $host ?>connexion">
                                 <div class="hover">standard</div>
@@ -144,7 +144,7 @@ require_once "../../inc/header.php"; ?>
                                 <?php if(isset($_COOKIE['token'])){ ?>
                                     <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] secondaireName : [<?= $cardSecondaryKey[0] ?>] user_card : [<?=$cardSecondaryKey[1]?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
                                     <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
-                                   <img src="../../asset/img/tcg/pokemon/pokeball/reverse.png" alt="" <?= ($cardSecondaryKey[1] == 1) ? "" : 'style="opacity: 0.5"' ?>>
+                                   <img src="../../asset/img/tcg/pokemon/pokeball/reverse.png" alt="" <?= ($cardSecondaryKey[1] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
                                 <?php }else{ ?>
                                     <a href="<?= $host ?>connexion">
                                         <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
@@ -157,7 +157,7 @@ require_once "../../inc/header.php"; ?>
                                 <?php if(isset($_COOKIE['token'])){ ?>
                                     <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] secondaireName : [<?= $cardSecondaryKey[0] ?>] user_card : [<?=$cardSecondaryKey[1]?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
                                     <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
-                                    <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" <?= ($cardSecondaryKey[1] == 1) ? "" : 'style="opacity: 0.5"' ?>>
+                                    <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" <?= ($cardSecondaryKey[1] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
                                 <?php }else{ ?>
                                     <a href="<?= $host ?>connexion">
                                         <div class="hover"><?= $cardSecondaryKey[0]; ?></div>

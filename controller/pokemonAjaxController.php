@@ -22,6 +22,16 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         ];
 
         reponse($response_code, $responseTab);
+    }else if($_POST['action'] == "userCardEtat"){
+        $response_code = HTTP_OK;
+        
+        $etat = Pokemon::userEtatCard();
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "etat" => $etat
+        ];
+
+        reponse($response_code, $responseTab);
     }
 }else {
     $response_code = HTTP_METHOD_NOT_ALLOWED;

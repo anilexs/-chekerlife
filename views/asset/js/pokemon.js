@@ -68,12 +68,12 @@ $(document).ready(function() {
     })
     
     $('.pokeball').click(function() {
+        var $this = $(this);
         removePokeball();
         var type = $(this).attr('class').split(' '); // Diviser la chaîne des classes par les espaces
         var name = $(this).attr('id');
         
         var ballSetId = $(this).find('.ballSetId').val();
-        console.log(ballSetId);
         
         var regex = /(\w+)\s*:\s*\[([^\]]+)\]/g;
         var tableauAssoc = ballSetId.match(regex).reduce(function(acc, match) {
@@ -83,16 +83,47 @@ $(document).ready(function() {
         }, {});
 
         if(type[0] == "normal" || type[0] == "reverse" || type[0] == "special"){
-
-            $(this).parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
-                '<div class="cardEtatContenaire">' +
-                '<div class="cardEtatReturn"><button class="returne"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button></div>'  +
-                '<div class="cardEtatTxt">vouler vous ajouter ou suprimer une carte ' + (type[0] == "normal" ? 'normal' : tableauAssoc['secondaireName']) + ' a ' + tableauAssoc['card_name'] + '</div>'  +
-                '<div class="cardEtatbtn">' +
-                    '<button class="plus"><i class="fa-solid fa-plus"></i></button>' +
-                    '<button class="moins" ' + (tableauAssoc['user_card'] == 0 ? 'disabled' : '') + '><i class="fa-solid fa-minus"></i></button>' +
-                '</div>' +
-            '</div>');
+            var type = (type[0] == "normal") ? "normal" : "secondaire";
+            console.log(type);
+            $.ajax({
+                url: host + "controller/pokemonAjaxController.php", 
+                type: 'POST',
+                data: {
+                    action: "userCardEtat",
+                    type: type
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(type);
+                    var options = '';
+                    response['etat'].forEach(function(etat) {
+                        options += '<option value="' + etat['etat'] + '">' + etat['etat'] + '</option>';
+                    });
+                    $this.parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
+                        '<div class="cardEtatContenaire">' +
+                        '<div class="cardEtatReturn"><button class="returne"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button></div>'  +
+                        '<div class="cardEtatTxt">vouler vous ajouter ou suprimer une carte ' + 
+                        '<div class="etat">' +
+                        '<select name="" id="">' +
+                            options +
+                        '</select>' +
+                        '</div>' + 
+                        (type == "normal" ? 'normal' : tableauAssoc['secondaireName']) + ' a ' + tableauAssoc['card_name'] + '</div>'  +
+                        '<div class="cardEtatbtn">' +
+                            '<button class="plus"><i class="fa-solid fa-plus"></i></button>' +
+                            '<button class="moins" ' + (tableauAssoc['user_card'] == 0 ? 'disabled' : '') + '><i class="fa-solid fa-minus"></i></button>' +
+                        '</div>' +
+                    '</div>');
+                    
+                    $('.cardEtatContenaire').on('click', function(e) {
+                        e.stopPropagation();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+                
                 
             var data = (type[0] == "normal") ? {
                 action: "pokeball",
@@ -116,9 +147,7 @@ $(document).ready(function() {
                 pokeballRequette(data, -1);
             })
 
-            $('.cardEtatContenaire').on('click', function(e) {
-                e.stopPropagation();
-            });
+           
 
             $(document).on("keyup", function(e) {
                 if (e.key === "Escape") { 
@@ -137,7 +166,7 @@ $(document).ready(function() {
 
     function pokeballRequette(data, etat){
         data['etat'] = etat; 
-        console.log(data);
+        // console.log(data);
         $.ajax({
             url: host + "controller/pokemonAjaxController.php", 
             type: 'POST',
