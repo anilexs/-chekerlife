@@ -127,7 +127,7 @@ class Pokemon{
         }
     }
 
-    public static function userEtatCard() {
+    public static function userEtatCard($token, $set_name, $cardId) {
         $db = Database::dbConnect();
         //  card etat a compte par la suit
         // card
