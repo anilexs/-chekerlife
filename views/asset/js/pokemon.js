@@ -108,16 +108,16 @@ $(document).ready(function() {
                     
                     response['etat'].forEach(function(etat) {
                         if(etat['id_pk_etat'] == 1){
-                            options += '<span class="etatOpt"> <span>' + etat['etat'] + '</span> <span class="etatNbCard">' + etat['nombre_de_cartes'] + '</span> </span>';
+                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : ' + etat['nombre_de_cartes'] + '</span> </button> </span>';
                         }else{
-                            options += '<span class="etatOpt"> <span>' + etat['etat'] + '</span> <span class="etatNbCard">' + etat['nombre_de_cartes'] + '</span> </span>';
+                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : ' + etat['nombre_de_cartes'] + '</span> </button> </span>';
                         }
                     });
                     $this.parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
                         '<div class="cardEtatContenaire">' +
                         '<div class="cardEtatReturn"><button class="returne"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button></div>'  +
                         '<div class="cardEtatTxt">vouler vous ajouter ou suprimer une carte ' + 
-                        '<div class="etat"><span>' + response['etat'][0]['etat'] + '</span> <span class="etatNbCard">' + response['etat'][0]['nombre_de_cartes'] + '</span></div>' +
+                        '<div class="etat">' + response['etat'][0]['etat'] + '</div>' +
                         '<div class="selectEtat">' +
                             options +
                         '</div>' + 
@@ -144,9 +144,9 @@ $(document).ready(function() {
                             $('.moins').prop("disabled", true);
                         }
 
-                        var htmlContent = $(this).html();
+                        var etat = $(this).find('button').find('.etatoptSelectVal').html();
 
-                        $('.etat').html(htmlContent); 
+                        $('.etat').html(etat); 
                     });
 
                 },

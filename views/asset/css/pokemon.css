@@ -193,21 +193,39 @@
     background-color: red;
     height: 30px;
     width: 100%;
+    font-family: 'Roboto', sans-serif;
 }
 
 .selectEtat{
-    background-color: rgb(0, 191, 255);
+    background-color: rgba(130, 130, 130, 0.8);
     position: absolute;
+    /* height: 174px; */
+    height: 0px;
     width: 100%;
     z-index: 35;
+    overflow: auto;
 }
 
-.etatOpt, .selectedEtat{
+.etatOpt{
     display: block;
+    width: 80%;
+    margin: 10px auto;
+    border: 2px solid black;
+    border-radius: 10px;
 }
-.etatNbCard{
+.etatOpt button{
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+.etatoptSelect{
+    font-size: large;
+}
+
+/* .etatNbCard{
     background-color: red;
-}
+} */
 
 .cardEtatbtn{
     position: absolute;
