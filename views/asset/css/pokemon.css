@@ -186,6 +186,27 @@
     margin: 30px auto 0 auto;
     text-align: center;
     font-size: 20px;
+    position: relative;
+}
+
+.etat{
+    background-color: red;
+    height: 30px;
+    width: 100%;
+}
+
+.selectEtat{
+    background-color: rgb(0, 191, 255);
+    position: absolute;
+    width: 100%;
+    z-index: 35;
+}
+
+.etatOpt, .selectedEtat{
+    display: block;
+}
+.etatNbCard{
+    background-color: red;
 }
 
 .cardEtatbtn{

@@ -83,30 +83,43 @@ $(document).ready(function() {
         }, {});
 
         if(type[0] == "normal" || type[0] == "reverse" || type[0] == "special"){
+
+            var data = (type[0] == "normal") ? {
+                action: "userCardEtat",
+                idCard: tableauAssoc['idCard'],
+                set_name: tableauAssoc['set'],
+                secondary_name: null,
+            } : {
+                action: "userCardEtat",
+                idCard: tableauAssoc['idCard'],
+                set_name: tableauAssoc['set'],
+                secondary_name: tableauAssoc['secondaireName'],
+            };
+            
             var type = (type[0] == "normal") ? "normal" : "secondaire";
-            console.log(type);
             $.ajax({
                 url: host + "controller/pokemonAjaxController.php", 
                 type: 'POST',
-                data: {
-                    action: "userCardEtat",
-                    type: type
-                },
+                data: data,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(type);
+                    
                     var options = '';
+                    
                     response['etat'].forEach(function(etat) {
-                        options += '<option value="' + etat['etat'] + '">' + etat['etat'] + '</option>';
+                        if(etat['id_pk_etat'] == 1){
+                            options += '<span class="etatOpt"> <span>' + etat['etat'] + '</span> <span class="etatNbCard">' + etat['nombre_de_cartes'] + '</span> </span>';
+                        }else{
+                            options += '<span class="etatOpt"> <span>' + etat['etat'] + '</span> <span class="etatNbCard">' + etat['nombre_de_cartes'] + '</span> </span>';
+                        }
                     });
                     $this.parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
                         '<div class="cardEtatContenaire">' +
                         '<div class="cardEtatReturn"><button class="returne"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button></div>'  +
                         '<div class="cardEtatTxt">vouler vous ajouter ou suprimer une carte ' + 
-                        '<div class="etat">' +
-                        '<select name="" id="">' +
+                        '<div class="etat"><span>' + response['etat'][0]['etat'] + '</span> <span class="etatNbCard">' + response['etat'][0]['nombre_de_cartes'] + '</span></div>' +
+                        '<div class="selectEtat">' +
                             options +
-                        '</select>' +
                         '</div>' + 
                         (type == "normal" ? 'normal' : tableauAssoc['secondaireName']) + ' a ' + tableauAssoc['card_name'] + '</div>'  +
                         '<div class="cardEtatbtn">' +
@@ -118,6 +131,24 @@ $(document).ready(function() {
                     $('.cardEtatContenaire').on('click', function(e) {
                         e.stopPropagation();
                     });
+                
+                    $('.etatOpt').on('click', function() {
+                        // La méthode jQuery siblings() permet de sélectionner tous les frères d'un élément spécifié
+                        $(this).siblings().removeClass('selected');
+                        $(this).addClass('selected');
+
+                        var nbEtatCard = $(this).find('.etatNbCard').text();
+                        if(nbEtatCard >= 1){
+                            $('.moins').prop("disabled", false);
+                        }else{
+                            $('.moins').prop("disabled", true);
+                        }
+
+                        var htmlContent = $(this).html();
+
+                        $('.etat').html(htmlContent); 
+                    });
+
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr);
@@ -125,7 +156,7 @@ $(document).ready(function() {
             });
                 
                 
-            var data = (type[0] == "normal") ? {
+            data = (type[0] == "normal") ? {
                 action: "pokeball",
                 idCard: tableauAssoc['idCard'],
                 set_name: tableauAssoc['set'],

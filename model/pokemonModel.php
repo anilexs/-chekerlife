@@ -127,35 +127,44 @@ class Pokemon{
         }
     }
 
-    public static function userEtatCard($token, $set_name, $cardId) {
+    public static function userEtatCard($token, $set_name, $cardId, $secondary_name = null) {
         $db = Database::dbConnect();
-        //  card etat a compte par la suit
-        // card
-        // SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(puc.id_pk_user_card)  + puc.possession -1, 0) AS nombre_de_cartes
-        // FROM pokemon_etat pe
-        // LEFT JOIN token t ON t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@'
-        // LEFT JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
-        // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
-        // LEFT JOIN pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat AND puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1
-        // GROUP BY pe.id_pk_etat, pe.etat;
 
-        // secondaire
-        // SELECT pe.id_pk_etat, 
-        // pe.etat, 
-        // COALESCE(COUNT(DISTINCT puc.id_pk_user_card) + puc.possession -1, 0) AS nombre_de_cartes
-        // FROM pokemon_etat pe
-        // LEFT JOIN pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id
-        // AND puc.user_card_actif = 1
-        // AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@')
-        // AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs
-        // INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card
-        // INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set
-        // WHERE pc.cardId = 1
-        // AND ps.name = 'Calendrier des Fêtes 2023')
-        // GROUP BY pe.id_pk_etat, pe.etat;
+        if($secondary_name == null){
+            // card
+            // SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(puc.id_pk_user_card)  + puc.possession -1, 0) AS nombre_de_cartes
+            // FROM pokemon_etat pe
+            // LEFT JOIN token t ON t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@'
+            // LEFT JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
+            // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
+            // LEFT JOIN pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat AND puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1
+            // GROUP BY pe.id_pk_etat, pe.etat;
+            $request = $db->prepare("SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(puc.id_pk_user_card)  + puc.possession -1, 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat AND puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1 GROUP BY pe.id_pk_etat, pe.etat;");
+        }else{
+            // secondaire
+            // SELECT pe.id_pk_etat, 
+            // pe.etat, 
+            // COALESCE(COUNT(DISTINCT puc.id_pk_user_card) + puc.possession -1, 0) AS nombre_de_cartes
+            // FROM pokemon_etat pe
+            // LEFT JOIN pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id
+            // AND puc.user_card_actif = 1
+            // AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@')
+            // AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs
+            // INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = ?
+            // INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set
+            // WHERE pc.cardId = 1
+            // AND ps.name = 'Calendrier des Fêtes 2023')
+            // GROUP BY pe.id_pk_etat, pe.etat;
+            $request = $db->prepare("SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(DISTINCT puc.id_pk_user_card) + puc.possession -1, 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id AND puc.user_card_actif = 1 AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = :token) AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = :secondary_name INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set WHERE pc.cardId = :cardId AND ps.name = :set_name) GROUP BY pe.id_pk_etat, pe.etat;");
+            
+            $request->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
+        }
 
-        $request = $db->prepare("SELECT * FROM pokemon_etat");
+
         try {
+            $request->bindParam(':token', $token, PDO::PARAM_STR);
+            $request->bindParam(':set_name', $set_name, PDO::PARAM_STR);
+            $request->bindParam(':cardId', $cardId, PDO::PARAM_STR);
             $request->execute();
             $etat = $request->fetchAll(PDO::FETCH_ASSOC);
             return $etat;

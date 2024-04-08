@@ -25,7 +25,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }else if($_POST['action'] == "userCardEtat"){
         $response_code = HTTP_OK;
         
-        $etat = Pokemon::userEtatCard($_COOKIE['token'], "set_name", 1);
+        $etat = Pokemon::userEtatCard($_COOKIE['token'], $_POST['set_name'], $_POST['idCard'], $_POST['secondary_name']);
         $responseTab = [
             "response_code" => HTTP_OK,
             "etat" => $etat
