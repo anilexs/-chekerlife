@@ -119,7 +119,7 @@ require_once "../../inc/header.php"; ?>
                         <img src="../../asset/img/tcg/pokemon/logo/<?= $card['rarete_img'] ?>" alt="">
                     </div>
                 </div>
-                <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] == 1 || $card_user == 1) ? "" : 'style="opacity: 0.5"' ?>>    
+                <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] >= 1 || $card_user >= 1) ? "" : 'style="opacity: 0.5"' ?>>    
             </div>
 
             <div class="cardLegend">

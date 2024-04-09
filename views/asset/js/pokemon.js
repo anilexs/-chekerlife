@@ -87,8 +87,7 @@ $(document).ready(function() {
             var data = (type[0] == "normal") ? {
                 action: "userCardEtat",
                 idCard: tableauAssoc['idCard'],
-                set_name: tableauAssoc['set'],
-                secondary_name: null,
+                set_name: tableauAssoc['set']
             } : {
                 action: "userCardEtat",
                 idCard: tableauAssoc['idCard'],
@@ -108,16 +107,16 @@ $(document).ready(function() {
                     
                     response['etat'].forEach(function(etat) {
                         if(etat['id_pk_etat'] == 1){
-                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : ' + etat['nombre_de_cartes'] + '</span> </button> </span>';
+                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
                         }else{
-                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : ' + etat['nombre_de_cartes'] + '</span> </button> </span>';
+                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession :  <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
                         }
                     });
                     $this.parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
                         '<div class="cardEtatContenaire">' +
                         '<div class="cardEtatReturn"><button class="returne"><i class="fa-solid fa-arrow-right fa-rotate-180"></i> retour</button></div>'  +
                         '<div class="cardEtatTxt">vouler vous ajouter ou suprimer une carte ' + 
-                        '<div class="etat">' + response['etat'][0]['etat'] + '</div>' +
+                        '<div class="etat"><button>' + response['etat'][0]['etat'] + '</button></div>' +
                         '<div class="selectEtat">' +
                             options +
                         '</div>' + 
@@ -127,18 +126,35 @@ $(document).ready(function() {
                             '<button class="moins" ' + (tableauAssoc['user_card'] == 0 ? 'disabled' : '') + '><i class="fa-solid fa-minus"></i></button>' +
                         '</div>' +
                     '</div>');
+
+                    $('.returne').on('click', function(e){
+                        e.stopPropagation();
+                        removePokeball();
+                    })
                     
                     $('.cardEtatContenaire').on('click', function(e) {
                         e.stopPropagation();
                     });
-                
+
+                    $('.etat, .etatOpt').on('click', function(e) {
+                        e.stopPropagation();
+                        var $selectEtat = $('.selectEtat');
+                        $selectEtat.stop(true, false);
+                        
+                        if (!$selectEtat.hasClass('ouvert')) {
+                            $selectEtat.addClass('ouvert');
+                            $selectEtat.animate({ height: '174px' }, 300);
+                        } else {
+                            $selectEtat.removeClass('ouvert');
+                            $selectEtat.animate({ height: '0' }, 300);
+                        }
+                    });
+                    
                     $('.etatOpt').on('click', function() {
                         // La méthode jQuery siblings() permet de sélectionner tous les frères d'un élément spécifié
-                        $(this).siblings().removeClass('selected');
-                        $(this).addClass('selected');
+                        var nbPosession = $(this).find('button').find(".nbPosession").text();
 
-                        var nbEtatCard = $(this).find('.etatNbCard').text();
-                        if(nbEtatCard >= 1){
+                        if(nbPosession >= 1){
                             $('.moins').prop("disabled", false);
                         }else{
                             $('.moins').prop("disabled", true);
@@ -146,50 +162,42 @@ $(document).ready(function() {
 
                         var etat = $(this).find('button').find('.etatoptSelectVal').html();
 
-                        $('.etat').html(etat); 
+                        $('.etat').find('button').html(etat); 
                     });
 
+                    data = (type[0] == "normal") ? {
+                        action: "pokeball",
+                        idCard: tableauAssoc['idCard'],
+                        set_name: tableauAssoc['set'],
+                    } : {
+                        action: "pokeball",
+                        idCard: tableauAssoc['idCard'],
+                        set_name: tableauAssoc['set'],
+                        secondary_name: tableauAssoc['secondaireName']
+                    };
+                            
+                    $('.plus').on("click", (e) =>{
+                        e.stopPropagation();
+                        pokeballRequette(data, 1);
+                    })
+                
+                    $('.moins').on("click", (e) =>{
+                        e.stopPropagation();
+                        pokeballRequette(data, -1);
+                    })
+                
+                
+                
+                    $(document).on("keyup", function(e) {
+                        if (e.key === "Escape") { 
+                            removePokeball(); 
+                        }
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr);
                 }
             });
-                
-                
-            data = (type[0] == "normal") ? {
-                action: "pokeball",
-                idCard: tableauAssoc['idCard'],
-                set_name: tableauAssoc['set'],
-                secondary_name: null
-            } : {
-                action: "pokeball",
-                idCard: tableauAssoc['idCard'],
-                set_name: tableauAssoc['set'],
-                secondary_name: tableauAssoc['secondaireName']
-            };
-                    
-            $('.plus').on("click", (e) =>{
-                e.stopPropagation();
-                pokeballRequette(data, 1);
-            })
-
-            $('.moins').on("click", (e) =>{
-                e.stopPropagation();
-                pokeballRequette(data, -1);
-            })
-
-           
-
-            $(document).on("keyup", function(e) {
-                if (e.key === "Escape") { 
-                    removePokeball(); 
-                }
-            });
-
-            $('.cardEtatBack, .cardEtatReturn').on('click', function(e){
-                e.stopPropagation();
-                removePokeball();
-            })
         }else{
             console.log(false);
         }
@@ -197,7 +205,7 @@ $(document).ready(function() {
 
     function pokeballRequette(data, etat){
         data['etat'] = etat; 
-        // console.log(data);
+        console.log(data);
         $.ajax({
             url: host + "controller/pokemonAjaxController.php", 
             type: 'POST',

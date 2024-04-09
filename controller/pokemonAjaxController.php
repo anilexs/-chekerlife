@@ -14,7 +14,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         $card = Pokemon::setCard($_POST['set_name'], $_COOKIE['token']);
     }else if($_POST['action'] == "pokeball"){
         $response_code = HTTP_OK;
-        $pokeball = Pokemon::pokeball($_COOKIE['token'], $_POST['idCard'], $_POST['set_name'], $_POST['secondary_name']);
+        $secondary_name = isset($_POST['secondary_name']) ? $_POST['secondary_name'] : null;
+        $pokeball = Pokemon::pokeball($_COOKIE['token'], $_POST['idCard'], $_POST['set_name'], $secondary_name);
 
         $responseTab = [
             "response_code" => HTTP_OK,
@@ -24,8 +25,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         reponse($response_code, $responseTab);
     }else if($_POST['action'] == "userCardEtat"){
         $response_code = HTTP_OK;
+        $secondary_name = isset($_POST['secondary_name']) ? $_POST['secondary_name'] : null;
         
-        $etat = Pokemon::userEtatCard($_COOKIE['token'], $_POST['set_name'], $_POST['idCard'], $_POST['secondary_name']);
+        $etat = Pokemon::userEtatCard($_COOKIE['token'], $_POST['set_name'], $_POST['idCard'], $secondary_name);
         $responseTab = [
             "response_code" => HTTP_OK,
             "etat" => $etat

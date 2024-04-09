@@ -190,10 +190,18 @@
 }
 
 .etat{
-    background-color: red;
+    background-color:white;
+    border: 2px solid black;
+    color: black;
+    border-radius: 10px;
     height: 30px;
     width: 100%;
+}
+.etat button{
+    border: none;
+    background-color: transparent;
     font-family: 'Roboto', sans-serif;
+    font-size: large;
 }
 
 .selectEtat{
