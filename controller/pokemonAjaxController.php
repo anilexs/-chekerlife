@@ -15,7 +15,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
     }else if($_POST['action'] == "pokeball"){
         $response_code = HTTP_OK;
         $secondary_name = isset($_POST['secondary_name']) ? $_POST['secondary_name'] : null;
-        $pokeball = Pokemon::pokeball($_COOKIE['token'], $_POST['idCard'], $_POST['set_name'], $secondary_name);
+        $pokeball = Pokemon::pokeball($_COOKIE['token'], $_POST['idCard'], $_POST['set_name'], $_POST['etat'], $secondary_name, $_POST['update']);
 
         $responseTab = [
             "response_code" => HTTP_OK,

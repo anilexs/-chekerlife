@@ -89,7 +89,7 @@ class Pokemon{
         }
     }
     
-    public static function pokeball($token, $cardId, $set_name, $secondary_name = null) {
+    public static function pokeball($token, $cardId, $set_name, $etat, $secondary_name = null, $update) {
         // INSERT INTO `pokemon_user_card` (`user_id`, `card_id`) SELECT t.user_id, pc.id_card FROM token t LEFT JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE t.token = ? LIMIT 1
 
         
@@ -99,28 +99,39 @@ class Pokemon{
         
         try {
             if($secondary_name == null){
-                // SELECT puc.* FROM pokemon_user_card puc 
-                // LEFT JOIN token t ON t.token ="Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
-                // LEFt JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
-                // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
-                // WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card ORDER BY puc.etat_id LIMIT 1
-
-                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = ? LEFT JOIN pokemon_etat pe ON pe.etat = 'Neuve' LEFt JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE puc.user_id = t.user_id AND puc.etat_id = pe.id_pk_etat AND puc.card_id = pc.id_card"); 
-                $request->execute(array($token, $set_name, $cardId));
+                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card  AND puc.etat_id = pe.id_pk_etat ORDER BY puc.etat_id AND puc.prix IS NULL DESC LIMIT 1"); 
+            }else{ 
+                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = :secondary_name AND pcs.set_id = ps.id_set AND pcs.card_id = pc.id_card LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id IS NULL AND puc.card_secondaire_id = pcs.id_pk_card_secondaire AND puc.etat_id = pe.id_pk_etat ORDER BY puc.prix LIMIT 1"); 
                 
-                $cardUser = $request->fetch(PDO::FETCH_ASSOC);
-            }else{
-                // SELECT puc.* FROM pokemon_user_card puc 
-                // LEFT JOIN token t ON t.token ="Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
-                // LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = "123"
-                // WHERE puc.user_id = t.user_id AND puc.card_secondaire_id = pcs.card_id ORDER BY puc.etat_id LIMIT 1
-    
-                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = ? LEFT JOIN pokemon_etat pe ON pe.etat = 'Neuve' LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = ? WHERE puc.user_id = t.user_id AND puc.etat_id = pe.id_pk_etat AND puc.card_secondaire_id = pcs.card_id"); 
-                $request->execute(array($token, $secondary_name));
-                
-                $cardUser = $request->fetch(PDO::FETCH_ASSOC);
+                $request->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
             }
+            
+            $request->bindParam(':token', $token, PDO::PARAM_STR);
+            $request->bindParam(':etat', $etat, PDO::PARAM_STR);
+            $request->bindParam(':set_name', $set_name, PDO::PARAM_STR);
+            $request->bindParam(':cardId', $cardId, PDO::PARAM_STR);
+            $request->execute();
+            $cardUser = $request->fetch(PDO::FETCH_ASSOC);
+            
+            if($cardUser){
+                if($cardUser['user_card_actif'] == 1){
 
+                }else if($update == 1){
+                    // UPDATE `pokemon_user_card` SET `possession`='1', NOW(), `user_card_actif`='1'
+                    $request = $db->prepare();
+                }else{
+                    // false
+                }
+                // if($update == 1){
+                // }else{
+                // }
+                // if($cardUser['prix'] == null || $cardUser['prix'] == 0.00){
+
+                // }
+            }else{
+                
+            }
+            
             return $cardUser;
         } catch (PDOException $e) {
             echo $e->getMessage();

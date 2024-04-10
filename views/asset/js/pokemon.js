@@ -123,7 +123,7 @@ $(document).ready(function() {
                         (type == "normal" ? 'normal' : tableauAssoc['secondaireName']) + ' a ' + tableauAssoc['card_name'] + '</div>'  +
                         '<div class="cardEtatbtn">' +
                             '<button class="plus"><i class="fa-solid fa-plus"></i></button>' +
-                            '<button class="moins" ' + (tableauAssoc['user_card'] == 0 ? 'disabled' : '') + '><i class="fa-solid fa-minus"></i></button>' +
+                            '<button class="moins" ' + (tableauAssoc['user_card'] > 0 ? '' : 'disabled') + '><i class="fa-solid fa-minus"></i></button>' +
                         '</div>' +
                     '</div>');
 
@@ -178,12 +178,18 @@ $(document).ready(function() {
                             
                     $('.plus').on("click", (e) =>{
                         e.stopPropagation();
-                        pokeballRequette(data, 1);
+                        var etatRequette = $('.etat').find('button').text();
+                        data['etat'] = etatRequette; 
+                        data['update'] = 1; 
+                        pokeballRequette(data);
                     })
                 
                     $('.moins').on("click", (e) =>{
                         e.stopPropagation();
-                        pokeballRequette(data, -1);
+                        var etatRequette = $('.etat').find('button').text();
+                        data['etat'] = etatRequette; 
+                        data['update'] = -1; 
+                        pokeballRequette(data);
                     })
                 
                 
@@ -203,16 +209,14 @@ $(document).ready(function() {
         }
     });
 
-    function pokeballRequette(data, etat){
-        data['etat'] = etat; 
-        console.log(data);
+    function pokeballRequette(data){
         $.ajax({
             url: host + "controller/pokemonAjaxController.php", 
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+                console.log(response['pokeball']);
             },
             error: function(xhr, status, error) {
                 console.error(xhr);

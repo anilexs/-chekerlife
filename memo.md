@@ -933,3 +933,28 @@ SELECT
             GROUP BY 
                 pe.id_pk_etat, 
                 pe.etat;
+
+
+                // SELECT puc.* FROM pokemon_user_card puc
+                // LEFT JOIN token t ON t.token ="Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+                // LEFt JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
+                // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
+                // LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = "pokedex" AND pcs.set_id = ps.id_set AND pcs.card_id = pc.id_card
+                // LEFT JOIN pokemon_etat pe ON pe.etat = 'Excellent'
+                // WHERE puc.user_id = t.user_id AND puc.user_card_actif = 1 AND puc.card_id IS NULL AND puc.card_secondaire_id = pcs.id_pk_card_secondaire AND puc.etat_id = pe.id_pk_etat ORDER BY puc.prix LIMIT 1
+
+                SELECT puc.* FROM pokemon_user_card puc
+LEFT JOIN token t ON t.token ="Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+LEFt JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
+LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
+LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = "pokedex" AND pcs.set_id = ps.id_set AND pcs.card_id = pc.id_card
+LEFT JOIN pokemon_etat pe ON pe.etat = 'Excellent'
+WHERE puc.user_id = t.user_id AND puc.card_id IS NULL AND puc.card_secondaire_id = pcs.id_pk_card_secondaire AND puc.etat_id = pe.id_pk_etat ORDER BY puc.prix 
+
+
+                // SELECT puc.* FROM pokemon_user_card puc 
+                // LEFT JOIN token t ON t.token ="Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+                // LEFt JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
+                // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
+                // LEFT JOIN pokemon_etat pe ON pe.etat = 'Excellent'
+                // WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card  AND puc.etat_id = pe.id_pk_etat ORDER BY puc.etat_id AND puc.prix IS NULL DESC LIMIT 1       
