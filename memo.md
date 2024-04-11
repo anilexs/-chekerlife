@@ -958,3 +958,29 @@ WHERE puc.user_id = t.user_id AND puc.card_id IS NULL AND puc.card_secondaire_id
                 // LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
                 // LEFT JOIN pokemon_etat pe ON pe.etat = 'Excellent'
                 // WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card  AND puc.etat_id = pe.id_pk_etat ORDER BY puc.etat_id AND puc.prix IS NULL DESC LIMIT 1       
+
+
+
+fale {
+
+    INSERT INTO `pokemon_user_card` (`user_id`, `card_id`, `etat_id`)
+SELECT t.user_id, pc.id_card, pe.id_pk_etat FROM token t LEFT JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2022' 
+LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 6
+LEFT JOIN pokemon_etat pe ON pe.etat = "Bon"
+WHERE `token` = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@";
+
+
+
+INSERT INTO `pokemon_user_card` (`user_id`, `card_secondaire_id`, `etat_id`)
+SELECT t.user_id, pcs.id_pk_card_secondaire, pe.id_pk_etat
+FROM token t 
+LEFT JOIN pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023' 
+LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
+LEFT JOIN pokemon_card_secondaire pcs ON pcs.card_id = pc.id_card AND pcs.set_id = ps.id_set AND pcs.name = "123"
+LEFT JOIN pokemon_etat pe ON pe.etat = "Bon"
+WHERE `token` = "Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@"
+AND pcs.id_pk_card_secondaire IS NOT NULL;
+
+
+
+}                

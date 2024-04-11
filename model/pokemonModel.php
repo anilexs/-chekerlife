@@ -89,6 +89,7 @@ class Pokemon{
         }
     }
     
+    
     public static function pokeball($token, $cardId, $set_name, $etat, $secondary_name = null, $update) {
         // INSERT INTO `pokemon_user_card` (`user_id`, `card_id`) SELECT t.user_id, pc.id_card FROM token t LEFT JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE t.token = ? LIMIT 1
 
@@ -99,9 +100,9 @@ class Pokemon{
         
         try {
             if($secondary_name == null){
-                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card  AND puc.etat_id = pe.id_pk_etat ORDER BY puc.etat_id AND puc.prix IS NULL DESC LIMIT 1"); 
+                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card  AND puc.etat_id = pe.id_pk_etat ORDER BY puc.etat_id AND puc.prix IS NULL DESC"); 
             }else{ 
-                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = :secondary_name AND pcs.set_id = ps.id_set AND pcs.card_id = pc.id_card LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id IS NULL AND puc.card_secondaire_id = pcs.id_pk_card_secondaire AND puc.etat_id = pe.id_pk_etat ORDER BY puc.prix LIMIT 1"); 
+                $request = $db->prepare("SELECT puc.* FROM pokemon_user_card puc LEFT JOIN token t ON t.token = :token LEFt JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_card_secondaire pcs ON pcs.name = :secondary_name AND pcs.set_id = ps.id_set AND pcs.card_id = pc.id_card LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE puc.user_id = t.user_id AND puc.card_id IS NULL AND puc.card_secondaire_id = pcs.id_pk_card_secondaire AND puc.etat_id = pe.id_pk_etat ORDER BY puc.prix"); 
                 
                 $request->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
             }
@@ -111,25 +112,45 @@ class Pokemon{
             $request->bindParam(':set_name', $set_name, PDO::PARAM_STR);
             $request->bindParam(':cardId', $cardId, PDO::PARAM_STR);
             $request->execute();
-            $cardUser = $request->fetch(PDO::FETCH_ASSOC);
+            $cardUser = $request->fetchAll(PDO::FETCH_ASSOC);
             
             if($cardUser){
-                if($cardUser['user_card_actif'] == 1){
 
-                }else if($update == 1){
-                    // UPDATE `pokemon_user_card` SET `possession`='1', NOW(), `user_card_actif`='1'
-                    $request = $db->prepare();
-                }else{
-                    // false
-                }
-                // if($update == 1){
-                // }else{
+                // $cardUser = $cardUser[0];
+                // if($cardUser[0]['prix'] == null || $cardUser[0]['prix'] == 0.00){
+
                 // }
-                // if($cardUser['prix'] == null || $cardUser['prix'] == 0.00){
+                // if($cardUser['user_card_actif'] == 1){
 
+                // }else 
+                // if($update == 1){
+                    // UPDATE `pokemon_user_card` SET `possession`='1', NOW(), `user_card_actif`='1'
+                    // $request = $db->prepare();
+                // }else{
+                    // false
                 // }
             }else{
-                
+                if($update == 1){
+                    if($secondary_name == null){
+                        $insert = $db->prepare('INSERT INTO `pokemon_user_card` (`user_id`, `card_id`, `etat_id`) SELECT t.user_id, pc.id_card, pe.id_pk_etat FROM token t LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE `token` = :token AND pc.id_card IS NOT NULL');
+                    }else{
+                        $insert = $db->prepare('INSERT INTO `pokemon_user_card` (`user_id`, `card_secondaire_id`, `etat_id`) SELECT t.user_id, pcs.id_pk_card_secondaire, pe.id_pk_etat FROM token t LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_card_secondaire pcs ON pcs.card_id = pc.id_card AND pcs.set_id = ps.id_set AND pcs.name = :secondary_name LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE `token` = :token AND pcs.id_pk_card_secondaire IS NOT NULL');
+                        $insert->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
+                    }
+                    $insert->bindParam(':token', $token, PDO::PARAM_STR);
+                    $insert->bindParam(':etat', $etat, PDO::PARAM_STR);
+                    $insert->bindParam(':set_name', $set_name, PDO::PARAM_STR);
+                    $insert->bindParam(':cardId', $cardId, PDO::PARAM_STR);
+                    $insert->execute();
+                    $lastId = $db->lastInsertId();
+
+                    $cardUser = $lastId;
+                    // $cardUser = {
+                        
+                    // }
+                }else{
+                    $cardUser = "imposible de reduire une ligne inexistant";
+                } 
             }
             
             return $cardUser;

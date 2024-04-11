@@ -181,7 +181,7 @@ $(document).ready(function() {
                         var etatRequette = $('.etat').find('button').text();
                         data['etat'] = etatRequette; 
                         data['update'] = 1; 
-                        pokeballRequette(data);
+                        pokeballRequette(data, $this);
                     })
                 
                     $('.moins').on("click", (e) =>{
@@ -189,7 +189,7 @@ $(document).ready(function() {
                         var etatRequette = $('.etat').find('button').text();
                         data['etat'] = etatRequette; 
                         data['update'] = -1; 
-                        pokeballRequette(data);
+                        pokeballRequette(data, $this);
                     })
                 
                 
@@ -209,7 +209,7 @@ $(document).ready(function() {
         }
     });
 
-    function pokeballRequette(data){
+    function pokeballRequette(data, thiss){
         $.ajax({
             url: host + "controller/pokemonAjaxController.php", 
             type: 'POST',
@@ -217,6 +217,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 console.log(response['pokeball']);
+                // thiss.css("opacity", "0.5");
+                // thiss.css("opacity", "");
             },
             error: function(xhr, status, error) {
                 console.error(xhr);
