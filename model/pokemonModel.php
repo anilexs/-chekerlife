@@ -115,7 +115,22 @@ class Pokemon{
             $cardUser = $request->fetchAll(PDO::FETCH_ASSOC);
             
             if($cardUser){
+                if($update == 1){
+                    // if($secondary_name == null){
 
+                    // }else{
+
+                    // }
+                }else{
+                    foreach ($cardUser as $card) {
+                        if($card['user_card_actif'] == 1){
+                            $cardUser = $card;
+                            break;
+                        }else{
+                            $cardUser = "tout et null";
+                        }
+                    }
+                }
                 // $cardUser = $cardUser[0];
                 // if($cardUser[0]['prix'] == null || $cardUser[0]['prix'] == 0.00){
 
