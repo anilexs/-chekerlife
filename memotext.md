@@ -100,3 +100,71 @@ Stratégie de sauvegarde et de maintenance régulière.
 Utilisations et rôles
 
 sais decrire comment on utilise le site par roles
+
+Beta-tester
+Test de fonctionnalités : Accès aux nouvelles fonctionnalités avant leur déploiement officiel pour fournir des retours et identifier les bugs potentiels.
+Participation aux jeux : Accès privilégié aux nouveaux jeux éducatifs et multi-jeux pour tester et donner un avis sur leur efficacité et leur amusement.
+
+Membre
+Recherche et Suivi : Rechercher et suivre des séries, films, dessins animés, et dramas, avec la possibilité de marquer les épisodes vus et de favoriser des titres spécifiques.
+Gestion TCG : Gérer une collection de cartes TCG, ajouter de nouvelles cartes, et utiliser la fonction de scan pour une mise à jour rapide et facile de la collection.
+Participation aux jeux : Accès aux jeux de quiz, blind tests, et jeux d'apprentissage de langues.
+Profil Utilisateur : Gérer son profil personnel avec affichage des statistiques, des réalisations et des collections.
+Giveaways : Participer à des concours pour gagner des goodies en respectant certaines conditions (ex: abonnement à la chaîne YouTube).
+
+Admin
+Gestion des utilisateurs : Accéder à des outils pour superviser les inscriptions, les activités des membres, et la gestion des comptes.
+Ajout de nouvelles cartes TCG : Responsable de l'ajout de nouvelles cartes ou collections dans la base de données, garantissant que les utilisateurs peuvent marquer celles qu'ils possèdent.
+Surveillance des contenus : Surveiller les contributions aux forums pour assurer le respect des règles de la communauté et maintenir un environnement sain et respectueux.
+Maintenance des jeux : Mettre à jour et maintenir les différents jeux proposés sur le site.
+Paramètres du site : Modifier les paramètres globaux du site, incluant les notifications et les préférences par défaut des utilisateurs.
+
+Owner
+Contrôle total : Accès complet à toutes les sections du tableau de bord administratif, y compris les statistiques financières et les rapports d'utilisation.
+Décision stratégique : Prise de décisions sur les évolutions futures du site, l'introduction de nouvelles fonctionnalités, et l'orientation générale de la plateforme.
+Gestion des droits : Attribuer ou retirer des droits d'accès pour les administrateurs et autres rôles spéciaux.
+Maintenance et Sécurité : Surveiller la sécurité du site et initier des audits réguliers pour prévenir les vulnérabilités.
+
+
+Conception et Développement
+Planification initiale : Définition des objectifs, du public cible, et des fonctionnalités essentielles du site basées sur le cahier des charges.
+Conception graphique : Création des wireframes, maquettes, et prototypes pour visualiser l'apparence et l'interaction utilisateur du site.
+
+Développement technique :
+Front-end : Utilisation de HTML, CSS, JavaScript, et jQuery pour développer l'interface utilisateur selon les maquettes approuvées.
+Back-end : Programmation en PHP avec des requêtes AJAX pour gérer la logique métier, l'interaction avec la base de données, et l'API.
+Base de données : Mise en place d'une base de données robuste pour stocker les informations des utilisateurs, les détails des séries, films, TCG, etc.
+2. Tests et Validation
+Tests unitaires et d’intégration : Vérifier chaque module individuellement et en combinaison pour s'assurer qu'ils fonctionnent correctement ensemble.
+Tests de sécurité : Implémenter des mesures de sécurité telles que l’utilisation de tokens et tester la résistance du site contre les attaques courantes.
+Tests de performance : S'assurer que le site charge efficacement sous différents volumes de trafic.
+3. Déploiement
+Configuration de l'environnement de production : Mise en place des serveurs, configuration des bases de données, et réglage des paramètres de sécurité.
+Mise en ligne : Déployer le site sur le serveur de production après les dernières validations et approbations.
+4. Maintenance et Mises à jour
+Surveillance continue : Utiliser des outils pour surveiller la performance et la disponibilité du site.
+Mises à jour régulières : Implémenter des mises à jour pour les fonctionnalités, la sécurité, et les corrections de bugs.
+Support technique : Fournir une assistance pour les problèmes techniques rencontrés par les utilisateurs.
+5. Évolutivité
+Évaluation régulière : Réviser et évaluer les fonctionnalités du site pour identifier les besoins d'amélioration ou d'expansion.
+Ajout de fonctionnalités : Planifier et intégrer de nouvelles fonctionnalités comme un système de blog ou de messagerie entre amis, conformément aux retours des utilisateurs et aux besoins émergents.
+
+Les spécifications techniques pour les technologies du Front-end dans le cadre du projet "Chekerlife" sont les suivantes :
+
+HTML (HyperText Markup Language) : Utilisé pour la structure et le contenu de chaque page web du site.
+CSS (Cascading Style Sheets) : Utilisé pour la présentation visuelle et le style des éléments HTML sur le site.
+JavaScript : Utilisé pour la logique interactive et le comportement dynamique des éléments sur le site, y compris la validation des formulaires, les animations et les interactions utilisateur.
+Ajax (Asynchronous JavaScript and XML) : Utilisé pour les requêtes asynchrones vers le serveur, permettant ainsi des mises à jour de contenu dynamiques sans rechargement complet de la page.
+jQuery : Une bibliothèque JavaScript populaire utilisée pour simplifier le processus de manipulation du DOM, les animations et les interactions utilisateur.
+Chart.js : Une bibliothèque JavaScript utilisée pour la création de graphiques et de visualisations de données interactives sur le site.
+PHP (Hypertext Preprocessor) : Utilisé pour la logique côté serveur, la gestion des données et la génération dynamique de contenu HTML. PHP interagit avec la base de données MySQL pour récupérer, traiter et afficher les données sur le site web.
+API Google : Utilisée pour la connexion et l'inscription des utilisateurs. L'API Google permet aux utilisateurs de s'authentifier sur le site en utilisant leur compte Google, offrant ainsi une méthode de connexion simple et sécurisée.
+
+
+Les spécifications techniques pour les technologies du Back-end dans le cadre du projet "Chekerlife" sont les suivantes :
+
+PHP (Hypertext Preprocessor) : Utilisé comme langage principal pour la logique côté serveur. PHP est utilisé pour traiter les requêtes utilisateur, interagir avec la base de données, générer des pages web dynamiques et gérer les sessions utilisateur.
+MySQL : Utilisé comme système de gestion de base de données relationnelle. MySQL est utilisé pour stocker de manière sécurisée les données du site, telles que les utilisateurs, les épisodes d'anime, les cartes TCG, etc. Il est également utilisé pour effectuer des opérations de lecture, d'écriture et de mise à jour des données.
+Apache : Utilisé comme serveur HTTP pour héberger le site web. Apache est chargé de recevoir les requêtes HTTP des utilisateurs, de les transmettre au serveur PHP pour traitement, puis d'envoyer les réponses générées aux utilisateurs.
+phpMyAdmin : Utilisé comme outil de gestion de base de données MySQL. phpMyAdmin offre une interface conviviale pour administrer la base de données, ce qui facilite la création de tables, l'insertion de données, l'exécution de requêtes SQL et d'autres tâches de gestion de base de données.
+JSON (JavaScript Object Notation) : Utilisé pour échanger des données entre le Front-end et le Back-end sous une forme légère et lisible. JSON est souvent utilisé pour la transmission des données entre le serveur PHP et le navigateur web via des requêtes Ajax.
