@@ -30,13 +30,13 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         ];
         reponse($response_code, $responseTab); 
     }else if($_POST['action'] == "nombre_conte_jour" && isset($_POST['date'])){
-        $response_code = HTTP_OK;
-        $nombre_conte_jour = Admin::nombre_conte_jour($_POST['date']);
-        $responseTab = [
-            "response_code" => HTTP_OK,
-            "nombre_conte_jour" => $nombre_conte_jour,
-        ];
-        reponse($response_code, $responseTab); 
+        // $response_code = HTTP_OK;
+        // $nombre_conte_jour = Admin::nombre_conte_jour($_POST['date']);
+        // $responseTab = [
+        //     "response_code" => HTTP_OK,
+        //     "nombre_conte_jour" => $nombre_conte_jour,
+        // ];
+        // reponse($response_code, $responseTab); 
     }
         
 }else {
