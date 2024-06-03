@@ -54,7 +54,8 @@ $(document).ready(function() {
             },
             dataType: 'html',
             success: function(response) {
-                // $('.card').html(response);
+                $('.cardContenaire').html(response);
+                // console.log(response);
             },
             error: function(xhr, status, error) {
                 console.error('Une erreur s\'est produite lors du chargement du contenu.');

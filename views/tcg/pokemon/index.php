@@ -54,9 +54,9 @@ $getName = isset($get) ? $get['set_name'] : $blockSet[0]['set_name'];
 $getUser_card = isset($get) ? $get['user_card'] : $blockSet[0]['user_card']; 
 $setCard = isset($get) ? $get['nb_card'] : $blockSet[0]['nb_card']; 
 
-echo '<pre style="color: red">';
-var_dump($get);
-echo "</pre>";
+// echo '<pre style="color: red">';
+// var_dump($get);
+// echo "</pre>";
 
 require_once "../../inc/header.php"; ?>
 <link rel="stylesheet" href="../../asset/css/pokemon.css">
@@ -114,9 +114,9 @@ require_once "../../inc/header.php"; ?>
         <div class="contenaireCard">
             <div class="card">
                 <div class="idCard">
-                    <?= $card['cardId']; ?> / <?= $get['nb_card'] ?> 
+                    <?= $card['cardId']; ?> / <?= $card['nb_card'] ?> 
                     <div class="idImg">
-                        <img src="../../asset/img/tcg/pokemon/logo/<?= $card['rarete_img'] ?>" alt="">
+                        <img src="../../asset/img/tcg/pokemon/rarete/<?= $card['rarete_img'] ?>" alt="">
                     </div>
                 </div>
                 <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] >= 1 || $card_user >= 1) ? "" : 'style="opacity: 0.5"' ?>>    

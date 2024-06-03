@@ -17,64 +17,8 @@ class Pokemon{
     
     public static function setCard($name, $token) {
         $db = Database::dbConnect();
-        // SELECT pc.*, ps.name, pb.name AS block FROM pokemon_card pc LEFT JOIN pokemon_set ps ON  ps.name = ? LEFT JOIN pokemon_block pb ON pb.id_block = ps.block_id WHERE pc.set_id = ps.id_set ORDER BY pc.cardId
 
-        // SELECT pc.*, ps.name, pb.name AS block, pcs.card_secondary FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = ? LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT pcs.card_id, CASE WHEN COUNT(pcs.card_id) = 0 THEN NULL ELSE GROUP_CONCAT(pcs.name SEPARATOR ',') END AS card_secondary FROM pokemon_card_secondaire pcs GROUP BY pcs.card_id) pcs ON pc.id_card = pcs.card_id ORDER BY pc.cardId
-
-        // SELECT pc.*, ps.name, pb.name AS block, GROUP_CONCAT(CONCAT(pcs.card_secondary, '=', pcs.card_secondary_owned) ORDER BY pcs.card_secondary SEPARATOR ', ') AS card_secondary, IF(puc.user_id IS NOT NULL, 1, 0) AS user_card FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON puc.user_id = t.user_id AND pc.id_card = puc.card_id AND puc.user_card_actif = 1 LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT DISTINCT pc.id_card, pcs.name AS card_secondary, IFNULL(MAX(CASE WHEN puc.user_id = t.user_id AND puc.user_card_actif = 1 THEN 1 ELSE 0 END), 0) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId;
-        
-        // SELECT pc.*, ps.name, pb.name AS block, GROUP_CONCAT(CONCAT(pcs.card_secondary, '=', pcs.card_secondary_owned) ORDER BY pcs.card_secondary SEPARATOR ', ') AS card_secondary, IF(puc.user_id IS NOT NULL, 1, 0) AS user_card FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON puc.user_id = t.user_id AND pc.id_card = puc.card_id AND puc.user_card_actif = 1 LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT DISTINCT pc.id_card, pcs.name AS card_secondary, IFNULL(MAX(CASE WHEN puc.user_id = t.user_id AND puc.user_card_actif = 1 THEN 1 ELSE 0 END), 0) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId
-        // SELECT pc.*, ps.name, pb.name AS block, pr.name AS rarete, pr.image AS rarete_img, pe.name AS energie, pe.image AS energie_img, GROUP_CONCAT(CONCAT(pcs.card_secondary, '=', pcs.card_secondary_owned) ORDER BY pcs.card_secondary SEPARATOR ', ') AS card_secondary, IF(puc.user_id IS NOT NULL, 1, 0) AS user_card FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON puc.user_id = t.user_id AND pc.id_card = puc.card_id AND puc.user_card_actif = 1 LEFT JOIN pokemon_rarete pr ON pr.id_rarete = pc.rarete_id LEFT JOIN pokemon_energie pe ON pe.id_energie = pc.energy_id LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT DISTINCT pc.id_card, pcs.name AS card_secondary, IFNULL(MAX(CASE WHEN puc.user_id = t.user_id AND puc.user_card_actif = 1 THEN 1 ELSE 0 END), 0) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId
-
-
-        // SELECT pc.*, ps.name, pb.name AS block, pr.name AS rarete, pr.image AS rarete_img, pe.name AS energie, pe.image AS energie_img, IFNULL(GROUP_CONCAT(CONCAT(pcs.card_secondary, '=', IFNULL(pcs.card_secondary_owned, 0)) ORDER BY pcs.card_secondary SEPARATOR ', '), '') AS card_secondary, IF(puc.user_id IS NOT NULL, 1, 0) AS user_card FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON puc.user_id = t.user_id AND pc.id_card = puc.card_id AND puc.user_card_actif = 1 LEFT JOIN pokemon_rarete pr ON pr.id_rarete = pc.rarete_id LEFT JOIN pokemon_energie pe ON pe.id_energie = pc.energy_id LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT DISTINCT pc.id_card, pcs.name AS card_secondary, IFNULL(MAX(CASE WHEN puc.user_id = t.user_id AND puc.user_card_actif = 1 THEN 1 ELSE 0 END), 0) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId
-//         SELECT 
-//     pc.*,
-//     ps.name AS set_name,
-//     pb.name AS block,
-//     pr.name AS rarete,
-//     pr.image AS rarete_img,
-//     pe.name AS energie,
-//     pe.image AS energie_img,
-//     (SELECT COUNT(*) FROM pokemon_user_card puc WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1) AS user_card,
-//     IFNULL(GROUP_CONCAT(DISTINCT CONCAT(pcs.card_secondary, '=', IFNULL(pcs.card_secondary_owned, 0)) ORDER BY pcs.card_secondary SEPARATOR ', '), '') AS card_secondary
-// FROM 
-//     pokemon_card pc
-// JOIN 
-//     pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = 'Calendrier des Fêtes 2023' 
-// LEFT JOIN 
-//     token t ON t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@' 
-// LEFT JOIN 
-//     pokemon_rarete pr ON pr.id_rarete = pc.rarete_id 
-// LEFT JOIN 
-//     pokemon_energie pe ON pe.id_energie = pc.energy_id
-// LEFT JOIN 
-//     pokemon_block pb ON ps.block_id = pb.id_block 
-// LEFT JOIN 
-//     (
-//         SELECT 
-//             pc.id_card, 
-//             pcs.name AS card_secondary, 
-//             COUNT(puc.user_card_actif) AS card_secondary_owned 
-//         FROM 
-//             pokemon_card pc 
-//         LEFT JOIN 
-//             pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id 
-//         LEFT JOIN 
-//             token t ON t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@'
-//         LEFT JOIN 
-//             pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id AND puc.user_id = t.user_id AND puc.user_card_actif = 1
-//         WHERE 
-//             pc.set_id = (SELECT id_set FROM pokemon_set WHERE name = 'Calendrier des Fêtes 2023')
-//         GROUP BY 
-//             pc.id_card, pcs.name
-//     ) pcs ON pc.id_card = pcs.id_card 
-// GROUP BY 
-//     pc.id_card 
-// ORDER BY 
-//     pc.cardId;
-
-        $request = $db->prepare("SELECT pc.*, ps.name AS set_name, pb.name AS block, pr.name AS rarete, pr.image AS rarete_img, pe.name AS energie, pe.image AS energie_img, (SELECT COUNT(*) FROM pokemon_user_card puc WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1) AS user_card,IFNULL(GROUP_CONCAT(DISTINCT CONCAT(pcs.card_secondary, '=', IFNULL(pcs.card_secondary_owned, 0)) ORDER BY pcs.card_secondary SEPARATOR ', '), '') AS card_secondary FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_rarete pr ON pr.id_rarete = pc.rarete_id LEFT JOIN pokemon_energie pe ON pe.id_energie = pc.energy_id LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT pc.id_card, pcs.name AS card_secondary, COUNT(puc.user_card_actif) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id AND puc.user_id = t.user_id AND puc.user_card_actif = 1 WHERE pc.set_id = (SELECT id_set FROM pokemon_set WHERE name = 'Calendrier des Fêtes 2023') GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId"); 
+        $request = $db->prepare("SELECT pc.*, ps.name AS set_name, ps.nb_card, pb.name AS block, pr.name AS rarete, pr.image AS rarete_img, pe.name AS energie, pe.image AS energie_img, (SELECT COUNT(*) FROM pokemon_user_card puc WHERE puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1) AS user_card,IFNULL(GROUP_CONCAT(DISTINCT CONCAT(pcs.card_secondary, '=', IFNULL(pcs.card_secondary_owned, 0)) ORDER BY pcs.card_secondary SEPARATOR ', '), '') AS card_secondary FROM pokemon_card pc JOIN pokemon_set ps ON pc.set_id = ps.id_set AND ps.name = :name LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_rarete pr ON pr.id_rarete = pc.rarete_id LEFT JOIN pokemon_energie pe ON pe.id_energie = pc.energy_id LEFT JOIN pokemon_block pb ON ps.block_id = pb.id_block LEFT JOIN (SELECT pc.id_card, pcs.name AS card_secondary, COUNT(puc.user_card_actif) AS card_secondary_owned FROM pokemon_card pc LEFT JOIN pokemon_card_secondaire pcs ON pc.id_card = pcs.card_id LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_user_card puc ON pcs.id_pk_card_secondaire = puc.card_secondaire_id AND puc.user_id = t.user_id AND puc.user_card_actif = 1 WHERE pc.set_id = (SELECT id_set FROM pokemon_set WHERE name = :name) GROUP BY pc.id_card, pcs.name) pcs ON pc.id_card = pcs.id_card GROUP BY pc.id_card ORDER BY pc.cardId"); 
 
         
         try {

@@ -7,11 +7,96 @@ const HTTP_OK = 200;
 const HTTP_BAD_REQUEST = 400; 
 const HTTP_METHOD_NOT_ALLOWED = 405; 
 
+const host = "http://localhost/!chekerlife/";
+
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST'){
     $response_code = HTTP_BAD_REQUEST;
     $message = "il manque le paramétre ACTION";
     if($_POST['action'] == "setcard" && isset($_POST['set_name'])){
-        $card = Pokemon::setCard($_POST['set_name'], $_COOKIE['token']);
+        $token = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
+        $card = Pokemon::setCard($_POST['set_name'], $token);
+
+        foreach ($card as $card) { 
+            // var_dump($card);
+            // echo "<pre>";
+            // var_dump($card);
+            // echo "</pre>";
+            $name = str_replace(' ', '+', trim($card['set_name'])); 
+            $cardSecondary = explode(', ', $card['card_secondary']); 
+            
+            $card_user = 0;
+            
+            foreach ($cardSecondary as $cardSecondaire) {
+                $secondaireCarte = explode('=', $cardSecondaire); 
+    
+                if(isset($secondaireCarte[1]) && $secondaireCarte[1] == 1){
+                    $card_user = 1;
+                    break; 
+                }
+            } ?>
+            
+            <div class="contenaireCard">
+                <div class="card">
+                    <div class="idCard">
+                        <?= $card['cardId']; ?> / <?= $card['nb_card'] ?> 
+                        <div class="idImg">
+                            <img src="../../asset/img/tcg/pokemon/rarete/<?= $card['rarete_img'] ?>" alt="">
+                        </div>
+                    </div>
+                    <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] >= 1 || $card_user >= 1) ? "" : 'style="opacity: 0.5"' ?>>    
+                </div>
+    
+                <div class="cardLegend">
+                    <div class="normal <?= (isset($_COOKIE['token'])) ? 'pokeball' : ''  ?>">
+                        <?php if(isset($_COOKIE['token'])){ ?>
+                            <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] user_card : [<?=$card['user_card']?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
+                            <div class="hover">standard</div>
+                            <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" <?= ($card['user_card'] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
+                            <?php }else{ ?>
+                                <a href="<?= host ?>connexion">
+                                    <div class="hover">standard</div>
+                                    <img src="../../asset/img/tcg/pokemon/pokeball/normale.png" alt="" style="opacity: 0.5">
+                                </a>
+                        <?php } ?>
+                    </div>
+                    
+                    <?php foreach ($cardSecondary as $key) {
+                        $cardSecondaryKey = explode('=', $key);
+                        if(isset($cardSecondaryKey[1])){
+                            if($cardSecondaryKey[0] == "Reverse"){ ?>
+                                <div class="reverse <?= (isset($_COOKIE['token'])) ? 'pokeball' : ''  ?>">
+                                    <?php if(isset($_COOKIE['token'])){ ?>
+                                        <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] secondaireName : [<?= $cardSecondaryKey[0] ?>] user_card : [<?=$cardSecondaryKey[1]?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
+                                        <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
+                                       <img src="../../asset/img/tcg/pokemon/pokeball/reverse.png" alt="" <?= ($cardSecondaryKey[1] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
+                                    <?php }else{ ?>
+                                        <a href="<?= host ?>connexion">
+                                            <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
+                                            <img src="../../asset/img/tcg/pokemon/pokeball/reverse.png" alt="" style="opacity: 0.5">
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            <?php }else{ ?>
+                                <div class="special <?= (isset($_COOKIE['token'])) ? 'pokeball' : '' ?>">
+                                    <?php if(isset($_COOKIE['token'])){ ?>
+                                        <input type="text" class="ballSetId" value="set : [<?= $getName ?>] idCard : [<?= $card['cardId'] ?>] secondaireName : [<?= $cardSecondaryKey[0] ?>] user_card : [<?=$cardSecondaryKey[1]?>] card_name : [<?= $card['nomFr'] ?>]" readonly hidden>
+                                        <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
+                                        <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" <?= ($cardSecondaryKey[1] >= 1) ? "" : 'style="opacity: 0.5"' ?>>
+                                    <?php }else{ ?>
+                                        <a href="<?= host ?>connexion">
+                                            <div class="hover"><?= $cardSecondaryKey[0]; ?></div>
+                                            <img src="../../asset/img/tcg/pokemon/pokeball/special.png" alt="" style="opacity: 0.5">
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            <?php }
+                        }
+                    } ?>
+                </div>
+            </div>
+    
+        <?php }
+        
     }else if($_POST['action'] == "pokeball"){
         $response_code = HTTP_OK;
         $secondary_name = isset($_POST['secondary_name']) ? $_POST['secondary_name'] : null;
