@@ -55,6 +55,9 @@ $(document).ready(function() {
             dataType: 'html',
             success: function(response) {
                 $('.cardContenaire').html(response);
+                $('.pokeball').click(function(){
+                    pokeclick($(this));
+                });
                 // console.log(response);
             },
             error: function(xhr, status, error) {
@@ -68,13 +71,18 @@ $(document).ready(function() {
         console.log('card click');
     })
     
-    $('.pokeball').click(function() {
-        var $this = $(this);
+    $('.pokeball').click(function(){
+        pokeclick($(this));
+    });
+
+    function pokeclick(self){
+
+        var $this = self;
         removePokeball();
-        var type = $(this).attr('class').split(' '); // Diviser la chaîne des classes par les espaces
-        var name = $(this).attr('id');
+        var type = $this.attr('class').split(' '); // Diviser la chaîne des classes par les espaces
+        var name = $this.attr('id');
         
-        var ballSetId = $(this).find('.ballSetId').val();
+        var ballSetId = $this.find('.ballSetId').val();
         
         var regex = /(\w+)\s*:\s*\[([^\]]+)\]/g;
         var tableauAssoc = ballSetId.match(regex).reduce(function(acc, match) {
@@ -208,7 +216,8 @@ $(document).ready(function() {
         }else{
             console.log(false);
         }
-    });
+    }
+    // });
 
     function pokeballRequette(data, thiss){
         $.ajax({
