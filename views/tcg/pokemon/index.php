@@ -54,9 +54,9 @@ $getName = isset($get) ? $get['set_name'] : $blockSet[0]['set_name'];
 $getUser_card = isset($get) ? $get['user_card'] : $blockSet[0]['user_card']; 
 $setCard = isset($get) ? $get['nb_card'] : $blockSet[0]['nb_card']; 
 
-// echo '<pre style="color: red">';
-// var_dump($get);
-// echo "</pre>";
+echo '<pre style="color: red">';
+var_dump($get);
+echo "</pre>";
 
 require_once "../../inc/header.php"; ?>
 <link rel="stylesheet" href="../../asset/css/pokemon.css">

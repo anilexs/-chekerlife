@@ -118,6 +118,9 @@ $(document).ready(function(){
             
             var gif = $('<div>').attr('id', 'errorGif');
             $('#right').append(gif);
+            $('#errorGif').css({
+                "background-image":  "url("+host+"views/asset/img/cry.gif)",
+            });
 
 
             errorTab.forEach(element => {
