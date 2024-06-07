@@ -95,6 +95,15 @@ require_once "../../inc/header.php"; ?>
                 </div>
                 
             <?php } ?>
+
+        </div>
+
+        <div class="select">
+            
+        </div>
+        
+        <div class="rechercher">
+            <input type="text" placeholder="Rechercher une carte" maxlength="60">
         </div>
     </div>
 </div>
