@@ -14,6 +14,22 @@ class Pokemon{
             echo $e->getMessage();
         }
     }
+
+    public static function setInfo($name, $token) {
+        $db = Database::dbConnect();
+
+        $request = $db->prepare("SELECT ps.*, COUNT(DISTINCT CASE WHEN puc.card_id IS NOT NULL THEN puc.card_id ELSE pcs.card_id END) AS possession FROM pokemon_set ps LEFT JOIN token t ON IFNULL(t.token, 'null') = :token LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set LEFT JOIN pokemon_user_card puc ON puc.user_id = IFNULL(t.user_id, 0) AND IFNULL(puc.user_card_actif, 0) = 1 AND IFNULL(puc.possession, 0) > 0 LEFT JOIN pokemon_card_secondaire pcs ON pcs.id_pk_card_secondaire = puc.card_secondaire_id WHERE ps.name = :name AND (puc.card_id IN (SELECT id_card FROM pokemon_card WHERE set_id = ps.id_set) OR puc.card_secondaire_id IN (SELECT id_pk_card_secondaire FROM pokemon_card_secondaire WHERE set_id = ps.id_set));"); 
+
+        try {
+            $request->bindParam(':name', $name, PDO::PARAM_STR);
+            $request->bindParam(':token', $token, PDO::PARAM_STR);
+            $request->execute();
+            $setInfo = $request->fetch(PDO::FETCH_ASSOC);
+            return $setInfo;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
     
     public static function setCard($name, $token) {
         $db = Database::dbConnect();

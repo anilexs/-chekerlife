@@ -52,13 +52,18 @@ $(document).ready(function() {
                 action: "setcard",
                 set_name: name
             },
-            dataType: 'html',
+            dataType: 'json',
             success: function(response) {
-                $('.cardContenaire').html(response);
+                $('.cardContenaire').html(response['html']);
                 $('.pokeball').click(function(){
                     pokeclick($(this));
                 });
-                // console.log(response);
+                
+                $('.logo img').attr('src', '../../asset/img/tcg/pokemon/logo/'+response.setInfo.logo);
+                $('.name').text(response.setInfo.name);
+                $('.userCard').text(response.setInfo.possession);
+                $('.setCard').text(response.setInfo.nb_card);
+                console.log(response.setInfo);
             },
             error: function(xhr, status, error) {
                 console.error('Une erreur s\'est produite lors du chargement du contenu.');
@@ -219,7 +224,7 @@ $(document).ready(function() {
     }
     // });
 
-    function pokeballRequette(data, thiss){
+    function pokeballRequette(data, $this){
         $.ajax({
             url: host + "controller/pokemonAjaxController.php", 
             type: 'POST',
@@ -227,8 +232,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 console.log(response['pokeball']);
-                // thiss.css("opacity", "0.5");
-                // thiss.css("opacity", "");
+                // $this.css("opacity", "0.5");
+                // $this.css("opacity", "");
             },
             error: function(xhr, status, error) {
                 console.error(xhr);

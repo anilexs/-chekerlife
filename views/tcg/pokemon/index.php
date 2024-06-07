@@ -71,19 +71,25 @@ require_once "../../inc/header.php"; ?>
             <div class="nbCard"><span class="userCard"><?= $getUser_card ?></span>/<span class="setCard"><?= $setCard ?></span></div>
         </div>
         <div class="blockSelect">
-            <?php foreach ($organizedBlocks as $block) { ?>
-                <div class="block">
+            <?php foreach ($organizedBlocks as $block) { 
+                $blockName = str_replace(' ', '-', trim($block["block_name"])); ?>
+                <div class="block" id="<?= $blockName ?>">
                     <div class="blockName">
                         <?= $block['block_name'] ?>
                     </div>
                     <div class="setContenaire">
                     <?php foreach ($block['sets'] as $set) {
-                        $name = str_replace(' ', '+', trim($set["set_name"])); ?>
+                        $setName = str_replace(' ', '+', trim($set["set_name"])); ?>
                         
-                        <button class="set" id="<?= $name ?>">
+                        <button class="set" id="<?= $setName ?>" <?php echo ($set["set_name"] == $name ? 'disabled' : ''); ?>>
                             <img src="../../asset/img/tcg/pokemon/logo/<?= $set['logo'] ?>" class="setLogo" alt="">
                             <?= $set['set_name'] ?>
                         </button>
+                        
+                        <?php if($set["set_name"] == $name){
+                            echo '<script> $("#'.$blockName.'").css("height", "auto");</script>';
+                        } ?>
+                        
                     <?php } ?>
                     </div>
                 </div>
@@ -97,7 +103,7 @@ require_once "../../inc/header.php"; ?>
         // echo "<pre>";
         // var_dump($card);
         // echo "</pre>";
-        $name = str_replace(' ', '+', trim($card['set_name'])); 
+        $setName = str_replace(' ', '+', trim($card['set_name'])); 
         $cardSecondary = explode(', ', $card['card_secondary']); 
         
         $card_user = 0;
@@ -119,7 +125,7 @@ require_once "../../inc/header.php"; ?>
                         <img src="../../asset/img/tcg/pokemon/rarete/<?= $card['rarete_img'] ?>" alt="">
                     </div>
                 </div>
-                <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $name . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] >= 1 || $card_user >= 1) ? "" : 'style="opacity: 0.5"' ?>>    
+                <img src="../../asset/img/tcg/pokemon/card/<?= $card['block'] . "/" . $setName . "/" . $card['image'] ?>" alt="" <?= ($card['user_card'] >= 1 || $card_user >= 1) ? "" : 'style="opacity: 0.5"' ?>>    
             </div>
 
             <div class="cardLegend">
