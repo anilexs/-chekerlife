@@ -3,6 +3,7 @@ require_once "../../../model/pokemonModel.php";
 $token = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
 
 $blockSet = Pokemon::blockSet($token);
+$energie = Pokemon::energie();
 
 // echo "<pre>";
 // var_dump($allEtat);
@@ -124,6 +125,13 @@ require_once "../../inc/header.php"; ?>
             </div>
         </div>
     </div>
+    <div class="energieContenaire">
+        <button class="setEnergieBtn" id="allOn" style="opacity: 0.5"><img src="../../asset/img/tcg/pokemon/cheked.png" alt=""></button>
+        <button class="setEnergieBtn" id="allOff"><img src="../../asset/img/tcg/pokemon/X.png" alt=""></button>
+        <?php foreach($energie as $energie){ ?>
+            <button class="energieBtn" id="<?= $energie['name'] ?>"><img src="../../asset/img/tcg/pokemon/energy/<?= $energie['image'] ?>" alt=""></button>
+        <?php } ?>
+    </div>
 </div>
 <div class="cardContenaire">
     <?php foreach ($card as $card) { 
@@ -144,7 +152,7 @@ require_once "../../inc/header.php"; ?>
             }
         } ?>
         
-        <div class="contenaireCard">
+        <div class="contenaireCard <?= $card['energie'] ?>">
             <div class="card">
                 <div class="idCard">
                     <?= $card['cardId']; ?> / <?= $card['nb_card'] ?> 

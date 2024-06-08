@@ -1,5 +1,4 @@
 ftrSize();
-
 $(document).ready(function() {
     ftrSize();
 
@@ -63,7 +62,8 @@ $(document).ready(function() {
                 $('.name').text(response.setInfo.name);
                 $('.userCard').text(response.setInfo.possession);
                 $('.setCard').text(response.setInfo.nb_card);
-                console.log(response.setInfo);
+                
+                ftrSize();
             },
             error: function(xhr, status, error) {
                 console.error('Une erreur s\'est produite lors du chargement du contenu.');
@@ -116,7 +116,49 @@ $(document).ready(function() {
             console.log(false);
         }
     });
-    
+
+    $('.energieBtn, .setEnergieBtn').click(function(e) {
+        var nbEnergy = $('.energieBtn').length;
+        var opacity = $(this).css('opacity');
+        var energie = $(this).attr('id');
+        
+        if(energie == "allOn"){
+            $('#allOff').css('opacity', '1');
+            $('.energieBtn').css('opacity', '1');
+            $('#' + energie).css('opacity', '0.5');
+            $('.contenaireCard').css('display', '');
+        }else if(energie == "allOff"){
+                $('#allOn').css('opacity', '1');
+                $('.energieBtn').css('opacity', '0.5');
+                $('.energieBtn, #' + energie).css('opacity', '0.5');
+                $('.contenaireCard').css('display', 'none');
+        }else{
+            if(opacity == 1){
+                $(this).css('opacity', '0.5');
+                $('.'+energie).css('display', 'none');
+            }else{
+                $(this).css('opacity', '1');
+                $('.'+energie).css('display', '');
+            }
+            
+            var count = $('.energieBtn').filter((_, el) => $(el).css('opacity') == '0.5').length;
+            console.log(nbEnergy);
+            console.log(count);
+            if(count == 0){
+                $('#allOff').css('opacity', '1');
+                $('#allOn').css('opacity', '0.5');
+            }else if(count == nbEnergy){
+                $('#allOff').css('opacity', '0.5');
+            }else if(count <= nbEnergy){
+                $('#allOff').css('opacity', '1');
+                $('#allOn').css('opacity', '1');
+            }else{
+                $('#allOn').css('opacity', '1');
+            }
+        } 
+
+        ftrSize();
+    })
     
     $('.card').click(function(e) {
         e.stopPropagation();
