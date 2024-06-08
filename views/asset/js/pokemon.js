@@ -78,10 +78,10 @@ $(document).ready(function() {
         $('.blockSelect').stop(true, false);
 
         if (openSelect == false) {
-            $('.select').stop().animate({ height: '300px' }, 300);
+            $('.selectOpt').stop().animate({ height: '300px' }, 300);
             openSelect = true;
         } else {
-            $('.select').stop().animate({ height: '0' }, 300);
+            $('.selectOpt').stop().animate({ height: '0' }, 300);
             openSelect = false;
         }
     });

@@ -102,6 +102,9 @@ require_once "../../inc/header.php"; ?>
 
         <div class="selectContenaire">
             <div class="select">
+                <div class="optSelect">Toutes les cartes</div>
+            </div>
+            <div class="selectOpt">
                 
             </div>
         </div>
