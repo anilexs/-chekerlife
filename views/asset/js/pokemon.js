@@ -70,6 +70,53 @@ $(document).ready(function() {
             }
         });
     });
+
+    var openSelect = false; 
+    
+    $('.selectContenaire').click(function(event) {
+        event.stopPropagation();
+        $('.blockSelect').stop(true, false);
+
+        if (openSelect == false) {
+            $('.select').stop().animate({ height: '300px' }, 300);
+            openSelect = true;
+        } else {
+            $('.select').stop().animate({ height: '0' }, 300);
+            openSelect = false;
+        }
+    });
+
+    $('.btnRechercherSetOnOff').click(function(e) {
+        $('.slideIcon').stop(true, false);
+        $('.onoffCollor').stop(true, false);
+        if ($(this).attr('id') == "off") {
+            $(this).attr('id', 'on');
+            $('.slideIcon').animate({
+                borderWidth: '2px',
+                borderColor: '#ADFF2F'
+            }, 100);
+            $('.onoffCollor').animate({ width: '100%' }, 100, function() {
+                $('.onoffCollor').css('border-radius', '0');
+            });
+        } else {
+            $(this).attr('id', 'off');
+            $('.slideIcon').animate({
+                borderWidth: '2px',
+                borderColor: 'red'
+            }, 100);
+            $('.onoffCollor').animate({ width: '20px' }, 100, function() {
+                $('.onoffCollor').css('border-radius', '0 50% 50% 0');
+            });
+        }
+
+        var rechercher = $('.rechercher input').val().trim();
+        if(rechercher != ""){
+            console.log(true);
+        }else{
+            console.log(false);
+        }
+    });
+    
     
     $('.card').click(function(e) {
         e.stopPropagation();

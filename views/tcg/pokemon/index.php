@@ -39,6 +39,8 @@ foreach ($blockSet as $row) {
         if($row['set_name'] == $name){
            $get = $row; 
         }
+    }else{
+        $name = $blockSet[0]['set_name'];
     }
 }
 
@@ -98,12 +100,25 @@ require_once "../../inc/header.php"; ?>
 
         </div>
 
-        <div class="select">
-            
+        <div class="selectContenaire">
+            <div class="select">
+                
+            </div>
         </div>
         
         <div class="rechercher">
             <input type="text" placeholder="Rechercher une carte" maxlength="60">
+        </div>
+
+        <div class="btnRechercheContenaire">
+            <div class="RechercherTxt">
+                <h3>Recherche dans ce set uniquement</h3>
+            </div>
+            <div class="btnRechercherSetOnOff" id="off">
+                <div class="onoffCollor">
+                    <i class="fa-solid fa-circle slideIcon" style="color: #ffffff;"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>
