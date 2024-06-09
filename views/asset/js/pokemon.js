@@ -97,6 +97,15 @@ $(document).ready(function() {
         }
     });
 
+    $('.selectOptContenaie').click(function(event) {
+        event.stopPropagation();
+    });
+    $('.selectOpt').click(function(event) {
+        event.stopPropagation();
+        var value = $(this).html();
+        $(".optSelect").html(value);
+    });
+    
     $('.btnRechercherSetOnOff').click(function(e) {
         $('.slideIcon').stop(true, false);
         $('.onoffCollor').stop(true, false);
