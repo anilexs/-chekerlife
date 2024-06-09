@@ -164,13 +164,21 @@
     color: white;
 }
 
-.energieBtn, .setEnergieBtn{
+.energieBtn, .setEnergieBtn, .setRareteBtn{
     background-color: transparent;
     border: none;
     padding: 0;
 }
 
-.energieBtn img, .setEnergieBtn img{
+.rareteBtn{
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    height: 26px;
+    padding: 0;
+}
+
+.energieBtn img, .setEnergieBtn img, .rareteBtn img, .setRareteBtn img{
     height: 25px;
 }
 

@@ -137,6 +137,47 @@ $(document).ready(function() {
         }
     });
 
+    $('.rareteBtn, .setRareteBtn').click(function(e) {
+        var nbRarete = $('.rareteBtn').length;
+        var opacity = $(this).css('opacity');
+        var rarete = $(this).attr('id');
+        
+        if(rarete == "rareteAllOn"){
+            $('#rareteAllOff').css('opacity', '1');
+            $('.rareteBtn').css('opacity', '1');
+            $('#' + rarete).css('opacity', '0.5');
+        //     $('.contenaireCard').css('display', '');
+        }else if(rarete == "rareteAllOff"){
+            $('#rareteAllOn').css('opacity', '1');
+            $('.rareteBtn').css('opacity', '0.5');
+            $('.rareteBtn, #' + rarete).css('opacity', '0.5');
+        //     $('.contenaireCard').css('display', 'none');
+        }else{
+            if(opacity == 1){
+                $(this).css('opacity', '0.5');
+                $('.'+rarete).css('display', 'none');
+            }else{
+                $(this).css('opacity', '1');
+                $('.'+rarete).css('display', '');
+            }
+            
+            var count = $('.rareteBtn').filter((_, el) => $(el).css('opacity') == '0.5').length;
+            if(count == 0){
+                $('#rareteAllOff').css('opacity', '1');
+                $('#rareteAllOn').css('opacity', '0.5');
+            }else if(count == nbRarete){
+                $('#rareteAllOff').css('opacity', '0.5');
+            }else if(count <= nbRarete){
+                $('#rareteAllOff').css('opacity', '1');
+                $('#rareteAllOn').css('opacity', '1');
+            }else{
+                $('#rareteAllOn').css('opacity', '1');
+            }
+        } 
+
+        ftrSize();
+    })
+
     $('.energieBtn, .setEnergieBtn').click(function(e) {
         var nbEnergy = $('.energieBtn').length;
         var opacity = $(this).css('opacity');

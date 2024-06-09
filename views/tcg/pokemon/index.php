@@ -4,6 +4,7 @@ $token = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
 
 $blockSet = Pokemon::blockSet($token);
 $energie = Pokemon::energie();
+$rarete = Pokemon::rarete();
 
 // echo "<pre>";
 // var_dump($allEtat);
@@ -130,6 +131,15 @@ require_once "../../inc/header.php"; ?>
             </div>
         </div>
     </div>
+
+    <div class="rareteContenaire">
+        <button class="setRareteBtn" id="rareteAllOn" style="opacity: 0.5"><img src="../../asset/img/tcg/pokemon/cheked.png" alt=""></button>
+        <button class="setRareteBtn" id="rareteAllOff"><img src="../../asset/img/tcg/pokemon/X.png" alt=""></button>
+        <?php foreach($rarete as $rarete){ ?>
+            <button class="rareteBtn" id="<?= $rarete['name'] ?>"><img src="../../asset/img/tcg/pokemon/rarete/<?= $rarete['image'] ?>" alt=""></button>
+        <?php } ?>
+    </div>
+    
     <div class="energieContenaire">
         <button class="setEnergieBtn" id="allOn" style="opacity: 0.5"><img src="../../asset/img/tcg/pokemon/cheked.png" alt=""></button>
         <button class="setEnergieBtn" id="allOff"><img src="../../asset/img/tcg/pokemon/X.png" alt=""></button>

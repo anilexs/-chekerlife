@@ -14,7 +14,19 @@ class Pokemon{
             echo $e->getMessage();
         }
     }
-
+    
+    public static function rarete() {
+        $db = Database::dbConnect();
+        
+        $request = $db->prepare("SELECT * FROM pokemon_rarete pr ORDER BY pr.order");
+        try {
+            $request->execute();
+            $rarete = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $rarete;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
     public static function blockSet($token) {
         $db = Database::dbConnect();
