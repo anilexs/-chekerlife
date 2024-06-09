@@ -104,9 +104,14 @@ require_once "../../inc/header.php"; ?>
         <div class="selectContenaire">
             <div class="select">
                 <div class="optSelect">Toutes les cartes</div>
+                <div class="selectArrow"><i class="fa-solid fa-arrow-right"></i></div>
             </div>
-            <div class="selectOpt">
-                
+            <div class="selectOptContenaie">
+                <div class="selectOpt">Toutes les cartes</div>
+                <div class="selectOpt">cartes Manquantes</div>
+                <div class="selectOpt">cartes normales</div>
+                <div class="selectOpt">cartes reverses</div>
+                <div class="selectOpt">Ma collection</div>
             </div>
         </div>
         

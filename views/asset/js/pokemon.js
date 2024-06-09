@@ -76,12 +76,23 @@ $(document).ready(function() {
     $('.selectContenaire').click(function(event) {
         event.stopPropagation();
         $('.blockSelect').stop(true, false);
+        
+        $(".selectArrow").toggleClass('rotate-90');
 
         if (openSelect == false) {
-            $('.selectOpt').stop().animate({ height: '300px' }, 300);
+            $('.selectContenaire').css({ 
+                borderTopLeftRadius: '10px', 
+                borderTopRightRadius: '10px', 
+                borderBottomRightRadius: '0px', 
+                borderBottomLeftRadius: '0px' 
+            });
+            
+            $('.selectOptContenaie').stop().animate({ height: '300px' }, 300);
             openSelect = true;
         } else {
-            $('.selectOpt').stop().animate({ height: '0' }, 300);
+            $('.selectOptContenaie').stop().animate({ height: '0' }, 300, function() {
+                $('.selectContenaire').css({ borderRadius: '10px' });
+            });            
             openSelect = false;
         }
     });
@@ -128,10 +139,10 @@ $(document).ready(function() {
             $('#' + energie).css('opacity', '0.5');
             $('.contenaireCard').css('display', '');
         }else if(energie == "allOff"){
-                $('#allOn').css('opacity', '1');
-                $('.energieBtn').css('opacity', '0.5');
-                $('.energieBtn, #' + energie).css('opacity', '0.5');
-                $('.contenaireCard').css('display', 'none');
+            $('#allOn').css('opacity', '1');
+            $('.energieBtn').css('opacity', '0.5');
+            $('.energieBtn, #' + energie).css('opacity', '0.5');
+            $('.contenaireCard').css('display', 'none');
         }else{
             if(opacity == 1){
                 $(this).css('opacity', '0.5');
