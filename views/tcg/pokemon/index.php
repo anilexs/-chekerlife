@@ -110,8 +110,8 @@ require_once "../../inc/header.php"; ?>
             <div class="selectOptContenaie">
                 <div class="selectOpt">Toutes les cartes</div>
                 <div class="selectOpt">cartes Manquantes</div>
-                <div class="selectOpt">cartes normales</div>
-                <div class="selectOpt">cartes reverses</div>
+                <div class="selectOpt">cartes Manquantes normales</div>
+                <div class="selectOpt">cartes Manquantes reverses</div>
                 <div class="selectOpt">Ma collection</div>
             </div>
         </div>
@@ -135,16 +135,18 @@ require_once "../../inc/header.php"; ?>
     <div class="rareteContenaire">
         <button class="setRareteBtn" id="rareteAllOn" style="opacity: 0.5"><img src="../../asset/img/tcg/pokemon/cheked.png" alt=""></button>
         <button class="setRareteBtn" id="rareteAllOff"><img src="../../asset/img/tcg/pokemon/X.png" alt=""></button>
-        <?php foreach($rarete as $rarete){ ?>
-            <button class="rareteBtn" id="<?= $rarete['name'] ?>"><img src="../../asset/img/tcg/pokemon/rarete/<?= $rarete['image'] ?>" alt=""></button>
+        <?php foreach($rarete as $rarete){ 
+            $rareteName = str_replace(' ', '-', trim($rarete['name'])); ?>
+            <button class="rareteBtn" id="<?= $rareteName ?>"><img src="../../asset/img/tcg/pokemon/rarete/<?= $rarete['image'] ?>" alt=""></button>
         <?php } ?>
     </div>
     
     <div class="energieContenaire">
         <button class="setEnergieBtn" id="allOn" style="opacity: 0.5"><img src="../../asset/img/tcg/pokemon/cheked.png" alt=""></button>
         <button class="setEnergieBtn" id="allOff"><img src="../../asset/img/tcg/pokemon/X.png" alt=""></button>
-        <?php foreach($energie as $energie){ ?>
-            <button class="energieBtn" id="<?= $energie['name'] ?>"><img src="../../asset/img/tcg/pokemon/energy/<?= $energie['image'] ?>" alt=""></button>
+        <?php foreach($energie as $energie){ 
+            $energieName = str_replace(' ', '-', trim($energie['name']));?>
+            <button class="energieBtn" id="<?= $energieName ?>"><img src="../../asset/img/tcg/pokemon/energy/<?= $energie['image'] ?>" alt=""></button>
         <?php } ?>
     </div>
 </div>
@@ -165,9 +167,11 @@ require_once "../../inc/header.php"; ?>
                 $card_user = 1;
                 break; 
             }
-        } ?>
+        } 
+        $rareteCard = str_replace(' ', '-', trim($card['rarete']));
+        ?>
         
-        <div class="contenaireCard <?= $card['energie'] ?>">
+        <div class="contenaireCard <?= $card['energie'] ?> <?= $rareteCard ?>">
             <div class="card">
                 <div class="idCard">
                     <?= $card['cardId']; ?> / <?= $card['nb_card'] ?> 

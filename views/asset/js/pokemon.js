@@ -100,11 +100,133 @@ $(document).ready(function() {
     $('.selectOptContenaie').click(function(event) {
         event.stopPropagation();
     });
+
     $('.selectOpt').click(function(event) {
         event.stopPropagation();
-        var value = $(this).html();
-        $(".optSelect").html(value);
+        var select = $(this).html();
+        $(".optSelect").html(select);
+        
+        var energie = $('.energieBtn').map(function() { return this.id; }).get();
+        var rarete = $('.rareteBtn').map(function() { return this.id; }).get();
+        
+        if(select == "Toutes les cartes"){
+            selectOptReset(energie, rarete);
+        }else if(select == "cartes Manquantes"){
+            selectOptReset(energie, rarete);
+
+            selectOptCardManquantes();
+        }else if(select == "cartes Manquantes normales"){
+            selectOptReset(energie, rarete);
+
+            selectOptCardMnormales();
+        }else if(select == "cartes Manquantes reverses"){
+            selectOptReset(energie, rarete);
+
+            selectOptCardMreverses();
+        }else if(select == "Ma collection"){
+            selectOptReset(energie, rarete);
+
+            selectOptCardMcollection();
+        }else{
+            console.log(false);
+        }
+        ftrSize();
     });
+
+    function selectOptReset(energie, rarete){
+        // rafiche tout les carte en prenent compte des energy et des rarete
+        energie.forEach(energie => {
+            rarete.forEach(rarete => {
+                var energieVal = $("#" + energie).css('opacity');
+                var rareteVal = $("#" + rarete).css('opacity');
+        
+                if (energieVal == 1 && rareteVal == 1) {
+                    $('.' + energie + '.' + rarete).css('display', '');
+                } else {
+                    $('.' + energie + '.' + rarete).css('display', 'none');
+                }
+            });
+        });
+    }
+    
+    function selectOptCardManquantes(){
+        // Parcourir chaque contenaireCard
+        $('.contenaireCard').each(function() {
+            var opacity = true;
+        
+            // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+            $(this).find('.pokeball img').each(function() {
+                if ($(this).css("opacity") != "1") {
+                    opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                    return false; // Sortir de la boucle interne (each des images)
+                }
+            });
+        
+            // Si toutes les images sont opaques, appliquer le style de bordure
+            if (opacity) {
+                $(this).css("display", "none");
+            }
+        });
+    }
+    
+    function selectOptCardMnormales(){
+        // Parcourir chaque contenaireCard
+        $('.contenaireCard').each(function() {
+            var opacity = true;
+        
+            // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+            $(this).find('.normal img').each(function() {
+                if ($(this).css("opacity") != "1") {
+                    opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                    return false; // Sortir de la boucle interne (each des images)
+                }
+            });
+        
+            // Si toutes les images sont opaques, appliquer le style de bordure
+            if (opacity) {
+                $(this).css("display", "none");
+            }
+        });
+    }
+    
+    function selectOptCardMreverses(){
+       // Parcourir chaque contenaireCard
+        $('.contenaireCard').each(function() {
+            var opacity = true;
+        
+            // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+            $(this).find('.reverse img').each(function() {
+                if ($(this).css("opacity") != "1") {
+                    opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                    return false; // Sortir de la boucle interne (each des images)
+                }
+            });
+        
+            // Si toutes les images sont opaques, appliquer le style de bordure
+            if (opacity) {
+                $(this).css("display", "none");
+            }
+        });
+    }
+    function selectOptCardMcollection(){
+        // Parcourir chaque contenaireCard
+        $('.contenaireCard').each(function() {
+            var opacity = true;
+        
+            // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+            $(this).find('.pokeball img').each(function() {
+                if ($(this).css("opacity") == "1") {
+                    opacity = false; // Si une image est complètement opaque, changer la valeur de allOpaque
+                    return false; // Sortir de la boucle interne (each des images)
+                }
+            });
+        
+            // Si une des images sont opaques, appliquer le style
+            if (opacity) {
+                $(this).css("display", "none");
+            }
+        });
+    }
     
     $('.btnRechercherSetOnOff').click(function(e) {
         $('.slideIcon').stop(true, false);
@@ -141,24 +263,54 @@ $(document).ready(function() {
         var nbRarete = $('.rareteBtn').length;
         var opacity = $(this).css('opacity');
         var rarete = $(this).attr('id');
+
+        var select = $('.optSelect').text();
+
+        var energie = $('.energieBtn').map(function() { return this.id; }).get();
         
         if(rarete == "rareteAllOn"){
             $('#rareteAllOff').css('opacity', '1');
             $('.rareteBtn').css('opacity', '1');
             $('#' + rarete).css('opacity', '0.5');
-        //     $('.contenaireCard').css('display', '');
+
+            // a comptinue
+            if(select == "Toutes les cartes"){
+                energie.forEach(energie => {
+                    var energieVal = $("#"+energie).css('opacity');
+                    
+                    if(energieVal == 1){
+                        $('.'+energie).css('display', '');
+                    }
+                });
+            }else if(select == "cartes Manquantes"){
+                
+            }else if(select == "cartes Manquantes normales"){
+
+            }else if(select == "cartes Manquantes reverses"){
+
+            }else if(select == "Ma collection"){
+
+            }else{
+
+            }
         }else if(rarete == "rareteAllOff"){
             $('#rareteAllOn').css('opacity', '1');
             $('.rareteBtn').css('opacity', '0.5');
             $('.rareteBtn, #' + rarete).css('opacity', '0.5');
-        //     $('.contenaireCard').css('display', 'none');
+            $('.contenaireCard').css('display', 'none');
         }else{
             if(opacity == 1){
                 $(this).css('opacity', '0.5');
                 $('.'+rarete).css('display', 'none');
             }else{
                 $(this).css('opacity', '1');
-                $('.'+rarete).css('display', '');
+                energie.forEach(energie => {
+                    var energieVal = $("#"+energie).css('opacity');
+                    
+                    if(energieVal == 1){
+                        $('.'+energie + '.'+rarete).css('display', '');
+                    }
+                });
             }
             
             var count = $('.rareteBtn').filter((_, el) => $(el).css('opacity') == '0.5').length;
@@ -182,12 +334,22 @@ $(document).ready(function() {
         var nbEnergy = $('.energieBtn').length;
         var opacity = $(this).css('opacity');
         var energie = $(this).attr('id');
+
+        var select = $('.optSelect').text();
+
+        var rarete = $('.rareteBtn').map(function() { return this.id; }).get();
         
         if(energie == "allOn"){
             $('#allOff').css('opacity', '1');
             $('.energieBtn').css('opacity', '1');
             $('#' + energie).css('opacity', '0.5');
-            $('.contenaireCard').css('display', '');
+            rarete.forEach(rarete => {
+                var rareteVal = $("#"+rarete).css('opacity');
+                
+                if(rareteVal == 1){
+                    $('.'+rarete).css('display', '');
+                }
+            });
         }else if(energie == "allOff"){
             $('#allOn').css('opacity', '1');
             $('.energieBtn').css('opacity', '0.5');
@@ -199,12 +361,16 @@ $(document).ready(function() {
                 $('.'+energie).css('display', 'none');
             }else{
                 $(this).css('opacity', '1');
-                $('.'+energie).css('display', '');
+                rarete.forEach(rarete => {
+                    var rareteVal = $("#"+rarete).css('opacity');
+                    
+                    if(rareteVal == 1){
+                        $('.'+energie + '.'+rarete).css('display', '');
+                    }
+                });
             }
             
             var count = $('.energieBtn').filter((_, el) => $(el).css('opacity') == '0.5').length;
-            console.log(nbEnergy);
-            console.log(count);
             if(count == 0){
                 $('#allOff').css('opacity', '1');
                 $('#allOn').css('opacity', '0.5');

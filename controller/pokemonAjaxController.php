@@ -38,7 +38,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
             // Ajoutez le HTML généré à la chaîne
             ob_start(); // Démarrer la temporisation de sortie
             ?>
-            <div class="contenaireCard <?= $card['energie'] ?>">
+            <div class="contenaireCard <?= $card['energie'] ?> <?= $card['rarete'] ?>">
                 <div class="card">
                     <div class="idCard">
                         <?= $card['cardId']; ?> / <?= $card['nb_card'] ?> 
