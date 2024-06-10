@@ -77,12 +77,7 @@ class Pokemon{
     
     
     public static function pokeball($token, $cardId, $set_name, $etat, $secondary_name = null, $update) {
-        // INSERT INTO `pokemon_user_card` (`user_id`, `card_id`) SELECT t.user_id, pc.id_card FROM token t LEFT JOIN pokemon_set ps ON ps.name = ? LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = ? WHERE t.token = ? LIMIT 1
-
-        
-        
         $db = Database::dbConnect();
-        
         
         try {
             if($secondary_name == null){
@@ -101,34 +96,32 @@ class Pokemon{
             $cardUser = $request->fetchAll(PDO::FETCH_ASSOC);
             
             if($cardUser){
-                if($update == 1){
-                    // if($secondary_name == null){
-
-                    // }else{
-
-                    // }
-                }else{
-                    foreach ($cardUser as $card) {
+                foreach ($cardUser as $card) {
+                    if($card['prix'] == null || $card['prix'] == 0){
+                        $cardUser = $card;
                         if($card['user_card_actif'] == 1){
-                            $cardUser = $card;
-                            break;
-                        }else{
-                            $cardUser = "tout et null";
+
                         }
+                        break;
+                    }else{
+                        $cardUser = $card;
                     }
                 }
-                // $cardUser = $cardUser[0];
-                // if($cardUser[0]['prix'] == null || $cardUser[0]['prix'] == 0.00){
-
-                // }
-                // if($cardUser['user_card_actif'] == 1){
-
-                // }else 
                 // if($update == 1){
-                    // UPDATE `pokemon_user_card` SET `possession`='1', NOW(), `user_card_actif`='1'
-                    // $request = $db->prepare();
+                //     // if($secondary_name == null){
+
+                //     // }else{
+
+                //     // }
                 // }else{
-                    // false
+                //     foreach ($cardUser as $card) {
+                //         if($card['user_card_actif'] == 1){
+                //             $cardUser = $card;
+                //             break;
+                //         }else{
+                //             $cardUser = "tout et null";
+                //         }
+                //     }
                 // }
             }else{
                 if($update == 1){
