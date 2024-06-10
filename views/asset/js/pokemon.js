@@ -273,7 +273,6 @@ $(document).ready(function() {
             $('.rareteBtn').css('opacity', '1');
             $('#' + rarete).css('opacity', '0.5');
 
-            // a comptinue
             if(select == "Toutes les cartes"){
                 energie.forEach(energie => {
                     var energieVal = $("#"+energie).css('opacity');
@@ -282,116 +281,95 @@ $(document).ready(function() {
                         $('.'+energie).css('display', '');
                     }
                 });
-            }else if(select == "cartes Manquantes"){
-                $('.contenaireCard').each(function() {
-                    var opacity = true;
-                
-                    // Vérifier chaque image dans les .pokeball de cette .contenaireCard
-                    $(this).find('.pokeball img').each(function() {
-                        if ($(this).css("opacity") != "1") {
-                            opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
-                            return false; // Sortir de la boucle interne (each des images)
-                        }
-                    });
-                
-                    // Si toutes les images sont opaques, appliquer le style de bordure
-                    if (!opacity) {
-                        $(this).css("display", "");
-                    }else{
-                        $(this).css("display", "none");
-                    }
-                    energie.forEach(energie => {
-                        var energieVal = $("#"+energie).css('opacity');
-                        
-                        if(energieVal != 1){
-                            $('.'+energie).css('display', 'none');
-                        }
-                    });
-                });
-            }else if(select == "cartes Manquantes normales"){
-                // Parcourir chaque contenaireCard
-                $('.contenaireCard').each(function() {
-                    var opacity = true;
-                
-                    // Vérifier chaque image dans les .pokeball de cette .contenaireCard
-                    $(this).find('.normal img').each(function() {
-                        if ($(this).css("opacity") != "1") {
-                            opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
-                            return false; // Sortir de la boucle interne (each des images)
-                        }
-                    });
-                
-                    // Si toutes les images sont opaques, appliquer le style de bordure
-                    if (!opacity) {
-                        $(this).css("display", "");
-                    }else{
-                        $(this).css("display", "none");
-                    }
-                    energie.forEach(energie => {
-                        var energieVal = $("#"+energie).css('opacity');
-                        
-                        if(energieVal != 1){
-                            $('.'+energie).css('display', 'none');
-                        }
-                    });
-                });
-            }else if(select == "cartes Manquantes reverses"){
-                // Parcourir chaque contenaireCard
-                $('.contenaireCard').each(function() {
-                    var opacity = true;
-                
-                    // Vérifier chaque image dans les .pokeball de cette .contenaireCard
-                    $(this).find('.reverse img').each(function() {
-                        if ($(this).css("opacity") != "1") {
-                            opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
-                            return false; // Sortir de la boucle interne (each des images)
-                        }
-                    });
-                
-                    // Si toutes les images sont opaques, appliquer le style de bordure
-                    if (!opacity) {
-                        $(this).css("display", "");
-                    }else{
-                        $(this).css("display", "none");
-                    }
-                    energie.forEach(energie => {
-                        var energieVal = $("#"+energie).css('opacity');
-                        
-                        if(energieVal != 1){
-                            $('.'+energie).css('display', 'none');
-                        }
-                    });
-                });
-            }else if(select == "Ma collection"){
-                // Parcourir chaque contenaireCard
-                $('.contenaireCard').each(function() {
-                    var opacity = true;
-                
-                    // Vérifier chaque image dans les .pokeball de cette .contenaireCard
-                    $(this).find('.pokeball img').each(function() {
-                        if ($(this).css("opacity") == "1") {
-                            opacity = false; // Si une image est complètement opaque, changer la valeur de allOpaque
-                            return false; // Sortir de la boucle interne (each des images)
-                        }
-                    });
-                
-                    // Si une des images sont opaques, appliquer le style
-                    if (!opacity) {
-                        $(this).css("display", "");
-                    }else{
-                        $(this).css("display", "none");
-                    }
-                    energie.forEach(energie => {
-                        var energieVal = $("#"+energie).css('opacity');
-                        
-                        if(energieVal != 1){
-                            $('.'+energie).css('display', 'none');
-                        }
-                    });
-                });
             }else{
+                if(select == "cartes Manquantes"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes normales"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.normal img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes reverses"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.reverse img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "Ma collection"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") == "1") {
+                                opacity = false; // Si une image est complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si une des images sont opaques, appliquer le style
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }
+                energie.forEach(energie => {
+                    var energieVal = $("#"+energie).css('opacity');
 
-            }
+                    if(energieVal != 1){
+                        $('.'+energie).css('display', 'none');
+                    }
+                });
+        }
         }else if(rarete == "rareteAllOff"){
             $('#rareteAllOn').css('opacity', '1');
             $('.rareteBtn').css('opacity', '0.5');
@@ -442,13 +420,110 @@ $(document).ready(function() {
             $('#allOff').css('opacity', '1');
             $('.energieBtn').css('opacity', '1');
             $('#' + energie).css('opacity', '0.5');
-            rarete.forEach(rarete => {
-                var rareteVal = $("#"+rarete).css('opacity');
+            // rarete.forEach(rarete => {
+            //     var rareteVal = $("#"+rarete).css('opacity');
                 
-                if(rareteVal == 1){
-                    $('.'+rarete).css('display', '');
+            //     if(rareteVal == 1){
+            //         $('.'+rarete).css('display', '');
+            //     }
+            // });
+            if(select == "Toutes les cartes"){
+                rarete.forEach(rarete => {
+                    var rareteVal = $("#"+rarete).css('opacity');
+                    
+                    if(rareteVal == 1){
+                        $('.'+rarete).css('display', '');
+                    }
+                });
+            }else{
+                if(select == "cartes Manquantes"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes normales"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.normal img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes reverses"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.reverse img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; // Si une image n'est pas complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si toutes les images sont opaques, appliquer le style de bordure
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "Ma collection"){
+                    // Parcourir chaque contenaireCard
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        // Vérifier chaque image dans les .pokeball de cette .contenaireCard
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") == "1") {
+                                opacity = false; // Si une image est complètement opaque, changer la valeur de allOpaque
+                                return false; // Sortir de la boucle interne (each des images)
+                            }
+                        });
+                    
+                        // Si une des images sont opaques, appliquer le style
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
                 }
-            });
+                rarete.forEach(rarete => {
+                    var rareteVal = $("#"+rarete).css('opacity');
+                    
+                    if(rareteVal != 1){
+                        $('.'+rarete).css('display', 'none');
+                    }
+                });
+        }
         }else if(energie == "allOff"){
             $('#allOn').css('opacity', '1');
             $('.energieBtn').css('opacity', '0.5');
