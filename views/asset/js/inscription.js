@@ -1,3 +1,4 @@
+ftrSize();
 $(document).ready(function(){
     var host = "http://localhost/!chekerlife/";
     $("#formInscription").on("submit", function(e) {
@@ -178,7 +179,6 @@ $(document).ready(function(){
                 }
             });
         }
-
     });
 
     $('#btnReinitialiser').on('click', function() {

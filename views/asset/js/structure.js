@@ -11,6 +11,41 @@ function ftrSize() {
     }
 }
 
+// $(document).ready(function() {
+//     function isElementBehindFooter($element, $footer) {
+//         // Obtenir les positions et dimensions de l'élément et du footer
+//         var elementRect = $element[0].getBoundingClientRect();
+//         var footerRect = $footer[0].getBoundingClientRect();
+        
+//         // Vérifier si l'élément est recouvert par le footer
+//         return (
+//             elementRect.bottom > footerRect.top &&
+//             elementRect.top < footerRect.bottom &&
+//             elementRect.right > footerRect.left &&
+//             elementRect.left < footerRect.right
+//         );
+//     }
+
+//     var $footer = $('footer');
+//     var elementsBehindFooter = [];
+
+//     $('body *').each(function() {
+//         var $element = $(this);
+//         if ($element.is('footer')) return; // Ignorer le footer lui-même
+
+//         if (isElementBehindFooter($element, $footer)) {
+//             elementsBehindFooter.push($element);
+//             console.log($element, 'est derrière le footer.');
+//         }
+//     });
+
+//     if (elementsBehindFooter.length > 0) {
+//         console.log('Des éléments se trouvent derrière le footer.');
+//     } else {
+//         console.log('Aucun élément n\'est derrière le footer.');
+//     }
+// });
+
 // function ftrSize() {
 //     var footer = document.getElementById('footer');
 //     var contentHeight = document.body.scrollHeight;

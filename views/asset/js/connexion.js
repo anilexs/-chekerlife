@@ -100,6 +100,7 @@ $(document).ready(function(){
     $('#btnReinitialiser').on('click', function() {
         reinitialiser();
     });
+    ftrSize();
 });
 function reinitialiser(gif = "mikulevitation.gif"){
     $('#right').text("");

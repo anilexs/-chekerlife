@@ -19,11 +19,11 @@
 
 body::before {
     content: "";
-    background-image: url(https://www.teahub.io/photos/full/37-377825_2048x1152-anime-wallpaper-background-luxury-all-anime-characters.jpg);
+    background-image: url(../img/bg-anime2.jpg);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     opacity: 0.5;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -98,7 +98,6 @@ form{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
 }
 
 /* error */
