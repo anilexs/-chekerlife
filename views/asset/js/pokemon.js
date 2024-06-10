@@ -492,7 +492,7 @@ $(document).ready(function() {
         ftrSize();
     })
 
-    
+
     $('.energieBtn, .setEnergieBtn').click(function(e) {
         var nbEnergy = $('.energieBtn').length;
         var opacity = $(this).css('opacity');
@@ -501,6 +501,7 @@ $(document).ready(function() {
         var select = $('.optSelect').text();
 
         var rarete = $('.rareteBtn').map(function() { return this.id; }).get();
+        var energieTab = $('.energieBtn').map(function() { return this.id; }).get();
         
         if(energie == "allOn"){
             $('#allOff').css('opacity', '1');
@@ -583,12 +584,11 @@ $(document).ready(function() {
                         
                         $(this).find('.pokeball img').each(function() {
                             if ($(this).css("opacity") == "1") {
-                                opacity = false; // Si une image est complètement opaque, changer la valeur de allOpaque
+                                opacity = false;
                                 return false; 
                             }
                         });
                     
-                        // Si une des images sont opaques, appliquer le style
                         if (!opacity) {
                             $(this).css("display", "");
                         }else{
@@ -615,13 +615,113 @@ $(document).ready(function() {
                 $('.'+energie).css('display', 'none');
             }else{
                 $(this).css('opacity', '1');
-                rarete.forEach(rarete => {
-                    var rareteVal = $("#"+rarete).css('opacity');
+                // rarete.forEach(rarete => {
+                //     var rareteVal = $("#"+rarete).css('opacity');
                     
-                    if(rareteVal == 1){
-                        $('.'+energie + '.'+rarete).css('display', '');
+                //     if(rareteVal == 1){
+                //         $('.'+energie + '.'+rarete).css('display', '');
+                //     }
+                // });
+                if(select == "Toutes les cartes"){
+                    energieTab.forEach(energie => {
+                        rarete.forEach(rarete => {
+                            var energieVal = $("#" + energie).css('opacity');
+                            var rareteVal = $("#" + rarete).css('opacity');
+                    
+                            if (energieVal == 1 && rareteVal == 1) {
+                                $('.' + energie + '.' + rarete).css('display', '');
+                            } else {
+                                $('.' + energie + '.' + rarete).css('display', 'none');
+                            }
+                        });
+                    });
+                }else{
+                    if(select == "cartes Manquantes"){
+                        $('.contenaireCard').each(function() {
+                            var opacity = true;
+                        
+                            $(this).find('.pokeball img').each(function() {
+                                if ($(this).css("opacity") != "1") {
+                                    opacity = false; 
+                                    return false; 
+                                }
+                            });
+                        
+                            if (!opacity) {
+                                $(this).css("display", "");
+                            }else{
+                                $(this).css("display", "none");
+                            }
+                        });
+                    }else if(select == "cartes Manquantes normales"){
+                        $('.contenaireCard').each(function() {
+                            var opacity = true;
+                        
+                            $(this).find('.normal img').each(function() {
+                                if ($(this).css("opacity") != "1") {
+                                    opacity = false;
+                                    return false;
+                                }
+                            });
+                        
+                            if (!opacity) {
+                                $(this).css("display", "");
+                            }else{
+                                $(this).css("display", "none");
+                            }
+                        });
+                    }else if(select == "cartes Manquantes reverses"){
+                        $('.contenaireCard').each(function() {
+                            var opacity = true;
+                        
+                            $(this).find('.reverse img').each(function() {
+                                if ($(this).css("opacity") != "1") {
+                                    opacity = false;
+                                    return false;
+                                }
+                            });
+                        
+                            if (!opacity) {
+                                $(this).css("display", "");
+                            }else{
+                                $(this).css("display", "none");
+                            }
+                        });
+                    }else if(select == "Ma collection"){
+                        $('.contenaireCard').each(function() {
+                            var opacity = true;
+                        
+                            $(this).find('.pokeball img').each(function() {
+                                if ($(this).css("opacity") == "1") {
+                                    opacity = false;
+                                    return false;
+                                }
+                            });
+                        
+                            if (!opacity) {
+                                $(this).css("display", "");
+                            }else{
+                                $(this).css("display", "none");
+                            }
+                        });
                     }
-                });
+
+                    // enleve les carte indesirable apr leur rarete et leur energy
+                    rarete.forEach(rarete => {
+                        var rareteVal = $("#"+rarete).css('opacity');
+    
+                        if(rareteVal != 1){
+                            $('.'+rarete).css('display', 'none');
+                        }
+                    });
+                    energieTab.forEach(energie => {
+                        var energieVal = $("#"+energie).css('opacity');
+    
+                        if(energieVal != 1){
+                            $('.'+energie).css('display', 'none');
+                        }
+                    });
+                }
             }
             
             var count = $('.energieBtn').filter((_, el) => $(el).css('opacity') == '0.5').length;
