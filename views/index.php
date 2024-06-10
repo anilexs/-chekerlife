@@ -37,7 +37,7 @@ require_once "inc/header.php"; ?>
                     $urlName = str_replace(' ', '+', $lastCatalog["nom"]); ?>
                     <div class="catalogCard">
                         <a href="catalog/<?= $urlName ?>" class="lastA">
-                            <div class="catalogLastImgDiv"><img src="asset/img/last_catalog/<?= $lastCatalog["last_img"] ?>" alt="" class="catalogLastImg"></div>
+                            <div class="catalogLastImgDiv"><img src="asset/img/catalog/last_catalog/<?= $lastCatalog["last_img"] ?>" alt="" class="catalogLastImg"></div>
                             <div class="lastCatalogTxtContenaire">
                                 <div class="lastCatalogTxt">
                                     <?= $lastCatalog["nom"] ?>

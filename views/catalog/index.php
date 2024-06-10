@@ -42,14 +42,14 @@
     <title><?= $name ?></title>
 
 <?php require_once "../inc/nav.php"; ?>
-    <div class="banner" style="background-image: url(https://static.bandainamcoent.eu/high/sword-art-online/brand-setup/sao_banner2.jpg)">
+    <div class="banner" style="background-image: url(<?= $host ?>views/asset/img/catalog/banner/<?= $catalogInfo['banner_img'] ?>)">
         <?php if(isset($_COOKIE['token']) && ($userInfo['role'] == "admin" || $userInfo['role'] == "owner")) { ?>
             <button id="editebanner" onclick="editeBanner('<?= $name ?>')"><i class="fa-solid fa-pencil"></i></button>
         <?php } ?>
 
         <div class="contenaire">
             <div class="contenaireheader">
-                <img src="<?= $host ?>views/asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
+                <img src="<?= $host ?>views/asset/img/catalog/poster/<?= $catalogInfo['image_catalogue'] ?>" alt="" class="catalogImg">
                 <div class="droite">
                     <div class="info">
                         <ul class="ul">
@@ -76,7 +76,7 @@
             <?php foreach($collection as $collection){
                 $catalogInfo = Catalog::catalogInfo($collection['catalog_id']);?>
                 <div class="collectionCard">
-                    <img src="<?= $host ?>asset/img/catalog/<?= $catalogInfo['image_catalogue'] ?>" alt="">
+                    <img src="<?= $host ?>asset/img/catalog/poster/<?= $catalogInfo['image_catalogue'] ?>" alt="">
                 </div>
             <?php } ?>
         </div>

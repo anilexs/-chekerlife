@@ -96,7 +96,7 @@ require_once "../inc/header.php";
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
                         <?php } ?>
                         <a href="../catalog/<?= $urlName ?>">
-                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                            <img src="../asset/img/catalog/poster/<?= $catalogItem["image_catalogue"] ?>" alt="">
                         </a>
                         <?= '<script type="text/javascript">
                             likePosition(' . $catalogItem['id_catalogue'] .');
@@ -130,7 +130,7 @@ require_once "../inc/header.php";
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
                         <?php } ?>
                         <a href="../catalog/<?= $urlName ?>">
-                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                            <img src="../asset/img/catalog/poster/<?= $catalogItem["image_catalogue"] ?>" alt="">
                         </a>
                         <?= '<script type="text/javascript">
                             likePosition(' . $catalogItem['id_catalogue'] .');
@@ -164,7 +164,7 @@ require_once "../inc/header.php";
                                 <div class="saison">saision <?= $catalogItem['saison'] ?></div>
                             <?php } ?>
                             <a href="../catalog/<?= $urlName ?>">
-                                <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                                <img src="../asset/img/catalog/poster/<?= $catalogItem["image_catalogue"] ?>" alt="">
                             </a>
                             <?= '<script type="text/javascript">
                                 likePosition(' . $catalogItem['id_catalogue'] .');
@@ -185,7 +185,7 @@ require_once "../inc/header.php";
                             <div class="saison">saision <?= $catalogItem['saison'] ?></div>
                         <?php } ?>
                         <a href="../catalog/<?= $urlName ?>">
-                            <img src="../asset/img/catalog/<?= $catalogItem["image_catalogue"] ?>" alt="">
+                            <img src="../asset/img/catalog/poster/<?= $catalogItem["image_catalogue"] ?>" alt="">
                         </a>
                     </div>
                 <?php }?>
