@@ -5,9 +5,20 @@
   width: 100%;
   height: 75px;
 }
-.twitch, .youtube, .tiktok, .twitter, .instagram{
+
+.resau{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 300px;
+}
+
+.resau a{
+  font-size: 30px;
   color: white;
 }
+
 .twitch:hover{
   color: rgb(151, 20, 151);
 }

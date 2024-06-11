@@ -53,9 +53,11 @@
                 <div class="droite">
                     <div class="info">
                         <ul class="ul">
-                            <li><?= $catalogInfo['nom'] ?></li>
-                            <li><?= $catalogInfo['publish_date'] ?></li>
-                            <li><?= $catalogInfo['type'] ?></li>
+                            <li>Nom : <?= $catalogInfo['nom'] ?></li>
+                            <li>date de publication : <?= $catalogInfo['publish_date'] ?></li>
+                            <?php if(empty($catalogInfo['type'])){ ?>
+                                <li><?= $catalogInfo['type'] ?></li>
+                            <?php } ?>
                             <li>
                                 <button class="likeList <?= $isActive ? 'activeTrue' : 'activeFalse'; ?> likeCollor<?= $catalogInfo["id_catalogue"] ?>" id="<?= $catalogInfo["id_catalogue"] ?>" onclick="likeList(<?= $catalogInfo["id_catalogue"] ?>)"><i class="fa-solid fa-heart"></i></button>
                                 <span class="cataLikeList <?= $catalogInfo["id_catalogue"] ?>" id="likeId<?= $catalogInfo["id_catalogue"] ?>"><?= $catalogInfo['likes'] ?></span>
