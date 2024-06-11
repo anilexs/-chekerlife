@@ -97,15 +97,37 @@ class Pokemon{
             
             if($cardUser){
                 foreach ($cardUser as $card) {
-                    if($card['prix'] == null || $card['prix'] == 0){
-                        $cardUser = $card;
-                        if($card['user_card_actif'] == 1){
-
+                    if($update == 1){
+                        if($card['prix'] == null || $card['prix'] == 0){
+                            $cardUser = $card;
+                            if($card['user_card_actif'] == 1){
+                                $cardUser = $card;
+                                $update = $db->prepare('UPDATE pokemon_user_card puc SET possession = puc.possession + 1, update_at =NOW() WHERE puc.id_pk_user_card = ?');
+                            }else{
+                                $update = $db->prepare('UPDATE `pokemon_user_card` puc SET possession = 1, update_at = NOW(), user_card_actif = 1 WHERE puc.id_pk_user_card= ?');
+                            }
+                            $update->execute(array($card['id_pk_user_card']));
+                        }else{
+                            if($secondary_name == null){
+                                $insert = $db->prepare('INSERT INTO `pokemon_user_card` (`user_id`, `card_id`, `etat_id`) SELECT t.user_id, pc.id_card, pe.id_pk_etat FROM token t LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE `token` = :token AND pc.id_card IS NOT NULL');
+                            }else{
+                                $insert = $db->prepare('INSERT INTO `pokemon_user_card` (`user_id`, `card_secondaire_id`, `etat_id`) SELECT t.user_id, pcs.id_pk_card_secondaire, pe.id_pk_etat FROM token t LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_card_secondaire pcs ON pcs.card_id = pc.id_card AND pcs.set_id = ps.id_set AND pcs.name = :secondary_name LEFT JOIN pokemon_etat pe ON pe.etat = :etat WHERE `token` = :token AND pcs.id_pk_card_secondaire IS NOT NULL');
+                                $insert->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
+                            }
+                            $insert->bindParam(':token', $token, PDO::PARAM_STR);
+                            $insert->bindParam(':etat', $etat, PDO::PARAM_STR);
+                            $insert->bindParam(':set_name', $set_name, PDO::PARAM_STR);
+                            $insert->bindParam(':cardId', $cardId, PDO::PARAM_STR);
+                            $insert->execute();
+                            $lastId = $db->lastInsertId();
+        
+                            $cardUser = $lastId;
                         }
-                        break;
                     }else{
-                        $cardUser = $card;
+                        // a re travailer
+                        // UPDATE pokemon_user_card puc SET possession = puc.possession - 1, update_at =NOW() WHERE puc.id_pk_user_card = 91
                     }
+                    break;
                 }
                 // if($update == 1){
                 //     // if($secondary_name == null){
