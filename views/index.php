@@ -47,9 +47,9 @@ require_once "inc/header.php"; ?>
                     </div>
                 <?php } ?>
             </div>
-            <div class="lastController">
+            <!-- <div class="lastController">
                 <div class="custom-scrollbar"></div>
-            </div>
+            </div> -->
         </div>
     </div>
 

@@ -4,9 +4,6 @@ nav{
     background-color: #1E222C;
     height: 70px;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     position: relative;
     z-index: 3;
 }
@@ -24,8 +21,9 @@ nav .ulNav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 90%;
-    margin-right: 10px;
+    width: 99%;
+    margin: auto;
+    padding-right: 3px;
 }
 nav #navRechercherBar{
     background-color: #303541;
@@ -205,3 +203,13 @@ nav h3{
     color: white;
     margin-top: 5px;
 }
+
+nav ul:nth-child(2){
+    display: none;
+}
+@media only screen and (max-width: 995px) {
+    nav ul:nth-child(2){
+        display: block;
+    }
+}
+

@@ -28,33 +28,33 @@ function animateText() {
 
 
 $(document).ready(function () {
-  var isDragging = false;
-  var initialPosition = 0;
+  // var isDragging = false;
+  // var initialPosition = 0;
 
-  $('.custom-scrollbar').mousedown(function (e) {
-    isDragging = true;
-    initialPosition = e.clientX - $('.custom-scrollbar').position().left;
-  });
+  // $('.custom-scrollbar').mousedown(function (e) {
+  //   isDragging = true;
+  //   initialPosition = e.clientX - $('.custom-scrollbar').position().left;
+  // });
 
-  $(document).mouseup(function () {
-    isDragging = false;
-  });
+  // $(document).mouseup(function () {
+  //   isDragging = false;
+  // });
 
-  $(document).mousemove(function (e) {
-    if (isDragging) {
-      updateScrollbarPosition(e);
-    }
-  });
+  // $(document).mousemove(function (e) {
+  //   if (isDragging) {
+  //     updateScrollbarPosition(e);
+  //   }
+  // });
 
   
   
-  $('.catalogContenair').on('wheel', function (e) {
-    e.preventDefault();
-    var delta = e.originalEvent.deltaY;
-    var currentScrollLeft = $('.catalogDiv').scrollLeft();
-    $('.catalogDiv').scrollLeft(currentScrollLeft + delta);
-    updateScrollbarPositionFromScroll();
-  });
+  // $('.catalogContenair').on('wheel', function (e) {
+  //   e.preventDefault();
+  //   var delta = e.originalEvent.deltaY;
+  //   var currentScrollLeft = $('.catalogDiv').scrollLeft();
+  //   $('.catalogDiv').scrollLeft(currentScrollLeft + delta);
+  //   updateScrollbarPositionFromScroll();
+  // });
 
   // version touche shift
   // $('.catalogContenair').on('wheel', function (e) {
@@ -67,42 +67,42 @@ $(document).ready(function () {
   //   }
   // });
 
-  function updateScrollbarPosition(e) {
-    var newPosition = e.clientX - initialPosition;
-    var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
+//   function updateScrollbarPosition(e) {
+//     var newPosition = e.clientX - initialPosition;
+//     var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
 
-    newPosition = Math.max(0, Math.min(newPosition, maxWidth));
-    $('.custom-scrollbar').css('left', newPosition);
-    updateScrollFromScrollbar();
-  }
+//     newPosition = Math.max(0, Math.min(newPosition, maxWidth));
+//     $('.custom-scrollbar').css('left', newPosition);
+//     updateScrollFromScrollbar();
+//   }
 
-  function updateScrollbarPositionFromScroll() {
-    var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
-    var scrollPercentage = $('.catalogDiv').scrollLeft() / maxScroll;
-    var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
-    var newPosition = scrollPercentage * maxWidth;
-    $('.custom-scrollbar').css('left', newPosition);
-  }
+//   function updateScrollbarPositionFromScroll() {
+//     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
+//     var scrollPercentage = $('.catalogDiv').scrollLeft() / maxScroll;
+//     var maxWidth = $('.lastCatalog').width() - $('.custom-scrollbar').width();
+//     var newPosition = scrollPercentage * maxWidth;
+//     $('.custom-scrollbar').css('left', newPosition);
+//   }
 
-  function updateScrollFromScrollbar() {
-    var scrollPercentage = $('.custom-scrollbar').position().left / ($('.lastCatalog').width() - $('.custom-scrollbar').width());
-    var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
-    var newScroll = scrollPercentage * maxScroll;
-    $('.catalogDiv').scrollLeft(newScroll);
-  }
+//   function updateScrollFromScrollbar() {
+//     var scrollPercentage = $('.custom-scrollbar').position().left / ($('.lastCatalog').width() - $('.custom-scrollbar').width());
+//     var maxScroll = $('.catalogDiv')[0].scrollWidth - $('.lastCatalog').width();
+//     var newScroll = scrollPercentage * maxScroll;
+//     $('.catalogDiv').scrollLeft(newScroll);
+//   }
 
-  function adjustScrollbarPositionOnZoom() {
-    var currentZoom = window.innerWidth / window.screen.width;
-    var newLeftPosition = $('.custom-scrollbar').position().left * currentZoom;
-    $('.custom-scrollbar').css('left', newLeftPosition + 'px');
-  }
+//   function adjustScrollbarPositionOnZoom() {
+//     var currentZoom = window.innerWidth / window.screen.width;
+//     var newLeftPosition = $('.custom-scrollbar').position().left * currentZoom;
+//     $('.custom-scrollbar').css('left', newLeftPosition + 'px');
+//   }
 
-  // Appel initial de la fonction d'ajustement
-  adjustScrollbarPositionOnZoom();
+//   // Appel initial de la fonction d'ajustement
+//   adjustScrollbarPositionOnZoom();
 
-  // Ajoutez cette partie pour ajuster la position de la barre de défilement lors du redimensionnement de la fenêtre
-  $(window).resize(function () {
-    adjustScrollbarPositionOnZoom();
-    updateScrollbarPositionFromScroll(); // Mettez à jour également la position de la barre en fonction du défilement
-  });
+//   // Ajoutez cette partie pour ajuster la position de la barre de défilement lors du redimensionnement de la fenêtre
+//   $(window).resize(function () {
+//     adjustScrollbarPositionOnZoom();
+//     updateScrollbarPositionFromScroll(); // Mettez à jour également la position de la barre en fonction du défilement
+//   });
 });

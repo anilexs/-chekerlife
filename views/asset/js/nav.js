@@ -12,6 +12,7 @@ if(currentPath.includes('/tcg/pokemon/')){
 }
 
 $(document).ready(function(){
+    
 $likeCount = $("#likeCount").text();
 if($likeCount < 10){
     $("#likeCount").css({     
