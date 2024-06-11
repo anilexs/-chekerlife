@@ -590,7 +590,7 @@ $(document).ready(function() {
                         });
                     
                         if (!opacity) {
-                            $(this).css("display", "");
+                            $(this).css("display", "");optSelect
                         }else{
                             $(this).css("display", "none");
                         }
@@ -790,11 +790,13 @@ $(document).ready(function() {
                     var options = '';
                     
                     response['etat'].forEach(function(etat) {
-                        if(etat['id_pk_etat'] == 1){
-                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
-                        }else{
-                            options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession :  <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
-                        }
+                        // if(etat['id_pk_etat'] == 1){
+                            var etatTrim = $.trim(etat['etat']).replace(/\s+/g, '-');
+
+                            options += '<span class="etatOpt" id="' + etatTrim + '"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
+                        // }else{
+                        //     options += '<span class="etatOpt"> <button> <span class="etatoptSelect">Etat : <span class="etatoptSelectVal">' + etat['etat'] + '</span></span> <span class="etatNbCard">Posession : <span class="nbPosession">' + etat['nombre_de_cartes'] + '</span></span> </button> </span>';
+                        // }
                     });
                     $this.parent('.cardLegend').parent('.contenaireCard').find('.card').prepend(
                         '<div class="cardEtatContenaire">' +
@@ -901,9 +903,27 @@ $(document).ready(function() {
             data: data,
             dataType: 'json',
             success: function(response) {
-                console.log(response['pokeball']);
-                // $this.css("opacity", "0.5");
-                // $this.css("opacity", "");
+
+                var posessionValue = 0;
+                response['pokeball'].forEach(etat => {
+                    var etatTrim = $.trim(etat['etat']).replace(/\s+/g, '-');
+                    $("#"+etatTrim).find('.nbPosession').html(etat['nombre_de_cartes']);
+
+                    if($('.etat').text() == etat['etat']){
+                        if(etat['nombre_de_cartes'] > 0){
+                            $('.moins').prop('disabled', false);
+                        }else{
+                            $('.moins').prop('disabled', true);
+                        }
+                    }
+                    posessionValue += parseInt(etat['nombre_de_cartes'] || 0);
+                });
+                
+                if(posessionValue > 0){
+                    $this.find('img').css("opacity", "1");
+                }else{
+                    $this.find('img').css("opacity", "0.5");
+                }
             },
             error: function(xhr, status, error) {
                 console.error(xhr);

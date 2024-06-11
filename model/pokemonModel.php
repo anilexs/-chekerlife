@@ -99,9 +99,7 @@ class Pokemon{
                 foreach ($cardUser as $card) {
                     if($update == 1){
                         if($card['prix'] == null || $card['prix'] == 0){
-                            $cardUser = $card;
                             if($card['user_card_actif'] == 1){
-                                $cardUser = $card;
                                 $update = $db->prepare('UPDATE pokemon_user_card puc SET possession = puc.possession + 1, update_at =NOW() WHERE puc.id_pk_user_card = ?');
                             }else{
                                 $update = $db->prepare('UPDATE `pokemon_user_card` puc SET possession = 1, update_at = NOW(), user_card_actif = 1 WHERE puc.id_pk_user_card= ?');
@@ -120,31 +118,22 @@ class Pokemon{
                             $insert->bindParam(':cardId', $cardId, PDO::PARAM_STR);
                             $insert->execute();
                             $lastId = $db->lastInsertId();
-        
-                            $cardUser = $lastId;
                         }
+                        break;
                     }else{
-                        // a re travailer
-                        // UPDATE pokemon_user_card puc SET possession = puc.possession - 1, update_at =NOW() WHERE puc.id_pk_user_card = 91
+                        if($card['possession'] > 0 && $card['user_card_actif'] == 1){
+                            $update = "UPDATE pokemon_user_card puc SET possession = puc.possession - 1 , update_at =NOW()";
+                            if($card['possession'] == 1){
+                                $update .= ", user_card_actif = 0";
+                            }
+                            $update .= " WHERE puc.id_pk_user_card = ?";
+    
+                            $update = $db->prepare($update);
+                            $update->execute(array($card['id_pk_user_card']));
+                            break;
+                        }
                     }
-                    break;
                 }
-                // if($update == 1){
-                //     // if($secondary_name == null){
-
-                //     // }else{
-
-                //     // }
-                // }else{
-                //     foreach ($cardUser as $card) {
-                //         if($card['user_card_actif'] == 1){
-                //             $cardUser = $card;
-                //             break;
-                //         }else{
-                //             $cardUser = "tout et null";
-                //         }
-                //     }
-                // }
             }else{
                 if($update == 1){
                     if($secondary_name == null){
@@ -159,17 +148,12 @@ class Pokemon{
                     $insert->bindParam(':cardId', $cardId, PDO::PARAM_STR);
                     $insert->execute();
                     $lastId = $db->lastInsertId();
-
-                    $cardUser = $lastId;
-                    // $cardUser = {
-                        
-                    // }
                 }else{
                     $cardUser = "imposible de reduire une ligne inexistant";
                 } 
             }
             
-            return $cardUser;
+            return self::userEtatCard($token, $set_name, $cardId, $secondary_name);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -179,72 +163,9 @@ class Pokemon{
         $db = Database::dbConnect();
 
         if($secondary_name == null){
-            // card
-            // SELECT 
-            //     pe.id_pk_etat,
-            //     pe.etat,
-            //     COALESCE(SUM(puc.possession), 0) AS nombre_de_cartes
-            // FROM 
-            //     pokemon_etat pe
-            // LEFT JOIN 
-            //     token t ON t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@'
-            // LEFT JOIN 
-            //     pokemon_set ps ON ps.name = 'Calendrier des Fêtes 2023'
-            // LEFT JOIN 
-            //     pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = 1
-            // LEFT JOIN 
-            //     pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat 
-            //                           AND puc.user_id = t.user_id 
-            //                           AND puc.card_id = pc.id_card 
-            //                           AND puc.user_card_actif = 1
-            // GROUP BY 
-            //     pe.id_pk_etat, 
-            //     pe.etat;
-
-            // SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(puc.id_pk_user_card)  + puc.possession -1, 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat AND puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1 GROUP BY pe.id_pk_etat, pe.etat;
-
             $request = $db->prepare("SELECT pe.id_pk_etat, pe.etat, COALESCE(SUM(puc.possession), 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN token t ON t.token = :token LEFT JOIN pokemon_set ps ON ps.name = :set_name LEFT JOIN pokemon_card pc ON pc.set_id = ps.id_set AND pc.cardId = :cardId LEFT JOIN pokemon_user_card puc ON puc.etat_id = pe.id_pk_etat AND puc.user_id = t.user_id AND puc.card_id = pc.id_card AND puc.user_card_actif = 1 GROUP BY pe.id_pk_etat, pe.etat");
         }else{
-            // SELECT 
-            // pe.id_pk_etat, 
-            // pe.etat, 
-            // COALESCE(SUM(puc.possession), 0) AS nombre_de_cartes
-            // FROM 
-            // pokemon_etat pe
-            // LEFT JOIN 
-            // pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id
-            // AND puc.user_card_actif = 1
-            // AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = 'Vcs+bqCb=.ZLaWNkH@.85KbKUADe+VO@')
-            // AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs
-            // INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = 'pokedex'
-            // INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set
-            // WHERE pc.cardId = 1
-            // AND ps.name = 'Calendrier des Fêtes 2023')
-            // GROUP BY 
-            // pe.id_pk_etat, 
-            // pe.etat;
-
-
-            // SELECT pe.id_pk_etat, pe.etat, COALESCE(COUNT(DISTINCT puc.id_pk_user_card) + puc.possession -1, 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id AND puc.user_card_actif = 1 AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = :token) AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = :secondary_name INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set WHERE pc.cardId = :cardId AND ps.name = :set_name) GROUP BY pe.id_pk_etat, pe.etat;
-
-            $request = $db->prepare("SELECT 
-            pe.id_pk_etat, 
-            pe.etat, 
-            COALESCE(SUM(puc.possession), 0) AS nombre_de_cartes
-            FROM 
-            pokemon_etat pe
-            LEFT JOIN 
-            pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id
-            AND puc.user_card_actif = 1
-            AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = :token)
-            AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs
-            INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = :secondary_name
-            INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set
-            WHERE pc.cardId = :cardId
-            AND ps.name = :set_name)
-            GROUP BY 
-            pe.id_pk_etat, 
-            pe.etat;");
+            $request = $db->prepare("SELECT pe.id_pk_etat, pe.etat, COALESCE(SUM(puc.possession), 0) AS nombre_de_cartes FROM pokemon_etat pe LEFT JOIN pokemon_user_card puc ON pe.id_pk_etat = puc.etat_id AND puc.user_card_actif = 1 AND puc.user_id = (SELECT t.user_id FROM token t WHERE t.token = :token) AND puc.card_secondaire_id IN (SELECT pcs.id_pk_card_secondaire FROM pokemon_card_secondaire pcs INNER JOIN pokemon_card pc ON pcs.card_id = pc.id_card AND pcs.name = :secondary_name INNER JOIN pokemon_set ps ON pc.set_id = ps.id_set WHERE pc.cardId = :cardId AND ps.name = :set_name) GROUP BY pe.id_pk_etat, pe.etat;");
             
             $request->bindParam(':secondary_name', $secondary_name, PDO::PARAM_STR);
         }
