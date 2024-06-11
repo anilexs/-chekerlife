@@ -12,7 +12,23 @@ if(currentPath.includes('/tcg/pokemon/')){
 }
 
 $(document).ready(function(){
-    
+
+    function navWindo(){
+        var fenetre = $(window).width();
+        console.log(fenetre);
+        if(fenetre >= 990){
+            console.log(990);
+        }else if(fenetre >= 990){
+
+        }
+    }
+
+    navWindo();
+
+    $(window).resize(function() {
+        navWindo();
+    });
+
 $likeCount = $("#likeCount").text();
 if($likeCount < 10){
     $("#likeCount").css({     
