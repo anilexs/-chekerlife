@@ -227,6 +227,17 @@ $(document).ready(function() {
             }
         });
     }
+
+    $('.rechercher input').on('input', function() {
+        var rechercher = $(this).val().trim();
+        
+        if(rechercher == ""){
+            var setName = $('.name').text();
+            console.log(setName);
+        }else{
+            console.log(rechercher);
+        }
+    });    
     
     $('.btnRechercherSetOnOff').click(function(e) {
         $('.slideIcon').stop(true, false);
@@ -923,6 +934,78 @@ $(document).ready(function() {
                     $this.find('img').css("opacity", "1");
                 }else{
                     $this.find('img').css("opacity", "0.5");
+                }
+
+                var select = $('.optSelect').text();
+                
+                if(select == "cartes Manquantes"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false; 
+                                return false; 
+                            }
+                        });
+                    
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes normales"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        $(this).find('.normal img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false;
+                                return false;
+                            }
+                        });
+                    
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "cartes Manquantes reverses"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        $(this).find('.reverse img').each(function() {
+                            if ($(this).css("opacity") != "1") {
+                                opacity = false;
+                                return false;
+                            }
+                        });
+                    
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
+                }else if(select == "Ma collection"){
+                    $('.contenaireCard').each(function() {
+                        var opacity = true;
+                    
+                        $(this).find('.pokeball img').each(function() {
+                            if ($(this).css("opacity") == "1") {
+                                opacity = false;
+                                return false;
+                            }
+                        });
+                    
+                        if (!opacity) {
+                            $(this).css("display", "");
+                        }else{
+                            $(this).css("display", "none");
+                        }
+                    });
                 }
             },
             error: function(xhr, status, error) {

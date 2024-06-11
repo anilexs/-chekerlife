@@ -2,7 +2,6 @@
 
 .contenaire{
     width: 90%;
-    /* height: 70px; */
     margin:  20px auto 0 auto;
     background: url(../../asset/img/tcg/pokemon/bannerPokemon.jpg) bottom no-repeat;
     background-size: 100%;
@@ -11,7 +10,6 @@
 .menuBlock{
     position: relative;
     display: flex;
-    /* align-items: center; */
     padding-top: 10px;
     min-height: 70px;
 }
@@ -106,7 +104,7 @@
 .selectOptContenaie{
     background-color: white;
     position: absolute;
-    z-index: 5;
+    z-index: 35;
     width: 300px;
     height: 0%;
     top: 49px;
