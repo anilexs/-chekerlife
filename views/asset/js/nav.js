@@ -13,13 +13,135 @@ if(currentPath.includes('/tcg/pokemon/')){
 
 $(document).ready(function(){
 
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? true : false;
+    }
+
     function navWindo(){
         var fenetre = $(window).width();
-        console.log(fenetre);
-        if(fenetre >= 990){
-            console.log(990);
-        }else if(fenetre >= 990){
+        
+        if(getCookie("token")){
+            if(fenetre >= 1000){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                var elementToMove3 = $(".navRechercher").closest('li');
+                var elementToMove4 = $(".navMenu").closest('li');
 
+                $('#navRechercherBar, .navRechercher, .profil').removeAttr('style');
+    
+                elementToMove3.insertAfter($(".ulNav li").eq(0));
+                elementToMove.insertAfter($(".ulNav li").eq(1));
+                elementToMove4.insertAfter($(".ulNav li").eq(5));
+            }else if(fenetre < 1000 && fenetre >= 665){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                var elementToMove3 = $(".navRechercher").closest('li');
+                var elementToMove4 = $(".navMenu").closest('li');
+
+                $('#navRechercherBar, .navRechercher, .profil').removeAttr('style');
+    
+                elementToMove.appendTo(".ulNav2");
+                elementToMove3.insertAfter($(".ulNav li").eq(0));
+                elementToMove4.insertAfter($(".ulNav li").eq(2));
+            }else if(fenetre < 665  && fenetre >= 330){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                var elementToMove3 = $(".navRechercher").closest('li');
+                var elementToMove4 = $(".navMenu").closest('li');
+
+                $('#navRechercherBar, .navRechercher, .profil').removeAttr('style');
+
+                elementToMove.appendTo(".ulNav2");
+                elementToMove3.appendTo($(".ulNav3").eq(0));
+                elementToMove4.insertAfter($(".ulNav li").eq(1));
+            }else if(fenetre < 330){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                var elementToMove3 = $(".navRechercher").closest('li');
+                var elementToMove4 = $(".navMenu").closest('li');
+    
+                $('.profil').css({
+                    width: '140px'
+                });
+
+                $('.navRechercher').css({
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'center'
+                });
+
+                $('#navRechercherBar').css({
+                    width: '90%',
+                });
+
+                elementToMove.appendTo(".ulNav2");
+                elementToMove4.appendTo(".ulNav4");
+                elementToMove3.appendTo(".ulNav3");
+            }
+        }else{
+            if(fenetre >= 1000){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                var elementToMove2 = $(".navInscription, .navConnexion").closest('li');
+                elementToMove2.insertAfter($(".ulNav li").eq(0));
+    
+                $('.navRechercher, .ulNav li:nth-child(1), .ulNav li:nth-child(1) img, #navRechercherBar').removeAttr('style')
+                
+                var elementToMove3 = $(".navRechercher").closest('li');
+    
+                elementToMove3.insertAfter($(".ulNav li").eq(0));
+                elementToMove.insertAfter($(".ulNav li").eq(1));
+            }else if(fenetre < 1000 && fenetre >= 710){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                
+                var elementToMove2 = $(".navInscription, .navConnexion").closest('li');
+                elementToMove2.insertAfter($(".ulNav li").eq(1));
+    
+                $('.navRechercher, .ulNav li:nth-child(1), .ulNav li:nth-child(1) img, #navRechercherBar').removeAttr('style')
+                
+                var elementToMove3 = $(".navRechercher").closest('li');
+    
+                elementToMove.appendTo(".ulNav2");
+            }else if(fenetre < 710 && fenetre >= 404){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+               
+                var elementToMove2 = $(".navInscription, .navConnexion").closest('li');
+                elementToMove2.appendTo(".ulNav3");
+    
+                $('.navRechercher').css({
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'center'
+                });
+                $('.ulNav li:nth-child(1), .ulNav li:nth-child(1) img, #navRechercherBar').removeAttr('style')
+                
+                var elementToMove3 = $(".navRechercher").closest('li');
+    
+                elementToMove.appendTo(".ulNav2");
+                elementToMove3.insertAfter($(".ulNav li").eq(0));
+            }else if(fenetre < 404){
+                var elementToMove = $(".navAccueil, .navCatalogue, .navTcg").closest('li');
+                
+                var elementToMove2 = $(".navInscription, .navConnexion").closest('li');
+                elementToMove2.appendTo(".ulNav3");
+                $('#navRechercherBar').css({
+                    width: '90%',
+                });
+
+                $('.ulNav li:nth-child(1) img').css({
+                    width: '100px',
+                    height: '100px',
+                });
+                
+                $('.ulNav li:nth-child(1)').css({
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'center'
+                });
+                
+                var elementToMove3 = $(".navRechercher").closest('li');
+    
+                elementToMove.appendTo(".ulNav2");
+                elementToMove3.appendTo(".ulNav4");
+            }
         }
     }
 

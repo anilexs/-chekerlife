@@ -2,7 +2,7 @@
 
 nav{
     background-color: #1E222C;
-    height: 70px;
+    min-height: 70px;
     width: 100%;
     position: relative;
     z-index: 3;
@@ -204,12 +204,35 @@ nav h3{
     margin-top: 5px;
 }
 
-nav ul:nth-child(2){
+.ulNav2, .ulNav3{
     display: none;
+    width: 99%;
+    margin: auto;
 }
-@media only screen and (max-width: 995px) {
-    nav ul:nth-child(2){
-        display: block;
+.ulNav2 li, .ulNav3 li, .ulNav4 li{
+    list-style-type: none;
+}
+@media only screen and (max-width: 1005px) {
+    .ulNav2{
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+@media only screen and (max-width: 714px) {
+    .ulNav3{
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+@media only screen and (max-width: 408px) {
+    .ulNav4{
+        display: flex;
+        justify-content: space-around;
+    }
+    .ulNav2, .ulNav3, .ulNav4{
+        flex-wrap: wrap;
     }
 }
 
