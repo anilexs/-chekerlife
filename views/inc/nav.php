@@ -29,7 +29,7 @@
                 </div>
             </a>
         </li>
-        <li>
+        <li class="navMenu">
             <button class="profil">
                 <div>
                     <img class="userImg" src="http://localhost/!chekerlife/views/asset/img/user/profile/<?=$userInfo['user_image']; ?>" alt="">
@@ -51,6 +51,9 @@
             </ul>
         </li>
     </ul>
+    <ul class="ulNav4"></ul>
+    <ul class="ulNav3"></ul>
+    <ul class="ulNav2"></ul>
 </nav>
 <?php }else{ ?>
     <nav>
@@ -73,9 +76,11 @@
             <li><a href="<?= $host ?>trading-card-game" class="navTcg">Tcg</a></li>
             <!-- <li><a href="<?= $host ?>multi-jeux" class="navMulti-jeux">multi-jeux</a></li> -->
             <!-- <li><a href="<?= $host ?>giveaway" class="navGiveaway">giveaway</a></li> -->
-            <li><a href="<?= $host ?>connexion" class="connexion1">connexion</a></li>
-            <li><a href="<?= $host ?>inscription" class="inscription1">inscription</a></li>
+            <li><a href="<?= $host ?>connexion" class="navConnexion">connexion</a></li>
+            <li><a href="<?= $host ?>inscription" class="navInscription">inscription</a></li>
         </ul>
-        <ul></ul>
+        <ul class="ulNav4"></ul>
+        <ul class="ulNav3"></ul>
+        <ul class="ulNav2"></ul>
     </nav>
 <?php } ?>
