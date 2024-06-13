@@ -3,6 +3,50 @@
 
 $(document).ready(function() {
     ftrSize();
+
+    $('.roleBtn button').on('click', function(e) {
+        e.stopPropagation();
+        var role = $(this).attr('id');
+        var clas = $(this).attr('class');
+        if(clas == "false"){
+            $(this).attr('class', "true");
+            $('.'+role).css('display', '');
+        }else{
+            $(this).attr('class', "false");
+            $('.'+role).css('display', 'none');
+        }
+    });
+
+    $('.desactiver, .reactiver').on('click', function(e) {
+        var etat = $(this).attr('class');
+        var user_id = $(this).attr('id');
+        var $this = $(this);
+        $.ajax({
+            url: host + "controller/AdminAjaxController.php", 
+            type: 'POST',
+            data: {
+                action: "newEtatUser",
+                etat: etat,
+                user_id: user_id,
+            },
+            dataType: 'json',
+            success: function(response) {
+                if(!response['etat']){
+                    console.log(true);
+                    $this.closest('.user').find('.actifSelect').css('background-color', 'red');
+                    $this.css('display', 'none')
+                    $this.siblings().css('display', '')
+                }else{
+                    $this.closest('.user').find('.actifSelect').css('background-color', 'greenyellow');
+                    $this.css('display', 'none')
+                    $this.siblings().css('display', '')
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        });
+    });
 });
 
 var nbCoutCreatedHour = new Date().toLocaleDateString().split('/').reverse().join('/');

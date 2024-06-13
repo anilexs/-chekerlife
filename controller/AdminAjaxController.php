@@ -37,6 +37,15 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUE
         //     "nombre_conte_jour" => $nombre_conte_jour,
         // ];
         // reponse($response_code, $responseTab); 
+    }else if($_POST['action'] == "newEtatUser" && isset($_POST['etat']) && isset($_POST['user_id'])){
+        $response_code = HTTP_OK;
+        $etat = ($_POST['etat'] == "desactiver") ? 0 : 1;
+        Admin::disabledUser($_POST['user_id'], $etat);
+        $responseTab = [
+            "response_code" => HTTP_OK,
+            "etat" => $etat,
+        ];
+        reponse($response_code, $responseTab); 
     }
         
 }else {

@@ -13,7 +13,7 @@
     }
 
     $user = Admin::allUser();
-    $role = Admin::allRole();
+    $roleTab = Admin::allRole();
     
     echo "<pre>";
     var_dump($user[1]);
@@ -30,9 +30,9 @@
 <div class="hdrcontenaire">
     <div class="userContenaire">
         <div class="left">
-            <?php foreach ($role as $role) { ?>
+            <?php foreach ($roleTab as $role) { ?>
                 <div class="roleBtn">
-                    <button><?= $role['role'] ?></button>
+                    <button id="<?= $role['role'] ?>"><?= $role['role'] ?></button>
                 </div>
             <?php } ?>
         </div>
@@ -42,19 +42,30 @@
                 <div class="emailHdr">email</div>
                 <div class="nomHdr">nom & prenom</div>
                 <div class="actifHdr">actif</div>
+                <div class="roleHdr">role</div>
+                <div class="disabledHdr">desactiver</div>
             </div>
             <hr>
             <?php foreach ($user as $user) { ?>
-                <div class="user">
-                    <div class="userImg"><img src="../asset/img/user/profile/<?=(isset($user['user_image']) ? $user['user_image'] : "profile-defaux.png") ?>" alt=""></div>
-                    <div class="userEmail" contenteditable><?= (isset($user['email']) ? $user['email'] : $user['google_email']) ?> </div>
-                    <div class="userName" contenteditable>
-                        <?= (isset($user['nom']) ? $user['nom'] : "") ?> <br>
-                        <?= (isset($user['prenom']) ? $user['prenom'] : "") ?> 
+                <div class="<?= $user['role'] ?>">
+                    <div class="user">
+                        <div class="userImg"><img src="../asset/img/user/profile/<?=(isset($user['user_image']) ? $user['user_image'] : "profile-defaux.png") ?>" alt=""></div>
+                        <div class="userEmail" contenteditable><?= (isset($user['email']) ? $user['email'] : $user['google_email']) ?> </div>
+                        <div class="userName" contenteditable>
+                            <?= (isset($user['nom']) ? $user['nom'] : "") ?> <br>
+                            <?= (isset($user['prenom']) ? $user['prenom'] : "") ?> 
+                        </div>
+                        <div class="userActif"><div class="actifSelect <?= ($user['user_actif'] == 1 ? "actif" : "inactif") ?>"></div></div>
+                        <div class="userRole"><?= $user['role'] ?></div>
+                        <div class="userDisabled">
+
+                            <button class="desactiver" id="<?= $user['id_user'] ?>" <?= ($user['user_actif'] == 1 ? "" : "style='display: none'") ?>>desactiver</button>
+
+                            <button class="reactiver" id="<?= $user['id_user'] ?>" <?= ($user['user_actif'] == 1 ? "style='display: none'" : "") ?>>reactiver</button>
+                        </div>
                     </div>
-                    <div class="userActif"><div class="<?= ($user['user_actif'] == 1 ? "actif" : "inactif") ?>"></div></div>
+                    <hr>
                 </div>
-                <hr>
             <?php } ?>
         </div>
     </div>

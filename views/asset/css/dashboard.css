@@ -22,9 +22,9 @@
     background-color: rgb(48, 48, 48);
     border-radius: 10px;
     font-size: 25px;
-    width: 250px;
+    width: 230px;
     color: white;
-    margin: auto;
+    margin: 25px 0 25px 0;
 }
 
 .right{
@@ -88,6 +88,31 @@ hr{
     width: 50px;
     height: 50px;
     border-radius: 50%;
+}
+
+.roleHdr{
+    margin-left: 63px;
+}
+.userRole{
+    width: 120px;
+    margin-left: 50px;
+}
+
+
+.disabledHdr{
+    margin-left: 142px;
+}
+.desactiver{
+    background-color: rgb(50, 50, 50);
+    border: 2px solid red;
+    width: 100px;
+    color: white;
+}
+.reactiver{
+    background-color: rgb(50, 50, 50);
+    border: 2px solid greenyellow;
+    width: 100px;
+    color: white;
 }
 
 

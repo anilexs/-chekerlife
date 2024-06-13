@@ -27,6 +27,17 @@ class Admin{
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    } 
+    
+    public static function disabledUser($user_id, $update){
+        $db = Database::dbConnect();
+        $request = $db->prepare("UPDATE users SET user_actif = ? WHERE id_user = ?");
+
+        try {
+            $request->execute(array($update, $user_id));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 
     public static function nombre_dutilisateurs_total(){
