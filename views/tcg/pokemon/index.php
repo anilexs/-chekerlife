@@ -58,10 +58,6 @@ $getName = isset($get) ? $get['set_name'] : $blockSet[0]['set_name'];
 $getUser_card = isset($get) ? $get['user_card'] : $blockSet[0]['user_card']; 
 $setCard = isset($get) ? $get['nb_card'] : $blockSet[0]['nb_card']; 
 
-// echo '<pre style="color: red">';
-// var_dump($get);
-// echo "</pre>";
-
 require_once "../../inc/header.php"; ?>
 <link rel="stylesheet" href="../../asset/css/pokemon.css">
 <script src="../../asset/js/pokemon.js" defer></script>
@@ -73,33 +69,34 @@ require_once "../../inc/header.php"; ?>
             <div class="logo"><img src="../../asset/img/tcg/pokemon/logo/<?= $logo ?>" alt=""></div>
             <div class="name"><?= $getName ?></div>
             <div class="nbCard"><span class="userCard"><?= $getUser_card ?></span>/<span class="setCard"><?= $setCard ?></span></div>
-        </div>
-        <div class="blockSelect">
-            <?php foreach ($organizedBlocks as $block) { 
-                $blockName = str_replace(' ', '-', trim($block["block_name"])); ?>
-                <div class="block" id="<?= $blockName ?>">
-                    <div class="blockName">
-                        <?= $block['block_name'] ?>
+        
+            <div class="blockSelect">
+                <?php foreach ($organizedBlocks as $block) { 
+                    $blockName = str_replace(' ', '-', trim($block["block_name"])); ?>
+                    <div class="block" id="<?= $blockName ?>">
+                        <div class="blockName">
+                            <?= $block['block_name'] ?>
+                        </div>
+                        <div class="setContenaire">
+                        <?php foreach ($block['sets'] as $set) {
+                            $setName = str_replace(' ', '+', trim($set["set_name"])); ?>
+                            
+                            <button class="set" id="<?= $setName ?>" <?php echo ($set["set_name"] == $name ? 'disabled' : ''); ?>>
+                                <img src="../../asset/img/tcg/pokemon/logo/<?= $set['logo'] ?>" class="setLogo" alt="">
+                                <?= $set['set_name'] ?>
+                            </button>
+                            
+                            <?php if($set["set_name"] == $name){
+                                echo '<script> $("#'.$blockName.'").css("height", "auto");</script>';
+                            } ?>
+                            
+                        <?php } ?>
+                        </div>
                     </div>
-                    <div class="setContenaire">
-                    <?php foreach ($block['sets'] as $set) {
-                        $setName = str_replace(' ', '+', trim($set["set_name"])); ?>
                         
-                        <button class="set" id="<?= $setName ?>" <?php echo ($set["set_name"] == $name ? 'disabled' : ''); ?>>
-                            <img src="../../asset/img/tcg/pokemon/logo/<?= $set['logo'] ?>" class="setLogo" alt="">
-                            <?= $set['set_name'] ?>
-                        </button>
+                <?php } ?>
                         
-                        <?php if($set["set_name"] == $name){
-                            echo '<script> $("#'.$blockName.'").css("height", "auto");</script>';
-                        } ?>
-                        
-                    <?php } ?>
-                    </div>
-                </div>
-                
-            <?php } ?>
-
+            </div>
         </div>
 
         <div class="selectContenaire">
@@ -124,9 +121,11 @@ require_once "../../inc/header.php"; ?>
             <div class="RechercherTxt">
                 <h3>Recherche dans ce set uniquement</h3>
             </div>
-            <div class="btnRechercherSetOnOff" id="off">
-                <div class="onoffCollor">
-                    <i class="fa-solid fa-circle slideIcon" style="color: #ffffff;"></i>
+            <div class="btnRechercherSetOnOffContenaire">
+                <div class="btnRechercherSetOnOff" id="off">
+                    <div class="onoffCollor">
+                        <i class="fa-solid fa-circle slideIcon" style="color: #ffffff;"></i>
+                    </div>
                 </div>
             </div>
         </div>

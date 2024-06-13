@@ -3,6 +3,32 @@ require_once "database.php";
 require_once "catalogModel.php";
 
 class Admin{
+    public static function allUser(){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT u.*, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1");
+
+        try {
+            $request->execute();
+            $user = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $user;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public static function allRole(){
+        $db = Database::dbConnect();
+        $request = $db->prepare("SELECT DISTINCT role FROM users");
+
+        try {
+            $request->execute();
+            $role = $request->fetchAll(PDO::FETCH_ASSOC);
+            return $role;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function nombre_dutilisateurs_total(){
         $db = Database::dbConnect();
         $request = $db->prepare("SELECT DATE_FORMAT(u.created_at, '%Y/%m/%d') AS jour, COUNT(*) AS total_utilisateurs, SUM(CASE WHEN u.role = 'membre' THEN 1 ELSE 0 END) AS membres, SUM(CASE WHEN u.role = 'beta-testeur' THEN 1 ELSE 0 END) AS beta_testers, SUM(CASE WHEN u.role = 'admin' THEN 1 ELSE 0 END) AS admins, SUM(CASE WHEN u.role = 'owner' THEN 1 ELSE 0 END) AS owners FROM users u WHERE u.created_at >= '2022-01-01' GROUP BY jour ORDER BY jour");

@@ -114,7 +114,7 @@ nav .profil{
     background: linear-gradient(to top left, #4800ff, rgb(44, 169, 155));
     position: absolute;
     display: none;
-    z-index: 3;
+    z-index: 3000;
 }
 .menu li{
     list-style-type: none;

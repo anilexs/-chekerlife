@@ -2,6 +2,8 @@
     require_once "../../model/userModel.php";
     require_once "../../model/catalogModel.php";
     require_once "../../model/collectionModel.php";
+    require_once "../../model/userModel.php";
+    require_once "../../model/adminModel.php";
 
     require_once "../inc/header.php";
     
@@ -9,6 +11,13 @@
         header("Location:" . $host);
         die;
     }
+
+    $user = Admin::allUser();
+    $role = Admin::allRole();
+    
+    echo "<pre>";
+    var_dump($user[1]);
+    echo "</pre>";
 
 ?>  
 <link rel="stylesheet" href="<?= $host ?>asset/css/dashboard.css">
@@ -19,8 +28,35 @@
 <title>dashboard</title>
 <?php require_once "../inc/nav.php"; ?>
 <div class="hdrcontenaire">
-    <div class="state">
-        
+    <div class="userContenaire">
+        <div class="left">
+            <?php foreach ($role as $role) { ?>
+                <div class="roleBtn">
+                    <button><?= $role['role'] ?></button>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="right">
+            <div class="user">
+                <div class="userHdr">profile</div>
+                <div class="emailHdr">email</div>
+                <div class="nomHdr">nom & prenom</div>
+                <div class="etatHdr">compt</div>
+            </div>
+            <hr>
+            <?php foreach ($user as $user) { ?>
+                <div class="user">
+                    <div class="userImg"><img src="../asset/img/user/profile/<?=(isset($user['user_image']) ? $user['user_image'] : "profile-defaux.png") ?>" alt=""></div>
+                    <div class="userEmail" contenteditable><?= (isset($user['email']) ? $user['email'] : $user['google_email']) ?> </div>
+                    <div class="userName" contenteditable>
+                        <?= (isset($user['nom']) ? $user['nom'] : "") ?> <br>
+                        <?= (isset($user['prenom']) ? $user['prenom'] : "") ?> 
+                    </div>
+                    <div class="userActif" contenteditable><?= ($user['user_actif'] == 1 ? "actif" : "inactif") ?> </div>
+                </div>
+                <hr>
+            <?php } ?>
+        </div>
     </div>
     <div class="graphique">
         <div class="hdrGraf">

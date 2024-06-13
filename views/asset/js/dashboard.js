@@ -1,5 +1,10 @@
 // var urlAjax = "http://localhost/!chekerlife/controller/AdminAjaxController.php";
 //  Object.values(labels) : pour convertire un associatif en indexe
+
+$(document).ready(function() {
+    ftrSize();
+});
+
 var nbCoutCreatedHour = new Date().toLocaleDateString().split('/').reverse().join('/');
 
 

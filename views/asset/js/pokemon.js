@@ -18,8 +18,8 @@ $(document).ready(function() {
     });
 
 
-    $('.blockName').click(function() {
-        
+    $('.blockName').click(function(e) {
+        e.stopPropagation();
         var hauteur = $(this).parent('.block').css('height');
         
         if(hauteur !== '50px'){
@@ -97,12 +97,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.selectOptContenaie').click(function(event) {
-        event.stopPropagation();
-    });
-
     $('.selectOpt').click(function(event) {
-        event.stopPropagation();
         var select = $(this).html();
         $(".optSelect").html(select);
         
@@ -1006,6 +1001,21 @@ $(document).ready(function() {
                             $(this).css("display", "none");
                         }
                     });
+                }
+
+                var possession = 0;
+                
+                $($this).parent('.cardLegend').find('.pokeball img').each(function() {
+                    if($(this).css('opacity') == 1){
+                        possession++;
+                        return false;
+                    }
+                });
+
+                if(possession > 0){
+                    $this.closest('.cardLegend').siblings('.card').find('img').css('opacity', 1);
+                }else{
+                    $this.closest('.cardLegend').siblings('.card').find('img').css('opacity', 0.5);
                 }
             },
             error: function(xhr, status, error) {
