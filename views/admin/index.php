@@ -41,7 +41,7 @@
                 <div class="userHdr">profile</div>
                 <div class="emailHdr">email</div>
                 <div class="nomHdr">nom & prenom</div>
-                <div class="etatHdr">compt</div>
+                <div class="actifHdr">actif</div>
             </div>
             <hr>
             <?php foreach ($user as $user) { ?>
@@ -52,7 +52,7 @@
                         <?= (isset($user['nom']) ? $user['nom'] : "") ?> <br>
                         <?= (isset($user['prenom']) ? $user['prenom'] : "") ?> 
                     </div>
-                    <div class="userActif" contenteditable><?= ($user['user_actif'] == 1 ? "actif" : "inactif") ?> </div>
+                    <div class="userActif"><div class="<?= ($user['user_actif'] == 1 ? "actif" : "inactif") ?>"></div></div>
                 </div>
                 <hr>
             <?php } ?>
