@@ -3,12 +3,12 @@ require_once "database.php";
 require_once "catalogModel.php";
 
 class Admin{
-    public static function allUser(){
+    public static function allUser($token){
         $db = Database::dbConnect();
-        $request = $db->prepare("SELECT u.*, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1");
+        $request = $db->prepare("SELECT u.*, profile.user_image AS user_image, banner.user_image AS banner_image, cadre.user_image AS cadre_image FROM users u LEFT JOIN user_image profile ON u.id_user = profile.user_id AND profile.image_type = 'profil' AND profile.image_active = 1 LEFT JOIN user_image banner ON u.id_user = banner.user_id AND banner.image_type = 'banner' AND banner.image_active = 1 LEFT JOIN user_image cadre ON u.id_user = cadre.user_id AND cadre.image_type = 'cadre' AND cadre.image_active = 1 LEFT JOIN token t ON t.token = ? WHERE u.id_user != t.user_id");
 
         try {
-            $request->execute();
+            $request->execute(array($token));
             $user = $request->fetchAll(PDO::FETCH_ASSOC);
             return $user;
         } catch (PDOException $e) {

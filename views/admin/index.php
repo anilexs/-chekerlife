@@ -12,13 +12,9 @@
         die;
     }
 
-    $user = Admin::allUser();
+    $user = Admin::allUser($_COOKIE['token']);
     $roleTab = Admin::allRole();
     
-    echo "<pre>";
-    var_dump($user[1]);
-    echo "</pre>";
-
 ?>  
 <link rel="stylesheet" href="<?= $host ?>asset/css/dashboard.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

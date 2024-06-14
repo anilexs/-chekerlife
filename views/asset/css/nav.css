@@ -11,7 +11,7 @@ nav .logo{
     width: 60px;
     height: 60px;
 }
-nav a{
+nav a, .navParametre{
     color: white;
     text-decoration: none;
     font-size: 30px;
@@ -111,14 +111,25 @@ nav .profil{
     position: relative;
 }
 .menu{
-    background: linear-gradient(to top left, #4800ff, rgb(44, 169, 155));
+    background: #17191F;
     position: absolute;
     display: none;
-    z-index: 3000;
+    z-index: 350;
 }
 .menu li{
     list-style-type: none;
     width: 200px;
+}
+.menu li i{
+    color: white;
+    font-size: 20px;
+    margin-right: 10px;
+}
+.navParametre{
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0;
 }
 .menu .admin{
     color: white;
